@@ -123,100 +123,6 @@ void StudioProject2::Init()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//ExportedFont.tga");
 
-	meshList[GEO_SHELL] = MeshBuilder::GenerateOBJ("Shell", "OBJ//Shell.obj");
-	meshList[GEO_SHELL]->textureID = LoadTGA("Image//Wall.tga");
-
-	meshList[GEO_MODEL1] = MeshBuilder::GenerateOBJ("Plant", "OBJ//SmallPlant2.obj");
-	meshList[GEO_MODEL1]->textureID = LoadTGA("Image//Green.tga");
-	meshList[GEO_MODEL1]->material.kAmbient.Set(0.85f, 0.85f, 0.85f);
-	meshList[GEO_MODEL1]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_MODEL1]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[GEO_MODEL1]->material.kShininess = 1.f;
-
-	meshList[GEO_MODEL2] = MeshBuilder::GenerateOBJ("Chair", "OBJ//Chair.obj");
-	meshList[GEO_MODEL2]->textureID = LoadTGA("Image//ChairSofa.tga");
-	meshList[GEO_MODEL2]->material.kAmbient.Set(0.85f, 0.85f, 0.85f);
-	meshList[GEO_MODEL2]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_MODEL2]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[GEO_MODEL2]->material.kShininess = 1.f;
-
-	meshList[GEO_MODEL3] = MeshBuilder::GenerateOBJ("Sofa", "OBJ//SofaTest.obj");
-	meshList[GEO_MODEL3]->textureID = LoadTGA("Image//ChairSofa.tga");
-	meshList[GEO_MODEL3]->material.kAmbient.Set(0.85f, 0.85f, 0.85f);
-	meshList[GEO_MODEL3]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_MODEL3]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[GEO_MODEL3]->material.kShininess = 1.f;
-
-	meshList[GEO_MODEL4] = MeshBuilder::GenerateOBJ("PCMonitor", "OBJ//PCMonitor.obj");
-	meshList[GEO_MODEL4]->textureID = LoadTGA("Image//Top.tga");
-	meshList[GEO_MODEL4]->material.kAmbient.Set(0.85f, 0.85f, 0.85f);
-	meshList[GEO_MODEL4]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_MODEL4]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[GEO_MODEL4]->material.kShininess = 1.f;
-
-	meshList[GEO_MODEL5] = MeshBuilder::GenerateOBJ("CupBoard", "OBJ//CupBoard.obj");
-	meshList[GEO_MODEL5]->textureID = LoadTGA("Image//DefaultTexture.tga");
-	meshList[GEO_MODEL5]->material.kAmbient.Set(0.85f, 0.85f, 0.85f);
-	meshList[GEO_MODEL5]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_MODEL5]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[GEO_MODEL5]->material.kShininess = 1.f;
-
-	meshList[GEO_MODEL6] = MeshBuilder::GenerateOBJ("leftdoor", "OBJ//LeftDoor.obj");
-	meshList[GEO_MODEL6]->textureID = LoadTGA("Image//Top.tga");
-	meshList[GEO_MODEL6]->material.kAmbient.Set(0.85f, 0.85f, 0.85f);
-	meshList[GEO_MODEL6]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_MODEL6]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[GEO_MODEL6]->material.kShininess = 1.f;
-
-	meshList[GEO_MODEL7] = MeshBuilder::GenerateOBJ("rightdoor", "OBJ//RightDoor.obj");
-	meshList[GEO_MODEL7]->textureID = LoadTGA("Image//Top.tga");
-	meshList[GEO_MODEL7]->material.kAmbient.Set(0.85f, 0.85f, 0.85f);
-	meshList[GEO_MODEL7]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_MODEL7]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[GEO_MODEL7]->material.kShininess = 1.f;
-
-	meshList[GEO_MODEL8] = MeshBuilder::GenerateOBJ("rightdoor", "OBJ//Counter.obj");
-	meshList[GEO_MODEL8]->textureID = LoadTGA("Image//Top.tga");
-	meshList[GEO_MODEL8]->material.kAmbient.Set(0.85f, 0.85f, 0.85f);
-	meshList[GEO_MODEL8]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_MODEL8]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[GEO_MODEL8]->material.kShininess = 1.f;
-
-	meshList[GEO_CHAR] = MeshBuilder::GenerateOBJ("Body", "OBJ//MetagrossBody.obj");
-	meshList[GEO_CHAR]->textureID = LoadTGA("Image//MetagrossDh.tga");
-	meshList[GEO_CHAR]->material.kAmbient.Set(0.85f, 0.85f, 0.85f);
-	meshList[GEO_CHAR]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_CHAR]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[GEO_CHAR]->material.kShininess = 1.f;
-
-	meshList[GEO_CHAREYE] = MeshBuilder::GenerateOBJ("Body","OBJ//MetagrossEye.obj");
-	meshList[GEO_CHAREYE]->textureID = LoadTGA("Image//MetagrossEyeDh.tga");
-	meshList[GEO_CHAREYE]->material.kAmbient.Set(0.85f, 0.85f, 0.85f);
-	meshList[GEO_CHAREYE]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_CHAREYE]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[GEO_CHAREYE]->material.kShininess = 1.f;
-
-	meshList[GEO_CHARETC] = MeshBuilder::GenerateOBJ("Body","OBJ//MetagrossEtc.obj");
-	meshList[GEO_CHARETC]->textureID = LoadTGA("Image//MetagrossDh.tga");
-
-	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 2000.f);
-	meshList[GEO_FRONT]->textureID = LoadTGA("Image//Front2.tga");
-
-	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 2000.f);
-	meshList[GEO_BACK]->textureID = LoadTGA("Image//Back2.tga");
-
-	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 2000.f);
-	meshList[GEO_LEFT]->textureID = LoadTGA("Image//Left2.tga");
-
-	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 2000.f);
-	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//Right2.tga");
-
-	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 2000.f);
-	meshList[GEO_TOP]->textureID = LoadTGA("Image//Top2.tga");
-
-	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom", Color(1, 1, 1), 2000.f);
-	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//Bottom2.tga");
-
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1,1,1), 10, 10, 50);
 }
 
@@ -429,18 +335,13 @@ void StudioProject2::Render()
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	modelStack.PushMatrix();
+	/*modelStack.PushMatrix();
 	modelStack.Translate(0,100,0);
 	renderSkybox();
-	modelStack.PopMatrix();
+	modelStack.PopMatrix();*/
 
 	//////////////////////////////////////////////////////////////////////////////////
 
-	modelStack.PushMatrix();
-	modelStack.Scale(50,50,50);
-	modelStack.Translate(0,-0.1,0);
-	RenderMesh(meshList[GEO_SHELL], false);
-	modelStack.PopMatrix();
 
 	//////////////////////////////////////////////////////////////////////////////////
 	
@@ -455,106 +356,6 @@ void StudioProject2::Render()
 
 	///////////////////////////////////////////////////////////////////////////////////
 
-	modelStack.PushMatrix();
-	modelStack.Scale(30,30,30);
-	modelStack.Translate(3,0,13.4);
-	RenderMesh(meshList[GEO_MODEL1], true);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Scale(30,30,30);
-	modelStack.Translate(-3,0,13.4);
-	RenderMesh(meshList[GEO_MODEL1], true);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Scale(30,30,30);
-	modelStack.Translate(-5.8,0,-13.4);
-	RenderMesh(meshList[GEO_MODEL1], true);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Scale(30,30,30);
-	modelStack.Translate(5.8,0,-13.4);
-	RenderMesh(meshList[GEO_MODEL1], true);
-	modelStack.PopMatrix();
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	modelStack.PushMatrix();
-	modelStack.Scale(30,30,30);
-	modelStack.Rotate(180,0,1,0);
-	modelStack.Translate(6.3,0,-12.8);
-	RenderMesh(meshList[GEO_MODEL3],true);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Scale(30,30,30);
-	modelStack.Rotate(180,0,1,0);
-	modelStack.Translate(-6.6,0,-12.8);
-	RenderMesh(meshList[GEO_MODEL2],true);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Scale(30,30,30);
-	modelStack.Rotate(90,0,1,0);
-	modelStack.Translate(-13.4,0,5.65);
-	RenderMesh(meshList[GEO_MODEL4],true);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Scale(30,30,30);
-	modelStack.Rotate(180,0,1,0);
-	modelStack.Translate(-10.9,0,-5.4);
-	RenderMesh(meshList[GEO_MODEL4],true);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Scale(30,30,30);
-	modelStack.Rotate(180,0,1,0);
-	modelStack.Translate(-10.9,0,-6.9);
-	RenderMesh(meshList[GEO_MODEL4],true);
-	modelStack.PopMatrix();
-
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	modelStack.PushMatrix();
-	modelStack.Scale(30,30,30);
-	modelStack.Rotate(90,0,1,0);
-	modelStack.Translate(-10,0,-10.77);
-	RenderMesh(meshList[GEO_MODEL5],true);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Scale(51,51,51);
-	modelStack.Rotate(90,0,1,0);
-	modelStack.Translate(-8.43,0,animateDoor); //Z Positive (ANimation)
-	RenderMesh(meshList[GEO_MODEL6],true);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Scale(51,51,51);
-	modelStack.Rotate(90,0,1,0);
-	modelStack.Translate(-8.43,0,-animateDoor); //Z Negative 
-	RenderMesh(meshList[GEO_MODEL7],true);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Scale(40,40,40);
-	modelStack.Translate(0,0,-10.35); //Z Negative 
-	RenderMesh(meshList[GEO_MODEL8],true);
-	modelStack.PopMatrix();
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	modelStack.PushMatrix();
-	modelStack.Translate(0,animateFlying,0);
-	modelStack.PushMatrix();
-	modelStack.Translate(playerPos.x,playerPos.y,playerPos.z);
-	modelStack.Rotate(rotateAngle,0,1,0);
-	renderMetagross();
-	modelStack.PopMatrix();
-	modelStack.PopMatrix();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -609,56 +410,57 @@ void StudioProject2::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT],"Z=" + pZ, Color(0, 1, 0), 2.5, 0, 20);
 }
 
-void StudioProject2::renderSkybox()
-{
-	modelStack.PushMatrix();
-	modelStack.Translate(0,0,-998);
-	RenderMesh(meshList[GEO_BACK], false);
-	modelStack.PopMatrix();
+//void StudioProject2::renderSkybox()
+//{
+//	modelStack.PushMatrix();
+//	modelStack.Translate(0,0,-998);
+//	RenderMesh(meshList[GEO_BACK], false);
+//	modelStack.PopMatrix();
+//
+//	modelStack.PushMatrix();
+//	modelStack.Rotate(180,0,1,0);
+//	modelStack.Translate(0,0,-998);
+//	RenderMesh(meshList[GEO_FRONT], false);
+//	modelStack.PopMatrix();
+//
+//	modelStack.PushMatrix();
+//	modelStack.Rotate(90,0,1,0);
+//	modelStack.Translate(0,0,-998);
+//	RenderMesh(meshList[GEO_RIGHT], false);
+//	modelStack.PopMatrix();
+//
+//	modelStack.PushMatrix();
+//	modelStack.Rotate(-90,0,1,0);
+//	modelStack.Translate(0,0,-998);
+//	RenderMesh(meshList[GEO_LEFT], false);
+//	modelStack.PopMatrix();
+//
+//	modelStack.PushMatrix();
+//	modelStack.Rotate(180,0,0,1);
+//	modelStack.Rotate(90,1,0,0);
+//	modelStack.Translate(0,0,-998);
+//	RenderMesh(meshList[GEO_BOTTOM], false);
+//	modelStack.PopMatrix();
+//
+//	modelStack.PushMatrix();
+//
+//	modelStack.Rotate(90,1,0,0);
+//	modelStack.Rotate(180,0,0,1);
+//	modelStack.Translate(0,0,-498);
+//	RenderMesh(meshList[GEO_TOP], false);
+//	modelStack.PopMatrix();
+//}
 
-	modelStack.PushMatrix();
-	modelStack.Rotate(180,0,1,0);
-	modelStack.Translate(0,0,-998);
-	RenderMesh(meshList[GEO_FRONT], false);
-	modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Rotate(90,0,1,0);
-	modelStack.Translate(0,0,-998);
-	RenderMesh(meshList[GEO_RIGHT], false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Rotate(-90,0,1,0);
-	modelStack.Translate(0,0,-998);
-	RenderMesh(meshList[GEO_LEFT], false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Rotate(180,0,0,1);
-	modelStack.Rotate(90,1,0,0);
-	modelStack.Translate(0,0,-998);
-	RenderMesh(meshList[GEO_BOTTOM], false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-
-	modelStack.Rotate(90,1,0,0);
-	modelStack.Rotate(180,0,0,1);
-	modelStack.Translate(0,0,-498);
-	RenderMesh(meshList[GEO_TOP], false);
-	modelStack.PopMatrix();
-}
-
-void StudioProject2::renderMetagross()
-{
-	modelStack.PushMatrix();
-	modelStack.Scale(15,15,15);
-	RenderMesh(meshList[GEO_CHAR],true);
-	RenderMesh(meshList[GEO_CHAREYE],true);
-	RenderMesh(meshList[GEO_CHARETC],false);
-	modelStack.PopMatrix();
-}
+//void StudioProject2::renderMetagross()
+//{
+//	modelStack.PushMatrix();
+//	modelStack.Scale(15,15,15);
+//	RenderMesh(meshList[GEO_CHAR],true);
+//	RenderMesh(meshList[GEO_CHAREYE],true);
+//	RenderMesh(meshList[GEO_CHARETC],false);
+//	modelStack.PopMatrix();
+//}
 
 void StudioProject2::RenderText(Mesh* mesh, std::string text, Color color)
 {
