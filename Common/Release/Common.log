@@ -1,0 +1,20 @@
+﻿Build started 2015/02/11 0:33:31.
+     1>Project "C:\Users\joshua\Desktop\3D COMPUTER GRAPHICS\Common\Common.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Release\Common.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\Users\joshua\Desktop\3D COMPUTER GRAPHICS\Release\Common.lib" /NOLOGO /LTCG Release\MatrixStack.obj
+         Release\Mtx44.obj
+         Release\timer.obj
+         Release\Vector3.obj
+         Common.vcxproj -> C:\Users\joshua\Desktop\3D COMPUTER GRAPHICS\Release\Common.lib
+       FinalizeBuildStatus:
+         Deleting file "Release\Common.unsuccessfulbuild".
+         Touching "Release\Common.lastbuildstate".
+     1>Done Building Project "C:\Users\joshua\Desktop\3D COMPUTER GRAPHICS\Common\Common.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.14

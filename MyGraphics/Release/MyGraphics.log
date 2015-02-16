@@ -1,0 +1,17 @@
+﻿Build started 2015/02/11 0:34:55.
+     1>Project "C:\Users\joshua\Desktop\3D COMPUTER GRAPHICS\MyGraphics\MyGraphics.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Release\MyGraphics.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+       Link:
+         All outputs are up-to-date.
+         MyGraphics.vcxproj -> C:\Users\joshua\Desktop\3D COMPUTER GRAPHICS\Release\MyGraphics.exe
+       FinalizeBuildStatus:
+         Deleting file "Release\MyGraphics.unsuccessfulbuild".
+         Touching "Release\MyGraphics.lastbuildstate".
+     1>Done Building Project "C:\Users\joshua\Desktop\3D COMPUTER GRAPHICS\MyGraphics\MyGraphics.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.06
