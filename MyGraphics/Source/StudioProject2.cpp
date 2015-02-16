@@ -121,7 +121,7 @@ void StudioProject2::Init()
 	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("floor", Color(1, 1, 1), 1.f);
 	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//Floor.tga");
 	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f);
-	meshList[GEO_BACK]->textureID = LoadTGA("Image//Walls.tga");
+	meshList[GEO_BACK]->textureID = LoadTGA("Image//Walls(1).tga");
 
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1,1,1), 10, 10, 50);
 }
@@ -322,9 +322,8 @@ void StudioProject2::Render()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Rotate(180,0,1,0);
-	modelStack.Translate(0,0,700);
-	modelStack.Scale(1407,1407,1407);
+	modelStack.Translate(0,350,-700);
+	modelStack.Scale(1407,900,1407);
 	RenderMesh(meshList[GEO_BACK], false);
 	modelStack.PopMatrix();
 
