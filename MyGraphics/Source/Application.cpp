@@ -9,7 +9,7 @@
 //Include the standard C++ headers
 #include <stdio.h>
 #include <stdlib.h>
-#include "SceneLight.h"
+#include "StudioProject2.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -102,7 +102,7 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-	Scene *scene = new SceneLight();
+	Scene *scene = new StudioProject2();
 	scene->Init();
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame

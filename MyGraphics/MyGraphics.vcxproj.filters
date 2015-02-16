@@ -31,7 +31,7 @@
     <ClCompile Include="Source\Utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneLight.cpp">
+    <ClCompile Include="Source\StudioProject2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -75,7 +75,7 @@
     <ClInclude Include="Source\MeshBuilder.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SceneLight.h">
+    <ClInclude Include="Source\StudioProject2.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
