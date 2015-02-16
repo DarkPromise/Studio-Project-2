@@ -19,14 +19,9 @@ using std::endl;
 
 double FPS;
 std::string textPS;
-std::string pX;
-std::string pZ;
 
 double toggleDelay = 0.0f;
 
-bool isFlying = true;
-bool isOpen = false;
-bool isThinking = false;
 
 StudioProject2::StudioProject2()
 {
@@ -92,15 +87,10 @@ void StudioProject2::Init()
 	LSPEED = 100.0f;
 	rotateSpeed = 200.0f;
 	moveSpeed = 200.0f;
-	animateFlying = 5.0f;
-	animateDoor = 0.0f;
-
 	rotateAngle = 0.0f;
 
-	playerPos.Set(0.f,0.f,0.f);
-
 	// Init VBO here
-	glClearColor(0.3f, 0.0f, 0.0f, 0.0f);
+	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 
 	//Default VAO
 	glGenVertexArrays(1, &m_vertexArrayID); //Generate "x" buffer
@@ -119,9 +109,6 @@ void StudioProject2::Init()
 	}
 
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
-
-	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
-	meshList[GEO_TEXT]->textureID = LoadTGA("Image//ExportedFont.tga");
 
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1,1,1), 10, 10, 50);
 }
@@ -169,8 +156,6 @@ void StudioProject2::RenderMesh(Mesh *mesh, bool enableLight)
 	{
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
-
-	
 }
 
 
@@ -231,10 +216,6 @@ void StudioProject2::Update(double dt)
 		glUniform1f(m_parameters[U_LIGHT0_KQ], 0.f);
 	}
 
-	playerDir.x = dt * sin(Math::DegreeToRadian(rotateAngle));
-	playerDir.z = dt * cos(Math::DegreeToRadian(rotateAngle));
-	playerDir.y = 0.f;
-
 	if(Application::IsKeyPressed('T'))
 	{
 		playerPos += playerDir * moveSpeed;
@@ -252,59 +233,11 @@ void StudioProject2::Update(double dt)
 		rotateAngle -= rotateSpeed * dt;
 	}
 
-	if(isFlying)
-	{
-		if(flyingDirection == 0)
-		{
-			if((animateFlying < 10) && (animateFlying > 0))
-			{ 
-				animateFlying += (float) (10 * dt);
-			}
-			else
-			{
-				setTranslate(1);
-			}
-		}
-		else
-		{
-			if(animateFlying > 5 )
-			{
-				animateFlying -= (float) (10 * dt);
-			}
-			else
-			{
-				setTranslate(0);
-			}
-		}
-	}
-
-	if(isOpen)
-	{
-		if(animateDoor <= 0.8)
-		{
-			animateDoor += (float) (1 * dt);
-		}
-	}
-	else
-	{
-		if(animateDoor > 0)
-		{
-			animateDoor -= (float) (1 * dt);
-		}
-	}
 
 	FPS = 1 / dt;
 	std::ostringstream s;
 	s << setprecision(9) << FPS;
 	textPS = s.str();
-	
-	std::ostringstream s1;
-	s1 << playerPos.x;
-	pX = s1.str();
-
-	std::ostringstream s3;
-	s3 << playerPos.z;
-	pZ = s3.str();
 
 	toggleDelay += dt;
 	camera.Update(dt);
@@ -342,8 +275,6 @@ void StudioProject2::Render()
 
 	//////////////////////////////////////////////////////////////////////////////////
 
-
-	//////////////////////////////////////////////////////////////////////////////////
 	
 	modelStack.PushMatrix();
 	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
@@ -352,62 +283,8 @@ void StudioProject2::Render()
 
 	///////////////////////////////////////////////////////////////////////////////////
 	
-	
-
-	///////////////////////////////////////////////////////////////////////////////////
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	if((playerPos.z >= 350 && playerPos.z <= 430) && (playerPos.x <= 70) && playerPos.x >= -70)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT],"Press E to interact with Door", Color(0, 1, 0), 2.5, 8.7, 10);
-		if((Application::IsKeyPressed('E')) && (toggleDelay > 0.2))
-		{
-			if(isOpen)
-			{
-				isOpen = false;
-				toggleDelay = 0.0;
-				cout << "Closing" << endl;
-			}
-			else
-			{
-				isOpen = true;
-				toggleDelay = 0.0;
-				cout << "Opening" << endl;
-			}
-		}
-	}
-
-	if((playerPos.z <= -200 && playerPos.z >= -350) && (playerPos.x <= 150) && playerPos.x >= -150)
-	{
-		if((Application::IsKeyPressed('E')) && (toggleDelay > 0.2))
-		{
-			if(isThinking)
-			{
-				isThinking = false;
-				toggleDelay = 0.0;
-			}
-			else
-			{
-				isThinking = true;
-				toggleDelay = 0.0;
-			}
-		}
-		if(isThinking)
-		{
-			RenderTextOnScreen(meshList[GEO_TEXT],"Metagross thinks you should give marks", Color(1, 0, 0), 2.5, 7.6, 9);
-		}
-		else
-		{
-			RenderTextOnScreen(meshList[GEO_TEXT],"Press E to Think", Color(0, 1, 0), 2.5, 11.8, 10);
-		}
-	}
 
 	RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
-	RenderTextOnScreen(meshList[GEO_TEXT],"PlayerPosition", Color(0, 1, 0), 2.5, 0, 22);
-	RenderTextOnScreen(meshList[GEO_TEXT],"X=" + pX, Color(0, 1, 0), 2.5, 0, 21);
-	RenderTextOnScreen(meshList[GEO_TEXT],"Z=" + pZ, Color(0, 1, 0), 2.5, 0, 20);
 }
 
 //void StudioProject2::renderSkybox()
@@ -451,16 +328,6 @@ void StudioProject2::Render()
 //	modelStack.PopMatrix();
 //}
 
-
-//void StudioProject2::renderMetagross()
-//{
-//	modelStack.PushMatrix();
-//	modelStack.Scale(15,15,15);
-//	RenderMesh(meshList[GEO_CHAR],true);
-//	RenderMesh(meshList[GEO_CHAREYE],true);
-//	RenderMesh(meshList[GEO_CHARETC],false);
-//	modelStack.PopMatrix();
-//}
 
 void StudioProject2::RenderText(Mesh* mesh, std::string text, Color color)
 {
