@@ -90,7 +90,7 @@ void StudioProject2::Init()
 	rotateAngle = 0.0f;
 
 	// Init VBO here
-	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 	//Default VAO
 	glGenVertexArrays(1, &m_vertexArrayID); //Generate "x" buffer
@@ -109,6 +109,19 @@ void StudioProject2::Init()
 	}
 
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
+
+	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f);
+	meshList[GEO_FRONT]->textureID = LoadTGA("Image//Walls.tga");
+	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f);
+	meshList[GEO_LEFT]->textureID = LoadTGA("Image//Walls.tga");
+	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f);
+	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//Walls.tga");
+	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f);
+	meshList[GEO_TOP]->textureID = LoadTGA("Image//Ceiling.tga");
+	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("floor", Color(1, 1, 1), 1.f);
+	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//Floor.tga");
+	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f);
+	meshList[GEO_BACK]->textureID = LoadTGA("Image//Walls.tga");
 
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1,1,1), 10, 10, 50);
 }
@@ -281,52 +294,52 @@ void StudioProject2::Render()
 	RenderMesh(meshList[GEO_LIGHTBALL], false);
 	modelStack.PopMatrix();
 
+	modelStack.PushMatrix();
+	modelStack.Translate(0,0,700);
+	modelStack.Scale(1407,1407,1407);
+	RenderMesh(meshList[GEO_FRONT], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Rotate(-90,0,1,0);
+	modelStack.Translate(0,0,700);
+	modelStack.Scale(1407,1407,1407);
+	RenderMesh(meshList[GEO_LEFT], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Rotate(90,0,1,0);
+	modelStack.Translate(0,0,700);
+	modelStack.Scale(1407,1407,1407);
+	RenderMesh(meshList[GEO_RIGHT], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Rotate(-90,1,0,0);
+	modelStack.Translate(0,0,700);
+	modelStack.Scale(1407,1407,1407);
+	RenderMesh(meshList[GEO_TOP], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Rotate(180,0,1,0);
+	modelStack.Translate(0,0,700);
+	modelStack.Scale(1407,1407,1407);
+	RenderMesh(meshList[GEO_BACK], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Rotate(-90,1,0,0);
+	modelStack.Translate(0,0,-100);
+	modelStack.Scale(1407,1407,1407);
+	RenderMesh(meshList[GEO_BOTTOM], false);
+	modelStack.PopMatrix();
+
 	///////////////////////////////////////////////////////////////////////////////////
 	
 
 	RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
 }
-
-//void StudioProject2::renderSkybox()
-//{
-//	modelStack.PushMatrix();
-//	modelStack.Translate(0,0,-998);
-//	RenderMesh(meshList[GEO_BACK], false);
-//	modelStack.PopMatrix();
-//
-//	modelStack.PushMatrix();
-//	modelStack.Rotate(180,0,1,0);
-//	modelStack.Translate(0,0,-998);
-//	RenderMesh(meshList[GEO_FRONT], false);
-//	modelStack.PopMatrix();
-//
-//	modelStack.PushMatrix();
-//	modelStack.Rotate(90,0,1,0);
-//	modelStack.Translate(0,0,-998);
-//	RenderMesh(meshList[GEO_RIGHT], false);
-//	modelStack.PopMatrix();
-//
-//	modelStack.PushMatrix();
-//	modelStack.Rotate(-90,0,1,0);
-//	modelStack.Translate(0,0,-998);
-//	RenderMesh(meshList[GEO_LEFT], false);
-//	modelStack.PopMatrix();
-//
-//	modelStack.PushMatrix();
-//	modelStack.Rotate(180,0,0,1);
-//	modelStack.Rotate(90,1,0,0);
-//	modelStack.Translate(0,0,-998);
-//	RenderMesh(meshList[GEO_BOTTOM], false);
-//	modelStack.PopMatrix();
-//
-//	modelStack.PushMatrix();
-//
-//	modelStack.Rotate(90,1,0,0);
-//	modelStack.Rotate(180,0,0,1);
-//	modelStack.Translate(0,0,-498);
-//	RenderMesh(meshList[GEO_TOP], false);
-//	modelStack.PopMatrix();
-//}
 
 
 void StudioProject2::RenderText(Mesh* mesh, std::string text, Color color)
