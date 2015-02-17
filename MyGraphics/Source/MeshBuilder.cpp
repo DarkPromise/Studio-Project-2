@@ -494,7 +494,7 @@ Mesh* MeshBuilder::GenerateText(const std::string &meshName, unsigned numRow, un
 	return mesh;
 }
 
-Mesh* MeshBuilder::GenerateBoundingBox(const std::string &meshName, vector<Vector3> vert)
+Mesh* MeshBuilder::GenerateBoundingBox(const std::string &meshName, std::vector<Vector3> vert)
 {
 	Vertex v;
 	std::vector<Vertex> vertex_buffer_data;
