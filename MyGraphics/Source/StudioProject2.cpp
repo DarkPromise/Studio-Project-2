@@ -295,56 +295,15 @@ void StudioProject2::Render()
 
 	modelStack.PushMatrix();
 	modelStack.Scale(20,20,20);
-	modelStack.Translate(0,-5,0);
-	RenderMesh(meshList[GEO_TESTMODEL1], false, true);
+	modelStack.Translate(0,0,0);
+	RenderMesh(meshList[GEO_TESTMODEL1], false, false);
 	modelStack.PopMatrix();
 
 	//////////////////////////////////////////////////////////////////////////////////
 
-	
 	modelStack.PushMatrix();
 	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
 	RenderMesh(meshList[GEO_LIGHTBALL], false, false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(0,0,700);
-	modelStack.Scale(1407,1407,1407);
-	RenderMesh(meshList[GEO_FRONT], false, false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Rotate(-90,0,1,0);
-	modelStack.Translate(0,0,700);
-	modelStack.Scale(1407,1407,1407);
-	RenderMesh(meshList[GEO_LEFT], false, false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Rotate(90,0,1,0);
-	modelStack.Translate(0,0,700);
-	modelStack.Scale(1407,1407,1407);
-	RenderMesh(meshList[GEO_RIGHT], false, false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Rotate(-90,1,0,0);
-	modelStack.Translate(0,0,700);
-	modelStack.Scale(1407,1407,1407);
-	RenderMesh(meshList[GEO_TOP], false, false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(0,350,-700);
-	modelStack.Scale(1407,900,1407);
-	RenderMesh(meshList[GEO_BACK], false, false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Rotate(-90,1,0,0);
-	modelStack.Translate(0,0,-100);
-	modelStack.Scale(1407,1407,1407);
-	RenderMesh(meshList[GEO_BOTTOM], false, false);
 	modelStack.PopMatrix();
 
 	///////////////////////////////////////////////////////////////////////////////////
@@ -422,6 +381,11 @@ void StudioProject2::RenderTextOnScreen(Mesh* mesh, std::string text, Color colo
 	modelStack.PopMatrix();
 
 	glEnable(GL_DEPTH_TEST);
+}
+
+void StudioProject2::CollisionCheck()
+{
+	//CollisionChecker
 }
 
 void StudioProject2::Exit()
