@@ -14,6 +14,7 @@
 #include "Utility.h"
 #include "LoadTGA.h"
 
+
 using std::setprecision;
 using std::cout;
 using std::endl;
@@ -98,7 +99,7 @@ void StudioProject2::Init()
 	glBindVertexArray(m_vertexArrayID);
 
 	Mtx44 projection;
-	projection.SetToPerspective(50.0f,4.0f / 3.0f, 0.1f, 3000.0f);
+	projection.SetToPerspective(50.0f,4.0f / 3.0f, 0.1f, 10000.0f);
 
 	projectionStack.LoadMatrix(projection);
 
@@ -111,18 +112,18 @@ void StudioProject2::Init()
 
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
 
-	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f);
-	meshList[GEO_FRONT]->textureID = LoadTGA("Image//Walls.tga");
-	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f);
-	meshList[GEO_LEFT]->textureID = LoadTGA("Image//Walls.tga");
-	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f);
-	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//Walls.tga");
-	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f);
+	meshList[GEO_FRONT] = MeshBuilder::GenerateOBJ("Supermarket Front", "Object//Front Wall.obj");
+	meshList[GEO_FRONT]->textureID = LoadTGA("Image//Front Wall.tga");
+	meshList[GEO_BACK] = MeshBuilder::GenerateOBJ("Supermarket Back", "Object//Back Wall.obj");
+	meshList[GEO_BACK]->textureID = LoadTGA("Image//Back Wall.tga");
+	meshList[GEO_LEFT] = MeshBuilder::GenerateOBJ("Supermarket Left", "Object//Left Wall.obj");
+	meshList[GEO_LEFT]->textureID = LoadTGA("Image//Left Wall.tga");
+	meshList[GEO_RIGHT] = MeshBuilder::GenerateOBJ("Supermarket Right", "Object//Right Wall.obj");
+	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//Right Wall.tga");
+	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("Ceiling", Color (0, 0, 0), 2500.f);
 	meshList[GEO_TOP]->textureID = LoadTGA("Image//Ceiling.tga");
-	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("floor", Color(1, 1, 1), 1.f);
+	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("Floor", Color (0, 0, 0), 1.f);
 	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//Floor.tga");
-	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f);
-	meshList[GEO_BACK]->textureID = LoadTGA("Image//Walls(1).tga");
 
 	meshList[GEO_TESTMODEL1] = MeshBuilder::GenerateCube("test1", Color(1,0,0), 1.f);
 
@@ -307,6 +308,44 @@ void StudioProject2::Render()
 	modelStack.PopMatrix();
 
 	///////////////////////////////////////////////////////////////////////////////////
+	
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 0, 1851);
+	modelStack.Scale(50, 50, 50);
+
+	RenderMesh(meshList[GEO_FRONT], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 0, -1851);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_BACK], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-2227, 0, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_LEFT], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(2227, 0, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_RIGHT], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 0, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_BOTTOM], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 500, 0);
+	modelStack.Rotate(-90, 1, 0, 0);
+	modelStack.Scale(1, 1, 1);
+	RenderMesh(meshList[GEO_TOP], false, false);
+	modelStack.PopMatrix();
 	
 
 	RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
