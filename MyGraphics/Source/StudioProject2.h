@@ -54,21 +54,9 @@ public:
 		GEO_FRONT,
 		GEO_BACK,
 
-		GEO_CHAR, //Metagross?
-		GEO_CHAREYE,
-		GEO_CHARETC,
-
-		GEO_CHAR2, //Chansey //Mesh Spoilt
-		GEO_MODEL1, //Tree
-		GEO_MODEL2, //Chair
-		GEO_MODEL3, //Sofa
-		GEO_MODEL4, //PCMonitor
-		GEO_MODEL5, //Cupboard
-		GEO_MODEL6, //LeftDoor
-		GEO_MODEL7, //RightDoor
-		GEO_MODEL8, //Counter
-
-		GEO_SHELL, //Outside Model
+		GEO_TESTMODEL1,
+		GEO_TESTMODEL2,
+		GEO_TRANSPARENT,
 
 		GEO_TEXT,
 
@@ -136,7 +124,7 @@ private:
 
 	Light light[1];
 
-	void RenderMesh(Mesh * mesh, bool enableLight);
+	void RenderMesh(Mesh * mesh, bool enableLight, bool transparent);
 };
 
 #endif

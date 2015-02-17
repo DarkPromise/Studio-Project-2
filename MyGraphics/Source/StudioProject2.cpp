@@ -1,11 +1,12 @@
 #include "StudioProject2.h"
-#include "GL\glew.h"
-#include "GLFW\glfw3.h"
 #include "Mtx44.h"
 #include <iostream>
 #include "Application.h"
 #include <sstream>
 #include <iomanip>
+
+#include "GL\glew.h"
+#include "GLFW\glfw3.h"
 
 #include "shader.hpp"
 #include "MeshBuilder.h"
@@ -123,10 +124,12 @@ void StudioProject2::Init()
 	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f);
 	meshList[GEO_BACK]->textureID = LoadTGA("Image//Walls(1).tga");
 
+	meshList[GEO_TESTMODEL1] = MeshBuilder::GenerateCube("test1", Color(1,0,0), 1.f);
+
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1,1,1), 10, 10, 50);
 }
 
-void StudioProject2::RenderMesh(Mesh *mesh, bool enableLight)
+void StudioProject2::RenderMesh(Mesh *mesh, bool enableLight, bool transparent)
 {
 	Mtx44 MVP, modelView, modelView_inverse_transpose;
 	
@@ -149,6 +152,15 @@ void StudioProject2::RenderMesh(Mesh *mesh, bool enableLight)
 	else
 	{
 		glUniform1i(m_parameters[U_LIGHTENABLED], 0);
+	}
+
+	if(transparent)
+	{
+		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+	}
+	else
+	{
+		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 	}
 
 	if(mesh->textureID > 0)
@@ -277,61 +289,62 @@ void StudioProject2::Render()
 	
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]); //update the shader with new MVP
 
-	RenderMesh(meshList[GEO_AXES], false);
+	RenderMesh(meshList[GEO_AXES], false, false);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/*modelStack.PushMatrix();
-	modelStack.Translate(0,100,0);
-	renderSkybox();
-	modelStack.PopMatrix();*/
+	modelStack.PushMatrix();
+	modelStack.Scale(20,20,20);
+	modelStack.Translate(0,-5,0);
+	RenderMesh(meshList[GEO_TESTMODEL1], false, true);
+	modelStack.PopMatrix();
 
 	//////////////////////////////////////////////////////////////////////////////////
 
 	
 	modelStack.PushMatrix();
 	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
-	RenderMesh(meshList[GEO_LIGHTBALL], false);
+	RenderMesh(meshList[GEO_LIGHTBALL], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(0,0,700);
 	modelStack.Scale(1407,1407,1407);
-	RenderMesh(meshList[GEO_FRONT], false);
+	RenderMesh(meshList[GEO_FRONT], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Rotate(-90,0,1,0);
 	modelStack.Translate(0,0,700);
 	modelStack.Scale(1407,1407,1407);
-	RenderMesh(meshList[GEO_LEFT], false);
+	RenderMesh(meshList[GEO_LEFT], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Rotate(90,0,1,0);
 	modelStack.Translate(0,0,700);
 	modelStack.Scale(1407,1407,1407);
-	RenderMesh(meshList[GEO_RIGHT], false);
+	RenderMesh(meshList[GEO_RIGHT], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Rotate(-90,1,0,0);
 	modelStack.Translate(0,0,700);
 	modelStack.Scale(1407,1407,1407);
-	RenderMesh(meshList[GEO_TOP], false);
+	RenderMesh(meshList[GEO_TOP], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(0,350,-700);
 	modelStack.Scale(1407,900,1407);
-	RenderMesh(meshList[GEO_BACK], false);
+	RenderMesh(meshList[GEO_BACK], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Rotate(-90,1,0,0);
 	modelStack.Translate(0,0,-100);
 	modelStack.Scale(1407,1407,1407);
-	RenderMesh(meshList[GEO_BOTTOM], false);
+	RenderMesh(meshList[GEO_BOTTOM], false, false);
 	modelStack.PopMatrix();
 
 	///////////////////////////////////////////////////////////////////////////////////
