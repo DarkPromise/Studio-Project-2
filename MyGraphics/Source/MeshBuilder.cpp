@@ -493,3 +493,111 @@ Mesh* MeshBuilder::GenerateText(const std::string &meshName, unsigned numRow, un
 
 	return mesh;
 }
+
+Mesh* MeshBuilder::GenerateBoundingBox(const std::string &meshName, vector<Vector3> vert)
+{
+	Vertex v;
+	std::vector<Vertex> vertex_buffer_data;
+
+	v.pos.Set(-0.5f,-0.5f,-0.5f);
+	v.color.Set(1.0f,0.0f,0.0f);
+
+	vertex_buffer_data.push_back(v);
+
+	v.pos.Set(0.5f,-0.5f,-0.5f);
+	v.color.Set(0.0f,3.0f,0.0f);
+
+	vertex_buffer_data.push_back(v);
+
+	v.pos.Set(0.5f, 0.5f,-0.5f);
+	v.color.Set(0.0f,0.0f,5.0f);
+
+	vertex_buffer_data.push_back(v);
+
+	v.pos.Set(-0.5f, 0.5f,-0.5f);
+	v.color.Set(1.0f,0.0f,0.0f);
+
+	vertex_buffer_data.push_back(v);
+
+	v.pos.Set(-0.5f,-0.5f, 0.5f);
+	v.color.Set(0.0f,3.0f,0.0f);
+
+	vertex_buffer_data.push_back(v);
+
+	v.pos.Set(0.5f,-0.5f, 0.5f);
+	v.color.Set(0.0f,0.0f,5.0f);
+
+	vertex_buffer_data.push_back(v);
+
+	v.pos.Set(0.5f, 0.5f, 0.5f);
+	v.color.Set(1.0f,0.0f,0.0f);
+
+	vertex_buffer_data.push_back(v);
+
+	v.pos.Set(-0.5f, 0.5f, 0.5f);
+	v.color.Set(0.0f,3.0f,0.0f);
+
+	vertex_buffer_data.push_back(v);
+
+	std::vector<GLuint> index_buffer_data;
+
+	index_buffer_data.push_back(7);
+	index_buffer_data.push_back(4);
+	index_buffer_data.push_back(6);
+
+	index_buffer_data.push_back(5);
+	index_buffer_data.push_back(6);
+	index_buffer_data.push_back(4);
+
+	index_buffer_data.push_back(6);
+	index_buffer_data.push_back(5);
+	index_buffer_data.push_back(2);
+
+	index_buffer_data.push_back(1);
+	index_buffer_data.push_back(2);
+	index_buffer_data.push_back(5);
+
+	index_buffer_data.push_back(3);
+	index_buffer_data.push_back(7);
+	index_buffer_data.push_back(2);
+
+	index_buffer_data.push_back(6);
+	index_buffer_data.push_back(2);
+	index_buffer_data.push_back(7);
+
+	index_buffer_data.push_back(2);
+	index_buffer_data.push_back(1);
+	index_buffer_data.push_back(3);
+
+	index_buffer_data.push_back(0);
+	index_buffer_data.push_back(3);
+	index_buffer_data.push_back(1);
+
+	index_buffer_data.push_back(3);
+	index_buffer_data.push_back(0);
+	index_buffer_data.push_back(7);
+
+	index_buffer_data.push_back(4);
+	index_buffer_data.push_back(7);
+	index_buffer_data.push_back(0);
+
+	index_buffer_data.push_back(1);
+	index_buffer_data.push_back(5);
+	index_buffer_data.push_back(0);
+
+	index_buffer_data.push_back(4);
+	index_buffer_data.push_back(0);
+	index_buffer_data.push_back(5);
+
+	Mesh *mesh = new Mesh(meshName);
+
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, vertex_buffer_data.size() * sizeof(Vertex), &vertex_buffer_data[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_buffer_data.size() * sizeof(GLuint), &index_buffer_data[0], GL_STATIC_DRAW);
+
+	mesh->indexSize = index_buffer_data.size();
+	mesh->mode = Mesh::DRAW_TRIANGLES;
+
+	return mesh;
+}
