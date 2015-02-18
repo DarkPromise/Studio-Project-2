@@ -137,6 +137,42 @@ void Camera2::Update(double dt)
 		position.y = tempposition.y;
 	}
 
+	if(Application::IsKeyPressed('Q'))
+	{
+		Vector3 tempposition = position;
+		Vector3 temptarget = target;
+		float yaw = (float)(-CAMERA_SPEED * dt);
+		view = (target - position).Normalized();
+		Vector3 right = view.Cross(up);
+		right.y = 0;
+		right.Normalize();
+		position += (view.Cross(right) * yaw);
+		target += (view.Cross(right) * yaw);
+		if(target.x > Maximum.x || target.x < Minimum.x || target.y > Maximum.y || target.y < Minimum.y || target.z > Maximum.z || target.z < Minimum.z)
+		{
+			target = temptarget;
+			position = tempposition;
+		}
+	}
+
+	if(Application::IsKeyPressed('E'))
+	{
+		Vector3 temptarget = target;
+		Vector3 tempposition = position;
+		float yaw = (float)(CAMERA_SPEED * dt);
+		view = (target - position).Normalized();
+		Vector3 right = view.Cross(up);
+		right.y = 0;
+		right.Normalize();
+		position += (view.Cross(right) * yaw);
+		target += (view.Cross(right) * yaw);
+		if(target.x > Maximum.x || target.x < Minimum.x || target.y > Maximum.y || target.y < Minimum.y || target.z > Maximum.z || target.z < Minimum.z)
+		{
+			target = temptarget;
+			position = tempposition;
+		}
+	}
+
 	// tilt up
 	if(Application::IsKeyPressed(VK_UP))
 	{

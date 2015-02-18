@@ -14,7 +14,6 @@
 #include "Utility.h"
 #include "LoadTGA.h"
 
-
 using std::setprecision;
 using std::cout;
 using std::endl;
