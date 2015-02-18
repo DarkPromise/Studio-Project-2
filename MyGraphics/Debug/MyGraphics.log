@@ -1,5 +1,5 @@
-﻿Build started 17/2/2015 10:20:43 AM.
-     1>Project "C:\Users\Envy 15\Desktop\Studio-Project-2\MyGraphics\MyGraphics.vcxproj" on node 2 (build target(s)).
+﻿Build started 18/2/2015 10:28:42 AM.
+     1>Project "C:\Users\keith\Documents\Studio-Project-2\MyGraphics\MyGraphics.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\MyGraphics.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
@@ -13,8 +13,8 @@
        FinalizeBuildStatus:
          Deleting file "Debug\MyGraphics.unsuccessfulbuild".
          Touching "Debug\MyGraphics.lastbuildstate".
-     1>Done Building Project "C:\Users\Envy 15\Desktop\Studio-Project-2\MyGraphics\MyGraphics.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\keith\Documents\Studio-Project-2\MyGraphics\MyGraphics.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.06
+Time Elapsed 00:00:00.10
