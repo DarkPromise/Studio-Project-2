@@ -130,7 +130,7 @@ private:
 	
 	MS modelStack, viewStack, projectionStack;
 
-	Camera3 camera;
+	Camera2 camera;
 
 	Vector3 playerDir;
 	Vector3 playerPos;
