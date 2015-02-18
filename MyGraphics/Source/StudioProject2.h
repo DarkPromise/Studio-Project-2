@@ -3,7 +3,7 @@
 
 #include "Scene.h"
 #include "Mtx44.h"
-#include "Camera2.h"
+#include "Camera3.h"
 #include "Mesh.h"
 #include "MatrixStack.h"
 #include "Light.h"
@@ -130,7 +130,7 @@ private:
 	
 	MS modelStack, viewStack, projectionStack;
 
-	Camera2 camera;
+	Camera3 camera;
 
 	Vector3 playerDir;
 	Vector3 playerPos;
