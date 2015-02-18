@@ -91,6 +91,13 @@ void StudioProject2::Init()
 	moveSpeed = 200.0f;
 	rotateAngle = 0.0f;
 
+	/********************
+	BOUNDS INIT GO HERE
+	********************/
+	BoundsTestMin.Set(-50,-50,-50);
+	BoundsTestMax.Set(50,50,50);
+	/*******************/
+
 	// Init VBO here
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -125,7 +132,8 @@ void StudioProject2::Init()
 	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("Floor", Color (0, 0, 0), 1.f);
 	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//Floor.tga");
 
-	meshList[GEO_TESTMODEL1] = MeshBuilder::GenerateCube("test1", Color(1,0,0), 1.f);
+	meshList[GEO_BOUNDHELPER] = MeshBuilder::GenerateSphere("BoundHelper", Color(1,1,1), 10, 18, 5.f);
+	meshList[GEO_TESTBOUNDS] = MeshBuilder::GenerateBoundingBox("TestBox", BoundsTestMax, BoundsTestMin);
 
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1,1,1), 10, 10, 50);
 }
@@ -244,21 +252,32 @@ void StudioProject2::Update(double dt)
 
 	if(Application::IsKeyPressed('T'))
 	{
-		playerPos += playerDir * moveSpeed;
+		//playerPos += playerDir * moveSpeed;
+		playerPos.z += 1.f;
+		cout << "Player Pos : " << playerPos << endl;
 	}
 	if(Application::IsKeyPressed('G'))
 	{
-		playerPos -= playerDir * moveSpeed;
+		//playerPos -= playerDir * moveSpeed;
+		playerPos.z -= 1.f;
+		cout << "Player Pos : " << playerPos << endl;
 	}
 	if(Application::IsKeyPressed('F'))
 	{
-		rotateAngle += rotateSpeed * dt;
+		//rotateAngle += rotateSpeed * dt;
+		playerPos.x += 1.f;
+		cout << "Player Pos : " << playerPos << endl;
 	}
 	if(Application::IsKeyPressed('H'))
 	{
-		rotateAngle -= rotateSpeed * dt;
+		//rotateAngle -= rotateSpeed * dt;
+		playerPos.x -= 1.f;
+		cout << "Player Pos : " << playerPos << endl;
 	}
 
+	playerDir.x = dt * sin(Math::DegreeToRadian(rotateAngle));
+	playerDir.z = dt * cos(Math::DegreeToRadian(rotateAngle));
+	playerDir.y = 0.f;
 
 	FPS = 1 / dt;
 	std::ostringstream s;
@@ -295,9 +314,12 @@ void StudioProject2::Render()
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	modelStack.PushMatrix();
-	modelStack.Scale(20,20,20);
-	modelStack.Translate(0,0,0);
-	RenderMesh(meshList[GEO_TESTMODEL1], false, false);
+	modelStack.Translate(playerPos.x,playerPos.y,playerPos.z);
+	RenderMesh(meshList[GEO_BOUNDHELPER], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_TESTBOUNDS], false, false);
 	modelStack.PopMatrix();
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -309,6 +331,15 @@ void StudioProject2::Render()
 
 	///////////////////////////////////////////////////////////////////////////////////
 	
+	modelStack.PushMatrix();
+	renderSkybox();
+	modelStack.PopMatrix();
+
+	RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
+}
+
+void StudioProject2::renderSkybox()
+{
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 0, 1851);
 	modelStack.Scale(50, 50, 50);
@@ -334,11 +365,11 @@ void StudioProject2::Render()
 	RenderMesh(meshList[GEO_RIGHT], false, false);
 	modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
+	/*modelStack.PushMatrix();
 	modelStack.Translate(0, 0, 0);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_BOTTOM], false, false);
-	modelStack.PopMatrix();
+	modelStack.PopMatrix();*/
 
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 500, 0);
@@ -346,11 +377,7 @@ void StudioProject2::Render()
 	modelStack.Scale(1, 1, 1);
 	RenderMesh(meshList[GEO_TOP], false, false);
 	modelStack.PopMatrix();
-	
-
-	RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
 }
-
 
 void StudioProject2::RenderText(Mesh* mesh, std::string text, Color color)
 {

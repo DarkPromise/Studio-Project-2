@@ -54,9 +54,10 @@ public:
 		GEO_FRONT,
 		GEO_BACK,
 
-		GEO_TESTMODEL1,
-		GEO_TESTMODEL2,
+		GEO_BOUNDHELPER,
 		GEO_TRANSPARENT,
+
+		GEO_TESTBOUNDS,
 
 		GEO_TEXT,
 
@@ -99,15 +100,14 @@ private:
 
 	int rotateDirection;
 	int flyingDirection;
-
 	double matrixSpeed;
 
 	void renderSkybox();
 	void CollisionCheck();
 	void renderMetagross();
+
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
-
 
 	Mtx44 translate, rotate, scale;
 	Mtx44 model;
@@ -123,6 +123,17 @@ private:
 	Vector3 playerPos;
 	Vector3 playerRotation;
 
+	/****************************************
+	BOUNDS CODE GO HERE
+	****************************************/
+	Vector3 MarketBoundsMin1;
+	Vector3 MarketBoundsMax1;
+	Vector3 MarketBoundsMin2;
+	Vector3 MarketBoundsMax2;
+
+	Vector3 BoundsTestMin;
+	Vector3 BoundsTestMax;
+	/***************************************/
 	Light light[1];
 
 	void RenderMesh(Mesh * mesh, bool enableLight, bool transparent);
