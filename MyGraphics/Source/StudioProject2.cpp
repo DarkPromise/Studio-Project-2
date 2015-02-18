@@ -385,7 +385,7 @@ void StudioProject2::renderSkybox()
 
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 500, 0);
-	modelStack.Rotate(-90, 1, 0, 0);
+	modelStack.Rotate(90, 1, 0, 0);
 	modelStack.Scale(1, 1, 1);
 	RenderMesh(meshList[GEO_TOP], false, false);
 	modelStack.PopMatrix();
