@@ -20,9 +20,9 @@ using std::endl;
 
 double FPS;
 std::string textPS;
-
 double toggleDelay = 0.0f;
 
+BoundingBox newBox;
 
 StudioProject2::StudioProject2()
 {
@@ -93,8 +93,9 @@ void StudioProject2::Init()
 	/********************
 	BOUNDS INIT GO HERE
 	********************/
-	BoundsTestMin.Set(-50,-50,-50);
-	BoundsTestMax.Set(150,100,150);
+	newBox.Max.Set(-50,-50,-50);
+	newBox.Min.Set(50,50,50);
+
 	/*******************/
 
 	// Init VBO here
@@ -128,7 +129,7 @@ void StudioProject2::Init()
 	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//Right Wall.tga");
 	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("Ceiling", Color (0, 0, 0), 2500.f);
 	meshList[GEO_TOP]->textureID = LoadTGA("Image//Ceiling.tga");
-	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("Floor", Color (0, 0, 0), 1.f);
+	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("Floor", Color (0, 0, 0), 2500.f);
 	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//Floor.tga");
 
 	meshList[GEO_OUTSIDEFRONT] = MeshBuilder::GenerateQuad("sky front", Color (0, 0, 0), 1);
@@ -145,7 +146,8 @@ void StudioProject2::Init()
 	meshList[GEO_OUTSIDEBOTTOM]->textureID = LoadTGA("Image//bottom.tga");
 
 	meshList[GEO_BOUNDHELPER] = MeshBuilder::GenerateSphere("BoundHelper", Color(1,1,1), 10, 18, 5.f);
-	meshList[GEO_TESTBOUNDS] = MeshBuilder::GenerateBoundingBox("TestBox", BoundsTestMax, BoundsTestMin);
+	
+	meshList[GEO_TESTBOUNDS] = MeshBuilder::GenerateBoundingBox("TestBox", newBox.Max, newBox.Min);
 
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1,1,1), 10, 10, 50);
 }
@@ -204,7 +206,6 @@ void StudioProject2::RenderMesh(Mesh *mesh, bool enableLight, bool transparent)
 	}
 }
 
-
 void StudioProject2::Update(double dt)
 {
 	if(Application::IsKeyPressed('1'))
@@ -262,25 +263,25 @@ void StudioProject2::Update(double dt)
 		glUniform1f(m_parameters[U_LIGHT0_KQ], 0.f);
 	}
 
-	if(Application::IsKeyPressed('T'))
+	if(Application::IsKeyPressed('T') && (playerPos.z <= newBox.Min.z))
 	{
 		//playerPos += playerDir * moveSpeed;
 		playerPos.z += 1.f;
 		cout << "Player Pos : " << playerPos << endl;
 	}
-	if(Application::IsKeyPressed('G'))
+	if(Application::IsKeyPressed('G') && (playerPos.z >= newBox.Max.z))
 	{
 		//playerPos -= playerDir * moveSpeed;
 		playerPos.z -= 1.f;
 		cout << "Player Pos : " << playerPos << endl;
 	}
-	if(Application::IsKeyPressed('F'))
+	if(Application::IsKeyPressed('F') && (playerPos.x <= newBox.Min.x))
 	{
 		//rotateAngle += rotateSpeed * dt;
 		playerPos.x += 1.f;
 		cout << "Player Pos : " << playerPos << endl;
 	}
-	if(Application::IsKeyPressed('H'))
+	if(Application::IsKeyPressed('H') && (playerPos.x >= newBox.Max.x))
 	{
 		//rotateAngle -= rotateSpeed * dt;
 		playerPos.x -= 1.f;
@@ -379,14 +380,13 @@ void StudioProject2::renderSkybox()
 
 	/*modelStack.PushMatrix();
 	modelStack.Translate(0, 0, 0);
-	modelStack.Scale(50, 50, 50);
+	modelStack.Rotate(90,1,0,0);
 	RenderMesh(meshList[GEO_BOTTOM], false, false);
 	modelStack.PopMatrix();*/
 
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 500, 0);
 	modelStack.Rotate(90, 1, 0, 0);
-	modelStack.Scale(1, 1, 1);
 	RenderMesh(meshList[GEO_TOP], false, false);
 	modelStack.PopMatrix();
 

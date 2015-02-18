@@ -116,7 +116,6 @@ void Mesh::Render()
 	}
 
 	//Actual render call
-	//glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 	if(mode == DRAW_TRIANGLES)
 	{

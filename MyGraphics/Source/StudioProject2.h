@@ -64,6 +64,7 @@ public:
 		GEO_BOUNDHELPER,
 		GEO_TRANSPARENT,
 
+		GEO_TEST,
 		GEO_TESTBOUNDS,
 
 		GEO_TEXT,
@@ -97,6 +98,11 @@ public:
 		U_COLOR_TEXTURE,
 
 	};
+
+	void setBoundingBox(BoundingBox box)
+	{
+		boundingBox = box;
+	}
 
 private:
 	Mesh* meshList[NUM_GEOMETRY];
@@ -133,13 +139,12 @@ private:
 	/****************************************
 	BOUNDS CODE GO HERE
 	****************************************/
+	BoundingBox boundingBox;
+
 	Vector3 MarketBoundsMin1;
 	Vector3 MarketBoundsMax1;
 	Vector3 MarketBoundsMin2;
 	Vector3 MarketBoundsMax2;
-
-	Vector3 BoundsTestMin;
-	Vector3 BoundsTestMax;
 	/***************************************/
 	Light light[1];
 
