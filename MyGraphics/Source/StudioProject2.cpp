@@ -263,25 +263,25 @@ void StudioProject2::Update(double dt)
 		glUniform1f(m_parameters[U_LIGHT0_KQ], 0.f);
 	}
 
-	if(Application::IsKeyPressed('T') && (playerPos.z <= newBox.Min.z))
+	if(Application::IsKeyPressed('T') && (playerPos.z < newBox.Min.z))
 	{
 		//playerPos += playerDir * moveSpeed;
 		playerPos.z += 1.f;
 		cout << "Player Pos : " << playerPos << endl;
 	}
-	if(Application::IsKeyPressed('G') && (playerPos.z >= newBox.Max.z))
+	if(Application::IsKeyPressed('G') && (playerPos.z > newBox.Max.z))
 	{
 		//playerPos -= playerDir * moveSpeed;
 		playerPos.z -= 1.f;
 		cout << "Player Pos : " << playerPos << endl;
 	}
-	if(Application::IsKeyPressed('F') && (playerPos.x <= newBox.Min.x))
+	if(Application::IsKeyPressed('F') && (playerPos.x < newBox.Min.x))
 	{
 		//rotateAngle += rotateSpeed * dt;
 		playerPos.x += 1.f;
 		cout << "Player Pos : " << playerPos << endl;
 	}
-	if(Application::IsKeyPressed('H') && (playerPos.x >= newBox.Max.x))
+	if(Application::IsKeyPressed('H') && (playerPos.x > newBox.Max.x))
 	{
 		//rotateAngle -= rotateSpeed * dt;
 		playerPos.x -= 1.f;
