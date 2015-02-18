@@ -95,7 +95,7 @@ void StudioProject2::Init()
 	BOUNDS INIT GO HERE
 	********************/
 	BoundsTestMin.Set(-50,-50,-50);
-	BoundsTestMax.Set(50,50,50);
+	BoundsTestMax.Set(150,100,150);
 	/*******************/
 
 	// Init VBO here
