@@ -106,7 +106,7 @@ void StudioProject2::Init()
 	glBindVertexArray(m_vertexArrayID);
 
 	Mtx44 projection;
-	projection.SetToPerspective(50.0f,4.0f / 3.0f, 0.1f, 10000.0f);
+	projection.SetToPerspective(50.0f,4.0f / 3.0f, 0.1f, 30000.0f);
 
 	projectionStack.LoadMatrix(projection);
 
@@ -131,6 +131,19 @@ void StudioProject2::Init()
 	meshList[GEO_TOP]->textureID = LoadTGA("Image//Ceiling.tga");
 	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("Floor", Color (0, 0, 0), 1.f);
 	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//Floor.tga");
+
+	meshList[GEO_OUTSIDEFRONT] = MeshBuilder::GenerateQuad("sky front", Color (0, 0, 0), 1);
+	meshList[GEO_OUTSIDEFRONT]->textureID = LoadTGA("Image//front.tga");
+	meshList[GEO_OUTSIDEBACK] = MeshBuilder::GenerateQuad("sky back", Color (0, 0, 0), 1);
+	meshList[GEO_OUTSIDEBACK]->textureID = LoadTGA("Image//back.tga");
+	meshList[GEO_OUTSIDELEFT] = MeshBuilder::GenerateQuad("sky left", Color (0, 0, 0), 1);
+	meshList[GEO_OUTSIDELEFT]->textureID = LoadTGA("Image//left.tga");
+	meshList[GEO_OUTSIDERIGHT] = MeshBuilder::GenerateQuad("sky right", Color (0, 0, 0), 1);
+	meshList[GEO_OUTSIDERIGHT]->textureID = LoadTGA("Image//right.tga");
+	meshList[GEO_OUTSIDETOP] = MeshBuilder::GenerateQuad("sky top", Color (0, 0, 0), 1);
+	meshList[GEO_OUTSIDETOP]->textureID = LoadTGA("Image//top.tga");
+	meshList[GEO_OUTSIDEBOTTOM] = MeshBuilder::GenerateQuad("sky bottom", Color (0, 0, 0), 1.f);
+	meshList[GEO_OUTSIDEBOTTOM]->textureID = LoadTGA("Image//bottom.tga");
 
 	meshList[GEO_BOUNDHELPER] = MeshBuilder::GenerateSphere("BoundHelper", Color(1,1,1), 10, 18, 5.f);
 	meshList[GEO_TESTBOUNDS] = MeshBuilder::GenerateBoundingBox("TestBox", BoundsTestMax, BoundsTestMin);
@@ -376,6 +389,51 @@ void StudioProject2::renderSkybox()
 	modelStack.Rotate(-90, 1, 0, 0);
 	modelStack.Scale(1, 1, 1);
 	RenderMesh(meshList[GEO_TOP], false, false);
+	modelStack.PopMatrix();
+
+	///////////////////////////////////////////////////////////////////////////////////
+
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 0, 14970);
+	modelStack.Rotate(180, 0, 1, 0);
+	modelStack.Scale(30000, 30000, 1);
+	RenderMesh(meshList[GEO_OUTSIDEFRONT], false, false);
+	modelStack.PopMatrix();
+	
+	modelStack.PushMatrix();
+	modelStack.Translate(-14970, 0, 0);
+	modelStack.Rotate(90, 0, 1, 0);
+	modelStack.Scale(30000, 30000, 1);
+	RenderMesh(meshList[GEO_OUTSIDERIGHT], false, false);
+	modelStack.PopMatrix();
+	
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 0, -14970);
+	modelStack.Scale(30000, 30000, 1);
+	RenderMesh(meshList[GEO_OUTSIDEBACK], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(14970, 0, 0);
+	modelStack.Rotate(-90, 0, 1, 0);
+	modelStack.Scale(30000, 30000, 1);
+	RenderMesh(meshList[GEO_OUTSIDELEFT], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 14970, 0);
+	modelStack.Rotate(90, 0, 1, 0);
+	modelStack.Rotate(90, 1, 0, 0);
+	modelStack.Scale(30000, 30000, 1);
+	RenderMesh(meshList[GEO_OUTSIDETOP], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(0, -14970, 0);
+	modelStack.Rotate(90, 0, 1, 0);
+	modelStack.Rotate(-90, 1, 0, 0);
+	modelStack.Scale(30000, 30000, 1);
+	RenderMesh(meshList[GEO_OUTSIDEBOTTOM], false, false);
 	modelStack.PopMatrix();
 }
 
