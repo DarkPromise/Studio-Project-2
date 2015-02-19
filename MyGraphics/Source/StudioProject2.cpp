@@ -4,6 +4,7 @@
 #include "Application.h"
 #include <sstream>
 #include <iomanip>
+#include <vector>
 
 #include "GL\glew.h"
 #include "GLFW\glfw3.h"
@@ -17,11 +18,16 @@
 using std::setprecision;
 using std::cout;
 using std::endl;
+using std::vector;
+using std::iterator;
+
 //Test
 double FPS;
 std::string textPS;
 double toggleDelay = 0.0f;
 
+vector<BoundingBox*> box;
+BoundingBox * boxPtr;
 BoundingBox newBox;
 
 StudioProject2::StudioProject2()
@@ -93,6 +99,8 @@ void StudioProject2::Init()
 	/********************
 	BOUNDS INIT GO HERE
 	********************/
+	boxPtr = new BoundingBox();
+
 	newBox.Max.Set(-50,-50,-50);
 	newBox.Min.Set(50,50,50);
 
