@@ -132,6 +132,51 @@ void StudioProject2::Init()
 	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("Floor", Color (0, 0, 0), 2500.f);
 	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//Floor.tga");
 
+	meshList[GEO_CUSTOMERSERVICE] = MeshBuilder::GenerateOBJ("Customer Service Counter and Office", "Object//customer service.obj");
+	meshList[GEO_CUSTOMERSERVICE]->textureID = LoadTGA("Image//customer service.tga");
+	meshList[GEO_CASHIERTABLE] = MeshBuilder::GenerateOBJ("Cashier Table", "Object//CashierTable.obj");
+	meshList[GEO_CASHIERTABLE]->textureID = LoadTGA("Image//cashreg.tga");
+	meshList[GEO_CASHIERTABLE] = MeshBuilder::GenerateOBJ("Cashier Table", "Object//CashierTable.obj");
+	meshList[GEO_CASHIERTABLE]->textureID = LoadTGA("Image//cashreg.tga");
+	meshList[GEO_SECURITYCOUNTER] = MeshBuilder::GenerateOBJ("Security Counter", "Object//Security Counter.obj");
+	meshList[GEO_SECURITYCOUNTER]->textureID = LoadTGA("Image//security.tga");
+	meshList[GEO_SHELF] = MeshBuilder::GenerateOBJ("Shelf", "Object//shelf.obj");
+	meshList[GEO_SHELF]->textureID = LoadTGA("Image//shelf.tga");
+
+
+	meshList[GEO_CACTUSJUICE] = MeshBuilder::GenerateOBJ("Cactus Juice", "Object//CactusJuice.obj");
+	meshList[GEO_CACTUSJUICE]->textureID = LoadTGA("Image//CactusJuice.tga");
+	meshList[GEO_CADBURY] = MeshBuilder::GenerateOBJ("Cadbury", "Object//Cadbury.obj");
+	meshList[GEO_CADBURY]->textureID = LoadTGA("Image//Cadbury.tga");
+	meshList[GEO_CANVEGE] = MeshBuilder::GenerateOBJ("Canned Vegetables", "Object//CanVege.obj");
+	meshList[GEO_CANVEGE]->textureID = LoadTGA("Image//CanVege.tga");
+	meshList[GEO_CATFOOD] = MeshBuilder::GenerateOBJ("Cat Food", "Object//CatFood.obj");
+	meshList[GEO_CATFOOD]->textureID = LoadTGA("Image//CatFood2.tga");
+	meshList[GEO_CEREAL] = MeshBuilder::GenerateOBJ("Cereal", "Object//Cereal.obj");
+	meshList[GEO_CEREAL]->textureID = LoadTGA("Image//Cereal.tga");
+	meshList[GEO_DETERGENT] = MeshBuilder::GenerateOBJ("Detergent", "Object//Detergent.obj");
+	meshList[GEO_DETERGENT]->textureID = LoadTGA("Image//Detergent.tga");
+	meshList[GEO_DUREX] = MeshBuilder::GenerateOBJ("dUREX", "Object//durex.obj");
+	meshList[GEO_DUREX]->textureID = LoadTGA("Image//durex.tga");
+	meshList[GEO_FERERRO] = MeshBuilder::GenerateOBJ("Fererro", "Object//Fererro.obj");
+	meshList[GEO_FERERRO]->textureID = LoadTGA("Image//Fererro.tga");
+	meshList[GEO_MACCHZ] = MeshBuilder::GenerateOBJ("Mac Chz", "Object//MacChz.obj");
+	meshList[GEO_MACCHZ]->textureID = LoadTGA("Image//MacChz.tga");
+	meshList[GEO_MILK] = MeshBuilder::GenerateOBJ("Milk", "Object//milk.obj");
+	meshList[GEO_MILK]->textureID = LoadTGA("Image//milk.tga");
+	meshList[GEO_MILOCAN] = MeshBuilder::GenerateOBJ("Milo", "Object//MiloCan.obj");
+	meshList[GEO_MILOCAN]->textureID = LoadTGA("Image//milocan.tga");
+	meshList[GEO_MOUNTAINDEW] = MeshBuilder::GenerateOBJ("Mountain Dew", "Object//Mountain Dew.obj");
+	meshList[GEO_MOUNTAINDEW]->textureID = LoadTGA("Image//Mountain Dew Txture.tga");
+	meshList[GEO_PIZZAHUT] = MeshBuilder::GenerateOBJ("Pizza", "Object//PizzaHut.obj");
+	meshList[GEO_PIZZAHUT]->textureID = LoadTGA("Image//pizzahut.tga");
+	meshList[GEO_POTATOCHIPS] = MeshBuilder::GenerateOBJ("Potato Chips", "Object//PotatoChips.obj");
+	meshList[GEO_POTATOCHIPS]->textureID = LoadTGA("Image//PotatoChips.tga");
+	meshList[GEO_SARDINES] = MeshBuilder::GenerateOBJ("Sardines", "Object//Sardines.obj");
+	meshList[GEO_SARDINES]->textureID = LoadTGA("Image//Sardines.tga");
+	meshList[GEO_SPAM] = MeshBuilder::GenerateOBJ("Spam", "Object//Spam.obj");
+	meshList[GEO_SPAM]->textureID = LoadTGA("Image//Spam.tga");
+
 	meshList[GEO_OUTSIDEFRONT] = MeshBuilder::GenerateQuad("sky front", Color (0, 0, 0), 1);
 	meshList[GEO_OUTSIDEFRONT]->textureID = LoadTGA("Image//front.tga");
 	meshList[GEO_OUTSIDEBACK] = MeshBuilder::GenerateQuad("sky back", Color (0, 0, 0), 1);
@@ -336,7 +381,7 @@ void StudioProject2::Render()
 	modelStack.PopMatrix();
 
 	//////////////////////////////////////////////////////////////////////////////////
-
+	 
 	modelStack.PushMatrix();
 	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
 	RenderMesh(meshList[GEO_LIGHTBALL], false, false);
@@ -347,6 +392,18 @@ void StudioProject2::Render()
 	modelStack.PushMatrix();
 	renderSkybox();
 	modelStack.PopMatrix();
+
+	/*modelStack.PushMatrix();
+	modelStack.Translate(-1980, -275, 800);
+	modelStack.Scale(40, 40, 40);
+	RenderMesh(meshList[GEO_CUSTOMERSERVICE], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(0, -275, 0);
+	modelStack.Scale(40, 40, 40);
+	RenderMesh(meshList[GEO_CASHIERTABLE], false, false);
+	modelStack.PopMatrix();*/
 
 	RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
 }
