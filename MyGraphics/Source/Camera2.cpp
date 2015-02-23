@@ -48,8 +48,8 @@ void Camera2::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 	pitch = 20;
 	yaw = 0;*/
 
-	Maximum.Set(1000,1000,1000);
-	Minimum.Set(-1000,-1000,-1000);
+	Maximum.Set(10000,10000,10000);
+	Minimum.Set(-10000,-10000,-10000);
 }
 
 /***********************************************************/
@@ -61,7 +61,7 @@ void Camera2::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 /***********************************************************/
 void Camera2::Update(double dt)
 {
-	static const float CAMERA_SPEED = 100.f;
+	static const float CAMERA_SPEED = 500.f;
 	if(Application::IsKeyPressed('W'))
 	{
 		Vector3 temptarget = target;

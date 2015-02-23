@@ -135,7 +135,7 @@ void StudioProject2::Init()
 	meshList[GEO_LEFT]->textureID = LoadTGA("Image//Left Wall.tga");
 	meshList[GEO_RIGHT] = MeshBuilder::GenerateOBJ("Supermarket Right", "Object//Right Wall.obj");
 	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//Right Wall.tga");
-	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("Ceiling", Color (0, 0, 0), 2500.f);
+	meshList[GEO_TOP] = MeshBuilder::GenerateOBJ("Ceiling", "Object//Ceiling.obj");
 	meshList[GEO_TOP]->textureID = LoadTGA("Image//Ceiling.tga");
 	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("Floor", Color (0, 0, 0), 2500.f);
 	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//Floor.tga");
@@ -144,8 +144,8 @@ void StudioProject2::Init()
 	meshList[GEO_CUSTOMERSERVICE]->textureID = LoadTGA("Image//customer service.tga");
 	meshList[GEO_CASHIERTABLE] = MeshBuilder::GenerateOBJ("Cashier Table", "Object//CashierTable.obj");
 	meshList[GEO_CASHIERTABLE]->textureID = LoadTGA("Image//cashreg.tga");
-	meshList[GEO_CASHIERTABLE] = MeshBuilder::GenerateOBJ("Cashier Table", "Object//CashierTable.obj");
-	meshList[GEO_CASHIERTABLE]->textureID = LoadTGA("Image//cashreg.tga");
+	meshList[GEO_CASHIERTABLE2] = MeshBuilder::GenerateOBJ("Cashier Table 2", "Object//CashierTableFLIPPED.obj");
+	meshList[GEO_CASHIERTABLE2]->textureID = LoadTGA("Image//cashreg.tga");
 	meshList[GEO_SECURITYCOUNTER] = MeshBuilder::GenerateOBJ("Security Counter", "Object//Security Counter.obj");
 	meshList[GEO_SECURITYCOUNTER]->textureID = LoadTGA("Image//security.tga");
 	meshList[GEO_SHELF] = MeshBuilder::GenerateOBJ("Shelf", "Object//shelf.obj");
@@ -396,22 +396,166 @@ void StudioProject2::Render()
 	modelStack.PopMatrix();
 
 	///////////////////////////////////////////////////////////////////////////////////
-	
-	modelStack.PushMatrix();
+	 
 	renderSkybox();
-	modelStack.PopMatrix();
 
-	/*modelStack.PushMatrix();
-	modelStack.Translate(-1980, -275, 800);
+	//Office/Cstomer service
+	modelStack.PushMatrix();
+	modelStack.Translate(-1980, -275, 400);
 	modelStack.Scale(40, 40, 40);
 	RenderMesh(meshList[GEO_CUSTOMERSERVICE], false, false);
 	modelStack.PopMatrix();
+	
+	//Cashiers
+	modelStack.PushMatrix();
+	modelStack.Translate(-1100, -275, 400);
+	modelStack.Scale(40, 40, 40);
+	RenderMesh(meshList[GEO_CASHIERTABLE2], false, false);
+	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, -275, 0);
+	modelStack.Translate(-600, -275, 400);
 	modelStack.Scale(40, 40, 40);
 	RenderMesh(meshList[GEO_CASHIERTABLE], false, false);
-	modelStack.PopMatrix();*/
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-150, -275, 400);
+	modelStack.Scale(40, 40, 40);
+	RenderMesh(meshList[GEO_CASHIERTABLE2], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(400, -275, 400);
+	modelStack.Scale(40, 40, 40);
+	RenderMesh(meshList[GEO_CASHIERTABLE], false, false);
+	modelStack.PopMatrix();
+
+	//Security Post
+	modelStack.PushMatrix();
+	modelStack.Translate(1100, -275, 400);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_SECURITYCOUNTER], false, false);
+	modelStack.PopMatrix();
+	
+	//Shelf on left wall
+	modelStack.PushMatrix();
+	modelStack.Translate(-2150, -275, -1600);
+	modelStack.Rotate(0, 0, 1, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_SHELF], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-2150, -275, -1210);
+	modelStack.Rotate(0, 0, 1, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_SHELF], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-2150, -275, -820);
+	modelStack.Rotate(0, 0, 1, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_SHELF], false, false);
+	modelStack.PopMatrix();
+
+	//Shelf on back wall
+	modelStack.PushMatrix();
+	modelStack.Translate(-90, -275, -1750);
+	modelStack.Rotate(-90, 0, 1, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_SHELF], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-400, -275, -1750);
+	modelStack.Rotate(-90, 0, 1, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_SHELF], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-790, -275, -1750);
+	modelStack.Rotate(-90, 0, 1, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_SHELF], false, false);
+	modelStack.PopMatrix();
+
+	//Shelf on right wall
+	modelStack.PushMatrix();
+	modelStack.Translate(2120, -275, -1600);
+	modelStack.Rotate(180, 0, 1, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_SHELF], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(2120, -275, -1210);
+	modelStack.Rotate(180, 0, 1, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_SHELF], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(2120, -275, -820);
+	modelStack.Rotate(180, 0, 1, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_SHELF], false, false);
+	modelStack.PopMatrix();
+
+	//Shelf opposite right wall
+	modelStack.PushMatrix();
+	modelStack.Translate(1250, -275, -1600);
+	modelStack.Rotate(0, 0, 1, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_SHELF], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(1250, -275, -1210);
+	modelStack.Rotate(0, 0, 1, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_SHELF], false, false);
+	modelStack.PopMatrix();
+	
+	//Pair of shelves near left wall
+	modelStack.PushMatrix();
+	modelStack.Translate(-1300, -275, -820);
+	modelStack.Rotate(180, 0, 1, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_SHELF], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-1160, -275, -820);
+	modelStack.Rotate(0, 0, 1, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_SHELF], false, false);
+	modelStack.PopMatrix();
+
+	//Pair of shelves in center
+	modelStack.PushMatrix();
+	modelStack.Translate(-400, -275, -820);
+	modelStack.Rotate(180, 0, 1, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_SHELF], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-260, -275, -820);
+	modelStack.Rotate(0, 0, 1, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_SHELF], false, false);
+	modelStack.PopMatrix();
+
+	//Lone shelf near right-center
+	modelStack.PushMatrix();
+	modelStack.Translate(600, -275, -700);
+	modelStack.Rotate(90, 0, 1, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_SHELF], false, false);
+	modelStack.PopMatrix();
 
 	RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
 }
@@ -443,15 +587,16 @@ void StudioProject2::renderSkybox()
 	RenderMesh(meshList[GEO_RIGHT], false, false);
 	modelStack.PopMatrix();
 
-	/*modelStack.PushMatrix();
-	modelStack.Translate(0, 0, 0);
-	modelStack.Rotate(90,1,0,0);
+	modelStack.PushMatrix();
+	modelStack.Translate(0, -275.5, 0);
+	modelStack.Scale(1.8, 1, 1.5);
+	modelStack.Rotate(-90,1,0,0);
 	RenderMesh(meshList[GEO_BOTTOM], false, false);
-	modelStack.PopMatrix();*/
+	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 500, 0);
-	modelStack.Rotate(90, 1, 0, 0);
+	modelStack.Translate(-35, 300, -20);
+	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_TOP], false, false);
 	modelStack.PopMatrix();
 
