@@ -1,4 +1,4 @@
-﻿Build started 23/2/2015 3:02:35 PM.
+﻿Build started 23/2/2015 4:28:24 PM.
      1>Project "C:\Users\keith\Documents\Studio-Project-2\MyGraphics\MyGraphics.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\MyGraphics.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -17,4 +17,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.12
+Time Elapsed 00:00:00.13
