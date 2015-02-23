@@ -54,6 +54,13 @@ public:
 		GEO_FRONT,
 		GEO_BACK,
 
+		GEO_CARPARK,
+		GEO_GREYBRICK,
+		GEO_GRASS,
+		GEO_ROAD,
+		GEO_ROAD2,
+		GEO_WHITE,
+
 		GEO_PLAYERHEAD,
 		GEO_PLAYERBODY,
 		GEO_PLAYERARMS,
@@ -145,6 +152,7 @@ private:
 
 	void renderSkybox();
 	void renderSupermarket();
+	void renderOutside();
 	void CollisionCheck();
 	void renderMetagross();
 

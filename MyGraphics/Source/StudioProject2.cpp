@@ -140,6 +140,18 @@ void StudioProject2::Init()
 	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("Floor", Color (0, 0, 0), 2500.f);
 	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//Floor.tga");
 
+	meshList[GEO_CARPARK] = MeshBuilder::GenerateQuad("carpark", Color (0, 0, 0), 1.f);
+	meshList[GEO_CARPARK]->textureID = LoadTGA("Image//carpark.tga");
+	meshList[GEO_GREYBRICK] = MeshBuilder::GenerateOBJ("Grey Brick", "Object//grey brick.obj");
+	meshList[GEO_GREYBRICK]->textureID = LoadTGA("Image//grey brick.tga");
+	meshList[GEO_GRASS] = MeshBuilder::GenerateQuadx20("grass", Color (0, 0, 0), 1.f);
+	meshList[GEO_GRASS]->textureID = LoadTGA("Image//grass.tga");
+	meshList[GEO_ROAD] = MeshBuilder::GenerateQuad("road", Color (0, 0, 0), 1.f);
+	meshList[GEO_ROAD]->textureID = LoadTGA("Image//road.tga");
+	meshList[GEO_ROAD2] = MeshBuilder::GenerateQuadx10("road", Color (0, 0, 0), 1.f);
+	meshList[GEO_ROAD2]->textureID = LoadTGA("Image//road.tga");
+	meshList[GEO_WHITE] = MeshBuilder::GenerateQuad("road", Color (1, 1, 1), 1.f);
+
 	meshList[GEO_CUSTOMERSERVICE] = MeshBuilder::GenerateOBJ("Customer Service Counter and Office", "Object//customer service.obj");
 	meshList[GEO_CUSTOMERSERVICE]->textureID = LoadTGA("Image//customer service.tga");
 	meshList[GEO_CASHIERTABLE] = MeshBuilder::GenerateOBJ("Cashier Table", "Object//CashierTable.obj");
@@ -159,7 +171,6 @@ void StudioProject2::Init()
 	meshList[GEO_PLAYERARMS]->textureID = LoadTGA("Image//skin_20150223054713114664.tga");
 	meshList[GEO_PLAYERLEGS] = MeshBuilder::GenerateOBJ("Player legs", "Object//playerLegs.obj");
 	meshList[GEO_PLAYERLEGS]->textureID = LoadTGA("Image//skin_20150223054713114664.tga");
-
 
 	meshList[GEO_CACTUSJUICE] = MeshBuilder::GenerateOBJ("Cactus Juice", "Object//CactusJuice.obj");
 	meshList[GEO_CACTUSJUICE]->textureID = LoadTGA("Image//CactusJuice.tga");
@@ -408,7 +419,7 @@ void StudioProject2::Render()
 	 
 	renderSkybox();
 	renderSupermarket();
-
+	renderOutside();
 	//HOOMAN
 	modelStack.PushMatrix();
 	modelStack.Scale(20, 20, 20);
@@ -681,6 +692,122 @@ void StudioProject2::renderSkybox()
 	modelStack.PopMatrix();
 }
 
+void StudioProject2::renderOutside()
+{
+	modelStack.PushMatrix();
+	modelStack.Translate(3500, -276, 1250);
+	modelStack.Rotate(90, 0, 1, 0);
+	modelStack.Rotate(-90, 1, 0, 0);
+	modelStack.Scale(2500, 2500, 1);
+	RenderMesh(meshList[GEO_CARPARK], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(3500, -277, -1250);
+	modelStack.Rotate(90, 0, 1, 0);
+	modelStack.Rotate(-90, 1, 0, 0);
+	modelStack.Scale(2500, 2500, 1);
+	RenderMesh(meshList[GEO_CARPARK], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-50, -277, -1150);
+	modelStack.Rotate(-90, 1, 0, 0);
+	modelStack.Scale(4600, 2700, 1);
+	RenderMesh(meshList[GEO_CARPARK], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-50, -277, 1150);
+	modelStack.Rotate(180, 0, 1, 0);
+	modelStack.Rotate(-90, 1, 0, 0);
+	modelStack.Scale(4600, 2700, 1);
+	RenderMesh(meshList[GEO_CARPARK], false, false);
+	modelStack.PopMatrix();
+
+	
+	for(int a=3710; a > -3710; a-=2076)
+	{
+	modelStack.PushMatrix();
+	modelStack.Translate(a, -277, 2550);
+	modelStack.Rotate(90, 0, 1, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_GREYBRICK], false, false);
+	modelStack.PopMatrix();
+	}
+
+	for(int a=3710; a > -3710; a-=2076)
+	{
+	modelStack.PushMatrix();
+	modelStack.Translate(a, -277, -2550);
+	modelStack.Rotate(90, 0, 1, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_GREYBRICK], false, false);
+	modelStack.PopMatrix();
+	}
+
+	for(int a=-2550; a < 3710; a+=5100)
+	{
+	modelStack.PushMatrix();
+	modelStack.Translate(-2300, -277, a);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_GREYBRICK], false, false);
+	modelStack.PopMatrix();
+	}
+
+	for(int a=-2500; a < 3710; a+=5000)
+	{
+	modelStack.PushMatrix();
+	modelStack.Translate(4800, -277, a);
+	modelStack.Scale(50, 50, 35);
+	RenderMesh(meshList[GEO_GREYBRICK], false, false);
+	modelStack.PopMatrix();
+	}
+	
+	modelStack.PushMatrix();
+	modelStack.Translate(4800, -277, 0);
+	modelStack.Scale(50, 50, 35);
+	RenderMesh(meshList[GEO_GREYBRICK], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(12250, -280, 0);
+	modelStack.Rotate(-90, 1, 0, 0);
+	modelStack.Scale(15000, 15000, 1);
+	RenderMesh(meshList[GEO_GRASS], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(5495, -273, 1250);
+	modelStack.Rotate(-90, 1, 0, 0);
+	modelStack.Scale(1500, 1050, 1);
+	RenderMesh(meshList[GEO_ROAD], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(5495, -277, -1250);
+	modelStack.Rotate(-90, 1, 0, 0);
+	modelStack.Scale(1500, 1050, 1);
+	RenderMesh(meshList[GEO_ROAD], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(7240, -277, 0);
+	modelStack.Rotate(-90, 1, 0, 0);
+	modelStack.Scale(2000, 15000, 1);
+	RenderMesh(meshList[GEO_ROAD2], false, false);
+	modelStack.PopMatrix();
+
+	for(int a = -7000; a < 7000; a+=1400)
+	{
+	modelStack.PushMatrix();
+	modelStack.Translate(7240, -275, a);
+	modelStack.Rotate(-90, 1, 0, 0);
+	modelStack.Scale(200, 700, 1);
+	RenderMesh(meshList[GEO_WHITE], false, false);
+	modelStack.PopMatrix();
+	}
+}
 void StudioProject2::RenderText(Mesh* mesh, std::string text, Color color)
 {
 	if(!mesh || mesh->textureID <= 0) //Proper error check
