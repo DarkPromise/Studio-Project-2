@@ -54,6 +54,11 @@ public:
 		GEO_FRONT,
 		GEO_BACK,
 
+		GEO_PLAYERHEAD,
+		GEO_PLAYERBODY,
+		GEO_PLAYERARMS,
+		GEO_PLAYERLEGS,
+
 		GEO_CUSTOMERSERVICE,
 		GEO_CASHIERTABLE,
 		GEO_CASHIERTABLE2,
@@ -139,6 +144,7 @@ private:
 	double matrixSpeed;
 
 	void renderSkybox();
+	void renderSupermarket();
 	void CollisionCheck();
 	void renderMetagross();
 

@@ -151,6 +151,15 @@ void StudioProject2::Init()
 	meshList[GEO_SHELF] = MeshBuilder::GenerateOBJ("Shelf", "Object//shelf.obj");
 	meshList[GEO_SHELF]->textureID = LoadTGA("Image//shelf.tga");
 
+	meshList[GEO_PLAYERHEAD] = MeshBuilder::GenerateOBJ("Player head", "Object//playerHead.obj");
+	meshList[GEO_PLAYERHEAD]->textureID = LoadTGA("Image//skin_20150223054713114664.tga");
+	meshList[GEO_PLAYERBODY] = MeshBuilder::GenerateOBJ("Player body", "Object//playerBody.obj");
+	meshList[GEO_PLAYERBODY]->textureID = LoadTGA("Image//skin_20150223054713114664.tga");
+	meshList[GEO_PLAYERARMS] = MeshBuilder::GenerateOBJ("Player arms", "Object//playerArms.obj");
+	meshList[GEO_PLAYERARMS]->textureID = LoadTGA("Image//skin_20150223054713114664.tga");
+	meshList[GEO_PLAYERLEGS] = MeshBuilder::GenerateOBJ("Player legs", "Object//playerLegs.obj");
+	meshList[GEO_PLAYERLEGS]->textureID = LoadTGA("Image//skin_20150223054713114664.tga");
+
 
 	meshList[GEO_CACTUSJUICE] = MeshBuilder::GenerateOBJ("Cactus Juice", "Object//CactusJuice.obj");
 	meshList[GEO_CACTUSJUICE]->textureID = LoadTGA("Image//CactusJuice.tga");
@@ -398,7 +407,35 @@ void StudioProject2::Render()
 	///////////////////////////////////////////////////////////////////////////////////
 	 
 	renderSkybox();
+	renderSupermarket();
 
+	//HOOMAN
+	modelStack.PushMatrix();
+	modelStack.Scale(20, 20, 20);
+	modelStack.Translate(0, -13.75, 0);
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_PLAYERHEAD], false, false);
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_PLAYERBODY], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_PLAYERARMS], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_PLAYERLEGS], false, false);
+	modelStack.PopMatrix();
+	
+	modelStack.PopMatrix();	
+
+	RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
+}
+
+void StudioProject2::renderSupermarket()
+{
 	//Office/Cstomer service
 	modelStack.PushMatrix();
 	modelStack.Translate(-1980, -275, 400);
@@ -528,7 +565,7 @@ void StudioProject2::Render()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-1160, -275, -820);
+	modelStack.Translate(-1110, -275, -820);
 	modelStack.Rotate(0, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);
@@ -543,7 +580,7 @@ void StudioProject2::Render()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-260, -275, -820);
+	modelStack.Translate(-210, -275, -820);
 	modelStack.Rotate(0, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);
@@ -556,8 +593,6 @@ void StudioProject2::Render()
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);
 	modelStack.PopMatrix();
-
-	RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
 }
 
 void StudioProject2::renderSkybox()
