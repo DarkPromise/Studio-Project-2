@@ -1,6 +1,6 @@
 # This file uses centimeters as units for non-parametric coordinates.
 
-mtllib Side 1 Wall.mtl
+mtllib Left Wall.mtl
 g default
 v -93.428704 -0.000000 -7.773733
 v -92.955093 -0.000000 -7.773733
