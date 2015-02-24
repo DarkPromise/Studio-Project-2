@@ -125,6 +125,7 @@ void StudioProject2::Init()
 	boxPtr->Max = shelfBounds2Max;
 	boxPtr->Min = shelfBounds2Min;
 	box.push_back(boxPtr);
+
 	/*******************/
 
 	// Init VBO here

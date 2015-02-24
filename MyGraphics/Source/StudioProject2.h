@@ -140,6 +140,8 @@ public:
 		GEO_SHELFBOUNDS3,
 		GEO_SHELFBOUNDS4,
 		GEO_SHELFBOUNDS5,
+
+		GEO_DOORBOUNDS,
 		/************************************************/
 
 		GEO_TEXT,

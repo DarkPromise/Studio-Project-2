@@ -9,7 +9,7 @@ typedef struct BoundingBox
 {
 	BoundingBox() //Inside = BoundingBox for indoors
 		: isInside(true),
-	isObj(false)
+	isObj(false),
 	canPhase(false)
 	{
 		//Default Constructor With Nothing :D
