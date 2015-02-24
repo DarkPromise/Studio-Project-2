@@ -44,7 +44,7 @@ void StudioProject2::Init()
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
+
 	glEnable(GL_CULL_FACE);
 
 	//Load vertex and fragment shaders
@@ -331,7 +331,7 @@ void StudioProject2::Init()
 void StudioProject2::RenderMesh(Mesh *mesh, bool enableLight, bool transparent)
 {
 	Mtx44 MVP, modelView, modelView_inverse_transpose;
-	
+
 	MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top();
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 	if(enableLight)
@@ -481,7 +481,7 @@ void StudioProject2::Update(double dt)
 			Customers++;
 		}
 	}
-	
+
 	for ( int i = 0; i < Customers; i++)
 	{
 		if ( CustomerState[i] == 0 )
@@ -542,7 +542,7 @@ void StudioProject2::Update(double dt)
 		{
 			//to trolley from gates
 			CustomerState[i] = 6;
-			
+
 		}
 		else if ( CustomerState[i] == 6 )
 		{
@@ -595,7 +595,7 @@ void StudioProject2::Update(double dt)
 						CustomerState[i] = 11;
 				}
 			}
-			
+
 		}
 		else if ( CustomerState[i] == 10 )
 		{
@@ -652,7 +652,7 @@ void StudioProject2::Update(double dt)
 				{
 					int GoWhere = rand() % 2;
 					if ( GoWhere == 0 )
-					CustomerState[i] = 13;
+						CustomerState[i] = 13;
 					else
 						CustomerState[i] = 14;
 				}
@@ -667,7 +667,7 @@ void StudioProject2::Update(double dt)
 			else
 			{
 				CustomerRotation[i] = -90;
-				
+
 				CustomerState[i] = 16;
 			}
 		}
@@ -827,8 +827,8 @@ void StudioProject2::Render()
 	viewStack.LoadIdentity();
 	viewStack.LookAt
 		(camera.position.x, camera.position.y, camera.position.z,
-		 camera.target.x, camera.target.y, camera.target.z,
-		 camera.up.x, camera.up.y, camera.up.z);
+		camera.target.x, camera.target.y, camera.target.z,
+		camera.up.x, camera.up.y, camera.up.z);
 
 	modelStack.LoadIdentity();
 
@@ -837,7 +837,7 @@ void StudioProject2::Render()
 	glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
 
 	MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top(); // Remember, matrix multiplication is the other way around
-	
+
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]); //update the shader with new MVP
 
 	//RenderMesh(meshList[GEO_AXES], false, false);
@@ -847,14 +847,14 @@ void StudioProject2::Render()
 	renderBounds();
 
 	//////////////////////////////////////////////////////////////////////////////////
-	 
+
 	modelStack.PushMatrix();
 	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
 	RenderMesh(meshList[GEO_LIGHTBALL], false, false);
 	modelStack.PopMatrix();
 
 	///////////////////////////////////////////////////////////////////////////////////
-	 
+
 	renderSkybox();
 	renderSupermarket();
 	renderOutside();
@@ -911,7 +911,7 @@ void StudioProject2::Render()
 	modelStack.Scale(100, 50, 50.5);
 	RenderMesh(meshList[GEO_GLASSDOOR], false, false);
 	modelStack.PopMatrix();
-	
+
 	//render glass door
 	modelStack.PushMatrix();
 	modelStack.Translate(2235, -47, door2Pos);
@@ -987,7 +987,7 @@ void StudioProject2::renderPlayer()
 	modelStack.PushMatrix();
 	RenderMesh(meshList[GEO_PLAYERRIGHTLEG], false, false);
 	modelStack.PopMatrix();
-	
+
 	modelStack.PopMatrix();	
 }
 
@@ -1019,7 +1019,7 @@ void StudioProject2::renderCustomer()
 	modelStack.PushMatrix();
 	RenderMesh(meshList[GEO_CUSTOMERRIGHTLEG], false, false);
 	modelStack.PopMatrix();
-	
+
 	modelStack.PopMatrix();	
 }
 
@@ -1052,13 +1052,13 @@ void StudioProject2::renderCashier()
 	modelStack.PushMatrix();
 	RenderMesh(meshList[GEO_CASHIERRIGHTLEG], false, false);
 	modelStack.PopMatrix();
-	
+
 	modelStack.PopMatrix();	
 }
 
 void StudioProject2::renderSecurityGuard()
 {
-	
+
 	modelStack.PushMatrix();
 	modelStack.Translate(0, SGTranslate, 0);
 	modelStack.Scale(20, 20, 20);
@@ -1100,7 +1100,7 @@ void StudioProject2::renderSecurityGuard()
 	}
 	RenderMesh(meshList[GEO_SGRIGHTLEG], false, false);
 	modelStack.PopMatrix();
-	
+
 	modelStack.PopMatrix();
 }
 
@@ -1112,7 +1112,7 @@ void StudioProject2::renderSupermarket()
 	modelStack.Scale(40, 40, 40);
 	RenderMesh(meshList[GEO_CUSTOMERSERVICE], false, false);
 	modelStack.PopMatrix();
-	
+
 	//Cashiers
 	modelStack.PushMatrix();
 	modelStack.Translate(-1100, -275, 400);
@@ -1144,7 +1144,7 @@ void StudioProject2::renderSupermarket()
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SECURITYCOUNTER], false, false);
 	modelStack.PopMatrix();
-	
+
 	//Shelf on left wall
 	modelStack.PushMatrix();
 	modelStack.Translate(-2112.7, -275, -1579.5);
@@ -1225,7 +1225,7 @@ void StudioProject2::renderSupermarket()
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);
 	modelStack.PopMatrix();
-	
+
 	//Pair of shelves near left wall
 	modelStack.PushMatrix();
 	modelStack.Translate(-1300, -275, -820);
@@ -1270,7 +1270,7 @@ void StudioProject2::renderItems()
 	//Cactus Juice
 	for(float k = 50;k >= -250;k = k-50)
 	{
-		for(float i = -2050;i > -2210;i = i - 40)
+		for(float i = -2000;i > -2160;i = i - 40)
 		{
 			modelStack.PushMatrix();
 			modelStack.Translate(i, k, -800);
@@ -1389,7 +1389,7 @@ void StudioProject2::renderItems()
 	//Can Vege
 	for(float k = 32; k > -268; k = k - 50)
 	{
-		for(float i = -2030; i > -2190; i = i - 40)
+		for(float i = -2000; i > -2160; i = i - 40)
 		{
 			modelStack.PushMatrix();
 			modelStack.Translate(i, k, -1380);
@@ -1596,6 +1596,49 @@ void StudioProject2::renderItems()
 			modelStack.PopMatrix();
 		}
 	}
+
+	//Detergent
+	for (int k = 35; k > - 215; k = k -50)
+	{
+		for(int i = -1640; i > -1790;i = i - 50)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(-1200, k, i);
+			modelStack.Scale(20,20,20);
+			RenderMesh(meshList[GEO_DETERGENT], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-1120, k, i);
+			modelStack.Scale(20,20,20);
+			RenderMesh(meshList[GEO_DETERGENT], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-1040, k, i);
+			modelStack.Scale(20,20,20);
+			RenderMesh(meshList[GEO_DETERGENT], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-960, k, i);
+			modelStack.Scale(20,20,20);
+			RenderMesh(meshList[GEO_DETERGENT], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-880, k, i);
+			modelStack.Scale(20,20,20);
+			RenderMesh(meshList[GEO_DETERGENT], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-800, k, i);
+			modelStack.Scale(20,20,20);
+			RenderMesh(meshList[GEO_DETERGENT], false, false);
+			modelStack.PopMatrix();
+		}
+	}
 }
 
 void StudioProject2::renderSkybox()
@@ -1646,14 +1689,14 @@ void StudioProject2::renderSkybox()
 	modelStack.Scale(30000, 30000, 1);
 	RenderMesh(meshList[GEO_OUTSIDEFRONT], false, false);
 	modelStack.PopMatrix();
-	
+
 	modelStack.PushMatrix();
 	modelStack.Translate(-14970, 0, 0);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Scale(30000, 30000, 1);
 	RenderMesh(meshList[GEO_OUTSIDERIGHT], false, false);
 	modelStack.PopMatrix();
-	
+
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 0, -14970);
 	modelStack.Scale(30000, 30000, 1);
@@ -1717,45 +1760,45 @@ void StudioProject2::renderOutside()
 	RenderMesh(meshList[GEO_CARPARK], false, false);
 	modelStack.PopMatrix();
 
-	
+
 	for(float a=3710; a > -3710; a-=2076)
 	{
-	modelStack.PushMatrix();
-	modelStack.Translate(a, -277, 2550);
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Scale(50, 50, 50);
-	RenderMesh(meshList[GEO_GREYBRICK], false, false);
-	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(a, -277, 2550);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(50, 50, 50);
+		RenderMesh(meshList[GEO_GREYBRICK], false, false);
+		modelStack.PopMatrix();
 	}
 
 	for(float a=3710; a > -3710; a-=2076)
 	{
-	modelStack.PushMatrix();
-	modelStack.Translate(a, -277, -2550);
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Scale(50, 50, 50);
-	RenderMesh(meshList[GEO_GREYBRICK], false, false);
-	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(a, -277, -2550);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(50, 50, 50);
+		RenderMesh(meshList[GEO_GREYBRICK], false, false);
+		modelStack.PopMatrix();
 	}
 
 	for(float a=-2550; a < 3710; a+=5100)
 	{
-	modelStack.PushMatrix();
-	modelStack.Translate(-2300, -277, a);
-	modelStack.Scale(50, 50, 50);
-	RenderMesh(meshList[GEO_GREYBRICK], false, false);
-	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(-2300, -277, a);
+		modelStack.Scale(50, 50, 50);
+		RenderMesh(meshList[GEO_GREYBRICK], false, false);
+		modelStack.PopMatrix();
 	}
 
 	for(float a=-2500; a < 3710; a+=5000)
 	{
-	modelStack.PushMatrix();
-	modelStack.Translate(4800, -277, a);
-	modelStack.Scale(50, 50, 35);
-	RenderMesh(meshList[GEO_GREYBRICK], false, false);
-	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(4800, -277, a);
+		modelStack.Scale(50, 50, 35);
+		RenderMesh(meshList[GEO_GREYBRICK], false, false);
+		modelStack.PopMatrix();
 	}
-	
+
 	modelStack.PushMatrix();
 	modelStack.Translate(4800, -277, 0);
 	modelStack.Scale(50, 50, 35);
@@ -1792,12 +1835,12 @@ void StudioProject2::renderOutside()
 
 	for(float a = -7000; a < 7000; a+=1400)
 	{
-	modelStack.PushMatrix();
-	modelStack.Translate(7240, -275, a);
-	modelStack.Rotate(-90, 1, 0, 0);
-	modelStack.Scale(200, 700, 1);
-	RenderMesh(meshList[GEO_WHITE], false, false);
-	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(7240, -275, a);
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(200, 700, 1);
+		RenderMesh(meshList[GEO_WHITE], false, false);
+		modelStack.PopMatrix();
 	}
 
 	//modelStack.PushMatrix();
@@ -1812,7 +1855,7 @@ void StudioProject2::RenderText(Mesh* mesh, std::string text, Color color)
 {
 	if(!mesh || mesh->textureID <= 0) //Proper error check
 		return;
-	
+
 	glDisable(GL_DEPTH_TEST);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 1);
 	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r);
@@ -1827,7 +1870,7 @@ void StudioProject2::RenderText(Mesh* mesh, std::string text, Color color)
 		characterSpacing.SetToTranslation(i * 0.5f, 0, 0); //1.0f is the spacing of each character, you may change this value
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
-	
+
 		mesh->Render((unsigned)text[i] * 6, 6);
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -1839,7 +1882,7 @@ void StudioProject2::RenderTextOnScreen(Mesh* mesh, std::string text, Color colo
 {
 	if(!mesh || mesh->textureID <= 0) //Proper error check
 		return;
-	
+
 	glDisable(GL_DEPTH_TEST);
 	Mtx44 ortho;
 	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI
@@ -1865,7 +1908,7 @@ void StudioProject2::RenderTextOnScreen(Mesh* mesh, std::string text, Color colo
 		characterSpacing.SetToTranslation(0.5f + i * 0.5f, 0.5f, 0); //1.0f is the spacing of each character, you may change this value
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
-	
+
 		mesh->Render((unsigned)text[i] * 6, 6);
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
