@@ -22,6 +22,8 @@ using std::endl;
 using std::vector;
 using std::iterator;
 
+bool removeItems = false;
+
 //Test
 double FPS;
 std::string textPS;
@@ -473,7 +475,6 @@ void StudioProject2::Update(double dt)
 		playerPos.x -= 5.f;
 		cout << "Player Pos : " << playerPos << endl;
 	}
-
 	if ( Customers < 10 )
 	{
 		if ( rand() % 11 == 10 )
@@ -1268,7 +1269,26 @@ void StudioProject2::renderSupermarket()
 void StudioProject2::renderItems()
 {
 	//Cactus Juice
-	for(float k = 50;k >= -250;k = k-50)
+
+	if((Application::IsKeyPressed('N')) && (toggleDelay > 0.2))
+	{
+		if(removeItems)
+		{
+			removeItems = false;
+			toggleDelay = 0.0;
+			cout << "Putting Back" << endl;
+		}
+		else
+		{
+
+			removeItems = true;
+			toggleDelay = 0.0;
+			cout << "Removing" << endl;
+		}
+	}
+	if(!removeItems)
+	{
+		for(float k = 50;k >= -250;k = k-50)
 	{
 		for(float i = -2000;i > -2160;i = i - 40)
 		{
@@ -1335,6 +1355,7 @@ void StudioProject2::renderItems()
 			RenderMesh(meshList[GEO_CACTUSJUICE], false, false);
 			modelStack.PopMatrix();
 		}
+	}
 	}
 
 	//Cadbury
