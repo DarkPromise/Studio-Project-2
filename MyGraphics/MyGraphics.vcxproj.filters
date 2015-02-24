@@ -84,6 +84,9 @@
     <ClInclude Include="Source\Camera3.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Source\define.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\Text.fragmentshader">

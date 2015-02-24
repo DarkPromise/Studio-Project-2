@@ -507,15 +507,15 @@ void StudioProject2::Render()
 
 	//render glass door
 	modelStack.PushMatrix();
-	modelStack.Translate(2240, -50, 1025);
-	modelStack.Scale(50, 52, 50.5);
+	modelStack.Translate(2253, -47, 1025);
+	modelStack.Scale(50, 50, 50.5);
 	RenderMesh(meshList[GEO_GLASSDOOR], false, false);
 	modelStack.PopMatrix();
 	
 	//render glass door
 	modelStack.PushMatrix();
-	modelStack.Translate(2240, -50, 1365);
-	modelStack.Scale(50, 52, 50.5);
+	modelStack.Translate(2253, -47, 1365);
+	modelStack.Scale(50, 50, 50.5);
 	RenderMesh(meshList[GEO_GLASSDOOR], false, false);
 	modelStack.PopMatrix();
 
