@@ -1170,21 +1170,21 @@ void StudioProject2::renderSupermarket()
 
 	//Shelf on back wall
 	modelStack.PushMatrix();
-	modelStack.Translate(-3.8, -275, -1750);
+	modelStack.Translate(-3.8, -275, -1736.3);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-496.9, -275, -1750);
+	modelStack.Translate(-496.9, -275, -1736.3);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-990, -275, -1750);
+	modelStack.Translate(-990, -275, -1736.3);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);
