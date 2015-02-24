@@ -14,6 +14,7 @@
 #include "Material.h"
 #include "Utility.h"
 #include "LoadTGA.h"
+#include "define.h"
 
 using std::setprecision;
 using std::cout;
@@ -146,9 +147,13 @@ void StudioProject2::Init()
 	meshList[GEO_TOP]->textureID = LoadTGA("Image//Ceiling.tga");
 	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("Floor", Color (0, 0, 0), 2500.f);
 	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//Floor.tga");
+	meshList[GEO_GLASSDOOR] = MeshBuilder::GenerateOBJ("glass door", "Object//glass door.obj");
+	meshList[GEO_GLASSDOOR]->textureID = LoadTGA("Image//glass door.tga");
 
 	meshList[GEO_CARPARK] = MeshBuilder::GenerateQuad("carpark", Color (0, 0, 0), 1.f);
 	meshList[GEO_CARPARK]->textureID = LoadTGA("Image//carpark.tga");
+	meshList[GEO_CAR] = MeshBuilder::GenerateOBJ("car", "Object//car.obj");
+	meshList[GEO_CAR]->textureID = LoadTGA("Image//car.tga");
 	meshList[GEO_GREYBRICK] = MeshBuilder::GenerateOBJ("Grey Brick", "Object//grey brick.obj");
 	meshList[GEO_GREYBRICK]->textureID = LoadTGA("Image//grey brick.tga");
 	meshList[GEO_GRASS] = MeshBuilder::GenerateQuadx20("grass", Color (0, 0, 0), 1.f);
@@ -499,6 +504,20 @@ void StudioProject2::Render()
 	renderSecurityGuard();
 	modelStack.PopMatrix();
 
+	//render glass door
+	modelStack.PushMatrix();
+	modelStack.Translate(2240, -50, 1025);
+	modelStack.Scale(50, 52, 50.5);
+	RenderMesh(meshList[GEO_GLASSDOOR], false, false);
+	modelStack.PopMatrix();
+	
+	//render glass door
+	modelStack.PushMatrix();
+	modelStack.Translate(2240, -50, 1365);
+	modelStack.Scale(50, 52, 50.5);
+	RenderMesh(meshList[GEO_GLASSDOOR], false, false);
+	modelStack.PopMatrix();
+
 	RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
 }
 
@@ -613,7 +632,7 @@ void StudioProject2::renderSecurityGuard()
 	RenderMesh(meshList[GEO_SGRIGHTLEG], false, false);
 	modelStack.PopMatrix();
 	
-	modelStack.PopMatrix();	
+	modelStack.PopMatrix();
 }
 
 void StudioProject2::renderSupermarket()
@@ -897,7 +916,7 @@ void StudioProject2::renderOutside()
 	modelStack.PopMatrix();
 
 	
-	for(int a=3710; a > -3710; a-=2076)
+	for(float a=3710; a > -3710; a-=2076)
 	{
 	modelStack.PushMatrix();
 	modelStack.Translate(a, -277, 2550);
@@ -907,7 +926,7 @@ void StudioProject2::renderOutside()
 	modelStack.PopMatrix();
 	}
 
-	for(int a=3710; a > -3710; a-=2076)
+	for(float a=3710; a > -3710; a-=2076)
 	{
 	modelStack.PushMatrix();
 	modelStack.Translate(a, -277, -2550);
@@ -917,7 +936,7 @@ void StudioProject2::renderOutside()
 	modelStack.PopMatrix();
 	}
 
-	for(int a=-2550; a < 3710; a+=5100)
+	for(float a=-2550; a < 3710; a+=5100)
 	{
 	modelStack.PushMatrix();
 	modelStack.Translate(-2300, -277, a);
@@ -926,7 +945,7 @@ void StudioProject2::renderOutside()
 	modelStack.PopMatrix();
 	}
 
-	for(int a=-2500; a < 3710; a+=5000)
+	for(float a=-2500; a < 3710; a+=5000)
 	{
 	modelStack.PushMatrix();
 	modelStack.Translate(4800, -277, a);
@@ -969,7 +988,7 @@ void StudioProject2::renderOutside()
 	RenderMesh(meshList[GEO_ROAD2], false, false);
 	modelStack.PopMatrix();
 
-	for(int a = -7000; a < 7000; a+=1400)
+	for(float a = -7000; a < 7000; a+=1400)
 	{
 	modelStack.PushMatrix();
 	modelStack.Translate(7240, -275, a);
@@ -978,6 +997,13 @@ void StudioProject2::renderOutside()
 	RenderMesh(meshList[GEO_WHITE], false, false);
 	modelStack.PopMatrix();
 	}
+
+	modelStack.PushMatrix();
+	//modelStack.Translate(7240, -275, a);
+	//modelStack.Rotate(-90, 1, 0, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_CAR], false, false);
+	modelStack.PopMatrix();
 }
 void StudioProject2::RenderText(Mesh* mesh, std::string text, Color color)
 {

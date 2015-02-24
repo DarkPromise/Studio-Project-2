@@ -1,0 +1,2 @@
+///////////glass door////////////
+bool open = false;
