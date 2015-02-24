@@ -100,9 +100,12 @@ void StudioProject2::Init()
 	BOUNDS INIT GO HERE
 	********************/
 	boxPtr = new BoundingBox();
-	//test
-	newBox.Max.Set(-50,-50,-50);
-	newBox.Min.Set(50,50,50);
+	boxPtr->Max.Set(-2202,-273,-1826);
+	boxPtr->Min.Set(2202,273,1826);
+	box.push_back(boxPtr);
+
+	//newBox.Max.Set(-2202,-273,-1826); //Inside Retaurant Bounds
+	//newBox.Min.Set(2202,273,1826);
 
 	/*******************/
 
@@ -219,8 +222,13 @@ void StudioProject2::Init()
 	meshList[GEO_OUTSIDEBOTTOM]->textureID = LoadTGA("Image//bottom.tga");
 
 	meshList[GEO_BOUNDHELPER] = MeshBuilder::GenerateSphere("BoundHelper", Color(1,1,1), 10, 18, 5.f);
-	
-	meshList[GEO_TESTBOUNDS] = MeshBuilder::GenerateBoundingBox("TestBox", newBox.Max, newBox.Min);
+
+	for(int i = 0; i < box.size();i++)
+	{
+		meshList[GEO_TESTBOUNDS] = MeshBuilder::GenerateBoundingBox("TestBox2", box[i]->Max, box[i]->Min);
+	}
+
+	//meshList[GEO_TESTBOUNDS] = MeshBuilder::GenerateBoundingBox("TestBox", newBox.Max, newBox.Min);
 
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1,1,1), 10, 10, 50);
 }
@@ -336,28 +344,28 @@ void StudioProject2::Update(double dt)
 		glUniform1f(m_parameters[U_LIGHT0_KQ], 0.f);
 	}
 
-	if(Application::IsKeyPressed('T') && (playerPos.z < newBox.Min.z))
+	if(Application::IsKeyPressed('T') && (CollisionCheck())) //(playerPos.z < newBox.Min.z))
 	{
 		//playerPos += playerDir * moveSpeed;
-		playerPos.z += 1.f;
+		playerPos.z += 5.f;
 		cout << "Player Pos : " << playerPos << endl;
 	}
-	if(Application::IsKeyPressed('G') && (playerPos.z > newBox.Max.z))
+	if(Application::IsKeyPressed('G') && (CollisionCheck()))//(playerPos.z > newBox.Max.z))
 	{
 		//playerPos -= playerDir * moveSpeed;
-		playerPos.z -= 1.f;
+		playerPos.z -= 5.f;
 		cout << "Player Pos : " << playerPos << endl;
 	}
-	if(Application::IsKeyPressed('F') && (playerPos.x < newBox.Min.x))
+	if(Application::IsKeyPressed('F') && (CollisionCheck()))//(playerPos.x < newBox.Min.x))
 	{
 		//rotateAngle += rotateSpeed * dt;
-		playerPos.x += 1.f;
+		playerPos.x += 5.f;
 		cout << "Player Pos : " << playerPos << endl;
 	}
-	if(Application::IsKeyPressed('H') && (playerPos.x > newBox.Max.x))
+	if(Application::IsKeyPressed('H') && (CollisionCheck()))//(playerPos.x > newBox.Max.x))
 	{
 		//rotateAngle -= rotateSpeed * dt;
-		playerPos.x -= 1.f;
+		playerPos.x -= 5.f;
 		cout << "Player Pos : " << playerPos << endl;
 	}
 
@@ -420,11 +428,19 @@ void StudioProject2::Render()
 	renderSkybox();
 	renderSupermarket();
 	renderOutside();
-	//HOOMAN
+
+	modelStack.PushMatrix();
+	modelStack.Translate(playerPos.x, playerPos.y, playerPos.z);
+	//renderPlayer();
+	modelStack.PopMatrix();
+
+	RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
+}
+
+void StudioProject2::renderPlayer()
+{
 	modelStack.PushMatrix();
 	modelStack.Scale(20, 20, 20);
-	modelStack.Translate(0, -13.75, 0);
-
 	modelStack.PushMatrix();
 	RenderMesh(meshList[GEO_PLAYERHEAD], false, false);
 
@@ -440,9 +456,7 @@ void StudioProject2::Render()
 	RenderMesh(meshList[GEO_PLAYERLEGS], false, false);
 	modelStack.PopMatrix();
 	
-	modelStack.PopMatrix();	
-
-	RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
+	modelStack.PopMatrix();
 }
 
 void StudioProject2::renderSupermarket()
@@ -878,9 +892,9 @@ void StudioProject2::RenderTextOnScreen(Mesh* mesh, std::string text, Color colo
 	glEnable(GL_DEPTH_TEST);
 }
 
-void StudioProject2::CollisionCheck()
+bool StudioProject2::CollisionCheck()
 {
-	//CollisionChecker
+	return true;
 }
 
 void StudioProject2::Exit()

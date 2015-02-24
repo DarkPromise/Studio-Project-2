@@ -153,8 +153,8 @@ private:
 	void renderSkybox();
 	void renderSupermarket();
 	void renderOutside();
-	void CollisionCheck();
-	void renderMetagross();
+	bool CollisionCheck();
+	void renderPlayer();
 
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
