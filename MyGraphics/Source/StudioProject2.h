@@ -203,6 +203,8 @@ private:
 	void renderOutside();
 	void renderBounds();
 
+	void renderItems();
+
 	bool CollisionCheck();
 
 	void RenderText(Mesh* mesh, std::string text, Color color);
