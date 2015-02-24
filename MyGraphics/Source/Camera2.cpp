@@ -66,7 +66,7 @@ void Camera2::Update(double dt)
 	{
 		Vector3 temptarget = target;
 		Vector3 tempposition = position;
-		float yaw = (float)(CAMERA_SPEED * dt);
+		float yaw = (float)(CAMERA_SPEED * 2.5 * dt);
 		view = (target - position).Normalized();
 		position += (view * yaw);
 		target += (view * yaw);
@@ -84,7 +84,7 @@ void Camera2::Update(double dt)
 	{
 		Vector3 temptarget = target;
 		Vector3 tempposition = position;
-		float yaw = (float)(-CAMERA_SPEED * dt);
+		float yaw = (float)(-CAMERA_SPEED * 2.5 * dt);
 		view = (target - position).Normalized();
 		position += (view * yaw);
 		target += (view * yaw);
@@ -103,7 +103,7 @@ void Camera2::Update(double dt)
 	{
 		Vector3 temptarget = target;
 		Vector3 tempposition = position;
-		float yaw = (float)(-CAMERA_SPEED * dt);
+		float yaw = (float)(-CAMERA_SPEED * 2.5 * dt);
 		view = (target - position).Normalized();
 		position += (view.Cross(up) * yaw);
 		target += (view.Cross(up) * yaw);
@@ -122,7 +122,7 @@ void Camera2::Update(double dt)
 	{
 		Vector3 temptarget = target;
 		Vector3 tempposition = position;
-		float yaw = (float)(CAMERA_SPEED * dt);
+		float yaw = (float)(CAMERA_SPEED * 2.5 * dt);
 		view = (target - position).Normalized();
 		position += (view.Cross(up) * yaw);
 		target += (view.Cross(up) * yaw);

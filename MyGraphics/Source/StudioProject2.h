@@ -8,6 +8,9 @@
 #include "MatrixStack.h"
 #include "Light.h"
 
+#define insideBounds Vector3(2202,274,1826)
+#define outsideBounds Vector3(2252,274,1876)
+
 class StudioProject2 : public Scene
 {
 public:
@@ -122,7 +125,14 @@ public:
 		GEO_TRANSPARENT,
 
 		GEO_TEST,
-		GEO_TESTBOUNDS,
+
+		/*************************************************
+		ANYTHING UNDER THIS SECTION IS FOR BOUNDS USE ONLY
+		*************************************************/
+		GEO_INSIDEMARKETBOUNDS,
+		GEO_OUTSIDEMARKETBOUNDS,
+		GEO_SHELFBOUNDS,
+		/************************************************/
 
 		GEO_TEXT,
 
@@ -202,11 +212,6 @@ private:
 	BOUNDS CODE GO HERE
 	****************************************/
 	BoundingBox boundingBox;
-
-	Vector3 MarketBoundsMin1;
-	Vector3 MarketBoundsMax1;
-	Vector3 MarketBoundsMin2;
-	Vector3 MarketBoundsMax2;
 	/***************************************/
 	Light light[1];
 

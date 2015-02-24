@@ -29,7 +29,6 @@ double toggleDelay = 0.0f;
 
 vector<BoundingBox*> box;
 BoundingBox * boxPtr;
-BoundingBox newBox;
 
 StudioProject2::StudioProject2()
 {
@@ -105,13 +104,15 @@ void StudioProject2::Init()
 	BOUNDS INIT GO HERE
 	********************/
 	boxPtr = new BoundingBox();
-	boxPtr->Max.Set(-2202,-273,-1826);
-	boxPtr->Min.Set(2202,273,1826);
+	boxPtr->Max = insideBounds;
+	boxPtr->Min = -insideBounds;
 	box.push_back(boxPtr);
 
-	//newBox.Max.Set(-2202,-273,-1826); //Inside Retaurant Bounds
-	//newBox.Min.Set(2202,273,1826);
-
+	boxPtr = new BoundingBox();
+	boxPtr->isInside = false;
+	boxPtr->Max = outsideBounds;
+	boxPtr->Min = -outsideBounds;
+	box.push_back(boxPtr);
 	/*******************/
 
 	// Init VBO here
@@ -179,7 +180,7 @@ void StudioProject2::Init()
 	meshList[GEO_PLAYERHEAD]->textureID = LoadTGA("Image//skin_20150223054713114664.tga");
 	meshList[GEO_PLAYERBODY] = MeshBuilder::GenerateOBJ("Player body", "Object//playerBody.obj");
 	meshList[GEO_PLAYERBODY]->textureID = LoadTGA("Image//skin_20150223054713114664.tga");
-		meshList[GEO_PLAYERLEFTARM] = MeshBuilder::GenerateOBJ("Player arms", "Object//playerLeftArm.obj");
+	meshList[GEO_PLAYERLEFTARM] = MeshBuilder::GenerateOBJ("Player arms", "Object//playerLeftArm.obj");
 	meshList[GEO_PLAYERLEFTARM]->textureID = LoadTGA("Image//skin_20150223054713114664.tga");
 	meshList[GEO_PLAYERRIGHTARM] = MeshBuilder::GenerateOBJ("Player arms", "Object//playerRightArm.obj");
 	meshList[GEO_PLAYERRIGHTARM]->textureID = LoadTGA("Image//skin_20150223054713114664.tga");
@@ -262,12 +263,8 @@ void StudioProject2::Init()
 
 	meshList[GEO_BOUNDHELPER] = MeshBuilder::GenerateSphere("BoundHelper", Color(1,1,1), 10, 18, 5.f);
 
-	for(int i = 0; i < box.size();i++)
-	{
-		meshList[GEO_TESTBOUNDS] = MeshBuilder::GenerateBoundingBox("TestBox2", box[i]->Max, box[i]->Min);
-	}
-
-	//meshList[GEO_TESTBOUNDS] = MeshBuilder::GenerateBoundingBox("TestBox", newBox.Max, newBox.Min);
+	meshList[GEO_INSIDEMARKETBOUNDS] = MeshBuilder::GenerateBoundingBox("InsideBounds", box[0]->Max, box[0]->Min);
+	meshList[GEO_OUTSIDEMARKETBOUNDS] = MeshBuilder::GenerateBoundingBox("OutsideBounds", box[1]->Max, box[1]->Min);
 
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1,1,1), 10, 10, 50);
 }
@@ -442,7 +439,7 @@ void StudioProject2::Render()
 	
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]); //update the shader with new MVP
 
-	RenderMesh(meshList[GEO_AXES], false, false);
+	//RenderMesh(meshList[GEO_AXES], false, false);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -452,7 +449,11 @@ void StudioProject2::Render()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	RenderMesh(meshList[GEO_TESTBOUNDS], false, false);
+	RenderMesh(meshList[GEO_INSIDEMARKETBOUNDS], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_OUTSIDEMARKETBOUNDS], false, false);
 	modelStack.PopMatrix();
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -1005,6 +1006,7 @@ void StudioProject2::renderOutside()
 	RenderMesh(meshList[GEO_CAR], false, false);
 	modelStack.PopMatrix();
 }
+
 void StudioProject2::RenderText(Mesh* mesh, std::string text, Color color)
 {
 	if(!mesh || mesh->textureID <= 0) //Proper error check
