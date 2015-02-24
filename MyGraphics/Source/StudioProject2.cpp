@@ -1030,21 +1030,21 @@ void StudioProject2::renderSupermarket()
 	
 	//Shelf on left wall
 	modelStack.PushMatrix();
-	modelStack.Translate(-2150, -275, -1600);
+	modelStack.Translate(-2150, -275, -1579.5);
 	modelStack.Rotate(0, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-2150, -275, -1110);
+	modelStack.Translate(-2150, -275, -1086.4);
 	modelStack.Rotate(0, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-2150, -275, -620);
+	modelStack.Translate(-2150, -275, -593.5);
 	modelStack.Rotate(0, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);
@@ -1151,68 +1151,68 @@ void StudioProject2::renderSupermarket()
 void StudioProject2::renderItems()
 {
 	//Cactus Juice
-	for(int k = 50;k >= -250;k = k-50)
+	for(float k = 50;k >= -250;k = k-50)
 	{
-		for(int i = -2050;i > -2210;i = i - 40)
+		for(float i = -2050;i > -2210;i = i - 40)
 		{
 			modelStack.PushMatrix();
-			modelStack.Translate(i, k, -830);
+			modelStack.Translate(i, k, -800);
 			modelStack.Scale(80,80,80);
 			modelStack.Rotate(90,0,1,0);
 			RenderMesh(meshList[GEO_CACTUSJUICE], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
-			modelStack.Translate(i, k, -780);
+			modelStack.Translate(i, k, -750);
 			modelStack.Scale(80,80,80);
 			modelStack.Rotate(90,0,1,0);
 			RenderMesh(meshList[GEO_CACTUSJUICE], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
-			modelStack.Translate(i, k, -730);
+			modelStack.Translate(i, k, -700);
 			modelStack.Scale(80,80,80);
 			modelStack.Rotate(90,0,1,0);
 			RenderMesh(meshList[GEO_CACTUSJUICE], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
-			modelStack.Translate(i, k, -680);
+			modelStack.Translate(i, k, -650);
 			modelStack.Scale(80,80,80);
 			modelStack.Rotate(90,0,1,0);
 			RenderMesh(meshList[GEO_CACTUSJUICE], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
-			modelStack.Translate(i, k, -630);
+			modelStack.Translate(i, k, -600);
 			modelStack.Scale(80,80,80);
 			modelStack.Rotate(90,0,1,0);
 			RenderMesh(meshList[GEO_CACTUSJUICE], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
-			modelStack.Translate(i, k, -580);
+			modelStack.Translate(i, k, -550);
 			modelStack.Scale(80,80,80);
 			modelStack.Rotate(90,0,1,0);
 			RenderMesh(meshList[GEO_CACTUSJUICE], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
-			modelStack.Translate(i, k, -530);
+			modelStack.Translate(i, k, -500);
 			modelStack.Scale(80,80,80);
 			modelStack.Rotate(90,0,1,0);
 			RenderMesh(meshList[GEO_CACTUSJUICE], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
-			modelStack.Translate(i, k, -480);
+			modelStack.Translate(i, k, -450);
 			modelStack.Scale(80,80,80);
 			modelStack.Rotate(90,0,1,0);
 			RenderMesh(meshList[GEO_CACTUSJUICE], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
-			modelStack.Translate(i, k, -430);
+			modelStack.Translate(i, k, -400);
 			modelStack.Scale(80,80,80);
 			modelStack.Rotate(90,0,1,0);
 			RenderMesh(meshList[GEO_CACTUSJUICE], false, false);
@@ -1221,9 +1221,9 @@ void StudioProject2::renderItems()
 	}
 
 	//Cadbury
-	for (int k = 40; k >-240; k = k-50)
+	for (float k = 40; k >-240; k = k-50)
 	{
-		for (int i = -2030; i>-2180; i = i- 50)
+		for (float i = -2030; i>-2180; i = i- 50)
 		{
 			modelStack.PushMatrix();
 			modelStack.Translate(i, k, -920);
@@ -1270,9 +1270,9 @@ void StudioProject2::renderItems()
 	}
 
 	//Can Vege
-	for(int k = 32; k > -268; k = k - 50)
+	for(float k = 32; k > -268; k = k - 50)
 	{
-		for(int i = -2030; i > -2190; i = i - 40)
+		for(float i = -2030; i > -2190; i = i - 40)
 		{
 			modelStack.PushMatrix();
 			modelStack.Translate(i, k, -1380);
@@ -1340,9 +1340,9 @@ void StudioProject2::renderItems()
 	}
 
 	//Catfood
-	for(int k = 30; k > -270; k = k - 50)
+	for(float k = 30; k > -270; k = k - 50)
 	{
-		for(int i = -1415; i < -1265; i = i + 50)
+		for(float i = -1415; i < -1265; i = i + 50)
 		{
 			modelStack.PushMatrix();
 			modelStack.Translate(i, k, -1050);
@@ -1412,6 +1412,70 @@ void StudioProject2::renderItems()
 			modelStack.Scale(15,15,15);
 			modelStack.Rotate(90,0,1,0);
 			RenderMesh(meshList[GEO_CATFOOD], false, false);
+			modelStack.PopMatrix();
+		}
+	}
+
+	//Cereal Box
+
+	for( int k = 27; k > -273; k = k - 50)
+	{
+		for(int i = -990; i > -1170; i = i - 30)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -600);
+			modelStack.Scale(40,40,40);
+			modelStack.Rotate(90,0,1,0);
+			RenderMesh(meshList[GEO_CEREAL], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -660);
+			modelStack.Scale(40,40,40);
+			modelStack.Rotate(90,0,1,0);
+			RenderMesh(meshList[GEO_CEREAL], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -720);
+			modelStack.Scale(40,40,40);
+			modelStack.Rotate(90,0,1,0);
+			RenderMesh(meshList[GEO_CEREAL], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -780);
+			modelStack.Scale(40,40,40);
+			modelStack.Rotate(90,0,1,0);
+			RenderMesh(meshList[GEO_CEREAL], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -840);
+			modelStack.Scale(40,40,40);
+			modelStack.Rotate(90,0,1,0);
+			RenderMesh(meshList[GEO_CEREAL], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -900);
+			modelStack.Scale(40,40,40);
+			modelStack.Rotate(90,0,1,0);
+			RenderMesh(meshList[GEO_CEREAL], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -960);
+			modelStack.Scale(40,40,40);
+			modelStack.Rotate(90,0,1,0);
+			RenderMesh(meshList[GEO_CEREAL], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -1020);
+			modelStack.Scale(40,40,40);
+			modelStack.Rotate(90,0,1,0);
+			RenderMesh(meshList[GEO_CEREAL], false, false);
 			modelStack.PopMatrix();
 		}
 	}
