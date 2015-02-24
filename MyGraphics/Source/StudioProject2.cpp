@@ -45,7 +45,7 @@ void StudioProject2::Init()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
-	//glEnable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE);
 
 	//Load vertex and fragment shaders
 	m_programID = LoadShaders( "Shader//Texture.vertexshader", "Shader//Text.fragmentshader" );
@@ -100,7 +100,7 @@ void StudioProject2::Init()
 	BOUNDS INIT GO HERE
 	********************/
 	boxPtr = new BoundingBox();
-
+	//test
 	newBox.Max.Set(-50,-50,-50);
 	newBox.Min.Set(50,50,50);
 
