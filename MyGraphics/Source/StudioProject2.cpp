@@ -137,6 +137,12 @@ void StudioProject2::Init()
 	boxPtr->Max = shelfBounds3Max;
 	boxPtr->Min = shelfBounds3Min;
 	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = shelfBounds4Max;
+	boxPtr->Min = shelfBounds4Min;
+	box.push_back(boxPtr);
 	/*******************/
 
 	// Init VBO here
@@ -308,6 +314,7 @@ void StudioProject2::Init()
 	meshList[GEO_SHELFBOUNDS1] = MeshBuilder::GenerateBoundingBox("ShelfBounds1", box[2]->Max, box[2]->Min, Color(0,0,1));
 	meshList[GEO_SHELFBOUNDS2] = MeshBuilder::GenerateBoundingBox("Shelf2Bounds", box[3]->Max, box[3]->Min, Color(0,0,1));
 	meshList[GEO_SHELFBOUNDS3] = MeshBuilder::GenerateBoundingBox("Shelf3Bounds", box[4]->Max, box[4]->Min, Color(0,0,1));
+	meshList[GEO_SHELFBOUNDS4] = MeshBuilder::GenerateBoundingBox("Shelf4Bounds", box[5]->Max, box[5]->Min, Color(0,0,1));
 	/**************************************************************************************************************/
 
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1,1,1), 10, 10, 50);
@@ -369,6 +376,16 @@ void StudioProject2::RenderMesh(Mesh *mesh, bool enableLight, bool transparent)
 
 void StudioProject2::Update(double dt)
 {
+	if(Application::IsKeyPressed('5'))
+	{
+		rotateAngle += 0.1f;
+		cout << rotateAngle << endl;
+	}
+	if(Application::IsKeyPressed('6'))
+	{
+		rotateAngle -= 0.1f;
+		cout << rotateAngle << endl;
+	}
 	if(Application::IsKeyPressed('1'))
 	{
 		glEnable(GL_CULL_FACE);
@@ -789,6 +806,10 @@ void StudioProject2::renderBounds()
 	modelStack.PushMatrix();
 	RenderMesh(meshList[GEO_SHELFBOUNDS3], false, false);
 	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_SHELFBOUNDS4], false, false);
+	modelStack.PopMatrix();
 }
 
 void StudioProject2::renderPlayer()
@@ -1002,14 +1023,14 @@ void StudioProject2::renderSupermarket()
 
 	//Shelf on back wall
 	modelStack.PushMatrix();
-	modelStack.Translate(10, -275, -1750);
+	modelStack.Translate(-3.8, -275, -1750);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-500, -275, -1750);
+	modelStack.Translate(-496.9, -275, -1750);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);
