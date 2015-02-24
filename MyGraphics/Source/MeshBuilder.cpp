@@ -595,93 +595,93 @@ Mesh* MeshBuilder::GenerateText(const std::string &meshName, unsigned numRow, un
 	return mesh;
 }
 
-Mesh* MeshBuilder::GenerateBoundingBox(const std::string &meshName, Vector3 Max, Vector3 Min)
+Mesh* MeshBuilder::GenerateBoundingBox(const std::string &meshName, Vector3 Max, Vector3 Min, Color color)
 {
 	Vertex v;
 	std::vector<Vertex> vertex_buffer_data;
 
 	v.pos.Set(Min.x,Min.y,Min.z);
-	v.color.Set(1.f,0.0f,0.0f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(Min.x,Min.y,Max.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 
 	v.pos.Set(Max.x,Min.y,Max.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(Min.x,Min.y,Max.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 
 	v.pos.Set(Min.x,Min.y,Max.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(Min.x,Max.y,Max.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 
 	v.pos.Set(Max.x,Min.y,Min.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(Max.x,Min.y,Max.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 
 	v.pos.Set(Max.x,Max.y,Max.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(Min.x,Max.y,Max.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 
 	v.pos.Set(Max.x,Max.y,Max.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(Max.x,Max.y,Min.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 
 	v.pos.Set(Min.x,Max.y,Max.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(Min.x,Max.y,Min.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 
 	v.pos.Set(Max.x,Max.y,Max.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(Max.x,Min.y,Max.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 
 	v.pos.Set(Max.x,Max.y,Min.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(Max.x,Min.y,Min.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 
 	v.pos.Set(Max.x,Max.y,Min.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(Min.x,Max.y,Min.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 
 	v.pos.Set(Min.x,Max.y,Min.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(Min.x,Min.y,Min.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 
 	v.pos.Set(Max.x,Min.y,Min.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(Min.x,Min.y,Min.z);
-	v.color.Set(1.f,0.f,0.f);
+	v.color = color;
 	vertex_buffer_data.push_back(v);
 
 	std::vector<GLuint> index_buffer_data;

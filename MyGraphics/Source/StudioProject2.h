@@ -10,6 +10,8 @@
 
 #define insideBounds Vector3(2202,274,1826)
 #define outsideBounds Vector3(2252,274,1876)
+#define shelfBounds1Max Vector3(-2005,50,-340)
+#define shelfBounds1Min Vector3(-2202,-274,-1826)
 
 class StudioProject2 : public Scene
 {
@@ -131,7 +133,11 @@ public:
 		*************************************************/
 		GEO_INSIDEMARKETBOUNDS,
 		GEO_OUTSIDEMARKETBOUNDS,
-		GEO_SHELFBOUNDS,
+		GEO_SHELFBOUNDS1,
+		GEO_SHELFBOUNDS2,
+		GEO_SHELFBOUNDS3,
+		GEO_SHELFBOUNDS4,
+		GEO_SHELFBOUNDS5,
 		/************************************************/
 
 		GEO_TEXT,
@@ -189,6 +195,8 @@ private:
 	void renderSkybox();
 	void renderSupermarket();
 	void renderOutside();
+	void renderBounds();
+
 	bool CollisionCheck();
 
 	void RenderText(Mesh* mesh, std::string text, Color color);

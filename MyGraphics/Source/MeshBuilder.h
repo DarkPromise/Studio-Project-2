@@ -25,6 +25,6 @@ public:
 	static Mesh* GenerateSphere(const std::string &meshName, Color color, unsigned numStack, unsigned numSlice, float radius);
 	static Mesh* GenerateOBJ(const std::string &meshName, const std::string &filepath);
 	static Mesh* GenerateText(const std::string &meshName, unsigned numRow, unsigned numCol);
-	static Mesh* GenerateBoundingBox(const std::string &meshName, Vector3 max, Vector3 min);
+	static Mesh* GenerateBoundingBox(const std::string &meshName, Vector3 max, Vector3 min, Color color);
 };
 #endif

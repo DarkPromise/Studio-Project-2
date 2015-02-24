@@ -113,6 +113,12 @@ void StudioProject2::Init()
 	boxPtr->Max = outsideBounds;
 	boxPtr->Min = -outsideBounds;
 	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = shelfBounds1Max;
+	boxPtr->Min = shelfBounds1Min;
+	box.push_back(boxPtr);
 	/*******************/
 
 	// Init VBO here
@@ -263,8 +269,13 @@ void StudioProject2::Init()
 
 	meshList[GEO_BOUNDHELPER] = MeshBuilder::GenerateSphere("BoundHelper", Color(1,1,1), 10, 18, 5.f);
 
-	meshList[GEO_INSIDEMARKETBOUNDS] = MeshBuilder::GenerateBoundingBox("InsideBounds", box[0]->Max, box[0]->Min);
-	meshList[GEO_OUTSIDEMARKETBOUNDS] = MeshBuilder::GenerateBoundingBox("OutsideBounds", box[1]->Max, box[1]->Min);
+	/***************************************************************************************************************
+	THIS SECTION IS FOR BOUNDS MESH INIT
+	***************************************************************************************************************/
+	meshList[GEO_INSIDEMARKETBOUNDS] = MeshBuilder::GenerateBoundingBox("InsideBounds", box[0]->Max, box[0]->Min, Color(1,0,0));
+	meshList[GEO_OUTSIDEMARKETBOUNDS] = MeshBuilder::GenerateBoundingBox("OutsideBounds", box[1]->Max, box[1]->Min, Color(1,0,0));
+	meshList[GEO_SHELFBOUNDS1] = MeshBuilder::GenerateBoundingBox("ShelfBounds1", box[2]->Max, box[2]->Min, Color(0,0,1));
+	/**************************************************************************************************************/
 
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1,1,1), 10, 10, 50);
 }
@@ -443,18 +454,7 @@ void StudioProject2::Render()
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	modelStack.PushMatrix();
-	modelStack.Translate(playerPos.x,playerPos.y,playerPos.z);
-	RenderMesh(meshList[GEO_BOUNDHELPER], false, false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	RenderMesh(meshList[GEO_INSIDEMARKETBOUNDS], false, false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	RenderMesh(meshList[GEO_OUTSIDEMARKETBOUNDS], false, false);
-	modelStack.PopMatrix();
+	renderBounds();
 
 	//////////////////////////////////////////////////////////////////////////////////
 	 
@@ -520,6 +520,26 @@ void StudioProject2::Render()
 	modelStack.PopMatrix();
 
 	RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
+}
+
+void StudioProject2::renderBounds()
+{
+	modelStack.PushMatrix();
+	modelStack.Translate(playerPos.x,playerPos.y,playerPos.z);
+	RenderMesh(meshList[GEO_BOUNDHELPER], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_INSIDEMARKETBOUNDS], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_OUTSIDEMARKETBOUNDS], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_SHELFBOUNDS1], false, false);
+	modelStack.PopMatrix();
 }
 
 void StudioProject2::renderPlayer()
