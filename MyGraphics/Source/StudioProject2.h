@@ -25,6 +25,10 @@ public:
 	float rotateSpeed;
 	float moveSpeed;
 
+	float SGTranslate;
+	float SGLegTranslate;
+	bool SGState;
+
 	float animateFlying;
 	float animateDoor;
 
@@ -63,8 +67,24 @@ public:
 
 		GEO_PLAYERHEAD,
 		GEO_PLAYERBODY,
-		GEO_PLAYERARMS,
-		GEO_PLAYERLEGS,
+		GEO_PLAYERLEFTARM,
+		GEO_PLAYERRIGHTARM,
+		GEO_PLAYERLEFTLEG,
+		GEO_PLAYERRIGHTLEG,
+
+		GEO_CASHIERHEAD,
+		GEO_CASHIERBODY,
+		GEO_CASHIERLEFTARM,
+		GEO_CASHIERRIGHTARM,
+		GEO_CASHIERLEFTLEG,
+		GEO_CASHIERRIGHTLEG,
+
+		GEO_SGHEAD,
+		GEO_SGBODY,
+		GEO_SGLEFTARM,
+		GEO_SGRIGHTARM,
+		GEO_SGLEFTLEG,
+		GEO_SGRIGHTLEG,
 
 		GEO_CUSTOMERSERVICE,
 		GEO_CASHIERTABLE,
@@ -150,11 +170,14 @@ private:
 	int flyingDirection;
 	double matrixSpeed;
 
+	void renderPlayer();
+	void renderCashier();
+	void renderSecurityGuard();
+
 	void renderSkybox();
 	void renderSupermarket();
 	void renderOutside();
 	bool CollisionCheck();
-	void renderPlayer();
 
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);

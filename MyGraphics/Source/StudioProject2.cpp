@@ -96,6 +96,10 @@ void StudioProject2::Init()
 	moveSpeed = 200.0f;
 	rotateAngle = 0.0f;
 
+	SGState = 0; //0 = sitting, 1 = chasing player
+	SGTranslate = 0;
+	SGLegTranslate = 0;
+
 	/********************
 	BOUNDS INIT GO HERE
 	********************/
@@ -170,10 +174,40 @@ void StudioProject2::Init()
 	meshList[GEO_PLAYERHEAD]->textureID = LoadTGA("Image//skin_20150223054713114664.tga");
 	meshList[GEO_PLAYERBODY] = MeshBuilder::GenerateOBJ("Player body", "Object//playerBody.obj");
 	meshList[GEO_PLAYERBODY]->textureID = LoadTGA("Image//skin_20150223054713114664.tga");
-	meshList[GEO_PLAYERARMS] = MeshBuilder::GenerateOBJ("Player arms", "Object//playerArms.obj");
-	meshList[GEO_PLAYERARMS]->textureID = LoadTGA("Image//skin_20150223054713114664.tga");
-	meshList[GEO_PLAYERLEGS] = MeshBuilder::GenerateOBJ("Player legs", "Object//playerLegs.obj");
-	meshList[GEO_PLAYERLEGS]->textureID = LoadTGA("Image//skin_20150223054713114664.tga");
+		meshList[GEO_PLAYERLEFTARM] = MeshBuilder::GenerateOBJ("Player arms", "Object//playerLeftArm.obj");
+	meshList[GEO_PLAYERLEFTARM]->textureID = LoadTGA("Image//skin_20150223054713114664.tga");
+	meshList[GEO_PLAYERRIGHTARM] = MeshBuilder::GenerateOBJ("Player arms", "Object//playerRightArm.obj");
+	meshList[GEO_PLAYERRIGHTARM]->textureID = LoadTGA("Image//skin_20150223054713114664.tga");
+	meshList[GEO_PLAYERLEFTLEG] = MeshBuilder::GenerateOBJ("Player legs", "Object//playerLeftLeg.obj");
+	meshList[GEO_PLAYERLEFTLEG]->textureID = LoadTGA("Image//skin_20150223054713114664.tga");
+	meshList[GEO_PLAYERRIGHTLEG] = MeshBuilder::GenerateOBJ("Player legs", "Object//playerRightLeg.obj");
+	meshList[GEO_PLAYERRIGHTLEG]->textureID = LoadTGA("Image//skin_20150223054713114664.tga");
+
+	meshList[GEO_CASHIERHEAD] = MeshBuilder::GenerateOBJ("Player head", "Object//playerHead.obj");
+	meshList[GEO_CASHIERHEAD]->textureID = LoadTGA("Image//skin_20150218034156170726.tga");
+	meshList[GEO_CASHIERBODY] = MeshBuilder::GenerateOBJ("Player body", "Object//playerBody.obj");
+	meshList[GEO_CASHIERBODY]->textureID = LoadTGA("Image//skin_20150218034156170726.tga");
+	meshList[GEO_CASHIERLEFTARM] = MeshBuilder::GenerateOBJ("Player arms", "Object//playerLeftArm.obj");
+	meshList[GEO_CASHIERLEFTARM]->textureID = LoadTGA("Image//skin_20150218034156170726.tga");
+	meshList[GEO_CASHIERRIGHTARM] = MeshBuilder::GenerateOBJ("Player arms", "Object//playerRightArm.obj");
+	meshList[GEO_CASHIERRIGHTARM]->textureID = LoadTGA("Image//skin_20150218034156170726.tga");
+	meshList[GEO_CASHIERLEFTLEG] = MeshBuilder::GenerateOBJ("Player legs", "Object//playerLeftLeg.obj");
+	meshList[GEO_CASHIERLEFTLEG]->textureID = LoadTGA("Image//skin_20150218034156170726.tga");
+	meshList[GEO_CASHIERRIGHTLEG] = MeshBuilder::GenerateOBJ("Player legs", "Object//playerRightLeg.obj");
+	meshList[GEO_CASHIERRIGHTLEG]->textureID = LoadTGA("Image//skin_20150218034156170726.tga");
+
+	meshList[GEO_SGHEAD] = MeshBuilder::GenerateOBJ("Player head", "Object//playerHead.obj");
+	meshList[GEO_SGHEAD]->textureID = LoadTGA("Image//skin_2014110205564268218.tga");
+	meshList[GEO_SGBODY] = MeshBuilder::GenerateOBJ("Player body", "Object//playerBody.obj");
+	meshList[GEO_SGBODY]->textureID = LoadTGA("Image//skin_2014110205564268218.tga");
+	meshList[GEO_SGLEFTARM] = MeshBuilder::GenerateOBJ("Player arms", "Object//playerLeftArm.obj");
+	meshList[GEO_SGLEFTARM]->textureID = LoadTGA("Image//skin_2014110205564268218.tga");
+	meshList[GEO_SGRIGHTARM] = MeshBuilder::GenerateOBJ("Player arms", "Object//playerRightArm.obj");
+	meshList[GEO_SGRIGHTARM]->textureID = LoadTGA("Image//skin_2014110205564268218.tga");
+	meshList[GEO_SGLEFTLEG] = MeshBuilder::GenerateOBJ("Player legs", "Object//playerLeftLeg.obj");
+	meshList[GEO_SGLEFTLEG]->textureID = LoadTGA("Image//skin_2014110205564268218.tga");
+	meshList[GEO_SGRIGHTLEG] = MeshBuilder::GenerateOBJ("Player legs", "Object//playerRightLeg.obj");
+	meshList[GEO_SGRIGHTLEG]->textureID = LoadTGA("Image//skin_2014110205564268218.tga");
 
 	meshList[GEO_CACTUSJUICE] = MeshBuilder::GenerateOBJ("Cactus Juice", "Object//CactusJuice.obj");
 	meshList[GEO_CACTUSJUICE]->textureID = LoadTGA("Image//CactusJuice.tga");
@@ -434,29 +468,152 @@ void StudioProject2::Render()
 	//renderPlayer();
 	modelStack.PopMatrix();
 
+	modelStack.PushMatrix();
+	modelStack.Translate(-250, -275, 350);
+	renderCashier();
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-500, -275, 350);
+	modelStack.Rotate(180, 0, 1, 0);
+	renderCashier();
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(500, -275, 350);
+	modelStack.Rotate(180, 0, 1, 0);
+	renderCashier();
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-1200, -275, 350);
+	renderCashier();
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	if (SGState == 1 )
+		modelStack.Translate(1100, -220, 400);
+	else
+		modelStack.Translate(1100, -275, 480);
+	modelStack.Rotate(-90, 0, 1, 0);
+	renderSecurityGuard();
+	modelStack.PopMatrix();
+
 	RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
 }
 
 void StudioProject2::renderPlayer()
 {
 	modelStack.PushMatrix();
+	modelStack.Translate(0, -275, 0);
 	modelStack.Scale(20, 20, 20);
+
 	modelStack.PushMatrix();
 	RenderMesh(meshList[GEO_PLAYERHEAD], false, false);
+	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	RenderMesh(meshList[GEO_PLAYERBODY], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	RenderMesh(meshList[GEO_PLAYERARMS], false, false);
+	RenderMesh(meshList[GEO_PLAYERLEFTARM], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	RenderMesh(meshList[GEO_PLAYERLEGS], false, false);
+	RenderMesh(meshList[GEO_PLAYERRIGHTARM], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_PLAYERLEFTLEG], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_PLAYERRIGHTLEG], false, false);
 	modelStack.PopMatrix();
 	
+	modelStack.PopMatrix();	
+}
+
+void StudioProject2::renderCashier()
+{
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 0, 0);
+	modelStack.Scale(20, 20, 20);
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_CASHIERHEAD], false, false);
 	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_CASHIERBODY], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_CASHIERLEFTARM], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_CASHIERRIGHTARM], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_CASHIERLEFTLEG], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_CASHIERRIGHTLEG], false, false);
+	modelStack.PopMatrix();
+	
+	modelStack.PopMatrix();	
+}
+
+void StudioProject2::renderSecurityGuard()
+{
+	
+	modelStack.PushMatrix();
+	modelStack.Translate(0, SGTranslate, 0);
+	modelStack.Scale(20, 20, 20);
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_SGHEAD], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_SGBODY], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_SGLEFTARM], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_SGRIGHTARM], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	if ( SGState == 1 )
+	{
+		modelStack.Translate(5, 4.5, -0.7);
+		modelStack.Rotate(180, 0, 1, 0);
+		modelStack.Rotate(-90, 0, 0, 1);
+		modelStack.Rotate(-10, 1, 0, 0);
+	}
+	RenderMesh(meshList[GEO_SGLEFTLEG], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	if ( SGState == 1 )
+	{
+		modelStack.Translate(5, 4.5, 0.7);
+		modelStack.Rotate(180, 0, 1, 0);
+		modelStack.Rotate(-90, 0, 0, 1);
+		modelStack.Rotate(10, 1, 0, 0);
+	}
+	RenderMesh(meshList[GEO_SGRIGHTLEG], false, false);
+	modelStack.PopMatrix();
+	
+	modelStack.PopMatrix();	
 }
 
 void StudioProject2::renderSupermarket()
