@@ -12,8 +12,10 @@
 #define outsideBounds Vector3(2252,274,1876)
 #define shelfBounds1Max Vector3(-2005,70,-340)
 #define shelfBounds1Min Vector3(-2202,-274,-1826)
-#define shelfBounds2Max Vector3(-985,70,-573)
-#define shelfBounds2Min Vector3(-1445,-274,-1826)
+#define shelfBounds2Max Vector3(-975,70,-573)
+#define shelfBounds2Min Vector3(-1445,-274,-1066)
+#define shelfBounds3Max Vector3(-544,70,-573)
+#define shelfBounds3Min Vector3(-75,-274,-1066)
 
 class StudioProject2 : public Scene
 {

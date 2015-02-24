@@ -126,6 +126,11 @@ void StudioProject2::Init()
 	boxPtr->Min = shelfBounds2Min;
 	box.push_back(boxPtr);
 
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = shelfBounds3Max;
+	boxPtr->Min = shelfBounds3Min;
+	box.push_back(boxPtr);
 	/*******************/
 
 	// Init VBO here
@@ -283,6 +288,7 @@ void StudioProject2::Init()
 	meshList[GEO_OUTSIDEMARKETBOUNDS] = MeshBuilder::GenerateBoundingBox("OutsideBounds", box[1]->Max, box[1]->Min, Color(1,0,0));
 	meshList[GEO_SHELFBOUNDS1] = MeshBuilder::GenerateBoundingBox("ShelfBounds1", box[2]->Max, box[2]->Min, Color(0,0,1));
 	meshList[GEO_SHELFBOUNDS2] = MeshBuilder::GenerateBoundingBox("Shelf2Bounds", box[3]->Max, box[3]->Min, Color(0,0,1));
+	meshList[GEO_SHELFBOUNDS3] = MeshBuilder::GenerateBoundingBox("Shelf3Bounds", box[4]->Max, box[4]->Min, Color(0,0,1));
 	/**************************************************************************************************************/
 
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1,1,1), 10, 10, 50);
@@ -515,15 +521,15 @@ void StudioProject2::Render()
 
 	//render glass door
 	modelStack.PushMatrix();
-	modelStack.Translate(2253, -47, 1025);
-	modelStack.Scale(50, 50, 50.5);
+	modelStack.Translate(2240, -50, 1025);
+	modelStack.Scale(50, 52, 50.5);
 	RenderMesh(meshList[GEO_GLASSDOOR], false, false);
 	modelStack.PopMatrix();
 	
 	//render glass door
 	modelStack.PushMatrix();
-	modelStack.Translate(2253, -47, 1365);
-	modelStack.Scale(50, 50, 50.5);
+	modelStack.Translate(2240, -50, 1365);
+	modelStack.Scale(50, 52, 50.5);
 	RenderMesh(meshList[GEO_GLASSDOOR], false, false);
 	modelStack.PopMatrix();
 
@@ -551,6 +557,10 @@ void StudioProject2::renderBounds()
 
 	modelStack.PushMatrix();
 	RenderMesh(meshList[GEO_SHELFBOUNDS2], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_SHELFBOUNDS3], false, false);
 	modelStack.PopMatrix();
 }
 
@@ -822,7 +832,7 @@ void StudioProject2::renderSupermarket()
 
 	//Lone shelf near right-center
 	modelStack.PushMatrix();
-	modelStack.Translate(600, -275, -700);
+	modelStack.Translate(600, -275, -662);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);
