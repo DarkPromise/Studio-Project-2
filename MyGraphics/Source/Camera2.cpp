@@ -209,13 +209,10 @@ void Camera2::Update(double dt)
 		Mtx44 rotation;
 		float pitch = (float)(CAMERA_SPEED * dt);
 		view = (target - position).Normalized();
-		Vector3 right = view.Cross(up);
-		right.y = 0;
-		right.Normalize();
 		rotation.SetToRotation(pitch, 0, 1, 0);
 		view = rotation * view;
 		target = (position + view);
-		up = right.Cross(view).Normalized();
+		up = rotation * up;
 	}
 
 	// tilt right
@@ -224,13 +221,10 @@ void Camera2::Update(double dt)
 		Mtx44 rotation;
 		float pitch = (float)(-CAMERA_SPEED * dt);
 		view = (target - position).Normalized();
-		Vector3 right = view.Cross(up);
-		right.y = 0;
-		right.Normalize();
 		rotation.SetToRotation(pitch, 0, 1, 0);
 		view = rotation * view;
 		target = (position + view);
-		up = right.Cross(view).Normalized();
+		up = rotation * up;
 	}
 	if(Application::IsKeyPressed('R'))
 	{
