@@ -18,6 +18,8 @@
 #define shelfBounds3Min Vector3(-75,-274,-1066)
 #define shelfBounds4Max Vector3(-1237,-274,-1826)
 #define shelfBounds4Min Vector3(244,70,-1605)
+#define doorBoundsMax Vector3(2600,175,1534)
+#define doorBoundsMin Vector3(1800,-270, 853)
 
 class StudioProject2 : public Scene
 {

@@ -143,6 +143,13 @@ void StudioProject2::Init()
 	boxPtr->Max = shelfBounds4Max;
 	boxPtr->Min = shelfBounds4Min;
 	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->canPhase = true;
+	boxPtr->Max = doorBoundsMax;
+	boxPtr->Min = doorBoundsMin;
+	box.push_back(boxPtr);
 	/*******************/
 
 	// Init VBO here
@@ -315,6 +322,7 @@ void StudioProject2::Init()
 	meshList[GEO_SHELFBOUNDS2] = MeshBuilder::GenerateBoundingBox("Shelf2Bounds", box[3]->Max, box[3]->Min, Color(0,0,1));
 	meshList[GEO_SHELFBOUNDS3] = MeshBuilder::GenerateBoundingBox("Shelf3Bounds", box[4]->Max, box[4]->Min, Color(0,0,1));
 	meshList[GEO_SHELFBOUNDS4] = MeshBuilder::GenerateBoundingBox("Shelf4Bounds", box[5]->Max, box[5]->Min, Color(0,0,1));
+	meshList[GEO_DOORBOUNDS] = MeshBuilder::GenerateBoundingBox("doorbounds", box[6]->Max, box[6]->Min, Color(0,1,0));
 	/**************************************************************************************************************/
 
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1,1,1), 10, 10, 50);
@@ -661,6 +669,23 @@ void StudioProject2::Update(double dt)
 		}
 	}
 
+	////////////for door//////////
+	if(camera.position.x > box[6]->Min.x && camera.position.x < box[6]->Max.x && camera.position.z > box[6]->Min.z && camera.position.z < box[6]->Max.z && door1Pos > 700)
+	{
+		door1Pos -= 500*dt;
+		door2Pos += 500*dt;
+	}
+	if((camera.position.x < box[6]->Min.x || camera.position.x > box[6]->Max.x || camera.position.z < box[6]->Min.z || camera.position.z > box[6]->Max.z) && door1Pos < 1023)
+	{
+		door1Pos += 500*dt;
+		door2Pos -= 500*dt;
+		if(door1Pos > 1023)
+		{
+			door1Pos = 1023;
+			door2Pos = 1365;
+		}
+	}
+	//////////////////////////////
 	playerDir.x = dt * sin(Math::DegreeToRadian(rotateAngle));
 	playerDir.z = dt * cos(Math::DegreeToRadian(rotateAngle));
 	playerDir.y = 0.f;
@@ -765,15 +790,15 @@ void StudioProject2::Render()
 
 	//render glass door
 	modelStack.PushMatrix();
-	modelStack.Translate(2240, -50, 1025);
-	modelStack.Scale(50, 52, 50.5);
+	modelStack.Translate(2235, -47, door1Pos);
+	modelStack.Scale(100, 50, 50.5);
 	RenderMesh(meshList[GEO_GLASSDOOR], false, false);
 	modelStack.PopMatrix();
 	
 	//render glass door
 	modelStack.PushMatrix();
-	modelStack.Translate(2240, -50, 1365);
-	modelStack.Scale(50, 52, 50.5);
+	modelStack.Translate(2235, -47, door2Pos);
+	modelStack.Scale(100, 50, 50.5);
 	RenderMesh(meshList[GEO_GLASSDOOR], false, false);
 	modelStack.PopMatrix();
 
@@ -809,6 +834,10 @@ void StudioProject2::renderBounds()
 
 	modelStack.PushMatrix();
 	RenderMesh(meshList[GEO_SHELFBOUNDS4], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_DOORBOUNDS], false, false);
 	modelStack.PopMatrix();
 }
 
