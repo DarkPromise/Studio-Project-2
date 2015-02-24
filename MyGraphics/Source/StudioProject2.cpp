@@ -119,6 +119,12 @@ void StudioProject2::Init()
 	boxPtr->Max = shelfBounds1Max;
 	boxPtr->Min = shelfBounds1Min;
 	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = shelfBounds2Max;
+	boxPtr->Min = shelfBounds2Min;
+	box.push_back(boxPtr);
 	/*******************/
 
 	// Init VBO here
@@ -275,6 +281,7 @@ void StudioProject2::Init()
 	meshList[GEO_INSIDEMARKETBOUNDS] = MeshBuilder::GenerateBoundingBox("InsideBounds", box[0]->Max, box[0]->Min, Color(1,0,0));
 	meshList[GEO_OUTSIDEMARKETBOUNDS] = MeshBuilder::GenerateBoundingBox("OutsideBounds", box[1]->Max, box[1]->Min, Color(1,0,0));
 	meshList[GEO_SHELFBOUNDS1] = MeshBuilder::GenerateBoundingBox("ShelfBounds1", box[2]->Max, box[2]->Min, Color(0,0,1));
+	meshList[GEO_SHELFBOUNDS2] = MeshBuilder::GenerateBoundingBox("Shelf2Bounds", box[3]->Max, box[3]->Min, Color(0,0,1));
 	/**************************************************************************************************************/
 
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1,1,1), 10, 10, 50);
@@ -539,6 +546,10 @@ void StudioProject2::renderBounds()
 
 	modelStack.PushMatrix();
 	RenderMesh(meshList[GEO_SHELFBOUNDS1], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_SHELFBOUNDS2], false, false);
 	modelStack.PopMatrix();
 }
 
@@ -1019,12 +1030,12 @@ void StudioProject2::renderOutside()
 	modelStack.PopMatrix();
 	}
 
-	modelStack.PushMatrix();
-	//modelStack.Translate(7240, -275, a);
-	//modelStack.Rotate(-90, 1, 0, 0);
-	modelStack.Scale(50, 50, 50);
-	RenderMesh(meshList[GEO_CAR], false, false);
-	modelStack.PopMatrix();
+	//modelStack.PushMatrix();
+	////modelStack.Translate(7240, -275, a);
+	////modelStack.Rotate(-90, 1, 0, 0);
+	//modelStack.Scale(50, 50, 50);
+	//RenderMesh(meshList[GEO_CAR], false, false);
+	//modelStack.PopMatrix();
 }
 
 void StudioProject2::RenderText(Mesh* mesh, std::string text, Color color)
