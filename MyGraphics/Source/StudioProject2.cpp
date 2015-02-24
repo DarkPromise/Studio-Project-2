@@ -1556,9 +1556,9 @@ void StudioProject2::renderItems()
 
 	//Cereal Box
 
-	for( int k = 27; k > -273; k = k - 50)
+	for( float k = 27; k > -273; k = k - 50)
 	{
-		for(int i = -990; i > -1170; i = i - 30)
+		for(float i = -990; i > -1170; i = i - 30)
 		{
 			modelStack.PushMatrix();
 			modelStack.Translate(i, k, -600);
@@ -1619,46 +1619,159 @@ void StudioProject2::renderItems()
 	}
 
 	//Detergent
-	for (int k = 35; k > - 215; k = k -50)
+	for (float k = 25; k > - 275; k = k -50)
 	{
-		for(int i = -1640; i > -1790;i = i - 50)
+		for(float i = -1640; i > -1790;i = i - 50)
 		{
 			modelStack.PushMatrix();
 			modelStack.Translate(-1200, k, i);
-			modelStack.Scale(20,20,20);
+			modelStack.Scale(15,15,15);
 			RenderMesh(meshList[GEO_DETERGENT], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
 			modelStack.Translate(-1120, k, i);
-			modelStack.Scale(20,20,20);
+			modelStack.Scale(15,15,15);
 			RenderMesh(meshList[GEO_DETERGENT], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
 			modelStack.Translate(-1040, k, i);
-			modelStack.Scale(20,20,20);
+			modelStack.Scale(15,15,15);
 			RenderMesh(meshList[GEO_DETERGENT], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
 			modelStack.Translate(-960, k, i);
-			modelStack.Scale(20,20,20);
+			modelStack.Scale(15,15,15);
 			RenderMesh(meshList[GEO_DETERGENT], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
 			modelStack.Translate(-880, k, i);
-			modelStack.Scale(20,20,20);
+			modelStack.Scale(15,15,15);
 			RenderMesh(meshList[GEO_DETERGENT], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
 			modelStack.Translate(-800, k, i);
-			modelStack.Scale(20,20,20);
+			modelStack.Scale(15,15,15);
 			RenderMesh(meshList[GEO_DETERGENT], false, false);
 			modelStack.PopMatrix();
 		}
+	}
+
+	//Fererro
+	for(float k = 30;k > -270;k = k -50)
+	{
+		for(float i = -510;i < -360;i = i + 50)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -610);
+			modelStack.Scale(30,30,30);
+			modelStack.Rotate(-90,0,1,0);
+			RenderMesh(meshList[GEO_FERERRO], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -660);
+			modelStack.Scale(30,30,30);
+			modelStack.Rotate(-90,0,1,0);
+			RenderMesh(meshList[GEO_FERERRO], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -710);
+			modelStack.Scale(30,30,30);
+			modelStack.Rotate(-90,0,1,0);
+			RenderMesh(meshList[GEO_FERERRO], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -760);
+			modelStack.Scale(30,30,30);
+			modelStack.Rotate(-90,0,1,0);
+			RenderMesh(meshList[GEO_FERERRO], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -810);
+			modelStack.Scale(30,30,30);
+			modelStack.Rotate(-90,0,1,0);
+			RenderMesh(meshList[GEO_FERERRO], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -860);
+			modelStack.Scale(30,30,30);
+			modelStack.Rotate(-90,0,1,0);
+			RenderMesh(meshList[GEO_FERERRO], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -910);
+			modelStack.Scale(30,30,30);
+			modelStack.Rotate(-90,0,1,0);
+			RenderMesh(meshList[GEO_FERERRO], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -960);
+			modelStack.Scale(30,30,30);
+			modelStack.Rotate(-90,0,1,0);
+			RenderMesh(meshList[GEO_FERERRO], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -1010);
+			modelStack.Scale(30,30,30);
+			modelStack.Rotate(-90,0,1,0);
+			RenderMesh(meshList[GEO_FERERRO], false, false);
+			modelStack.PopMatrix();
+		}
+	}
+
+	//Mac & Chz
+	for(float k = 50; k > -250; k = k -50)
+	{
+	for(float i = -1650; i > -1800;i = i - 50)
+	{
+	modelStack.PushMatrix();
+	modelStack.Translate(-700, k, i);
+	modelStack.Scale(30,30,30);
+	RenderMesh(meshList[GEO_MACCHZ], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-620, k, i);
+	modelStack.Scale(30,30,30);
+	RenderMesh(meshList[GEO_MACCHZ], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-540, k, i);
+	modelStack.Scale(30,30,30);
+	RenderMesh(meshList[GEO_MACCHZ], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-460, k, i);
+	modelStack.Scale(30,30,30);
+	RenderMesh(meshList[GEO_MACCHZ], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-380, k, i);
+	modelStack.Scale(30,30,30);
+	RenderMesh(meshList[GEO_MACCHZ], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-300, k, i);
+	modelStack.Scale(30,30,30);
+	RenderMesh(meshList[GEO_MACCHZ], false, false);
+	modelStack.PopMatrix();
+	}
 	}
 }
 
