@@ -1418,9 +1418,9 @@ void StudioProject2::renderItems()
 
 	//Cereal Box
 
-	for( int k = 27; k > -273; k = k - 50)
+	for( float k = 27; k > -273; k = k - 50)
 	{
-		for(int i = -990; i > -1170; i = i - 30)
+		for(float i = -990; i > -1170; i = i - 30)
 		{
 			modelStack.PushMatrix();
 			modelStack.Translate(i, k, -600);
