@@ -10,12 +10,14 @@ typedef struct BoundingBox
 	BoundingBox() //Inside = BoundingBox for indoors
 		: isInside(true),
 	isObj(false)
+	canPhase(false)
 	{
 		//Default Constructor With Nothing :D
 	}
 
 	bool isInside;
 	bool isObj;
+	bool canPhase;
 
 	Vector3 Max;
 	Vector3 Min;
