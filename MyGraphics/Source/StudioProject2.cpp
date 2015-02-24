@@ -670,12 +670,12 @@ void StudioProject2::Update(double dt)
 	}
 
 	////////////for door//////////
-	if(camera.position.x > box[6]->Min.x && camera.position.x < box[6]->Max.x && camera.position.z > box[6]->Min.z && camera.position.z < box[6]->Max.z && door1Pos > 700)
+	if(camera.position.x > box[6]->Min.x && camera.position.x < box[6]->Max.x  && camera.position.y > box[6]->Min.y && camera.position.y < box[6]->Max.y && camera.position.z > box[6]->Min.z && camera.position.z < box[6]->Max.z && door1Pos > 700)
 	{
 		door1Pos -= 500*dt;
 		door2Pos += 500*dt;
 	}
-	if((camera.position.x < box[6]->Min.x || camera.position.x > box[6]->Max.x || camera.position.z < box[6]->Min.z || camera.position.z > box[6]->Max.z) && door1Pos < 1023)
+	if((camera.position.x < box[6]->Min.x || camera.position.x > box[6]->Max.x || camera.position.y < box[6]->Min.y || camera.position.y > box[6]->Max.y || camera.position.z < box[6]->Min.z || camera.position.z > box[6]->Max.z) && door1Pos < 1023)
 	{
 		door1Pos += 500*dt;
 		door2Pos -= 500*dt;
