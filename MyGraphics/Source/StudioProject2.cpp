@@ -666,14 +666,14 @@ void StudioProject2::renderSupermarket()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-2150, -275, -1210);
+	modelStack.Translate(-2150, -275, -1110);
 	modelStack.Rotate(0, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-2150, -275, -820);
+	modelStack.Translate(-2150, -275, -620);
 	modelStack.Rotate(0, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);
@@ -681,21 +681,21 @@ void StudioProject2::renderSupermarket()
 
 	//Shelf on back wall
 	modelStack.PushMatrix();
-	modelStack.Translate(-90, -275, -1750);
+	modelStack.Translate(10, -275, -1750);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-400, -275, -1750);
+	modelStack.Translate(-500, -275, -1750);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-790, -275, -1750);
+	modelStack.Translate(-990, -275, -1750);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);
@@ -710,14 +710,14 @@ void StudioProject2::renderSupermarket()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(2120, -275, -1210);
+	modelStack.Translate(2120, -275, -1110);
 	modelStack.Rotate(180, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(2120, -275, -820);
+	modelStack.Translate(2120, -275, -620);
 	modelStack.Rotate(180, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);
@@ -747,7 +747,7 @@ void StudioProject2::renderSupermarket()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-1110, -275, -820);
+	modelStack.Translate(-1120, -275, -820);
 	modelStack.Rotate(0, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);
@@ -762,7 +762,7 @@ void StudioProject2::renderSupermarket()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-210, -275, -820);
+	modelStack.Translate(-220, -275, -820);
 	modelStack.Rotate(0, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);
