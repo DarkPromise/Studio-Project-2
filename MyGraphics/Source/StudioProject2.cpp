@@ -622,18 +622,77 @@ void StudioProject2::Update(double dt)
 			CustomerRotation[i] = 90;
 			if ( CustomerZ[i] > -1500 )
 				CustomerZ[i] -= 50;
+			else
+			{
+				CustomerRotation[i] = 180;
+				if ( CustomerX[i] > -400 )
+					CustomerX[i] -= 50;
+				else
+				{
+					int GoWhere = rand() % 2;
+					if ( GoWhere == 0 )
+						CustomerState[i] = 13;
+					else
+						CustomerState[i] = 14;
+				}
+			}
 		}
 		else if ( CustomerState[i] == 12 )
 		{
 			//shelf2 to backshelf
+			CustomerRotation[i] = 90;
+			if ( CustomerZ[i] > -1500 )
+				CustomerZ[i] -= 50;
+			else
+			{
+				CustomerRotation[i] = 180;
+				if ( CustomerX[i] > -400 )
+					CustomerX[i] -= 50;
+				else
+				{
+					int GoWhere = rand() % 2;
+					if ( GoWhere == 0 )
+					CustomerState[i] = 13;
+					else
+						CustomerState[i] = 14;
+				}
+			}
 		}
 		else if ( CustomerState[i] == 13 )
 		{
 			//backshelves to left shelf
+			CustomerRotation[i] = 180;
+			if ( CustomerX[i] > -1850 )
+				CustomerX[i] -= 50;
+			else
+			{
+				CustomerRotation[i] = -90;
+				
+				CustomerState[i] = 16;
+			}
 		}
 		else if ( CustomerState[i] == 14 )
 		{
 			//backshelves to shelf4
+			CustomerRotation[i] = 180;
+			if ( CustomerX[i] > -850 )
+				CustomerX[i] -= 50;
+			else
+			{
+				CustomerRotation[i] = -90;
+				if ( CustomerZ[i] < -800 )
+					CustomerZ[i] += 50;
+				else
+				{
+					CustomerRotation[i] = 180;
+
+					int GoWhere = rand() % 2;
+					if ( GoWhere == 0 )
+						CustomerState[i] = 15;
+					else
+						CustomerState[i] = 23;
+				}
+			}
 		}
 		else if ( CustomerState[i] == 15 )
 		{
@@ -642,30 +701,88 @@ void StudioProject2::Update(double dt)
 		else if ( CustomerState[i] == 16 )
 		{
 			//left shelf to front left shelf
+			CustomerRotation[i] = -90;
+			if ( CustomerZ[i] < -600 )
+				CustomerZ[i] += 50;
+			else
+			{
+				CustomerState[i] = 17;
+			}
 		}
 		else if ( CustomerState[i] == 17 )
 		{
-			//left shelves to customer service
+			//front left shelves to customer service
+			CustomerRotation[i] = -90;
+			if ( CustomerZ[i] < -200 )
+				CustomerZ[i] += 50;
+			else
+			{
+				int GoWhere = rand() % 5;
+
+				if ( GoWhere == 0 )
+					CustomerState[i] = 18;
+				else if ( GoWhere == 1)
+					CustomerState[i] = 19;
+				else if ( GoWhere == 2 )
+					CustomerState[i] = 20;
+				else if ( GoWhere == 3 )
+					CustomerState[i] = 21;
+				else
+					CustomerState[i] = 22;			
+			}
 		}
 		else if ( CustomerState[i] == 18 )
 		{
 			//customerservice to checkout 1
+			CustomerRotation[i] = 0;
+			if ( CustomerX[i] < -900 )
+				CustomerX[i] += 50;
 		}
 		else if ( CustomerState[i] == 19 )
 		{
 			//customerservice to checkout2
+			CustomerRotation[i] = 0;
+			if ( CustomerX[i] < -800 )
+				CustomerX[i] += 50;
 		}
 		else if ( CustomerState[i] == 20 )
 		{
 			//customerservice to checkout3
+			CustomerRotation[i] = 0;
+			if ( CustomerX[i] < 100 )
+				CustomerX[i] += 50;
 		}
 		else if ( CustomerState[i] == 21 )
 		{
 			//customerservice to checkout4
+			CustomerRotation[i] = 0;
+			if ( CustomerX[i] < 200 )
+				CustomerX[i] += 50;
 		}
 		else if ( CustomerState[i] == 22 )
 		{
 			//customerservice to gates
+			CustomerRotation[i] = 0;
+			if ( CustomerX[i] < 850 )
+				CustomerX[i] += 50;
+		}
+		else if ( CustomerState[i] == 23 )
+		{
+			//shelf4 to gates
+			CustomerRotation[i] = -90;
+			if ( CustomerZ[i] < -200 )
+				CustomerZ[i] += 50;
+			else
+			{
+				CustomerRotation[i] = 0;
+				if ( CustomerX[i] < 850 )
+					CustomerX[i] += 50;
+				else
+				{
+					CustomerState[i] = 4;
+				}
+			}
+
 		}
 	}
 
