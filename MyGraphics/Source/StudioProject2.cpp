@@ -164,7 +164,7 @@ void StudioProject2::Init()
 
 	projectionStack.LoadMatrix(projection);
 
-	camera.Init(Vector3(1, 150, -230), playerPos, Vector3(0, 1, 0));
+	camera.Init(Vector3(1, 150, -230), Vector3(1, 150, -440), Vector3(0, 1, 0));
 
 	for(int i = 0; i < NUM_GEOMETRY; ++i)
 	{
@@ -855,6 +855,13 @@ void StudioProject2::Render()
 
 	///////////////////////////////////////////////////////////////////////////////////
 
+	modelStack.PushMatrix();
+	modelStack.Translate(camera.target.x, camera.target.y, camera.target.z);
+	modelStack.Scale(0.2,0.2,0.2);
+	RenderMesh(meshList[GEO_LIGHTBALL], false, false);
+	modelStack.PopMatrix();
+	
+	///////////////////////////////////////////////////////////////////////////////////
 	renderSkybox();
 	renderSupermarket();
 	renderOutside();

@@ -185,7 +185,10 @@ void Camera2::Update(double dt)
 		up = right.Cross(view).Normalized();
 		rotation.SetToRotation(pitch, right.x, right.y, right.z);
 		view = rotation * view;
-		target = (position + view);
+		//target = (position + view);
+		target -= position;
+		target = rotation*target;
+		target+=position;
 	}
 
 	// tilt down
@@ -200,7 +203,10 @@ void Camera2::Update(double dt)
 		up = right.Cross(view).Normalized();
 		rotation.SetToRotation(pitch, right.x, right.y, right.z);
 		view = rotation * view;
-		target = (position + view);
+		//target = (position + view);
+		target -= position;
+		target = rotation*target;
+		target+=position;
 	}
 
 	// tilt left
@@ -211,7 +217,10 @@ void Camera2::Update(double dt)
 		view = (target - position).Normalized();
 		rotation.SetToRotation(pitch, 0, 1, 0);
 		view = rotation * view;
-		target = (position + view);
+		//target = (position + view);
+		target -= position;
+		target = rotation* target;
+		target+=position;
 		up = rotation * up;
 	}
 
@@ -223,7 +232,10 @@ void Camera2::Update(double dt)
 		view = (target - position).Normalized();
 		rotation.SetToRotation(pitch, 0, 1, 0);
 		view = rotation * view;
-		target = (position + view);
+		//target = (position + view);
+		target -= position;
+		target = rotation* target;
+		target+=position;
 		up = rotation * up;
 	}
 	if(Application::IsKeyPressed('R'))
