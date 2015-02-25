@@ -18,10 +18,12 @@
 #define shelfBounds3Min Vector3(-75,-274,-1066)
 #define shelfBounds4Max Vector3(-1237,-274,-1826)
 #define shelfBounds4Min Vector3(244,70,-1591.3)
-#define doorBoundsMax Vector3(2600,175,1534)
-#define doorBoundsMin Vector3(1800,-270, 853)
+#define doorBoundsMax Vector3(2600,175,1395)
+#define doorBoundsMin Vector3(1800,-270, 945)
 #define shelfBounds5Max Vector3(847,-274,-808)
 #define shelfBounds5Min Vector3(353,70,-573);
+
+#define playerBounds Vector3(50,50,50);
 
 class StudioProject2 : public Scene
 {
@@ -39,12 +41,14 @@ public:
 	float LSPEED;
 	float rotateSpeed;
 	float moveSpeed;
+	bool canMove;
+
 
 	float SGTranslate;
 	float SGLegTranslate;
 	bool SGState;
 
-		float CustomerX[10];
+	float CustomerX[10];
 	float CustomerZ[10];
 	float CustomerRotation[10];
 	int CustomerState[10];
@@ -191,6 +195,8 @@ public:
 		GEO_SHELFBOUNDS5,
 
 		GEO_DOORBOUNDS,
+
+		GEO_PLAYERBOUNDS,
 		/************************************************/
 
 		GEO_TEXT,
@@ -225,6 +231,8 @@ public:
 
 	};
 
+	
+
 	void setBoundingBox(BoundingBox box)
 	{
 		boundingBox = box;
@@ -253,7 +261,7 @@ private:
 
 	void renderItems();
 
-	bool CollisionCheck();
+	bool CollisionCheck(double);
 
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
@@ -270,7 +278,6 @@ private:
 
 	Vector3 playerDir;
 	Vector3 playerPos;
-	Vector3 playerRotation;
 
 	/****************************************
 	BOUNDS CODE GO HERE
@@ -282,4 +289,16 @@ private:
 	void RenderMesh(Mesh * mesh, bool enableLight, bool transparent);
 };
 
+enum BOUNDTYPE
+	{
+		INSIDEBOUNDS = 0,
+		OUTSIDEBOUNDS,
+		SHELF1,
+		SHELF2,
+		SHELF3,
+		SHELF4,
+		DOOR,
+		SHELF5,
+		PLAYER
+	};
 #endif

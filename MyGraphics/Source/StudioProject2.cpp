@@ -31,6 +31,7 @@ double toggleDelay = 0.0f;
 
 vector<BoundingBox*> box;
 BoundingBox * boxPtr;
+BOUNDTYPE bound;
 
 StudioProject2::StudioProject2()
 {
@@ -95,8 +96,9 @@ void StudioProject2::Init()
 
 	LSPEED = 100.0f;
 	rotateSpeed = 200.0f;
-	moveSpeed = 200.0f;
+	moveSpeed = 300.0f;
 	rotateAngle = 0.0f;
+	canMove = true;
 
 	SGState = 0; //0 = sitting, 1 = chasing player
 	SGTranslate = 0;
@@ -157,6 +159,12 @@ void StudioProject2::Init()
 	boxPtr->isObj = true;
 	boxPtr->Max = shelfBounds5Max;
 	boxPtr->Min = shelfBounds5Min;
+	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isPlayer = true;
+	boxPtr->Max = playerBounds;
+	boxPtr->Min = -playerBounds;
 	box.push_back(boxPtr);
 	/*******************/
 
@@ -332,6 +340,7 @@ void StudioProject2::Init()
 	meshList[GEO_SHELFBOUNDS4] = MeshBuilder::GenerateBoundingBox("Shelf4Bounds", box[5]->Max, box[5]->Min, Color(0,0,1));
 	meshList[GEO_DOORBOUNDS] = MeshBuilder::GenerateBoundingBox("doorbounds", box[6]->Max, box[6]->Min, Color(0,1,0));
 	meshList[GEO_SHELFBOUNDS5] = MeshBuilder::GenerateBoundingBox("Shelf5Bounds", box[7]->Max, box[7]->Min, Color(0,0,1));
+	meshList[GEO_PLAYERBOUNDS] = MeshBuilder::GenerateBoundingBox("Player", box[8]->Max, box[8]->Min, Color(0,0,0));
 	/**************************************************************************************************************/
 
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1,1,1), 10, 10, 50);
@@ -458,30 +467,8 @@ void StudioProject2::Update(double dt)
 		glUniform1f(m_parameters[U_LIGHT0_KQ], 0.f);
 	}
 
-	if(Application::IsKeyPressed('T') && (CollisionCheck())) //(playerPos.z < newBox.Min.z))
-	{
-		//playerPos += playerDir * moveSpeed;
-		playerPos.z += 5.f;
-		cout << "Player Pos : " << playerPos << endl;
-	}
-	if(Application::IsKeyPressed('G') && (CollisionCheck()))//(playerPos.z > newBox.Max.z))
-	{
-		//playerPos -= playerDir * moveSpeed;
-		playerPos.z -= 5.f;
-		cout << "Player Pos : " << playerPos << endl;
-	}
-	if(Application::IsKeyPressed('F') && (CollisionCheck()))//(playerPos.x < newBox.Min.x))
-	{
-		//rotateAngle += rotateSpeed * dt;
-		playerPos.x += 5.f;
-		cout << "Player Pos : " << playerPos << endl;
-	}
-	if(Application::IsKeyPressed('H') && (CollisionCheck()))//(playerPos.x > newBox.Max.x))
-	{
-		//rotateAngle -= rotateSpeed * dt;
-		playerPos.x -= 5.f;
-		cout << "Player Pos : " << playerPos << endl;
-	}
+	CollisionCheck(dt);
+	
 	if ( Customers < 10 )
 	{
 		if ( rand() % 11 == 10 )
@@ -877,7 +864,11 @@ void StudioProject2::Render()
 
 	modelStack.PushMatrix();
 	modelStack.Translate(playerPos.x, playerPos.y, playerPos.z);
-	//renderPlayer();
+	modelStack.Rotate(rotateAngle,0,1,0);
+	modelStack.PushMatrix();
+	modelStack.Rotate(-90,0,1,0);
+	renderPlayer();
+	modelStack.PopMatrix();
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
@@ -939,10 +930,10 @@ void StudioProject2::Render()
 
 void StudioProject2::renderBounds()
 {
-	modelStack.PushMatrix();
+	/*modelStack.PushMatrix();
 	modelStack.Translate(playerPos.x,playerPos.y,playerPos.z);
 	RenderMesh(meshList[GEO_BOUNDHELPER], false, false);
-	modelStack.PopMatrix();
+	modelStack.PopMatrix();*/
 
 	modelStack.PushMatrix();
 	RenderMesh(meshList[GEO_INSIDEMARKETBOUNDS], false, false);
@@ -970,6 +961,11 @@ void StudioProject2::renderBounds()
 
 	modelStack.PushMatrix();
 	RenderMesh(meshList[GEO_SHELFBOUNDS5], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(playerPos.x,playerPos.y,playerPos.z);
+	RenderMesh(meshList[GEO_PLAYERBOUNDS],false,false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
@@ -2110,7 +2106,7 @@ void StudioProject2::renderSkybox()
 void StudioProject2::renderOutside()
 {
 	modelStack.PushMatrix();
-	modelStack.Translate(3500, -276, 1250);
+	modelStack.Translate(3500, -277, 1250);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Rotate(-90, 1, 0, 0);
 	modelStack.Scale(2500, 2500, 1);
@@ -2186,21 +2182,21 @@ void StudioProject2::renderOutside()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(12250, -280, 0);
+	modelStack.Translate(12250, -280+rotateAngle, 0);
 	modelStack.Rotate(-90, 1, 0, 0);
 	modelStack.Scale(15000, 15000, 1);
 	RenderMesh(meshList[GEO_GRASS], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(5495, -273, 1250);
+	modelStack.Translate(5495, -276, 1250);
 	modelStack.Rotate(-90, 1, 0, 0);
 	modelStack.Scale(1500, 1050, 1);
 	RenderMesh(meshList[GEO_ROAD], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(5495, -277, -1250);
+	modelStack.Translate(5495, -276, -1250);
 	modelStack.Rotate(-90, 1, 0, 0);
 	modelStack.Scale(1500, 1050, 1);
 	RenderMesh(meshList[GEO_ROAD], false, false);
@@ -2301,8 +2297,76 @@ void StudioProject2::RenderTextOnScreen(Mesh* mesh, std::string text, Color colo
 	glEnable(GL_DEPTH_TEST);
 }
 
-bool StudioProject2::CollisionCheck()
+bool StudioProject2::CollisionCheck(double dt)
 {
+	/************
+	   TESTING
+	*************/
+	if(Application::IsKeyPressed('T')) //(playerPos.z < newBox.Min.z))
+	{
+
+		/*if(box[PLAYER]->Max.z + (playerDir.z * moveSpeed) > box[INSIDEBOUNDS]->Max.z)
+		{
+			canMove = false;
+			cout << "COLLIDING" << endl;
+		}*/
+
+		if((box[PLAYER]->Min.z + (playerDir.z * moveSpeed) > box[INSIDEBOUNDS]->Max.z) || (box[INSIDEBOUNDS]->Min.z > box[PLAYER]->Max.z))
+		{
+			canMove = false;
+		}
+		else
+		{
+			canMove = true;
+		}
+
+		if(canMove)
+		{
+			box[PLAYER]->Max += playerDir * moveSpeed;
+			box[PLAYER]->Min += playerDir * moveSpeed;
+			playerPos += playerDir * moveSpeed;
+		}
+		cout << "box[PLAYER]Max = " << box[PLAYER]->Max << endl;
+		cout << "box[PLAYER]Min = " << box[PLAYER]->Min << endl;
+		/*cout << "Player Position : " << playerPos << endl;
+		cout << "box[PLAYER]Max.z : " << box[PLAYER]->Max.z << endl;
+		cout << "box[PLAYER]Min.z : " << box[PLAYER]->Min.z << endl;
+		cout << "box[INSIDEBOUNDS]Min.z : " << box[INSIDEBOUNDS]->Min.z<< endl;*/
+	}
+	if(Application::IsKeyPressed('G'))//(playerPos.z > newBox.Max.z))
+	{
+		if(box[PLAYER]->Min.z + (playerDir.z * moveSpeed) < box[INSIDEBOUNDS]->Min.z)
+		{
+			canMove = false;
+			cout << "COLLIDING" << endl;
+		}
+		else
+		{
+			canMove = true;
+		}
+		
+		if(canMove)
+		{
+			box[PLAYER]->Max -= playerDir * moveSpeed;
+			box[PLAYER]->Min -= playerDir * moveSpeed;
+			playerPos -= playerDir * moveSpeed;
+		}
+
+		cout << "Player Position : " << playerPos << endl;
+		cout << "box[PLAYER]Max.z : " << box[PLAYER]->Max.z << endl;
+		cout << "box[PLAYER]Min.z : " << box[PLAYER]->Min.z << endl;
+		cout << "box[INSIDEBOUNDS]Min.z : " << box[INSIDEBOUNDS]->Min.z << endl;
+	}
+	if(Application::IsKeyPressed('F'))//(playerPos.x < newBox.Min.x))
+	{
+		rotateAngle += rotateSpeed * dt;
+		//cout << "Player Pos : " << playerPos << endl;
+	}
+	if(Application::IsKeyPressed('H'))//(playerPos.x > newBox.Max.x))
+	{
+		rotateAngle -= rotateSpeed * dt;
+		//cout << "Player Pos : " << playerPos << endl;
+	}
 	return true;
 }
 
