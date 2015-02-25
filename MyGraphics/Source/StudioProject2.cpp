@@ -96,7 +96,7 @@ void StudioProject2::Init()
 
 	LSPEED = 100.0f;
 	rotateSpeed = 200.0f;
-	moveSpeed = 300.0f;
+	moveSpeed = 500.0f;
 	rotateAngle = 0.0f;
 	canMove = true;
 
@@ -115,6 +115,8 @@ void StudioProject2::Init()
 	PasserbyX.push_back(5200);
 	PasserbyZ.push_back(0);
 	PasserbyRotation.push_back(90);
+
+	playerPos.Set(0,0,0);
 
 	/********************
 	BOUNDS INIT GO HERE
@@ -2388,7 +2390,7 @@ void StudioProject2::renderOutside()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(12250, -280+rotateAngle, 0);
+	modelStack.Translate(12250, -280, 0);
 	modelStack.Rotate(-90, 1, 0, 0);
 	modelStack.Scale(15000, 15000, 1);
 	RenderMesh(meshList[GEO_GRASS], false, false);
@@ -2510,14 +2512,8 @@ bool StudioProject2::CollisionCheck(double dt)
 	*************/
 	if(Application::IsKeyPressed('T')) //(playerPos.z < newBox.Min.z))
 	{
-
-		/*if(box[PLAYER]->Max.z + (playerDir.z * moveSpeed) > box[INSIDEBOUNDS]->Max.z)
-		{
-			canMove = false;
-			cout << "COLLIDING" << endl;
-		}*/
-
-		if((box[PLAYER]->Min.z + (playerDir.z * moveSpeed) > box[INSIDEBOUNDS]->Max.z) || (box[INSIDEBOUNDS]->Min.z > box[PLAYER]->Max.z))
+		if((box[PLAYER]->Min.z + (playerDir.z * moveSpeed) < box[INSIDEBOUNDS]->Min.z) || 
+			(box[PLAYER]->Max.z + (playerDir.z * moveSpeed) > box[INSIDEBOUNDS]->Max.z))
 		{
 			canMove = false;
 		}
@@ -2532,23 +2528,22 @@ bool StudioProject2::CollisionCheck(double dt)
 			box[PLAYER]->Min += playerDir * moveSpeed;
 			playerPos += playerDir * moveSpeed;
 		}
-		cout << "box[PLAYER]Max = " << box[PLAYER]->Max << endl;
-		cout << "box[PLAYER]Min = " << box[PLAYER]->Min << endl;
-		/*cout << "Player Position : " << playerPos << endl;
+		cout << "Player Position : " << playerPos << endl;
 		cout << "box[PLAYER]Max.z : " << box[PLAYER]->Max.z << endl;
 		cout << "box[PLAYER]Min.z : " << box[PLAYER]->Min.z << endl;
-		cout << "box[INSIDEBOUNDS]Min.z : " << box[INSIDEBOUNDS]->Min.z<< endl;*/
+		cout << "box[INSIDEBOUNDS]Min.z : " << box[INSIDEBOUNDS]->Min.z<< endl;
 	}
 	if(Application::IsKeyPressed('G'))//(playerPos.z > newBox.Max.z))
 	{
-		if(box[PLAYER]->Min.z + (playerDir.z * moveSpeed) < box[INSIDEBOUNDS]->Min.z)
+		if((box[PLAYER]->Max.z + (playerDir.z * moveSpeed) > box[INSIDEBOUNDS]->Max.z) ||
+			(box[PLAYER]->Min.z + (playerDir.z * moveSpeed) < box[INSIDEBOUNDS]->Min.z))
 		{
-			canMove = false;
+			canMove = true;
 			cout << "COLLIDING" << endl;
 		}
 		else
 		{
-			canMove = true;
+			canMove = false;
 		}
 		
 		if(canMove)
@@ -2566,12 +2561,20 @@ bool StudioProject2::CollisionCheck(double dt)
 	if(Application::IsKeyPressed('F'))//(playerPos.x < newBox.Min.x))
 	{
 		rotateAngle += rotateSpeed * dt;
-		//cout << "Player Pos : " << playerPos << endl;
+
+		cout << "Player Position : " << playerPos << endl;
+		cout << "box[PLAYER]Max.z : " << box[PLAYER]->Max.z << endl;
+		cout << "box[PLAYER]Min.z : " << box[PLAYER]->Min.z << endl;
+		cout << "box[INSIDEBOUNDS]Min.z : " << box[INSIDEBOUNDS]->Min.z << endl;
 	}
 	if(Application::IsKeyPressed('H'))//(playerPos.x > newBox.Max.x))
 	{
 		rotateAngle -= rotateSpeed * dt;
-		//cout << "Player Pos : " << playerPos << endl;
+
+		cout << "Player Position : " << playerPos << endl;
+		cout << "box[PLAYER]Max.z : " << box[PLAYER]->Max.z << endl;
+		cout << "box[PLAYER]Min.z : " << box[PLAYER]->Min.z << endl;
+		cout << "box[INSIDEBOUNDS]Min.z : " << box[INSIDEBOUNDS]->Min.z << endl;
 	}
 	return true;
 }
