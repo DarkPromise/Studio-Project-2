@@ -501,7 +501,7 @@ void StudioProject2::Update(double dt)
 
 	CollisionCheck(dt);
 
-	if(Application::IsKeyPressed('T') && (CollisionCheck())) //(playerPos.z < newBox.Min.z))
+	/*if(Application::IsKeyPressed('T') && (CollisionCheck())) //(playerPos.z < newBox.Min.z))
 	{
 		//playerPos += playerDir * moveSpeed;
 		playerPos.z += 5.f;
@@ -524,7 +524,7 @@ void StudioProject2::Update(double dt)
 		//rotateAngle -= rotateSpeed * dt;
 		playerPos.x -= 5.f;
 		cout << "Player Pos : " << playerPos << endl;
-	}
+	}*/
 
 	if ( Customers < 10 )
 	{
