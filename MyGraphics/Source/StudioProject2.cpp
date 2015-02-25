@@ -105,10 +105,16 @@ void StudioProject2::Init()
 	SGLegTranslate = 0;
 
 	Customers = 1;
-	CustomerX[0] = 5000;
-	CustomerZ[0] = 7000;
-	CustomerRotation[0] = 90;
-	CustomerState[0] = 0;
+	CustomerX.push_back(5000);
+	CustomerZ.push_back(7000);
+	CustomerRotation.push_back(90);
+	CustomerState.push_back(0);
+	CustomerItemsHeld.push_back(0);
+
+	Passerby = 1;
+	PasserbyX.push_back(5200);
+	PasserbyZ.push_back(0);
+	PasserbyRotation.push_back(90);
 
 	/********************
 	BOUNDS INIT GO HERE
@@ -280,6 +286,32 @@ void StudioProject2::Init()
 	meshList[GEO_CUSTOMERLEFTLEG]->textureID = LoadTGA("Image//skin_20150222212123152908.tga");
 	meshList[GEO_CUSTOMERRIGHTLEG] = MeshBuilder::GenerateOBJ("Player legs", "Object//playerRightLeg.obj");
 	meshList[GEO_CUSTOMERRIGHTLEG]->textureID = LoadTGA("Image//skin_20150222212123152908.tga");
+
+	meshList[GEO_PROMOTERHEAD] = MeshBuilder::GenerateOBJ("Player head", "Object//playerHead.obj");
+	meshList[GEO_PROMOTERHEAD]->textureID = LoadTGA("Image//Best_Buy_Employee.tga");
+	meshList[GEO_PROMOTERBODY] = MeshBuilder::GenerateOBJ("Player body", "Object//playerBody.obj");
+	meshList[GEO_PROMOTERBODY]->textureID = LoadTGA("Image//Best_Buy_Employee.tga");
+	meshList[GEO_PROMOTERLEFTARM] = MeshBuilder::GenerateOBJ("Player arms", "Object//playerLeftArm.obj");
+	meshList[GEO_PROMOTERLEFTARM]->textureID = LoadTGA("Image//Best_Buy_Employee.tga");
+	meshList[GEO_PROMOTERRIGHTARM] = MeshBuilder::GenerateOBJ("Player arms", "Object//playerRightArm.obj");
+	meshList[GEO_PROMOTERRIGHTARM]->textureID = LoadTGA("Image//Best_Buy_Employee.tga");
+	meshList[GEO_PROMOTERLEFTLEG] = MeshBuilder::GenerateOBJ("Player legs", "Object//playerLeftLeg.obj");
+	meshList[GEO_PROMOTERLEFTLEG]->textureID = LoadTGA("Image//Best_Buy_Employee.tga");
+	meshList[GEO_PROMOTERRIGHTLEG] = MeshBuilder::GenerateOBJ("Player legs", "Object//playerRightLeg.obj");
+	meshList[GEO_PROMOTERRIGHTLEG]->textureID = LoadTGA("Image//Best_Buy_Employee.tga");
+	
+	meshList[GEO_PASSERBYHEAD] = MeshBuilder::GenerateOBJ("Player head", "Object//playerHead.obj");
+	meshList[GEO_PASSERBYHEAD]->textureID = LoadTGA("Image//unicorn67_Business.tga");
+	meshList[GEO_PASSERBYBODY] = MeshBuilder::GenerateOBJ("Player body", "Object//playerBody.obj");
+	meshList[GEO_PASSERBYBODY]->textureID = LoadTGA("Image//unicorn67_Business.tga");
+	meshList[GEO_PASSERBYLEFTARM] = MeshBuilder::GenerateOBJ("Player arms", "Object//playerLeftArm.obj");
+	meshList[GEO_PASSERBYLEFTARM]->textureID = LoadTGA("Image//unicorn67_Business.tga");
+	meshList[GEO_PASSERBYRIGHTARM] = MeshBuilder::GenerateOBJ("Player arms", "Object//playerRightArm.obj");
+	meshList[GEO_PASSERBYRIGHTARM]->textureID = LoadTGA("Image//unicorn67_Business.tga");
+	meshList[GEO_PASSERBYLEFTLEG] = MeshBuilder::GenerateOBJ("Player legs", "Object//playerLeftLeg.obj");
+	meshList[GEO_PASSERBYLEFTLEG]->textureID = LoadTGA("Image//unicorn67_Business.tga");
+	meshList[GEO_PASSERBYRIGHTLEG] = MeshBuilder::GenerateOBJ("Player legs", "Object//playerRightLeg.obj");
+	meshList[GEO_PASSERBYRIGHTLEG]->textureID = LoadTGA("Image//unicorn67_Business.tga");
 
 	meshList[GEO_CACTUSJUICE] = MeshBuilder::GenerateOBJ("Cactus Juice", "Object//CactusJuice.obj");
 	meshList[GEO_CACTUSJUICE]->textureID = LoadTGA("Image//CactusJuice.tga");
@@ -468,20 +500,97 @@ void StudioProject2::Update(double dt)
 	}
 
 	CollisionCheck(dt);
-	
+
+	if(Application::IsKeyPressed('T') && (CollisionCheck())) //(playerPos.z < newBox.Min.z))
+	{
+		//playerPos += playerDir * moveSpeed;
+		playerPos.z += 5.f;
+		cout << "Player Pos : " << playerPos << endl;
+	}
+	if(Application::IsKeyPressed('G') && (CollisionCheck()))//(playerPos.z > newBox.Max.z))
+	{
+		//playerPos -= playerDir * moveSpeed;
+		playerPos.z -= 5.f;
+		cout << "Player Pos : " << playerPos << endl;
+	}
+	if(Application::IsKeyPressed('F') && (CollisionCheck()))//(playerPos.x < newBox.Min.x))
+	{
+		//rotateAngle += rotateSpeed * dt;
+		playerPos.x += 5.f;
+		cout << "Player Pos : " << playerPos << endl;
+	}
+	if(Application::IsKeyPressed('H') && (CollisionCheck()))//(playerPos.x > newBox.Max.x))
+	{
+		//rotateAngle -= rotateSpeed * dt;
+		playerPos.x -= 5.f;
+		cout << "Player Pos : " << playerPos << endl;
+	}
+
 	if ( Customers < 10 )
 	{
-		if ( rand() % 11 == 10 )
+		int canSpawn = rand() % 1111;
+		if ( canSpawn == 10 )
 		{
 			Customers++;
+			int spawnWhere = rand() % 2;
+			if ( spawnWhere == 0 )
+			{
+				CustomerX.push_back(5100);
+				CustomerZ.push_back(7000);
+				CustomerRotation.push_back(90);
+				CustomerState.push_back(0);
+			}
+			else
+			{
+				CustomerX.push_back(5300);
+				CustomerZ.push_back(7000);
+				CustomerRotation.push_back(90);
+				CustomerState.push_back(0);
+			}
 		}
 	}
 
-	for ( int i = 0; i < Customers; i++)
+	if ( Passerby < 10 )
+	{
+		int canSpawn = rand() % 1111;
+		if ( canSpawn == 10 )
+		{
+			Passerby++;
+			int spawnWhere = rand() % 2;
+			if ( spawnWhere == 0 )
+			{
+				PasserbyX.push_back(5000);
+				PasserbyZ.push_back(7000);
+				PasserbyRotation.push_back(90);
+			}
+			else
+			{
+				PasserbyX.push_back(5200);
+				PasserbyZ.push_back(7100);
+				PasserbyRotation.push_back(90);
+			}
+		}
+	}
+
+	for ( int i = 0; i < Passerby; i++ )
+	{
+		if ( PasserbyZ[i] > -7000 )
+			PasserbyZ[i] -= 50;
+		else
+		{
+			PasserbyX.erase(PasserbyX.begin() + i);
+			PasserbyZ.erase(PasserbyZ.begin() + i);
+			PasserbyRotation.erase(PasserbyRotation.begin() + i);
+			Passerby--;
+		}
+	}
+
+	for ( int i = 0; i < Customers; i++ )
 	{
 		if ( CustomerState[i] == 0 )
 		{
 			//to carpark entrance
+			CustomerRotation[i] = 90;
 			if ( CustomerZ[i] > 1250 )
 				CustomerZ[i] -= 50;
 			else
@@ -517,7 +626,7 @@ void StudioProject2::Update(double dt)
 			//go through gates
 			CustomerRotation[i] = 90;
 			if ( CustomerZ[i] > -200 )
-				CustomerZ[i] -= 50;
+				CustomerZ[i] -= 10;
 			else
 			{
 				int goWhere = rand() % 2;
@@ -547,12 +656,14 @@ void StudioProject2::Update(double dt)
 		else if ( CustomerState[i] == 7 )
 		{
 			//gates to drinks section
+			CustomerRotation[i] = 0;
 			if ( CustomerX[i] < 1700 )
-				CustomerX[i] += 50;
+				CustomerX[i] += 10;
 			else
 			{
+				CustomerRotation[i] = 90;
 				if ( CustomerZ[i] > -1700 )
-					CustomerZ[i] -= 50;
+					CustomerZ[i] -= 10;
 				else
 					CustomerState[i] = 8;
 			}
@@ -562,47 +673,56 @@ void StudioProject2::Update(double dt)
 			//drinks section to gate
 			CustomerRotation[i] = -90;
 			if ( CustomerZ[i] < -200 )
-				CustomerZ[i] += 50;
-			else if ( CustomerX[i] > 1000 )
-				CustomerX[i] -= 50;
+				CustomerZ[i] += 10;
 			else
 			{
-				CustomerState[i] = 9;
+				CustomerRotation[i] = 180;
+				if ( CustomerX[i] > 1000 )
+					CustomerX[i] -= 10;
+				else
+				{
+					CustomerState[i] = 9;
+				}
 			}
 		}
 		else if ( CustomerState[i] == 9 )
 		{
 			//gate to shelf1
-			CustomerRotation[i] = 90;
-			if ( CustomerZ[i] > -1000 )
-				CustomerZ[i] -= 50;
-			else 
+			CustomerRotation[i] = 0;
+			if ( CustomerX[i] < 1000 && CustomerZ[i] > -1000)
+				CustomerX[i] += 10;
+			else
 			{
-				CustomerRotation[i] = 180;
-				if ( CustomerX[i] > 600 )
-					CustomerX[i] -= 50;
-				else
+				CustomerRotation[i] = 90;
+				if ( CustomerZ[i] > -1000 )
+					CustomerZ[i] -= 10;
+				else 
 				{
-					int GoWhere = rand() % 2;
-					if ( GoWhere == 0 )
-						CustomerState[i] = 10;
+					CustomerRotation[i] = 180;
+					if ( CustomerX[i] > 600 )
+						CustomerX[i] -= 10;
 					else
-						CustomerState[i] = 11;
+					{
+						int GoWhere = rand() % 2;
+						if ( GoWhere == 0 )
+							CustomerState[i] = 10;
+						else
+							CustomerState[i] = 11;
+					}
 				}
 			}
-
 		}
 		else if ( CustomerState[i] == 10 )
 		{
 			//shelf1 to shelf2
 			CustomerRotation[i] = 180;
 			if ( CustomerX[i] > 100 )
-				CustomerX[i] -= 50;
+				CustomerX[i] -= 10;
 			else
 			{
 				CustomerRotation[i] = -90;
 				if ( CustomerZ[i] < -800 )
-					CustomerZ[i] += 50;
+					CustomerZ[i] += 10;
 				else
 				{
 					CustomerRotation[i] = 180;
@@ -616,12 +736,12 @@ void StudioProject2::Update(double dt)
 			//shelf1 to backshelf
 			CustomerRotation[i] = 90;
 			if ( CustomerZ[i] > -1500 )
-				CustomerZ[i] -= 50;
+				CustomerZ[i] -= 10;
 			else
 			{
 				CustomerRotation[i] = 180;
 				if ( CustomerX[i] > -400 )
-					CustomerX[i] -= 50;
+					CustomerX[i] -= 10;
 				else
 				{
 					int GoWhere = rand() % 2;
@@ -637,12 +757,12 @@ void StudioProject2::Update(double dt)
 			//shelf2 to backshelf
 			CustomerRotation[i] = 90;
 			if ( CustomerZ[i] > -1500 )
-				CustomerZ[i] -= 50;
+				CustomerZ[i] -= 10;
 			else
 			{
 				CustomerRotation[i] = 180;
 				if ( CustomerX[i] > -400 )
-					CustomerX[i] -= 50;
+					CustomerX[i] -= 10;
 				else
 				{
 					int GoWhere = rand() % 2;
@@ -658,7 +778,7 @@ void StudioProject2::Update(double dt)
 			//backshelves to left shelf
 			CustomerRotation[i] = 180;
 			if ( CustomerX[i] > -1850 )
-				CustomerX[i] -= 50;
+				CustomerX[i] -= 10;
 			else
 			{
 				CustomerRotation[i] = -90;
@@ -671,12 +791,12 @@ void StudioProject2::Update(double dt)
 			//backshelves to shelf4
 			CustomerRotation[i] = 180;
 			if ( CustomerX[i] > -850 )
-				CustomerX[i] -= 50;
+				CustomerX[i] -= 10;
 			else
 			{
 				CustomerRotation[i] = -90;
 				if ( CustomerZ[i] < -800 )
-					CustomerZ[i] += 50;
+					CustomerZ[i] += 10;
 				else
 				{
 					CustomerRotation[i] = 180;
@@ -698,7 +818,7 @@ void StudioProject2::Update(double dt)
 			//left shelf to front left shelf
 			CustomerRotation[i] = -90;
 			if ( CustomerZ[i] < -600 )
-				CustomerZ[i] += 50;
+				CustomerZ[i] += 10;
 			else
 			{
 				CustomerState[i] = 17;
@@ -709,19 +829,22 @@ void StudioProject2::Update(double dt)
 			//front left shelves to customer service
 			CustomerRotation[i] = -90;
 			if ( CustomerZ[i] < -200 )
-				CustomerZ[i] += 50;
+				CustomerZ[i] += 10;
 			else
 			{
-				int GoWhere = rand() % 5;
+				if ( CustomerItemsHeld[i] == 3 )
+				{
+					int GoWhere = rand() % 4;
 
-				if ( GoWhere == 0 )
-					CustomerState[i] = 18;
-				else if ( GoWhere == 1)
-					CustomerState[i] = 19;
-				else if ( GoWhere == 2 )
-					CustomerState[i] = 20;
-				else if ( GoWhere == 3 )
-					CustomerState[i] = 21;
+					if ( GoWhere == 0 )
+						CustomerState[i] = 18;
+					else if ( GoWhere == 1)
+						CustomerState[i] = 19;
+					else if ( GoWhere == 2 )
+						CustomerState[i] = 20;
+					else if ( GoWhere == 3 )
+						CustomerState[i] = 21;
+				}
 				else
 					CustomerState[i] = 22;			
 			}
@@ -731,7 +854,7 @@ void StudioProject2::Update(double dt)
 			//customerservice to checkout 1
 			CustomerRotation[i] = 0;
 			if ( CustomerX[i] < -900 )
-				CustomerX[i] += 50;
+				CustomerX[i] += 10;
 		}
 		else if ( CustomerState[i] == 19 )
 		{
@@ -745,28 +868,32 @@ void StudioProject2::Update(double dt)
 			//customerservice to checkout3
 			CustomerRotation[i] = 0;
 			if ( CustomerX[i] < 100 )
-				CustomerX[i] += 50;
+				CustomerX[i] += 10;
 		}
 		else if ( CustomerState[i] == 21 )
 		{
 			//customerservice to checkout4
 			CustomerRotation[i] = 0;
 			if ( CustomerX[i] < 200 )
-				CustomerX[i] += 50;
+				CustomerX[i] += 10;
 		}
 		else if ( CustomerState[i] == 22 )
 		{
 			//customerservice to gates
 			CustomerRotation[i] = 0;
 			if ( CustomerX[i] < 850 )
-				CustomerX[i] += 50;
+				CustomerX[i] += 10;
+			else
+			{
+				CustomerState[i] = 4;
+			}
 		}
 		else if ( CustomerState[i] == 23 )
 		{
 			//shelf4 to gates
 			CustomerRotation[i] = -90;
 			if ( CustomerZ[i] < -200 )
-				CustomerZ[i] += 50;
+				CustomerZ[i] += 10;
 			else
 			{
 				CustomerRotation[i] = 0;
@@ -902,6 +1029,21 @@ void StudioProject2::Render()
 		modelStack.PopMatrix();
 	}
 
+	for ( int i = 0; i < Passerby; i++ )
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(PasserbyX[i], -275, PasserbyZ[i]);
+		modelStack.Rotate(PasserbyRotation[i], 0, 1, 0);
+		renderPasserby();
+		modelStack.PopMatrix();
+	}
+
+	modelStack.PushMatrix();
+	modelStack.Translate(6000, -275, 0);
+	modelStack.Rotate(180, 0, 1, 0);
+	renderPromoter();
+	modelStack.PopMatrix();
+
 	modelStack.PushMatrix();
 	if (SGState == 1 )
 		modelStack.Translate(1100, -220, 400);
@@ -1033,6 +1175,70 @@ void StudioProject2::renderCustomer()
 
 	modelStack.PushMatrix();
 	RenderMesh(meshList[GEO_CUSTOMERRIGHTLEG], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PopMatrix();	
+}
+
+void StudioProject2::renderPasserby()
+{
+	modelStack.PushMatrix();
+	modelStack.Scale(20, 20, 20);
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_PASSERBYHEAD], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_PASSERBYBODY], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_PASSERBYLEFTARM], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_PASSERBYRIGHTARM], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_PASSERBYLEFTLEG], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_PASSERBYRIGHTLEG], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PopMatrix();	
+}
+
+void StudioProject2::renderPromoter()
+{
+	modelStack.PushMatrix();
+	modelStack.Scale(20, 20, 20);
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_PROMOTERHEAD], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_PROMOTERBODY], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_PROMOTERLEFTARM], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_PROMOTERRIGHTARM], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_PROMOTERLEFTLEG], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_PROMOTERRIGHTLEG], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PopMatrix();	

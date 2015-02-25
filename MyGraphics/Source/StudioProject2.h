@@ -7,6 +7,7 @@
 #include "Mesh.h"
 #include "MatrixStack.h"
 #include "Light.h"
+#include <vector>
 
 #define insideBounds Vector3(2202,274,1826)
 #define outsideBounds Vector3(2252,274,1876)
@@ -24,6 +25,8 @@
 #define shelfBounds5Min Vector3(353,70,-573);
 
 #define playerBounds Vector3(50,50,50);
+
+using std::vector;
 
 class StudioProject2 : public Scene
 {
@@ -48,11 +51,17 @@ public:
 	float SGLegTranslate;
 	bool SGState;
 
-	float CustomerX[10];
-	float CustomerZ[10];
-	float CustomerRotation[10];
-	int CustomerState[10];
+	vector<float> CustomerX;
+	vector<float> CustomerZ;
+	vector<float> CustomerRotation;
+	vector<float> CustomerState;
+	vector<float> CustomerItemsHeld;
 	int Customers;
+	
+	vector<float> PasserbyX;
+	vector<float> PasserbyZ;
+	vector<float> PasserbyRotation;
+	int Passerby;
 
 	enum CustomerPath
 	{
@@ -79,6 +88,7 @@ public:
 		CUSTOMER_CUSTOMERSERVICETOCHECKOUT3,
 		CUSTOMER_CUSTOMERSERVICETOCHECKOUT4,
 		CUSTOMER_CUSTOMERSERVICETOGATES,
+		CUSTOMER_SHELF4TOGATES,
 	};
 
 
@@ -147,6 +157,20 @@ public:
 		GEO_CUSTOMERRIGHTARM,
 		GEO_CUSTOMERLEFTLEG,
 		GEO_CUSTOMERRIGHTLEG,
+
+		GEO_PROMOTERHEAD,
+		GEO_PROMOTERBODY,
+		GEO_PROMOTERLEFTARM,
+		GEO_PROMOTERRIGHTARM,
+		GEO_PROMOTERLEFTLEG,
+		GEO_PROMOTERRIGHTLEG,
+
+		GEO_PASSERBYHEAD,
+		GEO_PASSERBYBODY,
+		GEO_PASSERBYLEFTARM,
+		GEO_PASSERBYRIGHTARM,
+		GEO_PASSERBYLEFTLEG,
+		GEO_PASSERBYRIGHTLEG,
 
 		GEO_CUSTOMERSERVICE,
 		GEO_CASHIERTABLE,
@@ -253,6 +277,8 @@ private:
 	void renderCashier();
 	void renderSecurityGuard();
 	void renderCustomer();
+	void renderPromoter();
+	void renderPasserby();
 
 	void renderSkybox();
 	void renderSupermarket();
@@ -278,7 +304,8 @@ private:
 
 	Vector3 playerDir;
 	Vector3 playerPos;
-
+	Vector3 playerRotation;
+	
 	/****************************************
 	BOUNDS CODE GO HERE
 	****************************************/
