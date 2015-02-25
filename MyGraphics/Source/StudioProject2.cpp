@@ -152,6 +152,12 @@ void StudioProject2::Init()
 	boxPtr->Max = doorBoundsMax;
 	boxPtr->Min = doorBoundsMin;
 	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = shelfBounds5Max;
+	boxPtr->Min = shelfBounds5Min;
+	box.push_back(boxPtr);
 	/*******************/
 
 	// Init VBO here
@@ -325,6 +331,7 @@ void StudioProject2::Init()
 	meshList[GEO_SHELFBOUNDS3] = MeshBuilder::GenerateBoundingBox("Shelf3Bounds", box[4]->Max, box[4]->Min, Color(0,0,1));
 	meshList[GEO_SHELFBOUNDS4] = MeshBuilder::GenerateBoundingBox("Shelf4Bounds", box[5]->Max, box[5]->Min, Color(0,0,1));
 	meshList[GEO_DOORBOUNDS] = MeshBuilder::GenerateBoundingBox("doorbounds", box[6]->Max, box[6]->Min, Color(0,1,0));
+	meshList[GEO_SHELFBOUNDS5] = MeshBuilder::GenerateBoundingBox("Shelf5Bounds", box[7]->Max, box[7]->Min, Color(0,0,1));
 	/**************************************************************************************************************/
 
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1,1,1), 10, 10, 50);
@@ -955,6 +962,10 @@ void StudioProject2::renderBounds()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_SHELFBOUNDS5], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
 	RenderMesh(meshList[GEO_DOORBOUNDS], false, false);
 	modelStack.PopMatrix();
 }
@@ -1259,7 +1270,7 @@ void StudioProject2::renderSupermarket()
 
 	//Lone shelf near right-center
 	modelStack.PushMatrix();
-	modelStack.Translate(600, -275, -662);
+	modelStack.Translate(600, -275, -663.9);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_SHELF], false, false);

@@ -20,6 +20,8 @@
 #define shelfBounds4Min Vector3(244,70,-1591.3)
 #define doorBoundsMax Vector3(2600,175,1534)
 #define doorBoundsMin Vector3(1800,-270, 853)
+#define shelfBounds5Max Vector3(847,-274,-808)
+#define shelfBounds5Min Vector3(353,70,-573);
 
 class StudioProject2 : public Scene
 {
