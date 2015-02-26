@@ -1,5 +1,6 @@
 #include "Camera2.h"
 #include "Application.h"
+#include "Mtx44.h"
 
 /***********************************************************/
 /*!
@@ -58,99 +59,82 @@ void Camera2::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 \param dt - the delta time since the last time the function was called
 */
 /***********************************************************/
-void Camera2::Update(double dt,std::vector<CLocation*>List,float &_rotation,Mesh* cookie)
+void Camera2::Update(double dt)
 {
 	static const float CAMERA_SPEED = 300.f;
 	if(Application::IsKeyPressed('W'))
 	{
 		Vector3 temptarget = target;
 		Vector3 tempposition = position;
-		float yaw = (float)(CAMERA_SPEED * dt);
+		float yaw = (float)(CAMERA_SPEED * 2.5 * dt);
 		view = (target - position).Normalized();
 		position += (view * yaw);
 		target += (view * yaw);
-		CLocation* ptr;
-		for(int i = 0;i<List.size();i++)
-		{
-			ptr = List[i];
-			if(target.x > Maximum.x || target.x < Minimum.x || target.y > Maximum.y || target.y < Minimum.y || target.z > Maximum.z || target.z < Minimum.z||(position.x<ptr->Maxbound.x && position.x>ptr->Minbound.x && position.y<ptr->Maxbound.y && position.y>ptr->Minbound.y && position.z<ptr->Maxbound.z && position.z>ptr->Minbound.z))
-			{
-				target = temptarget;
-				position = tempposition;
-			}
-		}
 
-		//target.y = temptarget.y;
-		//position.y = tempposition.y;
+		if(target.x > Maximum.x || target.x < Minimum.x || target.y > Maximum.y || target.y < Minimum.y || target.z > Maximum.z || target.z < Minimum.z)
+		{
+			target = temptarget;
+			position = tempposition;
+		}
+		target.y = temptarget.y;
+		position.y = tempposition.y;
 	}
 
 	if(Application::IsKeyPressed('S'))
 	{
 		Vector3 temptarget = target;
 		Vector3 tempposition = position;
-		float yaw = (float)(-CAMERA_SPEED * dt);
+		float yaw = (float)(-CAMERA_SPEED * 2.5 * dt);
 		view = (target - position).Normalized();
 		position += (view * yaw);
 		target += (view * yaw);
-		CLocation* ptr;
-		for(int i = 0;i<List.size();i++)
+
+		if(target.x > Maximum.x || target.x < Minimum.x || target.y > Maximum.y || target.y < Minimum.y || target.z > Maximum.z || target.z < Minimum.z)
 		{
-			ptr = List[i];
-			if(target.x > Maximum.x || target.x < Minimum.x || target.y > Maximum.y || target.y < Minimum.y || target.z > Maximum.z || target.z < Minimum.z||(position.x<ptr->Maxbound.x && position.x>ptr->Minbound.x && position.y<ptr->Maxbound.y && position.y>ptr->Minbound.y && position.z<ptr->Maxbound.z && position.z>ptr->Minbound.z))
-			{
-				target = temptarget;
-				position = tempposition;
-			}
+			target = temptarget;
+			position = tempposition;
 		}
 
-		//target.y = temptarget.y;
-		//position.y = tempposition.y;
+		target.y = temptarget.y;
+		position.y = tempposition.y;
 	}
 
 	if(Application::IsKeyPressed('A'))
 	{
 		Vector3 temptarget = target;
 		Vector3 tempposition = position;
-		float yaw = (float)(-CAMERA_SPEED * dt);
+		float yaw = (float)(-CAMERA_SPEED * 2.5 * dt);
 		view = (target - position).Normalized();
 		position += (view.Cross(up) * yaw);
 		target += (view.Cross(up) * yaw);
-		CLocation* ptr;
-		for(int i = 0;i<List.size();i++)
+
+		if(target.x > Maximum.x || target.x < Minimum.x || target.y > Maximum.y || target.y < Minimum.y || target.z > Maximum.z || target.z < Minimum.z)
 		{
-			ptr = List[i];
-			if(target.x > Maximum.x || target.x < Minimum.x || target.y > Maximum.y || target.y < Minimum.y || target.z > Maximum.z || target.z < Minimum.z||(position.x<ptr->Maxbound.x && position.x>ptr->Minbound.x && position.y<ptr->Maxbound.y && position.y>ptr->Minbound.y && position.z<ptr->Maxbound.z && position.z>ptr->Minbound.z))
-			{
-				target = temptarget;
-				position = tempposition;
-			}
+			target = temptarget;
+			position = tempposition;
 		}
 		
-		//target.y = temptarget.y;
-		//position.y = tempposition.y;
+		target.y = temptarget.y;
+		position.y = tempposition.y;
 	}
 
 	if(Application::IsKeyPressed('D'))
 	{
 		Vector3 temptarget = target;
 		Vector3 tempposition = position;
-		float yaw = (float)(CAMERA_SPEED * dt);
+		float yaw = (float)(CAMERA_SPEED * 2.5 * dt);
 		view = (target - position).Normalized();
 		position += (view.Cross(up) * yaw);
 		target += (view.Cross(up) * yaw);
-		CLocation* ptr;
-		for(int i = 0;i<List.size();i++)
+
+		if(target.x > Maximum.x || target.x < Minimum.x || target.y > Maximum.y || target.y < Minimum.y || target.z > Maximum.z || target.z < Minimum.z)
 		{
-			ptr = List[i];
-			if(target.x > Maximum.x || target.x < Minimum.x || target.y > Maximum.y || target.y < Minimum.y || target.z > Maximum.z || target.z < Minimum.z||(position.x<ptr->Maxbound.x && position.x>ptr->Minbound.x && position.y<ptr->Maxbound.y && position.y>ptr->Minbound.y && position.z<ptr->Maxbound.z && position.z>ptr->Minbound.z))
-			{
-				target = temptarget;
-				position = tempposition;
-			}
+			target = temptarget;
+			position = tempposition;
 		}
 
-		//target.y = temptarget.y;
-		//position.y = tempposition.y;
+		target.y = temptarget.y;
+		position.y = tempposition.y;
 	}
 
 	if(Application::IsKeyPressed('Q'))
@@ -164,15 +148,10 @@ void Camera2::Update(double dt,std::vector<CLocation*>List,float &_rotation,Mesh
 		right.Normalize();
 		position += (view.Cross(right) * yaw);
 		target += (view.Cross(right) * yaw);
-		CLocation* ptr;
-		for(int i = 0;i<List.size();i++)
+		if(target.x > Maximum.x || target.x < Minimum.x || target.y > Maximum.y || target.y < Minimum.y || target.z > Maximum.z || target.z < Minimum.z)
 		{
-			ptr = List[i];
-			if(target.x > Maximum.x || target.x < Minimum.x || target.y > Maximum.y || target.y < Minimum.y || target.z > Maximum.z || target.z < Minimum.z||(position.x<ptr->Maxbound.x && position.x>ptr->Minbound.x && position.y<ptr->Maxbound.y && position.y>ptr->Minbound.y && position.z<ptr->Maxbound.z && position.z>ptr->Minbound.z))
-			{
-				target = temptarget;
-				position = tempposition;
-			}
+			target = temptarget;
+			position = tempposition;
 		}
 	}
 
@@ -187,15 +166,10 @@ void Camera2::Update(double dt,std::vector<CLocation*>List,float &_rotation,Mesh
 		right.Normalize();
 		position += (view.Cross(right) * yaw);
 		target += (view.Cross(right) * yaw);
-		CLocation* ptr;
-		for(int i = 0;i<List.size();i++)
+		if(target.x > Maximum.x || target.x < Minimum.x || target.y > Maximum.y || target.y < Minimum.y || target.z > Maximum.z || target.z < Minimum.z)
 		{
-			ptr = List[i];
-			if(target.x > Maximum.x || target.x < Minimum.x || target.y > Maximum.y || target.y < Minimum.y || target.z > Maximum.z || target.z < Minimum.z||(position.x<ptr->Maxbound.x && position.x>ptr->Minbound.x && position.y<ptr->Maxbound.y && position.y>ptr->Minbound.y && position.z<ptr->Maxbound.z && position.z>ptr->Minbound.z))
-			{
-				target = temptarget;
-				position = tempposition;
-			}
+			target = temptarget;
+			position = tempposition;
 		}
 	}
 
