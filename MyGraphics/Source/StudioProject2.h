@@ -8,6 +8,7 @@
 #include "MatrixStack.h"
 #include "Light.h"
 #include <vector>
+#include "Location.h"
 
 #define insideBounds Vector3(2202,274,1826)
 #define outsideBounds Vector3(2252,274,1876)
@@ -40,6 +41,7 @@ public:
 	virtual void Exit();
 
 	float rotateAngle;
+	float modelrotatey;
 
 	float LSPEED;
 	float rotateSpeed;
@@ -263,6 +265,11 @@ public:
 	}
 
 private:
+
+	std::vector<CLocation*> LocationList;
+	CLocation* ptr;
+
+
 	Mesh* meshList[NUM_GEOMETRY];
 
 	unsigned m_vertexArrayID;
@@ -284,8 +291,6 @@ private:
 	void renderSupermarket();
 	void renderOutside();
 	void renderBounds();
-
-	void renderItems();
 
 	bool CollisionCheck(double);
 
