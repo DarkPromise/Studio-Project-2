@@ -2,7 +2,6 @@
 #define CAMERA_2_H
 
 #include "Camera.h"
-#include "Location.h"
 #include "Mtx44.h"
 #include <vector>
 
@@ -35,7 +34,7 @@ public:
 	~Camera2();
 
 	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
-	virtual void Update(double dt, bool move,std::vector<CLocation*>List,float &_rotation,Mesh* cookie);
+	virtual void Update(double dt, bool move);
 	virtual void Reset();
 };
 
