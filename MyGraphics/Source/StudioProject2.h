@@ -176,6 +176,8 @@ public:
 		GEO_CASHIERTABLE2,
 		GEO_SECURITYCOUNTER,
 		GEO_SHELF,
+		GEO_CHILLER,
+		GEO_FREEZER,
 
 		GEO_CACTUSJUICE,
 		GEO_CADBURY,
@@ -286,8 +288,6 @@ private:
 	void renderSupermarket();
 	void renderOutside();
 	void renderBounds();
-
-	void renderItems();
 
 	void CollisionCheck(double);
 
