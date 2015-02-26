@@ -1,5 +1,7 @@
 #include "Camera2.h"
 #include "Application.h"
+#include "Mtx44.h"
+#include <string>
 
 /***********************************************************/
 /*!
@@ -79,8 +81,8 @@ void Camera2::Update(double dt,bool move,std::vector<CLocation*>List,float &_rot
 				position = tempposition;
 			}
 		}
-		//target.y = temptarget.y;
-		//position.y = tempposition.y;
+		target.y = temptarget.y;
+		position.y = tempposition.y;
 	}
 
 	if(Application::IsKeyPressed('S') && move == true)
@@ -102,8 +104,8 @@ void Camera2::Update(double dt,bool move,std::vector<CLocation*>List,float &_rot
 			}
 		}
 
-		//target.y = temptarget.y;
-		//position.y = tempposition.y;
+		target.y = temptarget.y;
+		position.y = tempposition.y;
 	}
 
 	if(Application::IsKeyPressed('A') && move == true)
@@ -125,8 +127,8 @@ void Camera2::Update(double dt,bool move,std::vector<CLocation*>List,float &_rot
 			}
 		}
 		
-		//target.y = temptarget.y;
-		//position.y = tempposition.y;
+		target.y = temptarget.y;
+		position.y = tempposition.y;
 	}
 
 	if(Application::IsKeyPressed('D') && move == true)
@@ -147,8 +149,8 @@ void Camera2::Update(double dt,bool move,std::vector<CLocation*>List,float &_rot
 				position = tempposition;
 			}
 		}
-		//target.y = temptarget.y;
-		//position.y = tempposition.y;
+		target.y = temptarget.y;
+		position.y = tempposition.y;
 	}
 
 	if(Application::IsKeyPressed('Q'))

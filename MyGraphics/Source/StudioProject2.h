@@ -313,6 +313,9 @@ private:
 	BOUNDS CODE GO HERE
 	****************************************/
 	BoundingBox boundingBox;
+	Vector3 tempStorage;
+	Vector3 tempTarget;
+	Vector3 tempUp;
 	/***************************************/
 	Light light[1];
 

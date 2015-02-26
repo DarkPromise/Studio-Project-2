@@ -26,6 +26,8 @@ public:
 	float yaw;
 	float roll;
 
+	int facingDirection;
+
 	Vector3 Maximum;
 	Vector3 Minimum;
 

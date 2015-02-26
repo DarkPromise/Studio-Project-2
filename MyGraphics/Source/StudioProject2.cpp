@@ -121,6 +121,8 @@ void StudioProject2::Init()
 	PasserbyRotation.push_back(90);
 
 	playerPos.Set(0,0,0);
+	tempStorage.Set(0,0,0);
+	tempTarget.Set(0,0,0);
 
 	/********************
 	BOUNDS INIT GO HERE
@@ -538,32 +540,32 @@ void StudioProject2::Update(double dt)
 		glUniform1f(m_parameters[U_LIGHT0_KQ], 0.f);
 	}
 
-	//CollisionCheck(dt);
+	////CollisionCheck(dt);
 
-	if(Application::IsKeyPressed('T'))
-	{
-		//playerPos += playerDir * moveSpeed;
-		playerPos.z += 1.f;
-		cout << "Player Pos : " << playerPos << endl;
-	}
-	if(Application::IsKeyPressed('G'))
-	{
-		//playerPos -= playerDir * moveSpeed;
-		playerPos.z -= 1.f;
-		cout << "Player Pos : " << playerPos << endl;
-	}
-	if(Application::IsKeyPressed('F'))
-	{
-		//rotateAngle += rotateSpeed * dt;
-		playerPos.x += 1.f;
-		cout << "Player Pos : " << playerPos << endl;
-	}
-	if(Application::IsKeyPressed('H'))
-	{
-		//rotateAngle -= rotateSpeed * dt;
-		playerPos.x -= 1.f;
-		cout << "Player Pos : " << playerPos << endl;
-	}
+	//if(Application::IsKeyPressed('T'))
+	//{
+	//	//playerPos += playerDir * moveSpeed;
+	//	playerPos.z += 1.f;
+	//	cout << "Player Pos : " << playerPos << endl;
+	//}
+	//if(Application::IsKeyPressed('G'))
+	//{
+	//	//playerPos -= playerDir * moveSpeed;
+	//	playerPos.z -= 1.f;
+	//	cout << "Player Pos : " << playerPos << endl;
+	//}
+	//if(Application::IsKeyPressed('F'))
+	//{
+	//	//rotateAngle += rotateSpeed * dt;
+	//	playerPos.x += 1.f;
+	//	cout << "Player Pos : " << playerPos << endl;
+	//}
+	//if(Application::IsKeyPressed('H'))
+	//{
+	//	//rotateAngle -= rotateSpeed * dt;
+	//	playerPos.x -= 1.f;
+	//	cout << "Player Pos : " << playerPos << endl;
+	//}
 
 	if ( Customers < 10 )
 	{
@@ -976,12 +978,26 @@ void StudioProject2::Update(double dt)
 	deltaTime = dt;
 	toggleDelay += dt;
 
-	CollisionCheck(dt);
 	camera.Update(dt,canMove,LocationList,modelrotatey,meshList[GEO_CACTUSJUICE]);
-	//CollisionCheck();
+	CollisionCheck(dt);
+
 	playerPos = camera.position;
 	box[PLAYER]->Max = playerPos + playerBounds;
 	box[PLAYER]->Min = playerPos - playerBounds;
+
+	if(canMove)
+	{
+		tempStorage = playerPos;
+		tempTarget = camera.target;
+		tempUp = camera.up;
+	}
+	else
+	{
+		camera.position = tempStorage;
+		camera.target = tempTarget;
+		camera.up = tempUp;
+		canMove = true;
+	}
 
 	//camera.target.Set(CustomerX[0], 0, CustomerZ[0]);
 	//camera.position.Set(CustomerX[0], 0, CustomerZ[0] + 500);
@@ -1914,6 +1930,27 @@ void StudioProject2::CollisionCheck(double dt)
 	/************
 	   TESTING
 	*************/
+
+	std::string currView = "NONE";
+	std::string lastView = "NONE";
+
+	if(camera.view.x > -0.7 && camera.view.x < 0.7  && camera.view.z < 0)
+	{
+		currView = "North";
+	}
+	if(camera.view.x > -0.7 && camera.view.x < 0.7  && camera.view.z > 0)
+	{
+		currView = "South";
+	}
+	if(camera.view.z > -0.7 && camera.view.z < 0.7 && camera.view.x < 0)
+	{
+		currView = "West";
+	}
+	if(camera.view.z > -0.7 && camera.view.z < 0.7 && camera.view.x > 0)
+	{
+		currView = "East";
+	}
+
 	if(Application::IsKeyPressed('W')) //(playerPos.z < newBox.Min.z))
 	{
 		if((box[PLAYER]->Min.x < box[SHELF1]->Max.x) && (box[PLAYER]->Max.x > box[SHELF1]->Min.x) &&
@@ -1921,25 +1958,11 @@ void StudioProject2::CollisionCheck(double dt)
 			(box[PLAYER]->Min.z < box[SHELF1]->Max.z) && (box[PLAYER]->Max.z > box[SHELF1]->Min.z)) 
 		{
 			canMove = false;
-			cout << "COLLIDING" << endl;
 		}
 		else
 		{
 			canMove = true;
 		}
-
-		if(canMove)
-		{
-			box[PLAYER]->Max += playerDir * moveSpeed;
-			box[PLAYER]->Min += playerDir * moveSpeed;
-			playerPos += playerDir * moveSpeed;
-		}
-		cout << "Player Position : " << playerPos << endl;
-		cout << "Player Directio : " << playerDir << endl;
-		cout << "box[PLAYER]Max  : " << box[PLAYER]->Max << endl;
-		cout << "box[PLAYER]Min  : " << box[PLAYER]->Min << endl;
-		cout << "box[SHELF1]Max  : " << box[SHELF1]->Max << endl;
-		cout << "box[SHELF1]Min  : " << box[SHELF1]->Min << endl;
 	}
 	if(Application::IsKeyPressed('S'))
 	{
@@ -1948,32 +1971,11 @@ void StudioProject2::CollisionCheck(double dt)
 			(box[PLAYER]->Min.z < box[SHELF1]->Max.z) && (box[PLAYER]->Max.z > box[SHELF1]->Min.z)) 
 		{
 			canMove = false;
-			cout << "COLLIDING" << endl;
 		}
 		else
 		{
 			canMove = true;
 		}
-		
-		if(canMove == false)
-		{
-			canMove = true;
-			box[PLAYER]->Max -= playerDir * moveSpeed;
-			box[PLAYER]->Min -= playerDir * moveSpeed;
-			playerPos -= playerDir * moveSpeed;
-		}
-		else
-		{
-			box[PLAYER]->Max -= playerDir * moveSpeed;
-			box[PLAYER]->Min -= playerDir * moveSpeed;
-			playerPos -= playerDir * moveSpeed;
-		}
-
-		cout << "Player Position : " << playerPos << endl;
-		cout << "box[PLAYER]Max : " << box[PLAYER]->Max << endl;
-		cout << "box[PLAYER]Min : " << box[PLAYER]->Min << endl;
-		cout << "box[SHELF1]Max  : " << box[SHELF1]->Max << endl;
-		cout << "box[SHELF1]Min  : " << box[SHELF1]->Min << endl;
 	}
 	if(Application::IsKeyPressed('A'))//(playerPos.x < newBox.Min.x))
 	{
@@ -1982,18 +1984,11 @@ void StudioProject2::CollisionCheck(double dt)
 			(box[PLAYER]->Min.z < box[SHELF1]->Max.z) && (box[PLAYER]->Max.z > box[SHELF1]->Min.z)) 
 		{
 			canMove = false;
-			cout << "COLLIDING" << endl;
 		}
 		else
 		{
 			canMove = true;
 		}
-
-		cout << "Player Position : " << playerPos << endl;
-		cout << "box[PLAYER]Max : " << box[PLAYER]->Max << endl;
-		cout << "box[PLAYER]Min : " << box[PLAYER]->Min << endl;
-		cout << "box[SHELF1]Max  : " << box[SHELF1]->Max << endl;
-		cout << "box[SHELF1]Min  : " << box[SHELF1]->Min << endl;
 	}
 	if(Application::IsKeyPressed('D'))//(playerPos.x > newBox.Max.x))
 	{
@@ -2002,18 +1997,11 @@ void StudioProject2::CollisionCheck(double dt)
 			(box[PLAYER]->Min.z < box[SHELF1]->Max.z) && (box[PLAYER]->Max.z > box[SHELF1]->Min.z)) 
 		{
 			canMove = false;
-			cout << "COLLIDING" << endl;
 		}
 		else
 		{
 			canMove = true;
 		}
-
-		cout << "Player Position : " << playerPos << endl;
-		cout << "box[PLAYER]Max : " << box[PLAYER]->Max << endl;
-		cout << "box[PLAYER]Min : " << box[PLAYER]->Min << endl;
-		cout << "box[SHELF1]Max  : " << box[SHELF1]->Max << endl;
-		cout << "box[SHELF1]Min  : " << box[SHELF1]->Min << endl;
 	}
 }
 
