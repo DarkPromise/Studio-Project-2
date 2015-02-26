@@ -8,8 +8,9 @@
 #include "MatrixStack.h"
 #include "Light.h"
 #include <vector>
-#include "Location.h"
 #include <string>
+#include "Item.h"
+#include "Shelfslot.h"
 
 #define MarketWall1 Vector3(2252,274,25)
 #define MarketWall2 Vector3(2252,274,25)
@@ -266,8 +267,6 @@ public:
 	}
 
 private:
-	std::vector<CLocation*> LocationList;
-	CLocation* ptr;
 
 	Mesh* meshList[NUM_GEOMETRY];
 
@@ -311,6 +310,8 @@ private:
 	Vector3 playerPos;
 	Vector3 playerRotation;
 	
+	vector<Item*> itemVector;
+	vector<Shelfslot*> shelfVector;
 	/****************************************
 	BOUNDS CODE GO HERE
 	****************************************/

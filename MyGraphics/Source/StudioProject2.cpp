@@ -15,7 +15,6 @@
 #include "Utility.h"
 #include "LoadTGA.h"
 #include "define.h"
-#include "Location.h"
 
 using std::setprecision;
 using std::cout;
@@ -415,13 +414,22 @@ void StudioProject2::Init()
 	box[SHELF2]->Max += Vector3(-1210,-103.3,-820);
 	box[SHELF2]->Min += Vector3(-1210,-103.3,-820);
 
-	/*******************************
-	THIS IS FOR OBJECT BOUND(DO NOT TOUCH)
-	*******************************/
-	ptr = new CLocation(Vector3(100,100,100),Vector3(80,80,80),Vector3(0.25,0.5,0.25),meshList[GEO_CACTUSJUICE]);
-	ptr->CalcLocation();
-	LocationList.push_back(ptr);
+	/***************************************************
+	FOR ADDING ITEMS & SHELFSLOTS
+	***************************************************/
+	Item* ip;
+	Shelfslot* sp;
 
+	for(float y = 50; y >= -250; y -= 50)
+	{
+		for(float z = -400; z >= -800; z -= 50)
+		{
+			ip = new Item(Vector3(12,18,12), Vector3(-12,-18,-12), Vector3(-2000, y , z), Vector3(80,80,80), 90.f, 59);
+			itemVector.push_back(ip);
+			sp = new Shelfslot(Vector3(-2000, y , z),Vector3(12,18,12), Vector3(-12,-18,-12), itemVector.size()-1, false);
+			shelfVector.push_back(sp);
+		}
+	}
 }
 
 void StudioProject2::RenderMesh(Mesh *mesh, bool enableLight, bool transparent)
@@ -983,7 +991,7 @@ void StudioProject2::Update(double dt)
 	deltaTime = dt;
 	toggleDelay += dt;
 
-	camera.Update(dt,canMove,LocationList,modelrotatey,meshList[GEO_CACTUSJUICE]);
+	camera.Update(dt,canMove);
 	CollisionCheck(dt);
 
 	playerPos = camera.position;
@@ -1003,7 +1011,46 @@ void StudioProject2::Update(double dt)
 		camera.up = tempUp;
 		canMove = true;
 	}
+	for(int i = 0; i < shelfVector.size(); ++i)
+	{
+		if(camera.target.x > shelfVector[i]->boundMin.x && camera.target.x < shelfVector[i]->boundMax.x  && camera.target.y > shelfVector[i]->boundMin.y && camera.target.y < shelfVector[i]->boundMax.y && camera.target.z > shelfVector[i]->boundMin.z && camera.target.z < shelfVector[i]->boundMax.z && shelfVector[i]->isempty == false && isHolding == false)
+		{
+			cout << "seen";
+			if(Application::IsKeyPressed('B'))
+			{
+				holding = shelfVector[i]->itemid;
+				shelfVector[i]->isempty = true;
+				isHolding = true;
+			}
+		}
+	}
+	for(int i = 0; i < shelfVector.size(); ++i)
+	{
+		if(camera.target.x > shelfVector[i]->boundMin.x && camera.target.x < shelfVector[i]->boundMax.x  && camera.target.y > shelfVector[i]->boundMin.y && camera.target.y < shelfVector[i]->boundMax.y && camera.target.z > shelfVector[i]->boundMin.z && camera.target.z < shelfVector[i]->boundMax.z && shelfVector[i]->isempty == true && isHolding == true)
+		{
+			cout << "seen";
+			if(Application::IsKeyPressed('N'))
+			{
+				shelfVector[i]->itemid = holding;
+				itemVector[holding]->placeItem(shelfVector[i]->position);
+				shelfVector[i]->isempty = false;
+				isHolding = false;
+			}
+		}
+	}
+	if(isHolding == true)
+	{
+		itemVector[holding]->takeItem(camera.target);
 
+		if(Application::IsKeyPressed(VK_LEFT))
+		{
+			itemVector[holding]->updateRotate(150.f * dt);
+		}
+		if(Application::IsKeyPressed(VK_RIGHT))
+		{
+			itemVector[holding]->updateRotate(-150.f * dt);
+		}
+	}
 	//camera.target.Set(CustomerX[0], 0, CustomerZ[0]);
 	//camera.position.Set(CustomerX[0], 0, CustomerZ[0] + 500);
 }
@@ -1133,18 +1180,6 @@ void StudioProject2::Render()
 	modelStack.Scale(100, 50, 50.5);
 	RenderMesh(meshList[GEO_GLASSDOOR], false, false);
 	modelStack.PopMatrix();
-
-	//Render Object Bound
-	for(int i=0;i<LocationList.size();i++)
-	{
-		ptr = LocationList[i];
-		modelStack.PushMatrix();
-		modelStack.Translate(ptr->Translate.x,ptr->Translate.y,ptr->Translate.z);
-		modelStack.Scale(ptr->Scale.x,ptr->Scale.y,ptr->Scale.z);
-		modelStack.Rotate(90,0,1,0);
-		RenderMesh(ptr->obj,false,false);
-		modelStack.PopMatrix();
-	}
 
 	RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
 	RenderTextOnScreen(meshList[GEO_TEXT],"Direction=" + currView, Color(0, 0, 1), 2.5, 12.7, 23);
@@ -1581,6 +1616,15 @@ void StudioProject2::renderSupermarket()
 
 void StudioProject2::renderItems()
 {
+	for(int i = 0; i < itemVector.size(); i++)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(itemVector[i]->position.x, itemVector[i]->position.y, itemVector[i]->position.z);
+		modelStack.Rotate(itemVector[i]->rotateY, 0, 1, 0);
+		modelStack.Scale(itemVector[i]->scale.x,itemVector[i]->scale.y,itemVector[i]->scale.z);
+		RenderMesh(meshList[itemVector[i]->mesh], false, false);
+		modelStack.PopMatrix();
+	}
 	for(float k = 50;k >= -250;k = k-50)
 	{
 		for(float i = -2040;i > -2160;i = i - 40)
