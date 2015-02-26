@@ -19,7 +19,10 @@ Default Constructor. Default values are zero
 \return None
 */
 /******************************************************************************/
-Mtx44::Mtx44(float a00, float a10, float a20, float a30, float a01, float a11, float a21, float a31, float a02, float a12, float a22, float a32, float a03, float a13, float a23, float a33) {
+Mtx44::Mtx44(float a00, float a10, float a20, float a30,
+	float a01, float a11, float a21, float a31,
+	float a02,float a12, float a22, float a32,
+	float a03, float a13, float a23, float a33) {
 	a[0] = a00;
 	a[1] = a10;
 	a[2] = a20;
@@ -494,4 +497,13 @@ void Mtx44::SetToOrtho(double left, double right, double bottom, double top, dou
 		0, 2 / (float)(top - bottom), 0, 0,
 		0, 0, - 2 / (float)(farVal - nearVal), 0,
 		- (float)((right + left) / (right - left)), - (float)((top + bottom) / (top - bottom)), - (float)((farVal + nearVal) / (farVal - nearVal)), 1);
+}
+
+std::ostream& operator<< (std::ostream& os, Mtx44& matrix)
+{
+	os << "\n[" << matrix.a[0] << " " << matrix.a[4] << " " << matrix.a[8] << " " << matrix.a[12] << "]" << std::endl;
+	os << "[" << matrix.a[1] << " " << matrix.a[5] << " " << matrix.a[9] << " " << matrix.a[13] << "]" << std::endl;
+	os << "[" << matrix.a[2] << " " << matrix.a[6] << " " << matrix.a[10] << " " << matrix.a[14] << "]" << std::endl;
+	os << "[" << matrix.a[3] << " " << matrix.a[7] << " " << matrix.a[11] << " " << matrix.a[15] << "]" << std::endl;
+	return os;
 }

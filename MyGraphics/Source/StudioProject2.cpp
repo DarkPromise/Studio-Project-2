@@ -29,6 +29,8 @@ double FPS;
 std::string textPS;
 double toggleDelay = 0.0f;
 
+double deltaTime;
+
 vector<BoundingBox*> box;
 BoundingBox * boxPtr;
 BOUNDTYPE bound;
@@ -122,51 +124,60 @@ void StudioProject2::Init()
 	BOUNDS INIT GO HERE
 	********************/
 	boxPtr = new BoundingBox();
-	boxPtr->Max = insideBounds;
-	boxPtr->Min = -insideBounds;
+	boxPtr->Max = MarketWall1;
+	boxPtr->Min = -MarketWall1;
 	box.push_back(boxPtr);
 
 	boxPtr = new BoundingBox();
-	boxPtr->isInside = false;
-	boxPtr->Max = outsideBounds;
-	boxPtr->Min = -outsideBounds;
+	boxPtr->Max = MarketWall2;
+	boxPtr->Min = -MarketWall2;
 	box.push_back(boxPtr);
 
 	boxPtr = new BoundingBox();
-	boxPtr->isObj = true;
-	boxPtr->Max = shelfBounds1Max;
-	boxPtr->Min = shelfBounds1Min;
+	boxPtr->Max = MarketWall3;
+	boxPtr->Min = -MarketWall3;
 	box.push_back(boxPtr);
 
 	boxPtr = new BoundingBox();
-	boxPtr->isObj = true;
-	boxPtr->Max = shelfBounds2Max;
-	boxPtr->Min = shelfBounds2Min;
-	box.push_back(boxPtr);
-
-	boxPtr = new BoundingBox();
-	boxPtr->isObj = true;
-	boxPtr->Max = shelfBounds3Max;
-	boxPtr->Min = shelfBounds3Min;
+	boxPtr->Max = MarketWall4;
+	boxPtr->Min = -MarketWall4;
 	box.push_back(boxPtr);
 
 	boxPtr = new BoundingBox();
 	boxPtr->isObj = true;
-	boxPtr->Max = shelfBounds4Max;
-	boxPtr->Min = shelfBounds4Min;
+	boxPtr->Max = shelfBounds1;
+	boxPtr->Min = -shelfBounds1;
+	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = shelfBounds2;
+	boxPtr->Min = -shelfBounds2;
+	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = shelfBounds3;
+	boxPtr->Min = -shelfBounds3;
+	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = shelfBounds4;
+	boxPtr->Min = -shelfBounds4;
+	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = shelfBounds5;
+	boxPtr->Min = -shelfBounds5;
 	box.push_back(boxPtr);
 
 	boxPtr = new BoundingBox();
 	boxPtr->isObj = true;
 	boxPtr->canPhase = true;
-	boxPtr->Max = doorBoundsMax;
-	boxPtr->Min = doorBoundsMin;
-	box.push_back(boxPtr);
-
-	boxPtr = new BoundingBox();
-	boxPtr->isObj = true;
-	boxPtr->Max = shelfBounds5Max;
-	boxPtr->Min = shelfBounds5Min;
+	boxPtr->Max = doorBounds;
+	boxPtr->Min = -doorBounds;
 	box.push_back(boxPtr);
 
 	boxPtr = new BoundingBox();
@@ -188,7 +199,7 @@ void StudioProject2::Init()
 
 	projectionStack.LoadMatrix(projection);
 
-	camera.Init(Vector3(1, 150, -230), Vector3(1, 150, -440), Vector3(0, 1, 0));
+	camera.Init(Vector3(1, -30, -230), Vector3(1, -30, -440), Vector3(0, 1, 0));
 
 	for(int i = 0; i < NUM_GEOMETRY; ++i)
 	{
@@ -361,23 +372,33 @@ void StudioProject2::Init()
 	meshList[GEO_OUTSIDEBOTTOM] = MeshBuilder::GenerateQuad("sky bottom", Color (0, 0, 0), 1.f);
 	meshList[GEO_OUTSIDEBOTTOM]->textureID = LoadTGA("Image//bottom.tga");
 
+	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1,1,1), 10, 10, 50);
+
 	meshList[GEO_BOUNDHELPER] = MeshBuilder::GenerateSphere("BoundHelper", Color(1,1,1), 10, 18, 5.f);
 
 	/***************************************************************************************************************
 	THIS SECTION IS FOR BOUNDS MESH INIT
 	***************************************************************************************************************/
-	meshList[GEO_INSIDEMARKETBOUNDS] = MeshBuilder::GenerateBoundingBox("InsideBounds", box[0]->Max, box[0]->Min, Color(1,0,0));
-	meshList[GEO_OUTSIDEMARKETBOUNDS] = MeshBuilder::GenerateBoundingBox("OutsideBounds", box[1]->Max, box[1]->Min, Color(1,0,0));
-	meshList[GEO_SHELFBOUNDS1] = MeshBuilder::GenerateBoundingBox("ShelfBounds1", box[2]->Max, box[2]->Min, Color(0,0,1));
-	meshList[GEO_SHELFBOUNDS2] = MeshBuilder::GenerateBoundingBox("Shelf2Bounds", box[3]->Max, box[3]->Min, Color(0,0,1));
-	meshList[GEO_SHELFBOUNDS3] = MeshBuilder::GenerateBoundingBox("Shelf3Bounds", box[4]->Max, box[4]->Min, Color(0,0,1));
-	meshList[GEO_SHELFBOUNDS4] = MeshBuilder::GenerateBoundingBox("Shelf4Bounds", box[5]->Max, box[5]->Min, Color(0,0,1));
-	meshList[GEO_DOORBOUNDS] = MeshBuilder::GenerateBoundingBox("doorbounds", box[6]->Max, box[6]->Min, Color(0,1,0));
-	meshList[GEO_SHELFBOUNDS5] = MeshBuilder::GenerateBoundingBox("Shelf5Bounds", box[7]->Max, box[7]->Min, Color(0,0,1));
-	meshList[GEO_PLAYERBOUNDS] = MeshBuilder::GenerateBoundingBox("Player", box[8]->Max, box[8]->Min, Color(0,0,0));
+	meshList[GEO_MARKETWALL1] = MeshBuilder::GenerateBoundingBox("Left Wall", box[MARKETWALL1]->Max, box[MARKETWALL1]->Min, Color(0,1,1));
+	meshList[GEO_MARKETWALL2] = MeshBuilder::GenerateBoundingBox("Right Wall", box[MARKETWALL2]->Max, box[MARKETWALL2]->Min, Color(0,1,1));
+	meshList[GEO_MARKETWALL3] = MeshBuilder::GenerateBoundingBox("Back Wall", box[MARKETWALL3]->Max, box[MARKETWALL3]->Min, Color(0,1,1));
+	meshList[GEO_MARKETWALL4] = MeshBuilder::GenerateBoundingBox("Back Wall", box[MARKETWALL4]->Max, box[MARKETWALL4]->Min, Color(0,1,1));
+
+	meshList[GEO_SHELFBOUNDS1] = MeshBuilder::GenerateBoundingBox("ShelfBounds1", box[SHELF1]->Max, box[SHELF1]->Min, Color(0,0,1));
+	meshList[GEO_SHELFBOUNDS2] = MeshBuilder::GenerateBoundingBox("Shelf2Bounds", box[SHELF2]->Max, box[SHELF2]->Min, Color(0,0,1));
+	meshList[GEO_SHELFBOUNDS3] = MeshBuilder::GenerateBoundingBox("Shelf3Bounds", box[SHELF3]->Max, box[SHELF3]->Min, Color(0,0,1));
+	meshList[GEO_SHELFBOUNDS4] = MeshBuilder::GenerateBoundingBox("Shelf4Bounds", box[SHELF4]->Max, box[SHELF4]->Min, Color(0,0,1));
+	meshList[GEO_SHELFBOUNDS5] = MeshBuilder::GenerateBoundingBox("Shelf5Bounds", box[SHELF5]->Max, box[SHELF5]->Min, Color(0,0,1));
+	meshList[GEO_DOORBOUNDS] = MeshBuilder::GenerateBoundingBox("doorbounds", box[DOOR]->Max, box[DOOR]->Min, Color(0,1,0));
+	meshList[GEO_PLAYERBOUNDS] = MeshBuilder::GenerateBoundingBox("Player", box[PLAYER]->Max, box[PLAYER]->Min, Color(0,0,0));
 	/**************************************************************************************************************/
 
-	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1,1,1), 10, 10, 50);
+	/***************************************************
+	FOR SETTING NEW BOUNDS BECAUSE OF TRANSLATION UPDATE
+	***************************************************/
+
+	box[DOOR]->Max += Vector3(2230,-53,1190);
+	box[DOOR]->Min += Vector3(2230,-53,1190);
 }
 
 void StudioProject2::RenderMesh(Mesh *mesh, bool enableLight, bool transparent)
@@ -501,32 +522,32 @@ void StudioProject2::Update(double dt)
 		glUniform1f(m_parameters[U_LIGHT0_KQ], 0.f);
 	}
 
-	CollisionCheck(dt);
+	//CollisionCheck(dt);
 
-	/*if(Application::IsKeyPressed('T') && (CollisionCheck())) //(playerPos.z < newBox.Min.z))
+	if(Application::IsKeyPressed('T'))
 	{
 		//playerPos += playerDir * moveSpeed;
-		playerPos.z += 5.f;
+		playerPos.z += 1.f;
 		cout << "Player Pos : " << playerPos << endl;
 	}
-	if(Application::IsKeyPressed('G') && (CollisionCheck()))//(playerPos.z > newBox.Max.z))
+	if(Application::IsKeyPressed('G'))
 	{
 		//playerPos -= playerDir * moveSpeed;
-		playerPos.z -= 5.f;
+		playerPos.z -= 1.f;
 		cout << "Player Pos : " << playerPos << endl;
 	}
-	if(Application::IsKeyPressed('F') && (CollisionCheck()))//(playerPos.x < newBox.Min.x))
+	if(Application::IsKeyPressed('F'))
 	{
 		//rotateAngle += rotateSpeed * dt;
-		playerPos.x += 5.f;
+		playerPos.x += 1.f;
 		cout << "Player Pos : " << playerPos << endl;
 	}
-	if(Application::IsKeyPressed('H') && (CollisionCheck()))//(playerPos.x > newBox.Max.x))
+	if(Application::IsKeyPressed('H'))
 	{
 		//rotateAngle -= rotateSpeed * dt;
-		playerPos.x -= 5.f;
+		playerPos.x -= 1.f;
 		cout << "Player Pos : " << playerPos << endl;
-	}*/
+	}
 
 	if ( Customers < 10 )
 	{
@@ -911,12 +932,12 @@ void StudioProject2::Update(double dt)
 	}
 
 	////////////for door//////////
-	if(camera.position.x > box[6]->Min.x && camera.position.x < box[6]->Max.x  && camera.position.y > box[6]->Min.y && camera.position.y < box[6]->Max.y && camera.position.z > box[6]->Min.z && camera.position.z < box[6]->Max.z && door1Pos > 700)
+	if(camera.position.x > box[DOOR]->Min.x && camera.position.x < box[DOOR]->Max.x  && camera.position.y > box[DOOR]->Min.y && camera.position.y < box[DOOR]->Max.y && camera.position.z > box[DOOR]->Min.z && camera.position.z < box[DOOR]->Max.z && door1Pos > 700)
 	{
 		door1Pos -= 500*dt;
 		door2Pos += 500*dt;
 	}
-	if((camera.position.x < box[6]->Min.x || camera.position.x > box[6]->Max.x || camera.position.y < box[6]->Min.y || camera.position.y > box[6]->Max.y || camera.position.z < box[6]->Min.z || camera.position.z > box[6]->Max.z) && door1Pos < 1023)
+	if((camera.position.x < box[DOOR]->Min.x || camera.position.x > box[DOOR]->Max.x || camera.position.y < box[DOOR]->Min.y || camera.position.y > box[DOOR]->Max.y || camera.position.z < box[DOOR]->Min.z || camera.position.z > box[DOOR]->Max.z) && door1Pos < 1023)
 	{
 		door1Pos += 500*dt;
 		door2Pos -= 500*dt;
@@ -936,8 +957,15 @@ void StudioProject2::Update(double dt)
 	s << setprecision(9) << FPS;
 	textPS = s.str();
 
+	deltaTime = dt;
 	toggleDelay += dt;
-	camera.Update(dt);
+
+	CollisionCheck(dt);
+	camera.Update(dt,canMove);
+	//CollisionCheck();
+	playerPos = camera.position;
+	box[PLAYER]->Max = playerPos + playerBounds;
+	box[PLAYER]->Min = playerPos - playerBounds;
 
 	//camera.target.Set(CustomerX[0], 0, CustomerZ[0]);
 	//camera.position.Set(CustomerX[0], 0, CustomerZ[0] + 500);
@@ -991,14 +1019,14 @@ void StudioProject2::Render()
 	renderOutside();
 	renderItems();
 
-	modelStack.PushMatrix();
+	/*modelStack.PushMatrix();
 	modelStack.Translate(playerPos.x, playerPos.y, playerPos.z);
 	modelStack.Rotate(rotateAngle,0,1,0);
 	modelStack.PushMatrix();
 	modelStack.Rotate(-90,0,1,0);
 	renderPlayer();
 	modelStack.PopMatrix();
-	modelStack.PopMatrix();
+	modelStack.PopMatrix();*/
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-250, -275, 350);
@@ -1080,39 +1108,57 @@ void StudioProject2::renderBounds()
 	modelStack.PopMatrix();*/
 
 	modelStack.PushMatrix();
-	RenderMesh(meshList[GEO_INSIDEMARKETBOUNDS], false, false);
+	modelStack.Translate(0,0,1850);
+	RenderMesh(meshList[GEO_MARKETWALL1], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	RenderMesh(meshList[GEO_OUTSIDEMARKETBOUNDS], false, false);
+	modelStack.Translate(0,0,-1850);
+	RenderMesh(meshList[GEO_MARKETWALL2], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
+	modelStack.Translate(-2226,0,0);
+	RenderMesh(meshList[GEO_MARKETWALL3], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(2226,0,0);
+	RenderMesh(meshList[GEO_MARKETWALL4], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-2085,-103.3,-1085);
 	RenderMesh(meshList[GEO_SHELFBOUNDS1], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
+	modelStack.Translate(-1210,-103.3,-820);
 	RenderMesh(meshList[GEO_SHELFBOUNDS2], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
+	modelStack.Translate(-310,-103.3,-820);
 	RenderMesh(meshList[GEO_SHELFBOUNDS3], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
+	modelStack.Translate(-498,-103.3,-1709);
 	RenderMesh(meshList[GEO_SHELFBOUNDS4], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
+	modelStack.Translate(600,-103.3,-690);
 	RenderMesh(meshList[GEO_SHELFBOUNDS5], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(playerPos.x,playerPos.y,playerPos.z);
+	modelStack.Translate(camera.position.x,camera.position.y,camera.position.z);
+	modelStack.Rotate(rotateAngle,0,1,0);
 	RenderMesh(meshList[GEO_PLAYERBOUNDS],false,false);
 	modelStack.PopMatrix();
-
 	modelStack.PushMatrix();
+	modelStack.Translate(2230,-53,1190);
 	RenderMesh(meshList[GEO_DOORBOUNDS], false, false);
 	modelStack.PopMatrix();
 }
@@ -2253,17 +2299,17 @@ void StudioProject2::renderSkybox()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, -275.5, 0);
+	modelStack.Translate(0, -275, 0);
 	modelStack.Scale(1.8, 1, 1.5);
 	modelStack.Rotate(-90,1,0,0);
 	RenderMesh(meshList[GEO_BOTTOM], false, false);
 	modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
+	/*modelStack.PushMatrix();
 	modelStack.Translate(-35, 300, -20);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_TOP], false, false);
-	modelStack.PopMatrix();
+	modelStack.PopMatrix();*/
 
 	///////////////////////////////////////////////////////////////////////////////////
 
@@ -2314,7 +2360,7 @@ void StudioProject2::renderSkybox()
 void StudioProject2::renderOutside()
 {
 	modelStack.PushMatrix();
-	modelStack.Translate(3500, -277, 1250);
+	modelStack.Translate(3500, -278, 1250);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Rotate(-90, 1, 0, 0);
 	modelStack.Scale(2500, 2500, 1);
@@ -2322,7 +2368,7 @@ void StudioProject2::renderOutside()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(3500, -277, -1250);
+	modelStack.Translate(3500, -278, -1250);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Rotate(-90, 1, 0, 0);
 	modelStack.Scale(2500, 2500, 1);
@@ -2330,14 +2376,14 @@ void StudioProject2::renderOutside()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-50, -277, -1150);
+	modelStack.Translate(-50, -278, -1150);
 	modelStack.Rotate(-90, 1, 0, 0);
 	modelStack.Scale(4600, 2700, 1);
 	RenderMesh(meshList[GEO_CARPARK], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-50, -277, 1150);
+	modelStack.Translate(-50, -278, 1150);
 	modelStack.Rotate(180, 0, 1, 0);
 	modelStack.Rotate(-90, 1, 0, 0);
 	modelStack.Scale(4600, 2700, 1);
@@ -2505,17 +2551,17 @@ void StudioProject2::RenderTextOnScreen(Mesh* mesh, std::string text, Color colo
 	glEnable(GL_DEPTH_TEST);
 }
 
-bool StudioProject2::CollisionCheck(double dt)
+void StudioProject2::CollisionCheck(double dt)
 {
 	/************
 	   TESTING
 	*************/
-	if(Application::IsKeyPressed('T')) //(playerPos.z < newBox.Min.z))
+	if(Application::IsKeyPressed('W')) //(playerPos.z < newBox.Min.z))
 	{
-		if((box[PLAYER]->Min.z + (playerDir.z * moveSpeed) < box[INSIDEBOUNDS]->Min.z) || 
-			(box[PLAYER]->Max.z + (playerDir.z * moveSpeed) > box[INSIDEBOUNDS]->Max.z))
+		if((box[PLAYER]->Max.x < box[SHELF1]->Min.x))
 		{
 			canMove = false;
+			cout << "COLLIDING" << endl;
 		}
 		else
 		{
@@ -2529,21 +2575,21 @@ bool StudioProject2::CollisionCheck(double dt)
 			playerPos += playerDir * moveSpeed;
 		}
 		cout << "Player Position : " << playerPos << endl;
-		cout << "box[PLAYER]Max.z : " << box[PLAYER]->Max.z << endl;
-		cout << "box[PLAYER]Min.z : " << box[PLAYER]->Min.z << endl;
-		cout << "box[INSIDEBOUNDS]Min.z : " << box[INSIDEBOUNDS]->Min.z<< endl;
+		cout << "box[PLAYER]Max  : " << box[PLAYER]->Max << endl;
+		cout << "box[PLAYER]Min  : " << box[PLAYER]->Min << endl;
+		cout << "box[SHELF1]Max  : " << box[SHELF1]->Max << endl;
+		cout << "box[SHELF1]Min  : " << box[SHELF1]->Min << endl;
 	}
-	if(Application::IsKeyPressed('G'))//(playerPos.z > newBox.Max.z))
+	if(Application::IsKeyPressed('S'))//(playerPos.z > newBox.Max.z))
 	{
-		if((box[PLAYER]->Max.z + (playerDir.z * moveSpeed) > box[INSIDEBOUNDS]->Max.z) ||
-			(box[PLAYER]->Min.z + (playerDir.z * moveSpeed) < box[INSIDEBOUNDS]->Min.z))
+		if((box[PLAYER]->Max.x < box[SHELF1]->Min.x))
 		{
-			canMove = true;
+			canMove = false;
 			cout << "COLLIDING" << endl;
 		}
 		else
 		{
-			canMove = false;
+			canMove = true;
 		}
 		
 		if(canMove)
@@ -2554,29 +2600,47 @@ bool StudioProject2::CollisionCheck(double dt)
 		}
 
 		cout << "Player Position : " << playerPos << endl;
-		cout << "box[PLAYER]Max.z : " << box[PLAYER]->Max.z << endl;
-		cout << "box[PLAYER]Min.z : " << box[PLAYER]->Min.z << endl;
-		cout << "box[INSIDEBOUNDS]Min.z : " << box[INSIDEBOUNDS]->Min.z << endl;
+		cout << "box[PLAYER]Max : " << box[PLAYER]->Max << endl;
+		cout << "box[PLAYER]Min : " << box[PLAYER]->Min << endl;
+		cout << "box[SHELF1]Max  : " << box[SHELF1]->Max << endl;
+		cout << "box[SHELF1]Min  : " << box[SHELF1]->Min << endl;
 	}
-	if(Application::IsKeyPressed('F'))//(playerPos.x < newBox.Min.x))
+	if(Application::IsKeyPressed('A'))//(playerPos.x < newBox.Min.x))
 	{
-		rotateAngle += rotateSpeed * dt;
+		if((box[PLAYER]->Max.x < box[SHELF1]->Min.x))
+		{
+			canMove = false;
+			cout << "COLLIDING" << endl;
+		}
+		else
+		{
+			canMove = true;
+		}
 
 		cout << "Player Position : " << playerPos << endl;
-		cout << "box[PLAYER]Max.z : " << box[PLAYER]->Max.z << endl;
-		cout << "box[PLAYER]Min.z : " << box[PLAYER]->Min.z << endl;
-		cout << "box[INSIDEBOUNDS]Min.z : " << box[INSIDEBOUNDS]->Min.z << endl;
+		cout << "box[PLAYER]Max : " << box[PLAYER]->Max << endl;
+		cout << "box[PLAYER]Min : " << box[PLAYER]->Min << endl;
+		cout << "box[SHELF1]Max  : " << box[SHELF1]->Max << endl;
+		cout << "box[SHELF1]Min  : " << box[SHELF1]->Min << endl;
 	}
-	if(Application::IsKeyPressed('H'))//(playerPos.x > newBox.Max.x))
+	if(Application::IsKeyPressed('D'))//(playerPos.x > newBox.Max.x))
 	{
-		rotateAngle -= rotateSpeed * dt;
+		if((box[PLAYER]->Max.x < box[SHELF1]->Min.x))
+		{
+			canMove = false;
+			cout << "COLLIDING" << endl;
+		}
+		else
+		{
+			canMove = true;
+		}
 
 		cout << "Player Position : " << playerPos << endl;
-		cout << "box[PLAYER]Max.z : " << box[PLAYER]->Max.z << endl;
-		cout << "box[PLAYER]Min.z : " << box[PLAYER]->Min.z << endl;
-		cout << "box[INSIDEBOUNDS]Min.z : " << box[INSIDEBOUNDS]->Min.z << endl;
+		cout << "box[PLAYER]Max : " << box[PLAYER]->Max << endl;
+		cout << "box[PLAYER]Min : " << box[PLAYER]->Min << endl;
+		cout << "box[SHELF1]Max  : " << box[SHELF1]->Max << endl;
+		cout << "box[SHELF1]Min  : " << box[SHELF1]->Min << endl;
 	}
-	return true;
 }
 
 void StudioProject2::Exit()

@@ -47,6 +47,8 @@ public:
 	void SetToPerspective(double fovy, double aspect, double zNear, double zFar);
 	void SetToOrtho(double left, double right, double bottom, double top, double nearVal, double farVal);
 
+	friend std::ostream& operator<<( std::ostream& os, Mtx44& matrix); //print to ostream
+
 	float a[16];
 };
 

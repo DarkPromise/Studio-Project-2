@@ -9,21 +9,18 @@
 #include "Light.h"
 #include <vector>
 
-#define insideBounds Vector3(2202,274,1826)
-#define outsideBounds Vector3(2252,274,1876)
-#define shelfBounds1Max Vector3(-1967.7,70,-345)
-#define shelfBounds1Min Vector3(-2202,-274,-1826)
-#define shelfBounds2Max Vector3(-975,70,-573)
-#define shelfBounds2Min Vector3(-1445,-274,-1066)
-#define shelfBounds3Max Vector3(-544,70,-573)
-#define shelfBounds3Min Vector3(-75,-274,-1066)
-#define shelfBounds4Max Vector3(-1237,-274,-1826)
-#define shelfBounds4Min Vector3(244,70,-1591.3)
-#define doorBoundsMax Vector3(2600,175,1395)
-#define doorBoundsMin Vector3(1800,-270, 945)
-#define shelfBounds5Max Vector3(847,-274,-808)
-#define shelfBounds5Min Vector3(353,70,-573);
+#define MarketWall1 Vector3(2252,274,25)
+#define MarketWall2 Vector3(2252,274,25)
+#define MarketWall3 Vector3(25,274,1826)
+#define MarketWall4 Vector3(25,274,1826)
 
+#define shelfBounds1 Vector3(117.5,172,740.5)
+#define shelfBounds2 Vector3(235,172,246.5)
+#define shelfBounds3 Vector3(235,172,246.6)
+#define shelfBounds4 Vector3(740.5,172,117.5)
+#define shelfBounds5 Vector3(247,172,117.5)
+
+#define doorBounds Vector3(400,222.5,225)//2200 225 , 1772.5 1597.5
 #define playerBounds Vector3(50,50,50);
 
 using std::vector;
@@ -210,16 +207,16 @@ public:
 		/*************************************************
 		ANYTHING UNDER THIS SECTION IS FOR BOUNDS USE ONLY
 		*************************************************/
-		GEO_INSIDEMARKETBOUNDS,
-		GEO_OUTSIDEMARKETBOUNDS,
+		GEO_MARKETWALL1,
+		GEO_MARKETWALL2,
+		GEO_MARKETWALL3,
+		GEO_MARKETWALL4,
 		GEO_SHELFBOUNDS1,
 		GEO_SHELFBOUNDS2,
 		GEO_SHELFBOUNDS3,
 		GEO_SHELFBOUNDS4,
 		GEO_SHELFBOUNDS5,
-
 		GEO_DOORBOUNDS,
-
 		GEO_PLAYERBOUNDS,
 		/************************************************/
 
@@ -287,7 +284,7 @@ private:
 
 	void renderItems();
 
-	bool CollisionCheck(double);
+	void CollisionCheck(double);
 
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
@@ -318,14 +315,16 @@ private:
 
 enum BOUNDTYPE
 	{
-		INSIDEBOUNDS = 0,
-		OUTSIDEBOUNDS,
+		MARKETWALL1 = 0,
+		MARKETWALL2,
+		MARKETWALL3,
+		MARKETWALL4,
 		SHELF1,
 		SHELF2,
 		SHELF3,
 		SHELF4,
-		DOOR,
 		SHELF5,
+		DOOR,
 		PLAYER
 	};
 #endif

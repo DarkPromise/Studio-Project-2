@@ -59,10 +59,10 @@ void Camera2::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 \param dt - the delta time since the last time the function was called
 */
 /***********************************************************/
-void Camera2::Update(double dt)
+void Camera2::Update(double dt, bool move)
 {
 	static const float CAMERA_SPEED = 300.f;
-	if(Application::IsKeyPressed('W'))
+	if(Application::IsKeyPressed('W') && move == true)
 	{
 		Vector3 temptarget = target;
 		Vector3 tempposition = position;
@@ -153,6 +153,7 @@ void Camera2::Update(double dt)
 			target = temptarget;
 			position = tempposition;
 		}
+		std::cout << target << std::endl;
 	}
 
 	if(Application::IsKeyPressed('E'))
@@ -171,6 +172,7 @@ void Camera2::Update(double dt)
 			target = temptarget;
 			position = tempposition;
 		}
+		std::cout << target << std::endl;
 	}
 
 	// tilt up
@@ -237,6 +239,7 @@ void Camera2::Update(double dt)
 		target = rotation* target;
 		target+=position;
 		up = rotation * up;
+		//std::cout << "Camera Angle : " << rotation << std::endl;
 	}
 	if(Application::IsKeyPressed('R'))
 	{
