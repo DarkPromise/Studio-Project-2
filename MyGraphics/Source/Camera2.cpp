@@ -80,7 +80,7 @@ void Camera2::Update(double dt, bool move)
 		position.y = tempposition.y;
 	}
 
-	if(Application::IsKeyPressed('S'))
+	if(Application::IsKeyPressed('S') && move == true)
 	{
 		Vector3 temptarget = target;
 		Vector3 tempposition = position;
@@ -99,7 +99,7 @@ void Camera2::Update(double dt, bool move)
 		position.y = tempposition.y;
 	}
 
-	if(Application::IsKeyPressed('A'))
+	if(Application::IsKeyPressed('A') && move == true)
 	{
 		Vector3 temptarget = target;
 		Vector3 tempposition = position;
@@ -118,7 +118,7 @@ void Camera2::Update(double dt, bool move)
 		position.y = tempposition.y;
 	}
 
-	if(Application::IsKeyPressed('D'))
+	if(Application::IsKeyPressed('D') && move == true)
 	{
 		Vector3 temptarget = target;
 		Vector3 tempposition = position;

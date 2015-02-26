@@ -399,6 +399,8 @@ void StudioProject2::Init()
 
 	box[DOOR]->Max += Vector3(2230,-53,1190);
 	box[DOOR]->Min += Vector3(2230,-53,1190);
+	box[SHELF1]->Max += Vector3(-2085,-103.3,-1085);
+	box[SHELF1]->Min += Vector3(-2085,-103.3,-1085);
 }
 
 void StudioProject2::RenderMesh(Mesh *mesh, bool enableLight, bool transparent)
@@ -2558,7 +2560,9 @@ void StudioProject2::CollisionCheck(double dt)
 	*************/
 	if(Application::IsKeyPressed('W')) //(playerPos.z < newBox.Min.z))
 	{
-		if((box[PLAYER]->Max.x < box[SHELF1]->Min.x))
+		if((box[PLAYER]->Min.x < box[SHELF1]->Max.x) && (box[PLAYER]->Max.x > box[SHELF1]->Min.x) &&
+			(box[PLAYER]->Min.y < box[SHELF1]->Max.y) && (box[PLAYER]->Max.y > box[SHELF1]->Min.y) &&
+			(box[PLAYER]->Min.z < box[SHELF1]->Max.z) && (box[PLAYER]->Max.z > box[SHELF1]->Min.z)) 
 		{
 			canMove = false;
 			cout << "COLLIDING" << endl;
@@ -2575,14 +2579,17 @@ void StudioProject2::CollisionCheck(double dt)
 			playerPos += playerDir * moveSpeed;
 		}
 		cout << "Player Position : " << playerPos << endl;
+		cout << "Player Directio : " << playerDir << endl;
 		cout << "box[PLAYER]Max  : " << box[PLAYER]->Max << endl;
 		cout << "box[PLAYER]Min  : " << box[PLAYER]->Min << endl;
 		cout << "box[SHELF1]Max  : " << box[SHELF1]->Max << endl;
 		cout << "box[SHELF1]Min  : " << box[SHELF1]->Min << endl;
 	}
-	if(Application::IsKeyPressed('S'))//(playerPos.z > newBox.Max.z))
+	if(Application::IsKeyPressed('S'))
 	{
-		if((box[PLAYER]->Max.x < box[SHELF1]->Min.x))
+		if((box[PLAYER]->Min.x < box[SHELF1]->Max.x) && (box[PLAYER]->Max.x > box[SHELF1]->Min.x) &&
+			(box[PLAYER]->Min.y < box[SHELF1]->Max.y) && (box[PLAYER]->Max.y > box[SHELF1]->Min.y) &&
+			(box[PLAYER]->Min.z < box[SHELF1]->Max.z) && (box[PLAYER]->Max.z > box[SHELF1]->Min.z)) 
 		{
 			canMove = false;
 			cout << "COLLIDING" << endl;
@@ -2592,7 +2599,14 @@ void StudioProject2::CollisionCheck(double dt)
 			canMove = true;
 		}
 		
-		if(canMove)
+		if(canMove == false)
+		{
+			canMove = true;
+			box[PLAYER]->Max -= playerDir * moveSpeed;
+			box[PLAYER]->Min -= playerDir * moveSpeed;
+			playerPos -= playerDir * moveSpeed;
+		}
+		else
 		{
 			box[PLAYER]->Max -= playerDir * moveSpeed;
 			box[PLAYER]->Min -= playerDir * moveSpeed;
@@ -2607,7 +2621,9 @@ void StudioProject2::CollisionCheck(double dt)
 	}
 	if(Application::IsKeyPressed('A'))//(playerPos.x < newBox.Min.x))
 	{
-		if((box[PLAYER]->Max.x < box[SHELF1]->Min.x))
+		if((box[PLAYER]->Min.x < box[SHELF1]->Max.x) && (box[PLAYER]->Max.x > box[SHELF1]->Min.x) &&
+			(box[PLAYER]->Min.y < box[SHELF1]->Max.y) && (box[PLAYER]->Max.y > box[SHELF1]->Min.y) &&
+			(box[PLAYER]->Min.z < box[SHELF1]->Max.z) && (box[PLAYER]->Max.z > box[SHELF1]->Min.z)) 
 		{
 			canMove = false;
 			cout << "COLLIDING" << endl;
@@ -2625,7 +2641,9 @@ void StudioProject2::CollisionCheck(double dt)
 	}
 	if(Application::IsKeyPressed('D'))//(playerPos.x > newBox.Max.x))
 	{
-		if((box[PLAYER]->Max.x < box[SHELF1]->Min.x))
+		if((box[PLAYER]->Min.x < box[SHELF1]->Max.x) && (box[PLAYER]->Max.x > box[SHELF1]->Min.x) &&
+			(box[PLAYER]->Min.y < box[SHELF1]->Max.y) && (box[PLAYER]->Max.y > box[SHELF1]->Min.y) &&
+			(box[PLAYER]->Min.z < box[SHELF1]->Max.z) && (box[PLAYER]->Max.z > box[SHELF1]->Min.z)) 
 		{
 			canMove = false;
 			cout << "COLLIDING" << endl;
