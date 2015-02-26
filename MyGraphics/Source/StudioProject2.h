@@ -8,6 +8,7 @@
 #include "MatrixStack.h"
 #include "Light.h"
 #include <vector>
+#include "Location.h"
 
 #define MarketWall1 Vector3(2252,274,25)
 #define MarketWall2 Vector3(2252,274,25)
@@ -37,6 +38,7 @@ public:
 	virtual void Exit();
 
 	float rotateAngle;
+	float modelrotatey;
 
 	float LSPEED;
 	float rotateSpeed;
@@ -260,6 +262,9 @@ public:
 	}
 
 private:
+	std::vector<CLocation*> LocationList;
+	CLocation* ptr;
+
 	Mesh* meshList[NUM_GEOMETRY];
 
 	unsigned m_vertexArrayID;

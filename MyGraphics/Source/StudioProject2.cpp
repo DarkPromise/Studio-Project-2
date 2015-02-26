@@ -15,6 +15,7 @@
 #include "Utility.h"
 #include "LoadTGA.h"
 #include "define.h"
+#include "Location.h"
 
 using std::setprecision;
 using std::cout;
@@ -45,6 +46,7 @@ StudioProject2::~StudioProject2()
 
 void StudioProject2::Init()
 {
+	int modelrotatey = 0;
 	//Depth buffer
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
@@ -401,6 +403,14 @@ void StudioProject2::Init()
 	box[DOOR]->Min += Vector3(2230,-53,1190);
 	box[SHELF1]->Max += Vector3(-2085,-103.3,-1085);
 	box[SHELF1]->Min += Vector3(-2085,-103.3,-1085);
+
+	/*******************************
+	THIS IS FOR OBJECT BOUND(DO NO TOUCH)
+	*******************************/
+	ptr = new CLocation(Vector3(100,100,100),Vector3(80,80,80),Vector3(0.25,0.5,0.25),meshList[GEO_CACTUSJUICE]);
+	ptr->CalcLocation();
+	LocationList.push_back(ptr);
+
 }
 
 void StudioProject2::RenderMesh(Mesh *mesh, bool enableLight, bool transparent)
@@ -963,7 +973,7 @@ void StudioProject2::Update(double dt)
 	toggleDelay += dt;
 
 	CollisionCheck(dt);
-	camera.Update(dt,canMove);
+	camera.Update(dt,canMove,LocationList,modelrotatey,meshList[GEO_CACTUSJUICE]);
 	//CollisionCheck();
 	playerPos = camera.position;
 	box[PLAYER]->Max = playerPos + playerBounds;
@@ -1098,6 +1108,18 @@ void StudioProject2::Render()
 	modelStack.Scale(100, 50, 50.5);
 	RenderMesh(meshList[GEO_GLASSDOOR], false, false);
 	modelStack.PopMatrix();
+
+	//Render Object Bound
+	for(int i=0;i<LocationList.size();i++)
+	{
+		ptr = LocationList[i];
+		modelStack.PushMatrix();
+		modelStack.Translate(ptr->Translate.x,ptr->Translate.y,ptr->Translate.z);
+		modelStack.Scale(ptr->Scale.x,ptr->Scale.y,ptr->Scale.z);
+		modelStack.Rotate(90,0,1,0);
+		RenderMesh(ptr->obj,false,false);
+		modelStack.PopMatrix();
+	}
 
 	RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
 }
