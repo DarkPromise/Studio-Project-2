@@ -384,6 +384,9 @@ void StudioProject2::Init()
 
 	meshList[GEO_BOUNDHELPER] = MeshBuilder::GenerateSphere("BoundHelper", Color(1,1,1), 10, 18, 5.f);
 
+	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
+	meshList[GEO_TEXT]->textureID = LoadTGA("Image//ExportedFont.tga");
+
 	/***************************************************************************************************************
 	THIS SECTION IS FOR BOUNDS MESH INIT
 	***************************************************************************************************************/
@@ -409,6 +412,8 @@ void StudioProject2::Init()
 	box[DOOR]->Min += Vector3(2230,-53,1190);
 	box[SHELF1]->Max += Vector3(-2085,-103.3,-1085);
 	box[SHELF1]->Min += Vector3(-2085,-103.3,-1085);
+	box[SHELF2]->Max += Vector3(-1210,-103.3,-820);
+	box[SHELF2]->Min += Vector3(-1210,-103.3,-820);
 
 	/*******************************
 	THIS IS FOR OBJECT BOUND(DO NOT TOUCH)
@@ -1142,6 +1147,7 @@ void StudioProject2::Render()
 	}
 
 	RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
+	RenderTextOnScreen(meshList[GEO_TEXT],"Direction=" + currView, Color(0, 0, 1), 2.5, 12.7, 23);
 }
 
 void StudioProject2::renderBounds()
@@ -1931,8 +1937,8 @@ void StudioProject2::CollisionCheck(double dt)
 	   TESTING
 	*************/
 
-	std::string currView = "NONE";
-	std::string lastView = "NONE";
+	currView = "NONE";
+	//lastView = "NONE";
 
 	if(camera.view.x > -0.7 && camera.view.x < 0.7  && camera.view.z < 0)
 	{
@@ -1953,9 +1959,13 @@ void StudioProject2::CollisionCheck(double dt)
 
 	if(Application::IsKeyPressed('W')) //(playerPos.z < newBox.Min.z))
 	{
-		if((box[PLAYER]->Min.x < box[SHELF1]->Max.x) && (box[PLAYER]->Max.x > box[SHELF1]->Min.x) &&
-			(box[PLAYER]->Min.y < box[SHELF1]->Max.y) && (box[PLAYER]->Max.y > box[SHELF1]->Min.y) &&
-			(box[PLAYER]->Min.z < box[SHELF1]->Max.z) && (box[PLAYER]->Max.z > box[SHELF1]->Min.z)) 
+		if( ((box[PLAYER]->Min.x < box[SHELF1]->Max.x) && (box[PLAYER]->Max.x > box[SHELF1]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[SHELF1]->Max.y) && (box[PLAYER]->Max.y > box[SHELF1]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[SHELF1]->Max.z) && (box[PLAYER]->Max.z > box[SHELF1]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[SHELF2]->Max.x) && (box[PLAYER]->Max.x > box[SHELF2]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[SHELF2]->Max.y) && (box[PLAYER]->Max.y > box[SHELF2]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) )
 		{
 			canMove = false;
 		}
@@ -1966,9 +1976,13 @@ void StudioProject2::CollisionCheck(double dt)
 	}
 	if(Application::IsKeyPressed('S'))
 	{
-		if((box[PLAYER]->Min.x < box[SHELF1]->Max.x) && (box[PLAYER]->Max.x > box[SHELF1]->Min.x) &&
-			(box[PLAYER]->Min.y < box[SHELF1]->Max.y) && (box[PLAYER]->Max.y > box[SHELF1]->Min.y) &&
-			(box[PLAYER]->Min.z < box[SHELF1]->Max.z) && (box[PLAYER]->Max.z > box[SHELF1]->Min.z)) 
+		if( ((box[PLAYER]->Min.x < box[SHELF1]->Max.x) && (box[PLAYER]->Max.x > box[SHELF1]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[SHELF1]->Max.y) && (box[PLAYER]->Max.y > box[SHELF1]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[SHELF1]->Max.z) && (box[PLAYER]->Max.z > box[SHELF1]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[SHELF2]->Max.x) && (box[PLAYER]->Max.x > box[SHELF2]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[SHELF2]->Max.y) && (box[PLAYER]->Max.y > box[SHELF2]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) )
 		{
 			canMove = false;
 		}
@@ -1979,9 +1993,13 @@ void StudioProject2::CollisionCheck(double dt)
 	}
 	if(Application::IsKeyPressed('A'))//(playerPos.x < newBox.Min.x))
 	{
-		if((box[PLAYER]->Min.x < box[SHELF1]->Max.x) && (box[PLAYER]->Max.x > box[SHELF1]->Min.x) &&
-			(box[PLAYER]->Min.y < box[SHELF1]->Max.y) && (box[PLAYER]->Max.y > box[SHELF1]->Min.y) &&
-			(box[PLAYER]->Min.z < box[SHELF1]->Max.z) && (box[PLAYER]->Max.z > box[SHELF1]->Min.z)) 
+		if( ((box[PLAYER]->Min.x < box[SHELF1]->Max.x) && (box[PLAYER]->Max.x > box[SHELF1]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[SHELF1]->Max.y) && (box[PLAYER]->Max.y > box[SHELF1]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[SHELF1]->Max.z) && (box[PLAYER]->Max.z > box[SHELF1]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[SHELF2]->Max.x) && (box[PLAYER]->Max.x > box[SHELF2]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[SHELF2]->Max.y) && (box[PLAYER]->Max.y > box[SHELF2]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) )
 		{
 			canMove = false;
 		}
@@ -1992,9 +2010,13 @@ void StudioProject2::CollisionCheck(double dt)
 	}
 	if(Application::IsKeyPressed('D'))//(playerPos.x > newBox.Max.x))
 	{
-		if((box[PLAYER]->Min.x < box[SHELF1]->Max.x) && (box[PLAYER]->Max.x > box[SHELF1]->Min.x) &&
-			(box[PLAYER]->Min.y < box[SHELF1]->Max.y) && (box[PLAYER]->Max.y > box[SHELF1]->Min.y) &&
-			(box[PLAYER]->Min.z < box[SHELF1]->Max.z) && (box[PLAYER]->Max.z > box[SHELF1]->Min.z)) 
+		if( ((box[PLAYER]->Min.x < box[SHELF1]->Max.x) && (box[PLAYER]->Max.x > box[SHELF1]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[SHELF1]->Max.y) && (box[PLAYER]->Max.y > box[SHELF1]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[SHELF1]->Max.z) && (box[PLAYER]->Max.z > box[SHELF1]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[SHELF2]->Max.x) && (box[PLAYER]->Max.x > box[SHELF2]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[SHELF2]->Max.y) && (box[PLAYER]->Max.y > box[SHELF2]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) )
 		{
 			canMove = false;
 		}

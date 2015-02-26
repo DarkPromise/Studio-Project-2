@@ -79,10 +79,10 @@ void Camera3::Update(double dt)
 		{
 			position = tempPos;
 			target = tempTar;
-		}
+		}	
 
-		//position.y = tempPos.y;
-		//target.y = tempTar.y;
+		position.y = tempPos.y;
+		target.y = tempTar.y;
 	}
 
 	if(Application::IsKeyPressed('S'))

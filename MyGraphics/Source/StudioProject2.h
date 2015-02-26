@@ -9,6 +9,7 @@
 #include "Light.h"
 #include <vector>
 #include "Location.h"
+#include <string>
 
 #define MarketWall1 Vector3(2252,274,25)
 #define MarketWall2 Vector3(2252,274,25)
@@ -45,6 +46,7 @@ public:
 	float moveSpeed;
 	bool canMove;
 
+	std::string currView;
 
 	float SGTranslate;
 	float SGLegTranslate;
