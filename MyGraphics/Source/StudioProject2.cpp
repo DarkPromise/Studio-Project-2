@@ -1033,6 +1033,7 @@ void StudioProject2::Render()
 	renderSkybox();
 	renderSupermarket();
 	renderOutside();
+	renderItems();
 
 	/*modelStack.PushMatrix();
 	modelStack.Translate(playerPos.x, playerPos.y, playerPos.z);
@@ -1554,6 +1555,78 @@ void StudioProject2::renderSupermarket()
 	modelStack.Scale(40, 40, 40);
 	RenderMesh(meshList[GEO_FREEZER], false, false);
 	modelStack.PopMatrix();
+}
+
+void StudioProject2::renderItems()
+{
+	for(float k = 50;k >= -250;k = k-50)
+	{
+		for(float i = -2040;i > -2160;i = i - 40)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -800);
+			modelStack.Scale(80,80,80);
+			modelStack.Rotate(90,0,1,0);
+			RenderMesh(meshList[GEO_CACTUSJUICE], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -750);
+			modelStack.Scale(80,80,80);
+			modelStack.Rotate(90,0,1,0);
+			RenderMesh(meshList[GEO_CACTUSJUICE], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -700);
+			modelStack.Scale(80,80,80);
+			modelStack.Rotate(90,0,1,0);
+			RenderMesh(meshList[GEO_CACTUSJUICE], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -650);
+			modelStack.Scale(80,80,80);
+			modelStack.Rotate(90,0,1,0);
+			RenderMesh(meshList[GEO_CACTUSJUICE], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -600);
+			modelStack.Scale(80,80,80);
+			modelStack.Rotate(90,0,1,0);
+			RenderMesh(meshList[GEO_CACTUSJUICE], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -550);
+			modelStack.Scale(80,80,80);
+			modelStack.Rotate(90,0,1,0);
+			RenderMesh(meshList[GEO_CACTUSJUICE], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -500);
+			modelStack.Scale(80,80,80);
+			modelStack.Rotate(90,0,1,0);
+			RenderMesh(meshList[GEO_CACTUSJUICE], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -450);
+			modelStack.Scale(80,80,80);
+			modelStack.Rotate(90,0,1,0);
+			RenderMesh(meshList[GEO_CACTUSJUICE], false, false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(i, k, -400);
+			modelStack.Scale(80,80,80);
+			modelStack.Rotate(90,0,1,0);
+			RenderMesh(meshList[GEO_CACTUSJUICE], false, false);
+			modelStack.PopMatrix();
+		}
+	}
 }
 
 void StudioProject2::renderSkybox()

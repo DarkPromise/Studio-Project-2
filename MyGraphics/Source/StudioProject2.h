@@ -288,6 +288,7 @@ private:
 	void renderSupermarket();
 	void renderOutside();
 	void renderBounds();
+	void renderItems();
 
 	void CollisionCheck(double);
 
