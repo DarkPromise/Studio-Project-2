@@ -2330,11 +2330,11 @@ void StudioProject2::renderSkybox()
 	RenderMesh(meshList[GEO_BOTTOM], false, false);
 	modelStack.PopMatrix();
 
-	/*modelStack.PushMatrix();
+	modelStack.PushMatrix();
 	modelStack.Translate(-35, 300, -20);
 	modelStack.Scale(50, 50, 50);
 	RenderMesh(meshList[GEO_TOP], false, false);
-	modelStack.PopMatrix();*/
+	modelStack.PopMatrix();
 
 	///////////////////////////////////////////////////////////////////////////////////
 
