@@ -132,53 +132,53 @@ void StudioProject2::Init()
 	BOUNDS INIT GO HERE
 	********************/
 	boxPtr = new BoundingBox();
-	boxPtr->Max = MarketWall1;
-	boxPtr->Min = -MarketWall1;
+	boxPtr->Max = NorthSouthWall;
+	boxPtr->Min = -NorthSouthWall;
 	box.push_back(boxPtr);
 
 	boxPtr = new BoundingBox();
-	boxPtr->Max = MarketWall2;
-	boxPtr->Min = -MarketWall2;
+	boxPtr->Max = NorthSouthWall;
+	boxPtr->Min = -NorthSouthWall;
 	box.push_back(boxPtr);
 
 	boxPtr = new BoundingBox();
-	boxPtr->Max = MarketWall3;
-	boxPtr->Min = -MarketWall3;
+	boxPtr->Max = EastWestWall;
+	boxPtr->Min = -EastWestWall;
 	box.push_back(boxPtr);
 
 	boxPtr = new BoundingBox();
-	boxPtr->Max = MarketWall4;
-	boxPtr->Min = -MarketWall4;
-	box.push_back(boxPtr);
-
-	boxPtr = new BoundingBox();
-	boxPtr->isObj = true;
-	boxPtr->Max = shelfBounds1;
-	boxPtr->Min = -shelfBounds1;
+	boxPtr->Max = EastWestWall;
+	boxPtr->Min = -EastWestWall;
 	box.push_back(boxPtr);
 
 	boxPtr = new BoundingBox();
 	boxPtr->isObj = true;
-	boxPtr->Max = shelfBounds2;
-	boxPtr->Min = -shelfBounds2;
+	boxPtr->Max = leftShelfBounds;
+	boxPtr->Min = -leftShelfBounds;
 	box.push_back(boxPtr);
 
 	boxPtr = new BoundingBox();
 	boxPtr->isObj = true;
-	boxPtr->Max = shelfBounds3;
-	boxPtr->Min = -shelfBounds3;
+	boxPtr->Max = middleLeftShelfBounds;
+	boxPtr->Min = -middleLeftShelfBounds;
 	box.push_back(boxPtr);
 
 	boxPtr = new BoundingBox();
 	boxPtr->isObj = true;
-	boxPtr->Max = shelfBounds4;
-	boxPtr->Min = -shelfBounds4;
+	boxPtr->Max = middleRightShelfBounds;
+	boxPtr->Min = -middleRightShelfBounds;
 	box.push_back(boxPtr);
 
 	boxPtr = new BoundingBox();
 	boxPtr->isObj = true;
-	boxPtr->Max = shelfBounds5;
-	boxPtr->Min = -shelfBounds5;
+	boxPtr->Max = backShelfBounds;
+	boxPtr->Min = -backShelfBounds;
+	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = loneShelfBounds;
+	boxPtr->Min = -loneShelfBounds;
 	box.push_back(boxPtr);
 
 	boxPtr = new BoundingBox();
@@ -414,13 +414,27 @@ void StudioProject2::Init()
 	FOR SETTING NEW BOUNDS BECAUSE OF TRANSLATION UPDATE
 	***************************************************/
 
-	box[DOOR]->Max += Vector3(2230,-53,1190);
-	box[DOOR]->Min += Vector3(2230,-53,1190);
-	box[SHELF1]->Max += Vector3(-2085,-103.3,-1085);
-	box[SHELF1]->Min += Vector3(-2085,-103.3,-1085);
-	box[SHELF2]->Max += Vector3(-1210,-103.3,-820);
-	box[SHELF2]->Min += Vector3(-1210,-103.3,-820);
+	box[DOOR]->Max += doorTranslation;
+	box[DOOR]->Min += doorTranslation;
+	box[SHELF1]->Max += leftShelfTranslate;
+	box[SHELF1]->Min += leftShelfTranslate;
+	box[SHELF2]->Max += middleLeftShelfTranslate;
+	box[SHELF2]->Min += middleLeftShelfTranslate;
+	box[SHELF3]->Max += middleRightShelfTranslate;
+	box[SHELF3]->Min += middleRightShelfTranslate;
+	box[SHELF4]->Max += backShelfTranslate;
+	box[SHELF4]->Min += backShelfTranslate;
+	box[SHELF5]->Max += loneShelfTranslate;
+	box[SHELF5]->Min += loneShelfTranslate;
 
+	box[MARKETWALL1]->Max += MarketWallNorthSouthTranslate;
+	box[MARKETWALL1]->Min += MarketWallNorthSouthTranslate;
+	box[MARKETWALL2]->Max += -MarketWallNorthSouthTranslate;
+	box[MARKETWALL2]->Min += -MarketWallNorthSouthTranslate;
+	box[MARKETWALL3]->Max += MarketWallEastWestTranslate;
+	box[MARKETWALL3]->Min += MarketWallEastWestTranslate;
+	box[MARKETWALL4]->Max += -MarketWallEastWestTranslate;
+	box[MARKETWALL4]->Min += -MarketWallEastWestTranslate;
 	/***************************************************
 	FOR ADDING ITEMS & SHELFSLOTS
 	***************************************************/
@@ -1120,10 +1134,6 @@ void StudioProject2::Update(double dt)
 
 	camera.Update(dt,canMove);
 	CollisionCheck(dt);
-
-	playerPos = camera.position;
-	box[PLAYER]->Max = playerPos + playerBounds;
-	box[PLAYER]->Min = playerPos - playerBounds;
 
 	if(canMove)
 	{
@@ -2582,6 +2592,10 @@ void StudioProject2::CollisionCheck(double dt)
 	   TESTING
 	*************/
 
+	playerPos = camera.position;
+	box[PLAYER]->Max = playerPos + playerBounds;
+	box[PLAYER]->Min = playerPos - playerBounds;
+
 	currView = "NONE";
 	//lastView = "NONE";
 
@@ -2610,7 +2624,35 @@ void StudioProject2::CollisionCheck(double dt)
 
 			((box[PLAYER]->Min.x < box[SHELF2]->Max.x) && (box[PLAYER]->Max.x > box[SHELF2]->Min.x)  &&
 			 (box[PLAYER]->Min.y < box[SHELF2]->Max.y) && (box[PLAYER]->Max.y > box[SHELF2]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) )
+			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[SHELF3]->Max.x) && (box[PLAYER]->Max.x > box[SHELF3]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[SHELF3]->Max.y) && (box[PLAYER]->Max.y > box[SHELF3]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[SHELF3]->Max.z) && (box[PLAYER]->Max.z > box[SHELF3]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[SHELF4]->Max.x) && (box[PLAYER]->Max.x > box[SHELF4]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[SHELF4]->Max.y) && (box[PLAYER]->Max.y > box[SHELF4]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[SHELF4]->Max.z) && (box[PLAYER]->Max.z > box[SHELF4]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[SHELF5]->Max.x) && (box[PLAYER]->Max.x > box[SHELF5]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[SHELF5]->Max.y) && (box[PLAYER]->Max.y > box[SHELF5]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[SHELF5]->Max.z) && (box[PLAYER]->Max.z > box[SHELF5]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[MARKETWALL1]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL1]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[MARKETWALL1]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL1]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[MARKETWALL1]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL1]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[MARKETWALL2]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL2]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[MARKETWALL2]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL2]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[MARKETWALL2]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL2]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[MARKETWALL3]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL3]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[MARKETWALL3]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL3]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[MARKETWALL3]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL3]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[MARKETWALL4]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL4]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[MARKETWALL4]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL4]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[MARKETWALL4]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL4]->Min.z)) )
 		{
 			canMove = false;
 		}
@@ -2627,7 +2669,35 @@ void StudioProject2::CollisionCheck(double dt)
 
 			((box[PLAYER]->Min.x < box[SHELF2]->Max.x) && (box[PLAYER]->Max.x > box[SHELF2]->Min.x)  &&
 			 (box[PLAYER]->Min.y < box[SHELF2]->Max.y) && (box[PLAYER]->Max.y > box[SHELF2]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) )
+			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[SHELF3]->Max.x) && (box[PLAYER]->Max.x > box[SHELF3]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[SHELF3]->Max.y) && (box[PLAYER]->Max.y > box[SHELF3]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[SHELF3]->Max.z) && (box[PLAYER]->Max.z > box[SHELF3]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[SHELF4]->Max.x) && (box[PLAYER]->Max.x > box[SHELF4]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[SHELF4]->Max.y) && (box[PLAYER]->Max.y > box[SHELF4]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[SHELF4]->Max.z) && (box[PLAYER]->Max.z > box[SHELF4]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[SHELF5]->Max.x) && (box[PLAYER]->Max.x > box[SHELF5]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[SHELF5]->Max.y) && (box[PLAYER]->Max.y > box[SHELF5]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[SHELF5]->Max.z) && (box[PLAYER]->Max.z > box[SHELF5]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[MARKETWALL1]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL1]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[MARKETWALL1]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL1]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[MARKETWALL1]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL1]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[MARKETWALL2]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL2]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[MARKETWALL2]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL2]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[MARKETWALL2]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL2]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[MARKETWALL3]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL3]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[MARKETWALL3]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL3]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[MARKETWALL3]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL3]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[MARKETWALL4]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL4]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[MARKETWALL4]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL4]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[MARKETWALL4]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL4]->Min.z)) )
 		{
 			canMove = false;
 		}
@@ -2644,7 +2714,35 @@ void StudioProject2::CollisionCheck(double dt)
 
 			((box[PLAYER]->Min.x < box[SHELF2]->Max.x) && (box[PLAYER]->Max.x > box[SHELF2]->Min.x)  &&
 			 (box[PLAYER]->Min.y < box[SHELF2]->Max.y) && (box[PLAYER]->Max.y > box[SHELF2]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) )
+			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[SHELF3]->Max.x) && (box[PLAYER]->Max.x > box[SHELF3]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[SHELF3]->Max.y) && (box[PLAYER]->Max.y > box[SHELF3]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[SHELF3]->Max.z) && (box[PLAYER]->Max.z > box[SHELF3]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[SHELF4]->Max.x) && (box[PLAYER]->Max.x > box[SHELF4]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[SHELF4]->Max.y) && (box[PLAYER]->Max.y > box[SHELF4]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[SHELF4]->Max.z) && (box[PLAYER]->Max.z > box[SHELF4]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[SHELF5]->Max.x) && (box[PLAYER]->Max.x > box[SHELF5]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[SHELF5]->Max.y) && (box[PLAYER]->Max.y > box[SHELF5]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[SHELF5]->Max.z) && (box[PLAYER]->Max.z > box[SHELF5]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[MARKETWALL1]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL1]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[MARKETWALL1]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL1]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[MARKETWALL1]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL1]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[MARKETWALL2]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL2]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[MARKETWALL2]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL2]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[MARKETWALL2]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL2]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[MARKETWALL3]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL3]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[MARKETWALL3]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL3]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[MARKETWALL3]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL3]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[MARKETWALL4]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL4]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[MARKETWALL4]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL4]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[MARKETWALL4]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL4]->Min.z)) )
 		{
 			canMove = false;
 		}
@@ -2661,7 +2759,35 @@ void StudioProject2::CollisionCheck(double dt)
 
 			((box[PLAYER]->Min.x < box[SHELF2]->Max.x) && (box[PLAYER]->Max.x > box[SHELF2]->Min.x)  &&
 			 (box[PLAYER]->Min.y < box[SHELF2]->Max.y) && (box[PLAYER]->Max.y > box[SHELF2]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) )
+			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[SHELF3]->Max.x) && (box[PLAYER]->Max.x > box[SHELF3]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[SHELF3]->Max.y) && (box[PLAYER]->Max.y > box[SHELF3]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[SHELF3]->Max.z) && (box[PLAYER]->Max.z > box[SHELF3]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[SHELF4]->Max.x) && (box[PLAYER]->Max.x > box[SHELF4]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[SHELF4]->Max.y) && (box[PLAYER]->Max.y > box[SHELF4]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[SHELF4]->Max.z) && (box[PLAYER]->Max.z > box[SHELF4]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[SHELF5]->Max.x) && (box[PLAYER]->Max.x > box[SHELF5]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[SHELF5]->Max.y) && (box[PLAYER]->Max.y > box[SHELF5]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[SHELF5]->Max.z) && (box[PLAYER]->Max.z > box[SHELF5]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[MARKETWALL1]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL1]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[MARKETWALL1]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL1]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[MARKETWALL1]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL1]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[MARKETWALL2]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL2]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[MARKETWALL2]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL2]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[MARKETWALL2]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL2]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[MARKETWALL3]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL3]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[MARKETWALL3]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL3]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[MARKETWALL3]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL3]->Min.z)) ||
+
+			((box[PLAYER]->Min.x < box[MARKETWALL4]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL4]->Min.x)  &&
+			 (box[PLAYER]->Min.y < box[MARKETWALL4]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL4]->Min.y)  &&
+			 (box[PLAYER]->Min.z < box[MARKETWALL4]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL4]->Min.z)) )
 		{
 			canMove = false;
 		}

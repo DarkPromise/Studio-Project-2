@@ -7,17 +7,23 @@ float door2Pos = 1365;
 bool isHolding = false;
 int holding = -1;
 
-#define MarketWall1 Vector3(2252,274,25)
-#define MarketWall2 Vector3(2252,274,25)
-#define MarketWall3 Vector3(25,274,1826)
-#define MarketWall4 Vector3(25,274,1826)
+#define NorthSouthWall Vector3(2252,274,25)
+#define EastWestWall Vector3(25,274,1826)
 
-#define shelfBounds1 Vector3(117.5,172,740.5)
-#define shelfBounds2 Vector3(235,172,246.5)
-#define shelfBounds3 Vector3(235,172,246.6)
-#define shelfBounds4 Vector3(740.5,172,117.5)
-#define shelfBounds5 Vector3(247,172,117.5)
+#define leftShelfBounds Vector3(117.5,172,740.5)
+#define middleLeftShelfBounds Vector3(235,172,246.5)
+#define middleRightShelfBounds Vector3(235,172,246.6)
+#define backShelfBounds Vector3(740.5,172,117.5)
+#define loneShelfBounds Vector3(247,172,117.5)
 
 #define doorBounds Vector3(400,222.5,225)
 #define playerBounds Vector3(50,50,50);
 
+#define doorTranslation Vector3(2230,-53,1190);
+#define leftShelfTranslate Vector3(-2085,-103.3,-1085);
+#define middleLeftShelfTranslate Vector3(-1210,-103.3,-820);
+#define middleRightShelfTranslate Vector3(-310,-103.3,-820);
+#define backShelfTranslate Vector3(-498,-103.3,-1709);
+#define loneShelfTranslate Vector3(600,-103.3,-690);
+#define MarketWallNorthSouthTranslate Vector3(0,0,1850);
+#define MarketWallEastWestTranslate Vector3(2226,0,0);
