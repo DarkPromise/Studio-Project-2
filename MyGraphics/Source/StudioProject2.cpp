@@ -417,6 +417,7 @@ void StudioProject2::Init()
 	/***************************************************
 	FOR ADDING ITEMS & SHELFSLOTS
 	***************************************************/
+	inhand = new Inhand(5);
 	Item* ip;
 	Shelfslot* sp;
 
@@ -424,7 +425,7 @@ void StudioProject2::Init()
 	{
 		for(float z = -400; z >= -800; z -= 50)
 		{
-			ip = new Item(Vector3(12,18,12), Vector3(-12,-18,-12), Vector3(-2000, y , z), Vector3(80,80,80), 90.f, 59);
+			ip = new Item(Vector3(12,18,12), Vector3(-12,-18,-12), Vector3(-2000, y , z), Vector3(80,80,80), 90.f, GEO_CACTUSJUICE);
 			itemVector.push_back(ip);
 			sp = new Shelfslot(Vector3(-2000, y , z),Vector3(12,18,12), Vector3(-12,-18,-12), itemVector.size()-1, false);
 			shelfVector.push_back(sp);
@@ -1013,42 +1014,44 @@ void StudioProject2::Update(double dt)
 	}
 	for(int i = 0; i < shelfVector.size(); ++i)
 	{
-		if(camera.target.x > shelfVector[i]->boundMin.x && camera.target.x < shelfVector[i]->boundMax.x  && camera.target.y > shelfVector[i]->boundMin.y && camera.target.y < shelfVector[i]->boundMax.y && camera.target.z > shelfVector[i]->boundMin.z && camera.target.z < shelfVector[i]->boundMax.z && shelfVector[i]->isempty == false && isHolding == false)
+		if(camera.target.x > shelfVector[i]->boundMin.x && camera.target.x < shelfVector[i]->boundMax.x  && camera.target.y > shelfVector[i]->boundMin.y && camera.target.y < shelfVector[i]->boundMax.y && camera.target.z > shelfVector[i]->boundMin.z && camera.target.z < shelfVector[i]->boundMax.z && shelfVector[i]->isempty == false && inhand->reachMax == false)
 		{
 			cout << "seen";
 			if(Application::IsKeyPressed('B'))
 			{
-				holding = shelfVector[i]->itemid;
+				inhand->recive(shelfVector[i]->itemid);
 				shelfVector[i]->isempty = true;
-				isHolding = true;
 			}
 		}
 	}
 	for(int i = 0; i < shelfVector.size(); ++i)
 	{
-		if(camera.target.x > shelfVector[i]->boundMin.x && camera.target.x < shelfVector[i]->boundMax.x  && camera.target.y > shelfVector[i]->boundMin.y && camera.target.y < shelfVector[i]->boundMax.y && camera.target.z > shelfVector[i]->boundMin.z && camera.target.z < shelfVector[i]->boundMax.z && shelfVector[i]->isempty == true && isHolding == true)
+		if(camera.target.x > shelfVector[i]->boundMin.x && camera.target.x < shelfVector[i]->boundMax.x  && camera.target.y > shelfVector[i]->boundMin.y && camera.target.y < shelfVector[i]->boundMax.y && camera.target.z > shelfVector[i]->boundMin.z && camera.target.z < shelfVector[i]->boundMax.z && shelfVector[i]->isempty == true && inhand->holding.size() > 0)
 		{
-			cout << "seen";
+			cout << "fap";
 			if(Application::IsKeyPressed('N'))
 			{
-				shelfVector[i]->itemid = holding;
-				itemVector[holding]->placeItem(shelfVector[i]->position);
+				shelfVector[i]->itemid = inhand->remove();
+				itemVector[shelfVector[i]->itemid]->placeItem(shelfVector[i]->position);
 				shelfVector[i]->isempty = false;
-				isHolding = false;
 			}
 		}
 	}
-	if(isHolding == true)
+	if(inhand->holding.size() > 0)
 	{
-		itemVector[holding]->takeItem(camera.target);
-
+		for(int i = 0; i < inhand->holding.size(); ++i)
+		{
+			itemVector[inhand->holding[i]]->takeItem(camera.position);
+		}
+		
+		itemVector[inhand->holding.back()]->takeItem(camera.target);
 		if(Application::IsKeyPressed(VK_LEFT))
 		{
-			itemVector[holding]->updateRotate(150.f * dt);
+			itemVector[inhand->holding.back()]->updateRotate(150.f * dt);
 		}
 		if(Application::IsKeyPressed(VK_RIGHT))
 		{
-			itemVector[holding]->updateRotate(-150.f * dt);
+			itemVector[inhand->holding.back()]->updateRotate(-150.f * dt);
 		}
 	}
 	//camera.target.Set(CustomerX[0], 0, CustomerZ[0]);

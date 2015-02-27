@@ -11,6 +11,7 @@
 #include <string>
 #include "Item.h"
 #include "Shelfslot.h"
+#include "Inhand.h"
 
 #define MarketWall1 Vector3(2252,274,25)
 #define MarketWall2 Vector3(2252,274,25)
@@ -312,6 +313,8 @@ private:
 	
 	vector<Item*> itemVector;
 	vector<Shelfslot*> shelfVector;
+
+	Inhand* inhand; 
 	/****************************************
 	BOUNDS CODE GO HERE
 	****************************************/
