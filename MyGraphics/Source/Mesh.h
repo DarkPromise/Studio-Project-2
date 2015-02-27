@@ -35,7 +35,6 @@ public:
 	unsigned textureID;
 
 	Material material;
-	BoundingBox lookatBox;
 };
 
 #endif

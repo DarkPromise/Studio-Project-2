@@ -27,6 +27,7 @@ public:
 
 	int facingDirection;
 
+
 	Vector3 Maximum;
 	Vector3 Minimum;
 

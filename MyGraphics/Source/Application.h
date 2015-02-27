@@ -2,6 +2,7 @@
 #define APPLICATION_H
 
 #include "timer.h"
+#include "Octree.h"
 
 class Application
 {
@@ -16,6 +17,7 @@ public:
 	double xpos;
     double ypos;
 
+	Octree *tree;
 private:
 
 	//Declare a window object
