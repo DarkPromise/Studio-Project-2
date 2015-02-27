@@ -1484,6 +1484,7 @@ void StudioProject2::renderPromoter()
 	modelStack.Scale(20, 20, 20);
 
 	modelStack.PushMatrix();
+	modelStack.Rotate(promoterRotateY, 0, 1, 0);
 	RenderMesh(meshList[GEO_PROMOTERHEAD], false, false);
 	modelStack.PopMatrix();
 
@@ -1505,6 +1506,20 @@ void StudioProject2::renderPromoter()
 
 	modelStack.PushMatrix();
 	RenderMesh(meshList[GEO_PROMOTERRIGHTLEG], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(15, 0, 0);
+	modelStack.Rotate(90, 0, 1, 0);
+	modelStack.Scale(0.3, 0.3, 0.3);
+	RenderMesh(meshList[GEO_PROMOTERTABLE], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(15, 10, 0);
+	modelStack.Rotate(itemRotateY, 0, 1, 0);
+	modelStack.Scale(5, 5, 5);
+	RenderMesh(meshList[GEO_CACTUSJUICE], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PopMatrix();	
