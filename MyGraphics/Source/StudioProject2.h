@@ -13,6 +13,8 @@
 #include "Shelfslot.h"
 #include "Inhand.h"
 #include "BoundingBox.h"
+#include "Octree.h"
+#include "Child.h"
 
 using std::vector;
 
