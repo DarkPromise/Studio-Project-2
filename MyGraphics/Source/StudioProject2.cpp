@@ -103,6 +103,11 @@ void StudioProject2::Init()
 	rotateAngle = 0.0f;
 	canMove = true;
 
+	carparkSlot[0] = 0;
+	carparkSlot[1] = 0; // 0 = empty, 1 = filled
+	carparkSlot[2] = 0;
+	carparkSlot[3] = 0;
+
 	SGState = 0; //0 = sitting, 1 = chasing player
 	SGTranslate = 0;
 	SGLegTranslate = 0;
@@ -1188,6 +1193,7 @@ void StudioProject2::VehicleAI()
 									VehicleZ[i] -= 20;
 								else	
 								{
+									carparkSlot[0] = 0;
 									VehicleX.erase(VehicleX.begin() + i );
 									VehicleZ.erase(VehicleZ.begin() + i );
 									VehicleRotation.erase(VehicleRotation.begin() + i );
@@ -1226,6 +1232,7 @@ void StudioProject2::VehicleAI()
 									VehicleZ[i] -= 20;
 								else	
 								{
+									carparkSlot[1] = 0;
 									VehicleX.erase(VehicleX.begin() + i );
 									VehicleZ.erase(VehicleZ.begin() + i );
 									VehicleRotation.erase(VehicleRotation.begin() + i );
@@ -1264,6 +1271,7 @@ void StudioProject2::VehicleAI()
 									VehicleZ[i] -= 20;
 								else	
 								{
+									carparkSlot[2] = 0;
 									VehicleX.erase(VehicleX.begin() + i );
 									VehicleZ.erase(VehicleZ.begin() + i );
 									VehicleRotation.erase(VehicleRotation.begin() + i );
@@ -1302,6 +1310,7 @@ void StudioProject2::VehicleAI()
 									VehicleZ[i] -= 20;
 								else	
 								{
+									carparkSlot[3] = 0;
 									VehicleX.erase(VehicleX.begin() + i );
 									VehicleZ.erase(VehicleZ.begin() + i );
 									VehicleRotation.erase(VehicleRotation.begin() + i );
@@ -1333,7 +1342,7 @@ void StudioProject2::VehicleAI()
 		{
 			//park the car
 			VehicleRotation[i] = -90;
-			if ( ParkingLocation.size() == 0 )
+			if ( carparkSlot[0] == 0 )
 			{
 				if ( VehicleX[i] > 3040 )
 					VehicleX[i] -= 20;
@@ -1344,6 +1353,7 @@ void StudioProject2::VehicleAI()
 						VehicleZ[i] += 10;
 					else
 					{
+						carparkSlot[0] = 1;
 						OwnerX.push_back(3000);
 						OwnerZ.push_back(1700);
 						OwnerRotation.push_back(90);
@@ -1354,7 +1364,7 @@ void StudioProject2::VehicleAI()
 					}
 				}
 			}
-			else if ( ParkingLocation.size() == 1 )
+			else if ( carparkSlot[1] == 0 )
 			{
 				if ( VehicleX[i] > 3500 )
 					VehicleX[i] -= 20;
@@ -1365,6 +1375,7 @@ void StudioProject2::VehicleAI()
 						VehicleZ[i] += 10;
 					else
 					{
+						carparkSlot[1] = 1;
 						OwnerX.push_back(3500);
 						OwnerZ.push_back(1700);
 						OwnerRotation.push_back(90);
@@ -1375,7 +1386,7 @@ void StudioProject2::VehicleAI()
 					}
 				}
 			}
-			else if ( ParkingLocation.size() == 2 )
+			else if ( carparkSlot[2] == 0 )
 			{
 				if ( VehicleX[i] > 3900 )
 					VehicleX[i] -= 20;
@@ -1386,6 +1397,7 @@ void StudioProject2::VehicleAI()
 						VehicleZ[i] += 10;
 					else
 					{
+						carparkSlot[2] = 1;
 						OwnerX.push_back(3900);
 						OwnerZ.push_back(1700);
 						OwnerRotation.push_back(90);
@@ -1396,7 +1408,7 @@ void StudioProject2::VehicleAI()
 					}
 				}
 			}
-			else if ( ParkingLocation.size() == 3 )
+			else if ( carparkSlot[3] == 0 )
 			{
 				if ( VehicleX[i] > 4300 )
 					VehicleX[i] -= 20;
@@ -1407,6 +1419,7 @@ void StudioProject2::VehicleAI()
 						VehicleZ[i] += 10;
 					else
 					{
+						carparkSlot[3] = 1;
 						OwnerX.push_back(4300);
 						OwnerZ.push_back(1700);
 						OwnerRotation.push_back(90);

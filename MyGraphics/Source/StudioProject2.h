@@ -77,6 +77,8 @@ public:
 	vector<int> RenderOwner;
 	int Vehicles;
 
+	int carparkSlot[4];
+
 	enum CustomerPath
 	{
 		CUSTOMER_PATHTOCARPARK1,
