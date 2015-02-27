@@ -54,7 +54,7 @@ public:
 	vector<float> CustomerX;
 	vector<float> CustomerZ;
 	vector<float> CustomerRotation;
-	vector<float> CustomerState;
+	vector<int> CustomerState;
 	vector<float> CustomerItemsHeld;
 	int Customers;
 	
@@ -62,6 +62,18 @@ public:
 	vector<float> PasserbyZ;
 	vector<float> PasserbyRotation;
 	int Passerby;
+
+	vector<float> VehicleX;
+	vector<float> VehicleZ;
+	vector<float> OwnerX;
+	vector<float> OwnerZ;
+	vector<float> OwnerRotation;
+	vector<float> OwnerItemsHeld;
+	vector<float> VehicleRotation;
+	vector<int> ParkingLocation;
+	vector<int> VehicleState;
+	vector<int> RenderOwner;
+	int Vehicles;
 
 	enum CustomerPath
 	{
@@ -91,6 +103,8 @@ public:
 		CUSTOMER_SHELF4TOGATES,
 		CUSTOMER_CHECKOUT,
 		CUSTOMER_CHECKOUTTOEXIT,
+		VEHICLE_ROADTOENTRANCE = 30,
+		VEHICLE_ENTRANCETOEMPTYSLOT,
 	};
 
 
@@ -167,6 +181,14 @@ public:
 		GEO_PROMOTERLEFTLEG,
 		GEO_PROMOTERRIGHTLEG,
 		GEO_PROMOTERTABLE,
+
+		GEO_OWNERHEAD,
+		GEO_OWNERBODY,
+		GEO_OWNERLEFTARM,
+		GEO_OWNERRIGHTARM,
+		GEO_OWNERLEFTLEG,
+		GEO_OWNERRIGHTLEG,
+		GEO_OWNERTABLE,
 
 		GEO_PASSERBYHEAD,
 		GEO_PASSERBYBODY,
@@ -279,12 +301,20 @@ private:
 	int flyingDirection;
 	double matrixSpeed;
 
+	void VehicleAI();
+	void CustomerAI();
+	void PasserbyAI();
+	void PromoterAI();
+	void GenerateAIs();
+
 	void renderPlayer();
 	void renderCashier();
 	void renderSecurityGuard();
 	void renderCustomer();
 	void renderPromoter();
 	void renderPasserby();
+	void renderVehicle();
+	void renderOwner();
 
 	void renderSkybox();
 	void renderSupermarket();

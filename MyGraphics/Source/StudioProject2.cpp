@@ -124,6 +124,12 @@ void StudioProject2::Init()
 	PasserbyZ.push_back(0);
 	PasserbyRotation.push_back(90);
 
+	Vehicles = 1;
+	VehicleX.push_back(6000);
+	VehicleZ.push_back(6000);
+	VehicleRotation.push_back(180);
+	VehicleState.push_back(30);
+
 	playerPos.Set(0,0,0);
 	tempStorage.Set(0,0,0);
 	tempTarget.Set(0,0,0);
@@ -326,6 +332,19 @@ void StudioProject2::Init()
 	meshList[GEO_PROMOTERRIGHTLEG]->textureID = LoadTGA("Image//Best_Buy_Employee.tga");
 	meshList[GEO_PROMOTERTABLE] = MeshBuilder::GenerateOBJ("Promoter's table", "Object//promoterTable.obj");
 	meshList[GEO_PROMOTERTABLE]->textureID = LoadTGA("Image//dark.tga");
+
+	meshList[GEO_OWNERHEAD] = MeshBuilder::GenerateOBJ("Player head", "Object//playerHead.obj");
+	meshList[GEO_OWNERHEAD]->textureID = LoadTGA("Image//rich_kid.tga");
+	meshList[GEO_OWNERBODY] = MeshBuilder::GenerateOBJ("Player body", "Object//playerBody.obj");
+	meshList[GEO_OWNERBODY]->textureID = LoadTGA("Image//rich_kid.tga");
+	meshList[GEO_OWNERLEFTARM] = MeshBuilder::GenerateOBJ("Player arms", "Object//playerLeftArm.obj");
+	meshList[GEO_OWNERLEFTARM]->textureID = LoadTGA("Image//rich_kid.tga");
+	meshList[GEO_OWNERRIGHTARM] = MeshBuilder::GenerateOBJ("Player arms", "Object//playerRightArm.obj");
+	meshList[GEO_OWNERRIGHTARM]->textureID = LoadTGA("Image//rich_kid.tga");
+	meshList[GEO_OWNERLEFTLEG] = MeshBuilder::GenerateOBJ("Player legs", "Object//playerLeftLeg.obj");
+	meshList[GEO_OWNERLEFTLEG]->textureID = LoadTGA("Image//rich_kid.tga");
+	meshList[GEO_OWNERRIGHTLEG] = MeshBuilder::GenerateOBJ("Player legs", "Object//playerRightLeg.obj");
+	meshList[GEO_OWNERRIGHTLEG]->textureID = LoadTGA("Image//rich_kid.tga");
 	
 	meshList[GEO_PASSERBYHEAD] = MeshBuilder::GenerateOBJ("Player head", "Object//playerHead.obj");
 	meshList[GEO_PASSERBYHEAD]->textureID = LoadTGA("Image//unicorn67_Business.tga");
@@ -414,27 +433,13 @@ void StudioProject2::Init()
 	FOR SETTING NEW BOUNDS BECAUSE OF TRANSLATION UPDATE
 	***************************************************/
 
-	box[DOOR]->Max += doorTranslation;
-	box[DOOR]->Min += doorTranslation;
-	box[SHELF1]->Max += leftShelfTranslate;
-	box[SHELF1]->Min += leftShelfTranslate;
-	box[SHELF2]->Max += middleLeftShelfTranslate;
-	box[SHELF2]->Min += middleLeftShelfTranslate;
-	box[SHELF3]->Max += middleRightShelfTranslate;
-	box[SHELF3]->Min += middleRightShelfTranslate;
-	box[SHELF4]->Max += backShelfTranslate;
-	box[SHELF4]->Min += backShelfTranslate;
-	box[SHELF5]->Max += loneShelfTranslate;
-	box[SHELF5]->Min += loneShelfTranslate;
+	box[DOOR]->Max += Vector3(2230,-53,1190);
+	box[DOOR]->Min += Vector3(2230,-53,1190);
+	box[SHELF1]->Max += Vector3(-2085,-103.3,-1085);
+	box[SHELF1]->Min += Vector3(-2085,-103.3,-1085);
+	box[SHELF2]->Max += Vector3(-1210,-103.3,-820);
+	box[SHELF2]->Min += Vector3(-1210,-103.3,-820);
 
-	box[MARKETWALL1]->Max += MarketWallNorthSouthTranslate;
-	box[MARKETWALL1]->Min += MarketWallNorthSouthTranslate;
-	box[MARKETWALL2]->Max += -MarketWallNorthSouthTranslate;
-	box[MARKETWALL2]->Min += -MarketWallNorthSouthTranslate;
-	box[MARKETWALL3]->Max += MarketWallEastWestTranslate;
-	box[MARKETWALL3]->Min += MarketWallEastWestTranslate;
-	box[MARKETWALL4]->Max += -MarketWallEastWestTranslate;
-	box[MARKETWALL4]->Min += -MarketWallEastWestTranslate;
 	/***************************************************
 	FOR ADDING ITEMS & SHELFSLOTS
 	***************************************************/
@@ -602,6 +607,110 @@ void StudioProject2::Update(double dt)
 	//	cout << "Player Pos : " << playerPos << endl;
 	//}
 
+	GenerateAIs();
+
+	PasserbyAI();
+	CustomerAI();
+	VehicleAI();
+	PromoterAI();
+
+	////////////for door//////////
+	if(camera.position.x > box[DOOR]->Min.x && camera.position.x < box[DOOR]->Max.x  && camera.position.y > box[DOOR]->Min.y && camera.position.y < box[DOOR]->Max.y && camera.position.z > box[DOOR]->Min.z && camera.position.z < box[DOOR]->Max.z && door1Pos > 700)
+	{
+		door1Pos -= 500*dt;
+		door2Pos += 500*dt;
+	}
+	if((camera.position.x < box[DOOR]->Min.x || camera.position.x > box[DOOR]->Max.x || camera.position.y < box[DOOR]->Min.y || camera.position.y > box[DOOR]->Max.y || camera.position.z < box[DOOR]->Min.z || camera.position.z > box[DOOR]->Max.z) && door1Pos < 1023)
+	{
+		door1Pos += 500*dt;
+		door2Pos -= 500*dt;
+		if(door1Pos > 1023)
+		{
+			door1Pos = 1023;
+			door2Pos = 1365;
+		}
+	}
+	//////////////////////////////
+	playerDir.x = dt * sin(Math::DegreeToRadian(rotateAngle));
+	playerDir.z = dt * cos(Math::DegreeToRadian(rotateAngle));
+	playerDir.y = 0.f;
+
+	FPS = 1 / dt;
+	std::ostringstream s;
+	s << setprecision(9) << FPS;
+	textPS = s.str();
+
+	deltaTime = dt;
+	toggleDelay += dt;
+
+	camera.Update(dt,canMove);
+	CollisionCheck(dt);
+
+	playerPos = camera.position;
+	box[PLAYER]->Max = playerPos + playerBounds;
+	box[PLAYER]->Min = playerPos - playerBounds;
+
+	if(canMove)
+	{
+		tempStorage = playerPos;
+		tempTarget = camera.target;
+		tempUp = camera.up;
+	}
+	else
+	{
+		camera.position = tempStorage;
+		camera.target = tempTarget;
+		camera.up = tempUp;
+		canMove = true;
+	}
+	for(int i = 0; i < shelfVector.size(); ++i)
+	{
+		if(camera.target.x > shelfVector[i]->boundMin.x && camera.target.x < shelfVector[i]->boundMax.x  && camera.target.y > shelfVector[i]->boundMin.y && camera.target.y < shelfVector[i]->boundMax.y && camera.target.z > shelfVector[i]->boundMin.z && camera.target.z < shelfVector[i]->boundMax.z && shelfVector[i]->isempty == false && inhand->reachMax == false)
+		{
+			cout << "seen";
+			if(Application::IsKeyPressed('B'))
+			{
+				inhand->recive(shelfVector[i]->itemid);
+				shelfVector[i]->isempty = true;
+			}
+		}
+	}
+	for(int i = 0; i < shelfVector.size(); ++i)
+	{
+		if(camera.target.x > shelfVector[i]->boundMin.x && camera.target.x < shelfVector[i]->boundMax.x  && camera.target.y > shelfVector[i]->boundMin.y && camera.target.y < shelfVector[i]->boundMax.y && camera.target.z > shelfVector[i]->boundMin.z && camera.target.z < shelfVector[i]->boundMax.z && shelfVector[i]->isempty == true && inhand->holding.size() > 0)
+		{
+			cout << "fap";
+			if(Application::IsKeyPressed('N'))
+			{
+				shelfVector[i]->itemid = inhand->remove();
+				itemVector[shelfVector[i]->itemid]->placeItem(shelfVector[i]->position);
+				shelfVector[i]->isempty = false;
+			}
+		}
+	}
+	if(inhand->holding.size() > 0)
+	{
+		for(int i = 0; i < inhand->holding.size(); ++i)
+		{
+			itemVector[inhand->holding[i]]->takeItem(camera.position);
+		}
+		
+		itemVector[inhand->holding.back()]->takeItem(camera.target);
+		if(Application::IsKeyPressed(VK_LEFT))
+		{
+			itemVector[inhand->holding.back()]->updateRotate(150.f * dt);
+		}
+		if(Application::IsKeyPressed(VK_RIGHT))
+		{
+			itemVector[inhand->holding.back()]->updateRotate(-150.f * dt);
+		}
+	}
+	//camera.target.Set(CustomerX[0], 0, CustomerZ[0]);
+	//camera.position.Set(CustomerX[0], 0, CustomerZ[0] + 500);
+}
+
+void StudioProject2::GenerateAIs()
+{
 	if ( Customers < 10 )
 	{
 		int canSpawn = rand() % 2222;
@@ -626,6 +735,19 @@ void StudioProject2::Update(double dt)
 		}
 	}
 
+	if ( Vehicles < 4 && OwnerX.size() == Vehicles)
+	{
+		int canSpawn = rand() % 1111;
+		if ( canSpawn == 10 );
+		{
+			Vehicles++;
+			VehicleX.push_back(6000);
+			VehicleZ.push_back(6000);
+			VehicleRotation.push_back(180);
+			VehicleState.push_back(30);
+		}
+	}
+
 	if ( Passerby < 10 )
 	{
 		int canSpawn = rand() % 1111;
@@ -647,20 +769,660 @@ void StudioProject2::Update(double dt)
 			}
 		}
 	}
+}
 
-	for ( int i = 0; i < Passerby; i++ )
+void StudioProject2::VehicleAI()
+{
+	for ( int i = 0; i < Vehicles; i++ )
 	{
-		if ( PasserbyZ[i] > -7000 )
-			PasserbyZ[i] -= 50;
-		else
+		if ( VehicleState[i] == 0 )
 		{
-			PasserbyX.erase(PasserbyX.begin() + i);
-			PasserbyZ.erase(PasserbyZ.begin() + i);
-			PasserbyRotation.erase(PasserbyRotation.begin() + i);
-			Passerby--;
+			//to carpark entrance
+			OwnerRotation[i] = 90;
+			if ( OwnerZ[i] > 1250 )
+				OwnerZ[i] -= 10;
+			else
+				VehicleState[i] = 1;
+		}
+		else if ( VehicleState[i] == 1 )
+		{
+			//to within supermarket
+			OwnerRotation[i] = 180;
+			if ( OwnerX[i] > 850 )
+				OwnerX[i] -= 10;
+			else
+			{
+				int goWhere = rand() % 2;
+				if ( goWhere == 0 )
+					VehicleState[i] = 2;
+				else if ( goWhere == 1 )
+					VehicleState[i] = 4;
+			}
+		}
+		else if ( VehicleState[i] == 2 )
+		{
+			//go to basket
+			VehicleState[i] = 4;
+		}
+		else if ( VehicleState[i] == 3 )
+		{
+			//go back to entrance
+			VehicleState[i] = 4;
+		}
+		else if ( VehicleState[i] == 4 )
+		{
+			//go through gates
+			OwnerRotation[i] = 90;
+			if ( OwnerZ[i] > -200 )
+				OwnerZ[i] -= 10;
+			else
+			{
+				int goWhere = rand() % 2;
+				if ( goWhere == 0 )
+					VehicleState[i] = 5;
+				else
+				{
+					goWhere = rand() % 2;
+					if ( goWhere == 0 )
+						VehicleState[i] = 7;
+					else
+						VehicleState[i] = 9;
+				}
+			}
+		}
+		else if ( VehicleState[i] == 5 )
+		{
+			//to trolley from gates
+			VehicleState[i] = 6;
+
+		}
+		else if ( VehicleState[i] == 6 )
+		{
+			//trolley to gates
+			VehicleState[i] = 7;
+		}
+		else if ( VehicleState[i] == 7 )
+		{
+			//gates to drinks section
+			OwnerRotation[i] = 0;
+			if ( OwnerX[i] < 1700 )
+				OwnerX[i] += 10;
+			else
+			{
+				OwnerRotation[i] = 90;
+				if ( OwnerZ[i] > -1700 )
+					OwnerZ[i] -= 10;
+				else
+					VehicleState[i] = 8;
+			}
+		}
+		else if ( VehicleState[i] == 8 )
+		{
+			//drinks section to gate
+			OwnerRotation[i] = -90;
+			if ( OwnerZ[i] < -200 )
+				OwnerZ[i] += 10;
+			else
+			{
+				OwnerRotation[i] = 180;
+				if ( OwnerX[i] > 1000 )
+					OwnerX[i] -= 10;
+				else
+				{
+					VehicleState[i] = 9;
+				}
+			}
+		}
+		else if ( VehicleState[i] == 9 )
+		{
+			//gate to shelf1
+			OwnerRotation[i] = 0;
+			if ( OwnerX[i] < 1000 && OwnerZ[i] > -1000)
+				OwnerX[i] += 10;
+			else
+			{
+				OwnerRotation[i] = 90;
+				if ( OwnerZ[i] > -1000 )
+					OwnerZ[i] -= 10;
+				else 
+				{
+					OwnerRotation[i] = 180;
+					if ( OwnerX[i] > 600 )
+						OwnerX[i] -= 10;
+					else
+					{
+						int GoWhere = rand() % 2;
+						if ( GoWhere == 0 )
+							VehicleState[i] = 10;
+						else
+							VehicleState[i] = 11;
+					}
+				}
+			}
+		}
+		else if ( VehicleState[i] == 10 )
+		{
+			//shelf1 to shelf2
+			OwnerRotation[i] = 180;
+			if ( OwnerX[i] > 100 )
+				OwnerX[i] -= 10;
+			else
+			{
+				OwnerRotation[i] = -90;
+				if ( OwnerZ[i] < -800 )
+					OwnerZ[i] += 10;
+				else
+				{
+					OwnerRotation[i] = 180;
+
+					VehicleState[i] = 12;
+				}
+			}
+		}
+		else if ( VehicleState[i] == 11 )
+		{
+			//shelf1 to backshelf
+			OwnerRotation[i] = 90;
+			if ( OwnerZ[i] > -1500 )
+				OwnerZ[i] -= 10;
+			else
+			{
+				OwnerRotation[i] = 180;
+				if ( OwnerX[i] > -400 )
+					OwnerX[i] -= 10;
+				else
+				{
+					int GoWhere = rand() % 2;
+					if ( GoWhere == 0 )
+						VehicleState[i] = 13;
+					else
+						VehicleState[i] = 14;
+				}
+			}
+		}
+		else if ( VehicleState[i] == 12 )
+		{
+			//shelf2 to backshelf
+			OwnerRotation[i] = 90;
+			if ( OwnerZ[i] > -1500 )
+				OwnerZ[i] -= 10;
+			else
+			{
+				OwnerRotation[i] = 180;
+				if ( OwnerX[i] > -400 )
+					OwnerX[i] -= 10;
+				else
+				{
+					int GoWhere = rand() % 2;
+					if ( GoWhere == 0 )
+						VehicleState[i] = 13;
+					else
+						VehicleState[i] = 14;
+				}
+			}
+		}
+		else if ( VehicleState[i] == 13 )
+		{
+			//backshelves to left shelf
+			OwnerRotation[i] = 180;
+			if ( OwnerX[i] > -1850 )
+				OwnerX[i] -= 10;
+			else
+			{
+				OwnerRotation[i] = -90;
+
+				VehicleState[i] = 16;
+			}
+		}
+		else if ( VehicleState[i] == 14 )
+		{
+			//backshelves to shelf4
+			OwnerRotation[i] = 180;
+			if ( OwnerX[i] > -850 )
+				OwnerX[i] -= 10;
+			else
+			{
+				OwnerRotation[i] = -90;
+				if ( OwnerZ[i] < -800 )
+					OwnerZ[i] += 10;
+				else
+				{
+					OwnerRotation[i] = 180;
+
+					int GoWhere = rand() % 2;
+					if ( GoWhere == 0 )
+						VehicleState[i] = 15;
+					else
+						VehicleState[i] = 23;
+				}
+			}
+		}
+		else if ( VehicleState[i] == 15 )
+		{
+			//shelf4 to checkout1
+			OwnerRotation[i] = 180;
+			if ( OwnerX[i] > -850 )
+				OwnerX[i] -= 10;
+			else
+				VehicleState[i] = 24;
+		}
+		else if ( VehicleState[i] == 16 )
+		{
+			//left shelf to front left shelf
+			OwnerRotation[i] = -90;
+			if ( OwnerZ[i] < -600 )
+				OwnerZ[i] += 10;
+			else
+			{
+				VehicleState[i] = 17;
+			}
+		}
+		else if ( VehicleState[i] == 17 )
+		{
+			//front left shelves to customer service
+			OwnerRotation[i] = -90;
+			if ( OwnerZ[i] < -200 )
+				OwnerZ[i] += 10;
+			else
+			{
+				if ( CustomerItemsHeld[i] == 0 )
+				{
+					int GoWhere = rand() % 4;
+
+					if ( GoWhere == 0 )
+						VehicleState[i] = 18;
+					else if ( GoWhere == 1)
+						VehicleState[i] = 19;
+					else if ( GoWhere == 2 )
+						VehicleState[i] = 20;
+					else if ( GoWhere == 3 )
+						VehicleState[i] = 21;
+				}
+				else
+					VehicleState[i] = 22;			
+			}
+		}
+		else if ( VehicleState[i] == 18 )
+		{
+			//customerservice to checkout 1
+			OwnerRotation[i] = 0;
+			if ( OwnerX[i] < -900 )
+				OwnerX[i] += 10;
+			else
+				VehicleState[i] = 24;
+		}
+		else if ( VehicleState[i] == 19 )
+		{
+			//customerservice to checkout2
+			OwnerRotation[i] = 0;
+			if ( OwnerX[i] < -800 )
+				OwnerX[i] += 50;
+			else
+				VehicleState[i] = 24;
+		}
+		else if ( VehicleState[i] == 20 )
+		{
+			//customerservice to checkout3
+			OwnerRotation[i] = 0;
+			if ( OwnerX[i] < 100 )
+				OwnerX[i] += 10;
+			else
+				VehicleState[i] = 24;
+		}
+		else if ( VehicleState[i] == 21 )
+		{
+			//customerservice to checkout4
+			OwnerRotation[i] = 0;
+			if ( OwnerX[i] < 200 )
+				OwnerX[i] += 10;
+			else
+				VehicleState[i] = 24;
+		}
+		else if ( VehicleState[i] == 22 )
+		{
+			//customerservice to gates
+			OwnerRotation[i] = 0;
+			if ( OwnerX[i] < 850 )
+				OwnerX[i] += 10;
+			else
+			{
+				VehicleState[i] = 4;
+			}
+		}
+		else if ( VehicleState[i] == 23 )
+		{
+			//shelf4 to gates
+			OwnerRotation[i] = -90;
+			if ( OwnerZ[i] < -200 )
+				OwnerZ[i] += 10;
+			else
+			{
+				OwnerRotation[i] = 0;
+				if ( OwnerX[i] < 850 )
+					OwnerX[i] += 10;
+				else
+				{
+					VehicleState[i] = 4;
+				}
+			}
+		}
+		else if ( VehicleState[i] == 24 )
+		{
+			//checkouts to exit
+			OwnerRotation[i] = -90;
+			if ( OwnerZ[i] < 350 )
+				OwnerZ[i] += 10;
+			else
+			{
+				if ( OwnerX[i] == -900 || OwnerX[i] == 100 )
+					OwnerRotation[i] = 180;
+				else
+					OwnerRotation[i] = 0;
+
+				//cashier response checkout code
+				checkingOut = 0;
+				if ( checkingOut == 0 )
+				{
+					int cashierRotate = rand() % 2;
+					rotateDelay += 0.2;
+					if ( cashierRotate == 0 && rotateDelay > 2)
+					{
+						rotateDelay -= 2;
+
+						if ( OwnerX[i] == -900 )
+							cashier1RotateY = 90;
+						else if ( OwnerX[i] == -800 )
+							cashier2RotateY = -90;
+						else if ( OwnerX[i] == 100 )
+							cashier3RotateY = 90;
+						else
+							cashier4RotateY = -90;
+					}
+					else if ( cashierRotate == 1 && rotateDelay > 2)
+					{
+						rotateDelay -= 2;
+
+						if ( OwnerX[i] == -900 )
+							cashier1RotateY = 0;
+						else if ( OwnerX[i] == -800 )
+							cashier2RotateY = 0;
+						else if ( OwnerX[i] == 100 )
+							cashier3RotateY = 0;
+						else
+							cashier4RotateY = 0;
+
+						int canLeave = rand() % 2;
+
+						if ( canLeave == 1 )
+							VehicleState[i] = 25;
+					}
+				}
+			}
+		}
+		else if ( VehicleState[i] == 25 )
+		{
+			OwnerRotation[i] = -90;
+			if ( OwnerZ[i] < 1200 && OwnerX[i] != 6000)
+				OwnerZ[i] += 10;
+			else
+			{
+				if ( ParkingLocation[i] == 1 )
+				{	
+					OwnerRotation[i] = 0;
+					if ( OwnerX[i] < 3000 )
+						OwnerX[i] += 10;
+					else
+					{
+						RenderOwner[i] = 0;
+						if ( VehicleZ[i] > 1200 )
+							VehicleZ[i] -= 10;
+						else
+						{
+							VehicleRotation[i] = 90;
+							if ( VehicleX[i] < 6400 )
+								VehicleX[i] += 20;
+							else
+							{
+								VehicleRotation[i] = 180;
+								if ( VehicleZ[i] > -7000 )
+									VehicleZ[i] -= 20;
+								else	
+								{
+									VehicleX.erase(VehicleX.begin() + i );
+									VehicleZ.erase(VehicleZ.begin() + i );
+									VehicleRotation.erase(VehicleRotation.begin() + i );
+									VehicleState.erase(VehicleState.begin() + i );
+									ParkingLocation.erase(ParkingLocation.begin() + i);
+									OwnerX.erase(OwnerX.begin() + i);
+									OwnerZ.erase(OwnerZ.begin() + i);
+									OwnerRotation.erase(OwnerRotation.begin() + i);
+									OwnerItemsHeld.erase(OwnerItemsHeld.begin() + i);
+									RenderOwner.erase(RenderOwner.begin() + i);
+									Vehicles--;
+								}
+							}
+						}
+					}
+				}
+				else if ( ParkingLocation[i] == 2 )
+				{
+					OwnerRotation[i] = 0;
+					if ( OwnerX[i] < 3500 )
+						OwnerX[i] += 10;
+					else
+					{
+						RenderOwner[i] = 0;
+						if ( VehicleZ[i] > 1200 )
+							VehicleZ[i] -= 10;
+						else
+						{
+							VehicleRotation[i] = 90;
+							if ( VehicleX[i] < 6400 )
+								VehicleX[i] += 20;
+							else
+							{
+								VehicleRotation[i] = 180;
+								if ( VehicleZ[i] > -7000 )
+									VehicleZ[i] -= 20;
+								else	
+								{
+									VehicleX.erase(VehicleX.begin() + i );
+									VehicleZ.erase(VehicleZ.begin() + i );
+									VehicleRotation.erase(VehicleRotation.begin() + i );
+									VehicleState.erase(VehicleState.begin() + i );
+									ParkingLocation.erase(ParkingLocation.begin() + i);
+									OwnerX.erase(OwnerX.begin() + i);
+									OwnerZ.erase(OwnerZ.begin() + i);
+									OwnerRotation.erase(OwnerRotation.begin() + i);
+									OwnerItemsHeld.erase(OwnerItemsHeld.begin() + i);
+									RenderOwner.erase(RenderOwner.begin() + i);
+									Vehicles--;
+								}
+							}
+						}
+					}
+				}
+				else if ( ParkingLocation[i] == 3 )
+				{
+					OwnerRotation[i] = 0;
+					if ( OwnerX[i] < 3900 )
+						OwnerX[i] += 10;
+					else
+					{
+						RenderOwner[i] = 0;
+						if ( VehicleZ[i] > 1200 )
+							VehicleZ[i] -= 10;
+						else
+						{
+							VehicleRotation[i] = 90;
+							if ( VehicleX[i] < 6400 )
+								VehicleX[i] += 20;
+							else
+							{
+								VehicleRotation[i] = 180;
+								if ( VehicleZ[i] > -7000 )
+									VehicleZ[i] -= 20;
+								else	
+								{
+									VehicleX.erase(VehicleX.begin() + i );
+									VehicleZ.erase(VehicleZ.begin() + i );
+									VehicleRotation.erase(VehicleRotation.begin() + i );
+									VehicleState.erase(VehicleState.begin() + i );
+									ParkingLocation.erase(ParkingLocation.begin() + i);
+									OwnerX.erase(OwnerX.begin() + i);
+									OwnerZ.erase(OwnerZ.begin() + i);
+									OwnerRotation.erase(OwnerRotation.begin() + i);
+									OwnerItemsHeld.erase(OwnerItemsHeld.begin() + i);
+									RenderOwner.erase(RenderOwner.begin() + i);
+									Vehicles--;
+								}
+							}
+						}
+					}
+				}
+				else if ( ParkingLocation[i] == 4 )
+				{
+					OwnerRotation[i] = 0;
+					if ( OwnerX[i] < 4300 )
+						OwnerX[i] += 10;
+					else
+					{
+						RenderOwner[i] = 0;
+						if ( VehicleZ[i] > 1200 )
+							VehicleZ[i] -= 10;
+						else
+						{
+							VehicleRotation[i] = 90;
+							if ( VehicleX[i] < 6400 )
+								VehicleX[i] += 20;
+							else
+							{
+								VehicleRotation[i] = 180;
+								if ( VehicleZ[i] > -7000 )
+									VehicleZ[i] -= 20;
+								else	
+								{
+									VehicleX.erase(VehicleX.begin() + i );
+									VehicleZ.erase(VehicleZ.begin() + i );
+									VehicleRotation.erase(VehicleRotation.begin() + i );
+									VehicleState.erase(VehicleState.begin() + i );
+									ParkingLocation.erase(ParkingLocation.begin() + i);
+									OwnerX.erase(OwnerX.begin() + i);
+									OwnerZ.erase(OwnerZ.begin() + i);
+									OwnerRotation.erase(OwnerRotation.begin() + i);
+									OwnerItemsHeld.erase(OwnerItemsHeld.begin() + i);
+									RenderOwner.erase(RenderOwner.begin() + i);
+									Vehicles--;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		else if ( VehicleState[i] == 30 )
+		{
+			//to carpark entrance
+			VehicleRotation[i] = 180;
+			if ( VehicleZ[i] > 1400 )
+				VehicleZ[i] -= 20;
+			else
+				VehicleState[i] = 31;
+		}
+		else if ( VehicleState[i] == 31 )
+		{
+			//park the car
+			VehicleRotation[i] = -90;
+			if ( ParkingLocation.size() == 0 )
+			{
+				if ( VehicleX[i] > 3040 )
+					VehicleX[i] -= 20;
+				else
+				{
+					VehicleRotation[i] = 0;
+					if ( VehicleZ[i] < 2050 )
+						VehicleZ[i] += 10;
+					else
+					{
+						OwnerX.push_back(3000);
+						OwnerZ.push_back(1700);
+						OwnerRotation.push_back(90);
+						OwnerItemsHeld.push_back(0);
+						ParkingLocation.push_back(1);
+						RenderOwner.push_back(1);
+						VehicleState[i] = 0;
+					}
+				}
+			}
+			else if ( ParkingLocation.size() == 1 )
+			{
+				if ( VehicleX[i] > 3500 )
+					VehicleX[i] -= 20;
+				else
+				{
+					VehicleRotation[i] = 0;
+					if ( VehicleZ[i] < 2050 )
+						VehicleZ[i] += 10;
+					else
+					{
+						OwnerX.push_back(3500);
+						OwnerZ.push_back(1700);
+						OwnerRotation.push_back(90);
+						OwnerItemsHeld.push_back(0);
+						ParkingLocation.push_back(2);
+						RenderOwner.push_back(1);
+						VehicleState[i] = 0;
+					}
+				}
+			}
+			else if ( ParkingLocation.size() == 2 )
+			{
+				if ( VehicleX[i] > 3900 )
+					VehicleX[i] -= 20;
+				else
+				{
+					VehicleRotation[i] = 0;
+					if ( VehicleZ[i] < 2050 )
+						VehicleZ[i] += 10;
+					else
+					{
+						OwnerX.push_back(3900);
+						OwnerZ.push_back(1700);
+						OwnerRotation.push_back(90);
+						OwnerItemsHeld.push_back(0);
+						ParkingLocation.push_back(3);
+						RenderOwner.push_back(1);
+						VehicleState[i] = 0;
+					}
+				}
+			}
+			else if ( ParkingLocation.size() == 3 )
+			{
+				if ( VehicleX[i] > 4300 )
+					VehicleX[i] -= 20;
+				else
+				{
+					VehicleRotation[i] = 0;
+					if ( VehicleZ[i] < 2050 )
+						VehicleZ[i] += 10;
+					else
+					{
+						OwnerX.push_back(4300);
+						OwnerZ.push_back(1700);
+						OwnerRotation.push_back(90);
+						OwnerItemsHeld.push_back(0);
+						ParkingLocation.push_back(4);
+						RenderOwner.push_back(1);
+						VehicleState[i] = 0;
+					}
+				}
+			}
 		}
 	}
+}
 
+void StudioProject2::CustomerAI()
+{
 	for ( int i = 0; i < Customers; i++ )
 	{
 		if ( CustomerState[i] == 0 )
@@ -1012,7 +1774,7 @@ void StudioProject2::Update(double dt)
 				if ( checkingOut == 0 )
 				{
 					int cashierRotate = rand() % 2;
-					rotateDelay += dt;
+					rotateDelay += 0.14;
 					if ( cashierRotate == 0 && rotateDelay > 2)
 					{
 						rotateDelay -= 2;
@@ -1068,14 +1830,34 @@ void StudioProject2::Update(double dt)
 						CustomerX.erase(CustomerX.begin() + i);
 						CustomerState.erase(CustomerState.begin() + i);
 						CustomerRotation.erase(CustomerRotation.begin() + i);
+						Customers--;
 					}
 				}
 			}
 		}
 	}
+}
 
+void StudioProject2::PasserbyAI()
+{
+	for ( int i = 0; i < Passerby; i++ )
+	{
+		if ( PasserbyZ[i] > -7000 )
+			PasserbyZ[i] -= 15;
+		else
+		{
+			PasserbyX.erase(PasserbyX.begin() + i);
+			PasserbyZ.erase(PasserbyZ.begin() + i);
+			PasserbyRotation.erase(PasserbyRotation.begin() + i);
+			Passerby--;
+		}
+	}
+}
+
+void StudioProject2::PromoterAI()
+{
 	if ( itemRotateY < 360 )
-		itemRotateY += 50 * dt;
+		itemRotateY += 50 * 0.2;
 	else
 		itemRotateY = 0;
 
@@ -1190,8 +1972,6 @@ void StudioProject2::Update(double dt)
 			itemVector[inhand->holding.back()]->updateRotate(-150.f * dt);
 		}
 	}
-	//camera.target.Set(CustomerX[0], 0, CustomerZ[0]);
-	//camera.position.Set(CustomerX[0], 0, CustomerZ[0] + 500);
 }
 
 void StudioProject2::Render()
@@ -1292,6 +2072,25 @@ void StudioProject2::Render()
 		modelStack.Translate(PasserbyX[i], -275, PasserbyZ[i]);
 		modelStack.Rotate(PasserbyRotation[i], 0, 1, 0);
 		renderPasserby();
+		modelStack.PopMatrix();
+	}
+
+	for ( int i = 0; i < Vehicles; i++ )
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(VehicleX[i], -275, VehicleZ[i]);
+		modelStack.Rotate(VehicleRotation[i], 0, 1, 0);
+		renderVehicle();
+		modelStack.PopMatrix();
+	}
+
+	for (int i = 0; i < RenderOwner.size(); i++ )
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(OwnerX[i], -275, OwnerZ[i]);
+		modelStack.Rotate(OwnerRotation[i], 0, 1, 0);
+		if ( RenderOwner[i] == 1 )
+			renderOwner();
 		modelStack.PopMatrix();
 	}
 
@@ -1488,6 +2287,18 @@ void StudioProject2::renderPasserby()
 	modelStack.PopMatrix();	
 }
 
+void StudioProject2::renderVehicle()
+{
+	modelStack.PushMatrix();
+	modelStack.Scale(50, 50, 50);
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_CAR], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PopMatrix();
+}
+
 void StudioProject2::renderPromoter()
 {
 	modelStack.PushMatrix();
@@ -1563,6 +2374,39 @@ void StudioProject2::renderCashier()
 
 	modelStack.PushMatrix();
 	RenderMesh(meshList[GEO_CASHIERRIGHTLEG], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PopMatrix();	
+}
+
+void StudioProject2::renderOwner()
+{
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 0, 0);
+	modelStack.Scale(20, 20, 20);
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_OWNERHEAD], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_OWNERBODY], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_OWNERLEFTARM], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_OWNERRIGHTARM], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_OWNERLEFTLEG], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_OWNERRIGHTLEG], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PopMatrix();	
@@ -2624,35 +3468,7 @@ void StudioProject2::CollisionCheck(double dt)
 
 			((box[PLAYER]->Min.x < box[SHELF2]->Max.x) && (box[PLAYER]->Max.x > box[SHELF2]->Min.x)  &&
 			 (box[PLAYER]->Min.y < box[SHELF2]->Max.y) && (box[PLAYER]->Max.y > box[SHELF2]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[SHELF3]->Max.x) && (box[PLAYER]->Max.x > box[SHELF3]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[SHELF3]->Max.y) && (box[PLAYER]->Max.y > box[SHELF3]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF3]->Max.z) && (box[PLAYER]->Max.z > box[SHELF3]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[SHELF4]->Max.x) && (box[PLAYER]->Max.x > box[SHELF4]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[SHELF4]->Max.y) && (box[PLAYER]->Max.y > box[SHELF4]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF4]->Max.z) && (box[PLAYER]->Max.z > box[SHELF4]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[SHELF5]->Max.x) && (box[PLAYER]->Max.x > box[SHELF5]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[SHELF5]->Max.y) && (box[PLAYER]->Max.y > box[SHELF5]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF5]->Max.z) && (box[PLAYER]->Max.z > box[SHELF5]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[MARKETWALL1]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL1]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[MARKETWALL1]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL1]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[MARKETWALL1]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL1]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[MARKETWALL2]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL2]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[MARKETWALL2]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL2]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[MARKETWALL2]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL2]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[MARKETWALL3]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL3]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[MARKETWALL3]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL3]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[MARKETWALL3]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL3]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[MARKETWALL4]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL4]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[MARKETWALL4]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL4]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[MARKETWALL4]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL4]->Min.z)) )
+			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) )
 		{
 			canMove = false;
 		}
@@ -2669,35 +3485,7 @@ void StudioProject2::CollisionCheck(double dt)
 
 			((box[PLAYER]->Min.x < box[SHELF2]->Max.x) && (box[PLAYER]->Max.x > box[SHELF2]->Min.x)  &&
 			 (box[PLAYER]->Min.y < box[SHELF2]->Max.y) && (box[PLAYER]->Max.y > box[SHELF2]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[SHELF3]->Max.x) && (box[PLAYER]->Max.x > box[SHELF3]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[SHELF3]->Max.y) && (box[PLAYER]->Max.y > box[SHELF3]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF3]->Max.z) && (box[PLAYER]->Max.z > box[SHELF3]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[SHELF4]->Max.x) && (box[PLAYER]->Max.x > box[SHELF4]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[SHELF4]->Max.y) && (box[PLAYER]->Max.y > box[SHELF4]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF4]->Max.z) && (box[PLAYER]->Max.z > box[SHELF4]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[SHELF5]->Max.x) && (box[PLAYER]->Max.x > box[SHELF5]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[SHELF5]->Max.y) && (box[PLAYER]->Max.y > box[SHELF5]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF5]->Max.z) && (box[PLAYER]->Max.z > box[SHELF5]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[MARKETWALL1]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL1]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[MARKETWALL1]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL1]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[MARKETWALL1]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL1]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[MARKETWALL2]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL2]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[MARKETWALL2]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL2]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[MARKETWALL2]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL2]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[MARKETWALL3]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL3]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[MARKETWALL3]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL3]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[MARKETWALL3]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL3]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[MARKETWALL4]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL4]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[MARKETWALL4]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL4]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[MARKETWALL4]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL4]->Min.z)) )
+			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) )
 		{
 			canMove = false;
 		}
@@ -2714,35 +3502,7 @@ void StudioProject2::CollisionCheck(double dt)
 
 			((box[PLAYER]->Min.x < box[SHELF2]->Max.x) && (box[PLAYER]->Max.x > box[SHELF2]->Min.x)  &&
 			 (box[PLAYER]->Min.y < box[SHELF2]->Max.y) && (box[PLAYER]->Max.y > box[SHELF2]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[SHELF3]->Max.x) && (box[PLAYER]->Max.x > box[SHELF3]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[SHELF3]->Max.y) && (box[PLAYER]->Max.y > box[SHELF3]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF3]->Max.z) && (box[PLAYER]->Max.z > box[SHELF3]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[SHELF4]->Max.x) && (box[PLAYER]->Max.x > box[SHELF4]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[SHELF4]->Max.y) && (box[PLAYER]->Max.y > box[SHELF4]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF4]->Max.z) && (box[PLAYER]->Max.z > box[SHELF4]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[SHELF5]->Max.x) && (box[PLAYER]->Max.x > box[SHELF5]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[SHELF5]->Max.y) && (box[PLAYER]->Max.y > box[SHELF5]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF5]->Max.z) && (box[PLAYER]->Max.z > box[SHELF5]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[MARKETWALL1]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL1]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[MARKETWALL1]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL1]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[MARKETWALL1]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL1]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[MARKETWALL2]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL2]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[MARKETWALL2]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL2]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[MARKETWALL2]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL2]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[MARKETWALL3]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL3]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[MARKETWALL3]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL3]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[MARKETWALL3]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL3]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[MARKETWALL4]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL4]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[MARKETWALL4]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL4]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[MARKETWALL4]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL4]->Min.z)) )
+			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) )
 		{
 			canMove = false;
 		}
@@ -2759,35 +3519,7 @@ void StudioProject2::CollisionCheck(double dt)
 
 			((box[PLAYER]->Min.x < box[SHELF2]->Max.x) && (box[PLAYER]->Max.x > box[SHELF2]->Min.x)  &&
 			 (box[PLAYER]->Min.y < box[SHELF2]->Max.y) && (box[PLAYER]->Max.y > box[SHELF2]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[SHELF3]->Max.x) && (box[PLAYER]->Max.x > box[SHELF3]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[SHELF3]->Max.y) && (box[PLAYER]->Max.y > box[SHELF3]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF3]->Max.z) && (box[PLAYER]->Max.z > box[SHELF3]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[SHELF4]->Max.x) && (box[PLAYER]->Max.x > box[SHELF4]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[SHELF4]->Max.y) && (box[PLAYER]->Max.y > box[SHELF4]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF4]->Max.z) && (box[PLAYER]->Max.z > box[SHELF4]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[SHELF5]->Max.x) && (box[PLAYER]->Max.x > box[SHELF5]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[SHELF5]->Max.y) && (box[PLAYER]->Max.y > box[SHELF5]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF5]->Max.z) && (box[PLAYER]->Max.z > box[SHELF5]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[MARKETWALL1]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL1]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[MARKETWALL1]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL1]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[MARKETWALL1]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL1]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[MARKETWALL2]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL2]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[MARKETWALL2]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL2]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[MARKETWALL2]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL2]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[MARKETWALL3]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL3]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[MARKETWALL3]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL3]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[MARKETWALL3]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL3]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[MARKETWALL4]->Max.x) && (box[PLAYER]->Max.x > box[MARKETWALL4]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[MARKETWALL4]->Max.y) && (box[PLAYER]->Max.y > box[MARKETWALL4]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[MARKETWALL4]->Max.z) && (box[PLAYER]->Max.z > box[MARKETWALL4]->Min.z)) )
+			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) )
 		{
 			canMove = false;
 		}
