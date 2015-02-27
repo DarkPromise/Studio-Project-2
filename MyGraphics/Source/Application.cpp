@@ -105,9 +105,6 @@ void Application::Run()
 	Scene *scene = new StudioProject2();
 	scene->Init();
 
-	tree = new Octree();
-	tree->CreateTree(3,0,0,0,100,100,100);
-
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{

@@ -62,7 +62,7 @@ void Camera2::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 /***********************************************************/
 void Camera2::Update(double dt,bool move)
 {
-	static const float CAMERA_SPEED = 200.f;
+	static const float CAMERA_SPEED = 150.f;
 	if(Application::IsKeyPressed('W') && move == true)
 	{
 		Vector3 temptarget = target;

@@ -2,13 +2,11 @@
 #define BOUNDINGBOX_H
 
 //Josh Code
-#include "Child.h"
-#include "Vector3.h"
-#include "GL\glew.h"
 
-class BoundingBox
+#include "Vector3.h"
+
+typedef struct BoundingBox
 {
-public:
 	BoundingBox() //Inside = BoundingBox for indoors
 		: isInside(true),
 	isObj(false),
@@ -23,24 +21,11 @@ public:
 	bool canPhase;
 	bool isPlayer;
 
-	int id;
-	Child* child;
-
-	float collisionRadius;
-
 	Vector3 Max;
 	Vector3 Min;
-	Vector3 Pos;
-	Vector3 Vel;
-	
-	virtual int getID(){ return id; }
-	virtual Vector3& getPos(){ return Pos; }
-	virtual Vector3& getVel(){ return Vel; }
-	virtual float getCollisionRadius(){ return collisionRadius; }
-	void setPos(Vector3 translation);
-	void setVel(Vector3 velocity);
-	bool BoundingBox::collidesWith(BoundingBox* object);
 
-};
+}BoundingBox;
+
+BoundingBox createBox(Vector3 Max, Vector3 Min);
 
 #endif

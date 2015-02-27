@@ -1,9 +1,6 @@
 ///////////glass door////////////
 bool open = false;
 float door1Pos = 1023;
-<<<<<<< HEAD
-float door2Pos = 1365;
-=======
 float door2Pos = 1365;
 
 //////////Taking Item////////////
@@ -23,4 +20,4 @@ int holding = -1;
 
 #define doorBounds Vector3(400,222.5,225)
 #define playerBounds Vector3(50,50,50);
->>>>>>> 1b8a3c6a57ce3f01f3235408417c055a9147d8a1
+
