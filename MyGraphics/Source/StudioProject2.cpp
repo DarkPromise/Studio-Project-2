@@ -107,6 +107,11 @@ void StudioProject2::Init()
 	SGTranslate = 0;
 	SGLegTranslate = 0;
 
+	cashier1RotateY = 0;
+	cashier2RotateY = 0;
+	cashier3RotateY = 0;
+	cashier4RotateY = 0;
+
 	Customers = 1;
 	CustomerX.push_back(5000);
 	CustomerZ.push_back(7000);
@@ -319,6 +324,8 @@ void StudioProject2::Init()
 	meshList[GEO_PROMOTERLEFTLEG]->textureID = LoadTGA("Image//Best_Buy_Employee.tga");
 	meshList[GEO_PROMOTERRIGHTLEG] = MeshBuilder::GenerateOBJ("Player legs", "Object//playerRightLeg.obj");
 	meshList[GEO_PROMOTERRIGHTLEG]->textureID = LoadTGA("Image//Best_Buy_Employee.tga");
+	meshList[GEO_PROMOTERTABLE] = MeshBuilder::GenerateOBJ("Promoter's table", "Object//promoterTable.obj");
+	meshList[GEO_PROMOTERTABLE]->textureID = LoadTGA("Image//dark.tga");
 	
 	meshList[GEO_PASSERBYHEAD] = MeshBuilder::GenerateOBJ("Player head", "Object//playerHead.obj");
 	meshList[GEO_PASSERBYHEAD]->textureID = LoadTGA("Image//unicorn67_Business.tga");
@@ -583,7 +590,7 @@ void StudioProject2::Update(double dt)
 
 	if ( Customers < 10 )
 	{
-		int canSpawn = rand() % 1111;
+		int canSpawn = rand() % 2222;
 		if ( canSpawn == 10 )
 		{
 			Customers++;
@@ -647,7 +654,7 @@ void StudioProject2::Update(double dt)
 			//to carpark entrance
 			CustomerRotation[i] = 90;
 			if ( CustomerZ[i] > 1250 )
-				CustomerZ[i] -= 50;
+				CustomerZ[i] -= 10;
 			else
 				CustomerState[i] = 1;
 		}
@@ -656,7 +663,7 @@ void StudioProject2::Update(double dt)
 			//to within supermarket
 			CustomerRotation[i] = 180;
 			if ( CustomerX[i] > 850 )
-				CustomerX[i] -= 50;
+				CustomerX[i] -= 10;
 			else
 			{
 				int goWhere = rand() % 2;
@@ -867,6 +874,11 @@ void StudioProject2::Update(double dt)
 		else if ( CustomerState[i] == 15 )
 		{
 			//shelf4 to checkout1
+			CustomerRotation[i] = 180;
+			if ( CustomerX[i] > -850 )
+				CustomerX[i] -= 10;
+			else
+				CustomerState[i] = 24;
 		}
 		else if ( CustomerState[i] == 16 )
 		{
@@ -887,7 +899,7 @@ void StudioProject2::Update(double dt)
 				CustomerZ[i] += 10;
 			else
 			{
-				if ( CustomerItemsHeld[i] == 3 )
+				if ( CustomerItemsHeld[i] == 0 )
 				{
 					int GoWhere = rand() % 4;
 
@@ -910,6 +922,8 @@ void StudioProject2::Update(double dt)
 			CustomerRotation[i] = 0;
 			if ( CustomerX[i] < -900 )
 				CustomerX[i] += 10;
+			else
+				CustomerState[i] = 24;
 		}
 		else if ( CustomerState[i] == 19 )
 		{
@@ -917,6 +931,8 @@ void StudioProject2::Update(double dt)
 			CustomerRotation[i] = 0;
 			if ( CustomerX[i] < -800 )
 				CustomerX[i] += 50;
+			else
+				CustomerState[i] = 24;
 		}
 		else if ( CustomerState[i] == 20 )
 		{
@@ -924,6 +940,8 @@ void StudioProject2::Update(double dt)
 			CustomerRotation[i] = 0;
 			if ( CustomerX[i] < 100 )
 				CustomerX[i] += 10;
+			else
+				CustomerState[i] = 24;
 		}
 		else if ( CustomerState[i] == 21 )
 		{
@@ -931,6 +949,8 @@ void StudioProject2::Update(double dt)
 			CustomerRotation[i] = 0;
 			if ( CustomerX[i] < 200 )
 				CustomerX[i] += 10;
+			else
+				CustomerState[i] = 24;
 		}
 		else if ( CustomerState[i] == 22 )
 		{
@@ -953,15 +973,121 @@ void StudioProject2::Update(double dt)
 			{
 				CustomerRotation[i] = 0;
 				if ( CustomerX[i] < 850 )
-					CustomerX[i] += 50;
+					CustomerX[i] += 10;
 				else
 				{
 					CustomerState[i] = 4;
 				}
 			}
+		}
+		else if ( CustomerState[i] == 24 )
+		{
+			//checkouts to exit
+			CustomerRotation[i] = -90;
+			if ( CustomerZ[i] < 350 )
+				CustomerZ[i] += 10;
+			else
+			{
+				if ( CustomerX[i] == -900 || CustomerX[i] == 100 )
+					CustomerRotation[i] = 180;
+				else
+					CustomerRotation[i] = 0;
 
+				//cashier response checkout code
+				checkingOut = 0;
+				if ( checkingOut == 0 )
+				{
+					int cashierRotate = rand() % 2;
+					rotateDelay += dt;
+					if ( cashierRotate == 0 && rotateDelay > 2)
+					{
+						rotateDelay -= 2;
+
+						if ( CustomerX[i] == -900 )
+							cashier1RotateY = 90;
+						else if ( CustomerX[i] == -800 )
+							cashier2RotateY = -90;
+						else if ( CustomerX[i] == 100 )
+							cashier3RotateY = 90;
+						else
+							cashier4RotateY = -90;
+					}
+					else if ( cashierRotate == 1 && rotateDelay > 2)
+					{
+						rotateDelay -= 2;
+
+						if ( CustomerX[i] == -900 )
+							cashier1RotateY = 0;
+						else if ( CustomerX[i] == -800 )
+							cashier2RotateY = 0;
+						else if ( CustomerX[i] == 100 )
+							cashier3RotateY = 0;
+						else
+							cashier4RotateY = 0;
+
+						int canLeave = rand() % 2;
+
+						if ( canLeave == 1 )
+							CustomerState[i] = 25;
+					}
+				}
+			}
+		}
+		else if ( CustomerState[i] == 25 )
+		{
+			CustomerRotation[i] = -90;
+			if ( CustomerZ[i] < 1200 && CustomerX[i] != 5000)
+				CustomerZ[i] += 10;
+			else
+			{
+				CustomerRotation[i] = 0;
+				if ( CustomerX[i] < 5000 )
+					CustomerX[i] += 10;
+				else
+				{
+					CustomerRotation[i] = 90;
+					if ( CustomerZ[i] > -7000)
+						CustomerZ[i] -= 10;
+					else
+					{
+						CustomerZ.erase(CustomerZ.begin() + i);
+						CustomerX.erase(CustomerX.begin() + i);
+						CustomerState.erase(CustomerState.begin() + i);
+						CustomerRotation.erase(CustomerRotation.begin() + i);
+					}
+				}
+			}
 		}
 	}
+
+	if ( itemRotateY < 360 )
+		itemRotateY += 50 * dt;
+	else
+		itemRotateY = 0;
+
+	if ( Passerby != 0 )
+	{
+		if ( PasserbyZ[0] == 0 )
+			promoterRotateY = 0;
+		else if ( PasserbyZ[0] < 0 )
+			promoterRotateY = -45;
+		else 
+			promoterRotateY = 45;
+	}
+	else
+	{
+		if ( playerPos.z > -100 && playerPos.z < 100)
+		{
+			promoterRotateY = 0;
+			//player interact with ai code?
+		}
+		else if ( playerPos.z < 0 )
+			promoterRotateY = -45;
+		else
+			promoterRotateY = 45;
+
+	}
+
 
 	////////////for door//////////
 	if(camera.position.x > box[DOOR]->Min.x && camera.position.x < box[DOOR]->Max.x  && camera.position.y > box[DOOR]->Min.y && camera.position.y < box[DOOR]->Max.y && camera.position.z > box[DOOR]->Min.z && camera.position.z < box[DOOR]->Max.z && door1Pos > 700)
@@ -1117,23 +1243,27 @@ void StudioProject2::Render()
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-250, -275, 350);
+	modelStack.Rotate(cashier3RotateY, 0, 1, 0);
 	renderCashier();
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-500, -275, 350);
 	modelStack.Rotate(180, 0, 1, 0);
+	modelStack.Rotate(cashier2RotateY, 0, 1, 0);
 	renderCashier();
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(500, -275, 350);
 	modelStack.Rotate(180, 0, 1, 0);
+	modelStack.Rotate(cashier4RotateY, 0, 1, 0);
 	renderCashier();
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-1200, -275, 350);
+	modelStack.Rotate(cashier1RotateY, 0, 1, 0);
 	renderCashier();
 	modelStack.PopMatrix();
 

@@ -37,6 +37,16 @@ public:
 
 	std::string currView;
 
+	int checkingOut;
+
+	float promoterRotateY;
+	float itemRotateY;
+	float cashier1RotateY;
+	float cashier2RotateY;
+	float cashier3RotateY;
+	float cashier4RotateY;
+	float rotateDelay;
+
 	float SGTranslate;
 	float SGLegTranslate;
 	bool SGState;
@@ -79,6 +89,8 @@ public:
 		CUSTOMER_CUSTOMERSERVICETOCHECKOUT4,
 		CUSTOMER_CUSTOMERSERVICETOGATES,
 		CUSTOMER_SHELF4TOGATES,
+		CUSTOMER_CHECKOUT,
+		CUSTOMER_CHECKOUTTOEXIT,
 	};
 
 
@@ -154,6 +166,7 @@ public:
 		GEO_PROMOTERRIGHTARM,
 		GEO_PROMOTERLEFTLEG,
 		GEO_PROMOTERRIGHTLEG,
+		GEO_PROMOTERTABLE,
 
 		GEO_PASSERBYHEAD,
 		GEO_PASSERBYBODY,
