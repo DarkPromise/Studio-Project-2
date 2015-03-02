@@ -13,13 +13,15 @@ public:
 		: isInside(true),
 	isObj(false),
 	canPhase(false),
-	isPlayer(false)
+	isPlayer(false),
+	isInteractive(false)
 	{
 		//Default Constructor With Nothing :D
 	}
 
 	bool isInside;
 	bool isObj;
+	bool isInteractive;
 	bool canPhase;
 	bool isPlayer;
 

@@ -20,7 +20,6 @@ public:
 
 	float distanceFromChar;
 	float angleView;
-
 	float pitch;
 	float yaw;
 	float roll;

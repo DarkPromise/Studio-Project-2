@@ -44,6 +44,7 @@ void Camera2::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 	right.Normalize();
 	this->up = defaultUp = right.Cross(view).Normalized();
 
+	angleView = 0;
 	/*distanceFromChar = 50;
 	angleView = 0;
 	pitch = 20;
@@ -224,6 +225,7 @@ void Camera2::Update(double dt,bool move)
 		target = rotation* target;
 		target+=position;
 		up = rotation * up;
+		//std::cout << "Camera Angle : " << rotation << std::endl;
 	}
 
 	// tilt right
@@ -237,9 +239,9 @@ void Camera2::Update(double dt,bool move)
 		//target = (position + view);
 		target -= position;
 		target = rotation* target;
-		target+=position;
+		target += position;
 		up = rotation * up;
-		std::cout << "Camera Angle : " << rotation << std::endl;
+		//std::cout << "Camera Angle : " << rotation << std::endl;
 	}
 	if(Application::IsKeyPressed('R'))
 	{

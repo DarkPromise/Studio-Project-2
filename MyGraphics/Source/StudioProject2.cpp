@@ -102,6 +102,7 @@ void StudioProject2::Init()
 	moveSpeed = 500.0f;
 	rotateAngle = 0.0f;
 	canMove = true;
+	canPhase = false;
 
 	carparkSlot[0] = 0;
 	carparkSlot[1] = 0; // 0 = empty, 1 = filled
@@ -136,6 +137,7 @@ void StudioProject2::Init()
 	VehicleState.push_back(30);
 
 	playerPos.Set(0,0,0);
+	testPos.Set(0,0,0);
 	tempStorage.Set(0,0,0);
 	tempTarget.Set(0,0,0);
 
@@ -195,6 +197,7 @@ void StudioProject2::Init()
 	boxPtr = new BoundingBox();
 	boxPtr->isObj = true;
 	boxPtr->canPhase = true;
+	boxPtr->isInteractive = true;
 	boxPtr->Max = doorBounds;
 	boxPtr->Min = -doorBounds;
 	box.push_back(boxPtr);
@@ -203,6 +206,12 @@ void StudioProject2::Init()
 	boxPtr->isPlayer = true;
 	boxPtr->Max = playerBounds;
 	boxPtr->Min = -playerBounds;
+	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = freezerBounds;
+	boxPtr->Min = -freezerBounds;
 	box.push_back(boxPtr);
 	/*******************/
 
@@ -412,7 +421,7 @@ void StudioProject2::Init()
 
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1,1,1), 10, 10, 50);
 
-	meshList[GEO_BOUNDHELPER] = MeshBuilder::GenerateSphere("BoundHelper", Color(1,1,1), 10, 18, 5.f);
+	meshList[GEO_BOUNDHELPER] = MeshBuilder::GenerateSphere("BoundHelper", Color(1,1,1), 10, 18, 2.f);
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//ExportedFont.tga");
@@ -436,22 +445,40 @@ void StudioProject2::Init()
 	meshList[GEO_SHELFBOUNDS5] = MeshBuilder::GenerateBoundingBox("Shelf5Bounds", box[SHELF5]->Max, box[SHELF5]->Min, Color(0,0,1));
 	meshList[GEO_DOORBOUNDS] = MeshBuilder::GenerateBoundingBox("doorbounds", box[DOOR]->Max, box[DOOR]->Min, Color(0,1,0));
 	meshList[GEO_PLAYERBOUNDS] = MeshBuilder::GenerateBoundingBox("Player", box[PLAYER]->Max, box[PLAYER]->Min, Color(0,0,0));
+	meshList[GEO_FREEZERBOUNDS] = MeshBuilder::GenerateBoundingBox("freezer", box[FREEZER]->Max, box[FREEZER]->Min, Color(0,0,1));
 	/**************************************************************************************************************/
 
 	/***************************************************
 	FOR SETTING NEW BOUNDS BECAUSE OF TRANSLATION UPDATE
 	***************************************************/
 
-	box[DOOR]->Max += Vector3(2230,-53,1190);
-	box[DOOR]->Min += Vector3(2230,-53,1190);
-	box[SHELF1]->Max += Vector3(-2085,-103.3,-1085);
-	box[SHELF1]->Min += Vector3(-2085,-103.3,-1085);
-	box[SHELF2]->Max += Vector3(-1210,-103.3,-820);
-	box[SHELF2]->Min += Vector3(-1210,-103.3,-820);
+	box[DOOR]->Max += doorTranslation;
+	box[DOOR]->Min += doorTranslation;
+	box[SHELF1]->Max += leftShelfTranslate;
+	box[SHELF1]->Min += leftShelfTranslate;
+	box[SHELF2]->Max += middleLeftShelfTranslate;
+	box[SHELF2]->Min += middleLeftShelfTranslate;
+	box[SHELF3]->Max += middleRightShelfTranslate;
+	box[SHELF3]->Min += middleRightShelfTranslate;
+	box[SHELF4]->Max += backShelfTranslate;
+	box[SHELF4]->Min += backShelfTranslate;
+	box[SHELF5]->Max += loneShelfTranslate;
+	box[SHELF5]->Min += loneShelfTranslate;
 
-	/***************************************************
+	box[MARKETWALL1]->Max += MarketWallNorthSouthTranslate;
+	box[MARKETWALL1]->Min += MarketWallNorthSouthTranslate;
+	box[MARKETWALL2]->Max += -MarketWallNorthSouthTranslate;
+	box[MARKETWALL2]->Min += -MarketWallNorthSouthTranslate;
+	box[MARKETWALL3]->Max += MarketWallEastWestTranslate;
+	box[MARKETWALL3]->Min += MarketWallEastWestTranslate;
+	box[MARKETWALL4]->Max += -MarketWallEastWestTranslate;
+	box[MARKETWALL4]->Min += -MarketWallEastWestTranslate;
+	
+	box[FREEZER]->Max += FreezerTranslate;
+	box[FREEZER]->Min += FreezerTranslate;
+	/***************************
 	FOR ADDING ITEMS & SHELFSLOTS
-	***************************************************/
+	****************************/
 	inhand = new Inhand(5);
 	Item* ip;
 	Shelfslot* sp;
@@ -576,6 +603,12 @@ void StudioProject2::Init()
 			shelfVector.push_back(sp);
 		}
 	}
+	/******************************/
+	tree = new Octree();
+	tree->CreateTree(3,0,0,0,100,100,100);
+	tree->AddObject(box[PLAYER]);
+	//tree->renderParts();
+	glFlush();
 }
 
 void StudioProject2::RenderMesh(Mesh *mesh, bool enableLight, bool transparent)
@@ -701,30 +734,30 @@ void StudioProject2::Update(double dt)
 
 	////CollisionCheck(dt);
 
-	//if(Application::IsKeyPressed('T'))
-	//{
-	//	//playerPos += playerDir * moveSpeed;
-	//	playerPos.z += 1.f;
-	//	cout << "Player Pos : " << playerPos << endl;
-	//}
-	//if(Application::IsKeyPressed('G'))
-	//{
-	//	//playerPos -= playerDir * moveSpeed;
-	//	playerPos.z -= 1.f;
-	//	cout << "Player Pos : " << playerPos << endl;
-	//}
-	//if(Application::IsKeyPressed('F'))
-	//{
-	//	//rotateAngle += rotateSpeed * dt;
-	//	playerPos.x += 1.f;
-	//	cout << "Player Pos : " << playerPos << endl;
-	//}
-	//if(Application::IsKeyPressed('H'))
-	//{
-	//	//rotateAngle -= rotateSpeed * dt;
-	//	playerPos.x -= 1.f;
-	//	cout << "Player Pos : " << playerPos << endl;
-	//}
+	if(Application::IsKeyPressed('T'))
+	{
+		//playerPos += playerDir * moveSpeed;
+		testPos.z += 1.f;
+		cout << "Test Pos : " << testPos << endl;
+	}
+	if(Application::IsKeyPressed('G'))
+	{
+		//playerPos -= playerDir * moveSpeed;
+		testPos.z -= 1.f;
+		cout << "Test Pos : " << testPos << endl;
+	}
+	if(Application::IsKeyPressed('F'))
+	{
+		//rotateAngle += rotateSpeed * dt;
+		testPos.x += 1.f;
+		cout << "Test Pos : " << testPos << endl;
+	}
+	if(Application::IsKeyPressed('H'))
+	{
+		//rotateAngle -= rotateSpeed * dt;
+		testPos.x -= 1.f;
+		cout << "Test Pos : " << testPos << endl;
+	}
 
 	GenerateAIs();
 
@@ -2010,6 +2043,55 @@ void StudioProject2::PromoterAI()
 			promoterRotateY = 45;
 
 	}
+
+	playerDir.x = dt * sin(Math::DegreeToRadian(rotateAngle));
+	playerDir.z = dt * cos(Math::DegreeToRadian(rotateAngle));
+	playerDir.y = 0.f;
+
+	FPS = 1 / dt;
+	std::ostringstream s;
+	s << setprecision(9) << FPS;
+	textPS = s.str();
+
+	deltaTime = dt;
+	toggleDelay += dt;
+
+	camera.Update(dt,canMove);
+	CollisionCheck(dt);
+
+	if(canMove)
+	{
+		tempStorage = playerPos;
+		tempTarget = camera.target;
+		tempUp = camera.up;
+	}
+	else
+	{
+		camera.position = tempStorage;
+		camera.target = tempTarget;
+		camera.up = tempUp;
+		canMove = true;
+	}
+
+	if(inhand->holding.size() > 0)
+	{
+		for(int i = 0; i < inhand->holding.size(); ++i)
+		{
+			itemVector[inhand->holding[i]]->takeItem(camera.position);
+		}
+		
+		itemVector[inhand->holding.back()]->takeItem(camera.target);
+		if(Application::IsKeyPressed(VK_LEFT))
+		{
+			itemVector[inhand->holding.back()]->updateRotate(150.f * dt);
+		}
+		if(Application::IsKeyPressed(VK_RIGHT))
+		{
+			itemVector[inhand->holding.back()]->updateRotate(-150.f * dt);
+		}
+	}
+	//camera.target.Set(CustomerX[0], 0, CustomerZ[0]);
+	//camera.position.Set(CustomerX[0], 0, CustomerZ[0] + 500);
 }
 
 void StudioProject2::Render()
@@ -2170,10 +2252,10 @@ void StudioProject2::Render()
 
 void StudioProject2::renderBounds()
 {
-	/*modelStack.PushMatrix();
-	modelStack.Translate(playerPos.x,playerPos.y,playerPos.z);
+	modelStack.PushMatrix();
+	modelStack.Translate(testPos.x,testPos.y,testPos.z);
 	RenderMesh(meshList[GEO_BOUNDHELPER], false, false);
-	modelStack.PopMatrix();*/
+	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(0,0,1850);
@@ -2222,12 +2304,17 @@ void StudioProject2::renderBounds()
 
 	modelStack.PushMatrix();
 	modelStack.Translate(camera.position.x,camera.position.y,camera.position.z);
-	modelStack.Rotate(rotateAngle,0,1,0);
+	modelStack.Rotate(0,0,1,0);
 	RenderMesh(meshList[GEO_PLAYERBOUNDS],false,false);
 	modelStack.PopMatrix();
 	modelStack.PushMatrix();
 	modelStack.Translate(2230,-53,1190);
 	RenderMesh(meshList[GEO_DOORBOUNDS], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(1374.4,-110,-1271);
+	RenderMesh(meshList[GEO_FREEZERBOUNDS], false, false);
 	modelStack.PopMatrix();
 }
 
@@ -2644,13 +2731,13 @@ void StudioProject2::renderSupermarket()
 
 	//Freezer at the right side
 	modelStack.PushMatrix();
-	modelStack.Translate(1400, -250, -1550);
+	modelStack.Translate(1400, -278.2, -1550);
 	modelStack.Scale(40, 40, 40);
 	RenderMesh(meshList[GEO_FREEZER], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(1400, -250, -1000);
+	modelStack.Translate(1400, -278.2, -1000);
 	modelStack.Scale(40, 40, 40);
 	RenderMesh(meshList[GEO_FREEZER], false, false);
 	modelStack.PopMatrix();
@@ -3514,13 +3601,12 @@ void StudioProject2::CollisionCheck(double dt)
 	/************
 	   TESTING
 	*************/
-
 	playerPos = camera.position;
+
 	box[PLAYER]->Max = playerPos + playerBounds;
 	box[PLAYER]->Min = playerPos - playerBounds;
 
 	currView = "NONE";
-	//lastView = "NONE";
 
 	if(camera.view.x > -0.7 && camera.view.x < 0.7  && camera.view.z < 0)
 	{
@@ -3541,72 +3627,156 @@ void StudioProject2::CollisionCheck(double dt)
 
 	if(Application::IsKeyPressed('W')) //(playerPos.z < newBox.Min.z))
 	{
-		if( ((box[PLAYER]->Min.x < box[SHELF1]->Max.x) && (box[PLAYER]->Max.x > box[SHELF1]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[SHELF1]->Max.y) && (box[PLAYER]->Max.y > box[SHELF1]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF1]->Max.z) && (box[PLAYER]->Max.z > box[SHELF1]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[SHELF2]->Max.x) && (box[PLAYER]->Max.x > box[SHELF2]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[SHELF2]->Max.y) && (box[PLAYER]->Max.y > box[SHELF2]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) )
+		for(int i = 0; i < box.size(); i++)
 		{
-			canMove = false;
-		}
-		else
-		{
-			canMove = true;
+			if(box[i]->isPlayer == false && box[i]->isInteractive == false)
+			{
+				if( (box[PLAYER]->Min.x < box[i]->Max.x) && (box[PLAYER]->Max.x > box[i]->Min.x) &&
+					(box[PLAYER]->Min.y < box[i]->Max.y) && (box[PLAYER]->Max.y > box[i]->Min.y) &&
+					(box[PLAYER]->Min.z < box[i]->Max.z) && (box[PLAYER]->Max.z > box[i]->Min.z) )
+				{
+					if(canPhase)
+					{
+						canMove = true;
+						return;
+					}
+					canMove = false;
+					return;
+				}
+				else
+				{
+					canMove = true;
+				}
+			}
 		}
 	}
+
 	if(Application::IsKeyPressed('S'))
 	{
-		if( ((box[PLAYER]->Min.x < box[SHELF1]->Max.x) && (box[PLAYER]->Max.x > box[SHELF1]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[SHELF1]->Max.y) && (box[PLAYER]->Max.y > box[SHELF1]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF1]->Max.z) && (box[PLAYER]->Max.z > box[SHELF1]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[SHELF2]->Max.x) && (box[PLAYER]->Max.x > box[SHELF2]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[SHELF2]->Max.y) && (box[PLAYER]->Max.y > box[SHELF2]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) )
+		for(int i = 0; i < box.size(); i++)
 		{
-			canMove = false;
-		}
-		else
-		{
-			canMove = true;
+			if(box[i]->isPlayer == false && box[i]->isInteractive == false)
+			{
+				if( (box[PLAYER]->Min.x < box[i]->Max.x) && (box[PLAYER]->Max.x > box[i]->Min.x) &&
+					(box[PLAYER]->Min.y < box[i]->Max.y) && (box[PLAYER]->Max.y > box[i]->Min.y) &&
+					(box[PLAYER]->Min.z < box[i]->Max.z) && (box[PLAYER]->Max.z > box[i]->Min.z) )
+				{
+					if(canPhase)
+					{
+						canMove = true;
+						return;
+					}
+					canMove = false;
+					return;
+				}
+				else
+				{
+					canMove = true;
+				}
+			}
 		}
 	}
 	if(Application::IsKeyPressed('A'))//(playerPos.x < newBox.Min.x))
 	{
-		if( ((box[PLAYER]->Min.x < box[SHELF1]->Max.x) && (box[PLAYER]->Max.x > box[SHELF1]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[SHELF1]->Max.y) && (box[PLAYER]->Max.y > box[SHELF1]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF1]->Max.z) && (box[PLAYER]->Max.z > box[SHELF1]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[SHELF2]->Max.x) && (box[PLAYER]->Max.x > box[SHELF2]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[SHELF2]->Max.y) && (box[PLAYER]->Max.y > box[SHELF2]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) )
+		for(int i = 0; i < box.size(); i++)
 		{
-			canMove = false;
-		}
-		else
-		{
-			canMove = true;
+			if(box[i]->isPlayer == false && box[i]->isInteractive == false)
+			{
+				if( (box[PLAYER]->Min.x < box[i]->Max.x) && (box[PLAYER]->Max.x > box[i]->Min.x) &&
+					(box[PLAYER]->Min.y < box[i]->Max.y) && (box[PLAYER]->Max.y > box[i]->Min.y) &&
+					(box[PLAYER]->Min.z < box[i]->Max.z) && (box[PLAYER]->Max.z > box[i]->Min.z) )
+				{
+					if(canPhase)
+					{
+						canMove = true;
+						return;
+					}
+					canMove = false;
+					return;
+				}
+				else
+				{
+					canMove = true;
+				}
+			}
 		}
 	}
+
 	if(Application::IsKeyPressed('D'))//(playerPos.x > newBox.Max.x))
 	{
-		if( ((box[PLAYER]->Min.x < box[SHELF1]->Max.x) && (box[PLAYER]->Max.x > box[SHELF1]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[SHELF1]->Max.y) && (box[PLAYER]->Max.y > box[SHELF1]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF1]->Max.z) && (box[PLAYER]->Max.z > box[SHELF1]->Min.z)) ||
-
-			((box[PLAYER]->Min.x < box[SHELF2]->Max.x) && (box[PLAYER]->Max.x > box[SHELF2]->Min.x)  &&
-			 (box[PLAYER]->Min.y < box[SHELF2]->Max.y) && (box[PLAYER]->Max.y > box[SHELF2]->Min.y)  &&
-			 (box[PLAYER]->Min.z < box[SHELF2]->Max.z) && (box[PLAYER]->Max.z > box[SHELF2]->Min.z)) )
+		for(int i = 0; i < box.size(); i++)
 		{
-			canMove = false;
-		}
-		else
-		{
-			canMove = true;
+			if(box[i]->isPlayer == false && box[i]->isInteractive == false)
+			{
+				if( (box[PLAYER]->Min.x < box[i]->Max.x) && (box[PLAYER]->Max.x > box[i]->Min.x) &&
+					(box[PLAYER]->Min.y < box[i]->Max.y) && (box[PLAYER]->Max.y > box[i]->Min.y) &&
+					(box[PLAYER]->Min.z < box[i]->Max.z) && (box[PLAYER]->Max.z > box[i]->Min.z) )
+				{
+					if(canPhase)
+					{
+						canMove = true;
+						return;
+					}
+					canMove = false;
+					return;
+				}
+				else
+				{
+					canMove = true;
+				}
+			}
 		}
 	}
+
+	/******************************************************************************************************************************
+	INTERACTION GOES UNDER HERE
+	*******************************************************************************************************************************/
+
+	if(camera.position.x > box[DOOR]->Min.x && camera.position.x < box[DOOR]->Max.x && camera.position.y > box[DOOR]->Min.y && camera.position.y < box[DOOR]->Max.y && camera.position.z > box[DOOR]->Min.z && camera.position.z < box[DOOR]->Max.z && door1Pos > 700)
+	{
+		canPhase = true;
+		door1Pos -= 500*dt;
+		door2Pos += 500*dt;
+	}
+	if((camera.position.x < box[DOOR]->Min.x || camera.position.x > box[DOOR]->Max.x || camera.position.y < box[DOOR]->Min.y || camera.position.y > box[DOOR]->Max.y || camera.position.z < box[DOOR]->Min.z || camera.position.z > box[DOOR]->Max.z) && door1Pos < 1023)
+	{
+		canPhase = false;
+		door1Pos += 500*dt;
+		door2Pos -= 500*dt;
+		if(door1Pos > 1023)
+		{
+			door1Pos = 1023;
+			door2Pos = 1365;
+		}
+	}
+
+	for(int i = 0; i < shelfVector.size(); ++i)
+	{
+		if(camera.target.x > shelfVector[i]->boundMin.x && camera.target.x < shelfVector[i]->boundMax.x  && camera.target.y > shelfVector[i]->boundMin.y && camera.target.y < shelfVector[i]->boundMax.y && camera.target.z > shelfVector[i]->boundMin.z && camera.target.z < shelfVector[i]->boundMax.z && shelfVector[i]->isempty == false && inhand->reachMax == false)
+		{
+			cout << "seen";
+			if(Application::IsKeyPressed('B'))
+			{
+				inhand->recive(shelfVector[i]->itemid);
+				shelfVector[i]->isempty = true;
+			}
+		}
+	}
+	for(int i = 0; i < shelfVector.size(); ++i)
+	{
+		if(camera.target.x > shelfVector[i]->boundMin.x && camera.target.x < shelfVector[i]->boundMax.x  && camera.target.y > shelfVector[i]->boundMin.y && camera.target.y < shelfVector[i]->boundMax.y && camera.target.z > shelfVector[i]->boundMin.z && camera.target.z < shelfVector[i]->boundMax.z && shelfVector[i]->isempty == true && inhand->holding.size() > 0)
+		{
+			cout << "fap";
+			if(Application::IsKeyPressed('N'))
+			{
+				shelfVector[i]->itemid = inhand->remove();
+				itemVector[shelfVector[i]->itemid]->placeItem(shelfVector[i]->position);
+				shelfVector[i]->isempty = false;
+			}
+		}
+	}
+
+	/*********************************************************************************************************************************/
 }
 
 void StudioProject2::Exit()

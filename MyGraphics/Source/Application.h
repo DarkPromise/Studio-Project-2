@@ -17,7 +17,6 @@ public:
 	double xpos;
     double ypos;
 
-	Octree *tree;
 private:
 
 	//Declare a window object
