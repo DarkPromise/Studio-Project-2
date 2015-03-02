@@ -257,6 +257,8 @@ void StudioProject2::Init()
 	meshList[GEO_GLASSDOOR] = MeshBuilder::GenerateOBJ("glass door", "Object//glass door.obj");
 	meshList[GEO_GLASSDOOR]->textureID = LoadTGA("Image//glass door.tga");
 
+	
+
 	meshList[GEO_CARPARK] = MeshBuilder::GenerateQuad("carpark", Color (0, 0, 0), 1.f);
 	meshList[GEO_CARPARK]->textureID = LoadTGA("Image//carpark.tga");
 	meshList[GEO_CAR] = MeshBuilder::GenerateOBJ("car", "Object//car.obj");
@@ -436,6 +438,9 @@ void StudioProject2::Init()
 	***************************************************************************************************************/
 	meshList[GEO_SIDEBAR] = MeshBuilder::GenerateQuad("sidebar", Color (0, 0, 0), 1);
 	meshList[GEO_SIDEBAR]->textureID = LoadTGA("Image//sidebar.tga");
+
+	meshList[GEO_CACTUSJUICEUI] = MeshBuilder::GenerateQuad("CactusJuice ui", Color (0, 0, 0), 1);
+	meshList[GEO_CACTUSJUICEUI]->textureID = LoadTGA("Image//CactusJuice UI.tga");
 	/***************************************************************************************************************
 	THIS SECTION IS FOR BOUNDS MESH INIT
 	***************************************************************************************************************/
@@ -527,7 +532,7 @@ void StudioProject2::Init()
 
 	for(float x = -1200; x <= -800; x += 80)
 	{
-		for(float y = 25; y >= -285; y -= 50)
+		for(float y = 25; y > -275; y -= 50)
 		{
 			ip = new Item(Vector3(15,40,8), Vector3(-15,0,-8), Vector3(x, y , -1640), Vector3(15,15,15), 0.f, GEO_DETERGENT);
 			itemVector.push_back(ip);
@@ -538,7 +543,7 @@ void StudioProject2::Init()
 
 	for(float x = -700; x <= -300; x += 80)
 	{
-		for(float y = 25; y >= -285; y -= 50)
+		for(float y = 25; y > -275; y -= 50)
 		{
 			ip = new Item(Vector3(15,40,6), Vector3(-15,0,-6), Vector3(x, y , -1650), Vector3(30,30,30), 0.f, GEO_MACCHZ);
 			itemVector.push_back(ip);
@@ -549,7 +554,7 @@ void StudioProject2::Init()
 
 	for(float x = -150; x <= 180; x += 66)
 	{
-		for(float y = 25; y >= -285; y -= 50)
+		for(float y = 25; y > -275; y -= 50)
 		{
 			ip = new Item(Vector3(20,40,20), Vector3(-20,0,-20), Vector3(x, y , -1650), Vector3(40,40,40), -45.f, GEO_MILOCAN);
 			itemVector.push_back(ip);
@@ -560,7 +565,7 @@ void StudioProject2::Init()
 
 	for(float z = -1000; z <= -625; z += 75)
 	{
-		for(float y = 27; y >= -273; y -= 50)
+		for(float y = 27; y > -273; y -= 50)
 		{
 			ip = new Item(Vector3(14,40,14), Vector3(-14,0,-14), Vector3(-1415, y , z), Vector3(15,13,15), 90.f, GEO_CATFOOD);
 			itemVector.push_back(ip);
@@ -571,7 +576,7 @@ void StudioProject2::Init()
 
 	for(float z = -650; z >= -1000; z -= 70)
 	{
-		for(float y = 27; y >= -273; y -= 50)
+		for(float y = 27; y > -273; y -= 50)
 		{
 			ip = new Item(Vector3(6,40,16), Vector3(-6,0,-16), Vector3(-1000, y , z), Vector3(30,30,30), 90.f, GEO_CEREAL);
 			itemVector.push_back(ip);
@@ -604,7 +609,7 @@ void StudioProject2::Init()
 
 	for(float x = 750; x >= 425; x -= 65)
 	{
-		for(float y = 26; y >= -274; y -= 50)
+		for(float y = 26; y > -274; y -= 50)
 		{
 			ip = new Item(Vector3(12,36,12), Vector3(-12,0,-12), Vector3(x, y , -770), Vector3(45,45,45), 0.f, GEO_SARDINES);
 			itemVector.push_back(ip);
@@ -2206,11 +2211,18 @@ void StudioProject2::Render()
 	RenderMesh(meshList[GEO_GLASSDOOR], false, false);
 	modelStack.PopMatrix();
 
+
+
 	RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
 	RenderTextOnScreen(meshList[GEO_TEXT],"Direction=" + currView, Color(0, 0, 1), 2.5, 12.7, 23);
 
 	//renderUI
-	RenderQuadOnScreen(meshList[GEO_SIDEBAR], 40, 40, 1, 0.11);
+	RenderQuadOnScreen(meshList[GEO_SIDEBAR], 30, 27, 1.33, 0.11);
+	RenderQuadOnScreen(meshList[GEO_CACTUSJUICEUI], 4.8, 4.7, 5.8, 0.62);
+	RenderQuadOnScreen(meshList[GEO_CACTUSJUICEUI], 4.8, 4.7, 7.07, 0.62);
+	RenderQuadOnScreen(meshList[GEO_CACTUSJUICEUI], 4.8, 4.7, 8.32, 0.62);
+	RenderQuadOnScreen(meshList[GEO_CACTUSJUICEUI], 4.8, 4.7, 9.56, 0.62);
+	RenderQuadOnScreen(meshList[GEO_CACTUSJUICEUI], 4.8, 4.7, 10.825, 0.62);/**/
 }
 
 void StudioProject2::renderBounds()
@@ -2969,7 +2981,7 @@ void StudioProject2::renderItems()
 	}
 
 	//Detergent
-	for (float k = 25; k > - 285; k = k -50)
+	for (float k = 25; k > - 275; k = k -50)
 	{
 		for(float i = -1690; i > -1790;i = i - 50)
 		{
@@ -3062,7 +3074,7 @@ void StudioProject2::renderItems()
 	}
 
 	//Mac & Chz
-	for(float k = 25; k > -285; k = k -50)
+	for(float k = 25; k > -275; k = k -50)
 	{
 		for(float i = -1700; i > -1800;i = i - 50)
 		{
@@ -3105,7 +3117,7 @@ void StudioProject2::renderItems()
 	}
 
 	//Milo Can
-	for(float k = 25; k > -285;k = k -50)
+	for(float k = 25; k > -275;k = k -50)
 	{
 		for(float i = -1700; i > -1800; i = i - 50)
 		{
