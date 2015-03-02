@@ -617,7 +617,6 @@ void StudioProject2::Init()
 	tree->CreateTree(3,0,0,0,100,100,100);
 	tree->AddObject(box[PLAYER]);
 	//tree->renderParts();
-	glFlush();
 }
 
 void StudioProject2::RenderMesh(Mesh *mesh, bool enableLight, bool transparent)

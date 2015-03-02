@@ -105,6 +105,8 @@ void Application::Run()
 	Scene *scene = new StudioProject2();
 	scene->Init();
 
+	glfwSetInputMode(m_window,GLFW_CURSOR,GLFW_CURSOR_DISABLED);
+
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
