@@ -28,7 +28,7 @@ int holding = -1;
 #define loneShelfTranslate Vector3(600,-103.3,-690);
 #define MarketWallNorthSouthTranslate Vector3(0,0,1850);
 #define MarketWallEastWestTranslate Vector3(2226,0,0);
-
+#define FreezerTranslate Vector3(1374.4,-110,-1271);
 
 //AI configurables
 #define	passerbySpeed		15

@@ -2044,54 +2044,6 @@ void StudioProject2::PromoterAI()
 
 	}
 
-	playerDir.x = dt * sin(Math::DegreeToRadian(rotateAngle));
-	playerDir.z = dt * cos(Math::DegreeToRadian(rotateAngle));
-	playerDir.y = 0.f;
-
-	FPS = 1 / dt;
-	std::ostringstream s;
-	s << setprecision(9) << FPS;
-	textPS = s.str();
-
-	deltaTime = dt;
-	toggleDelay += dt;
-
-	camera.Update(dt,canMove);
-	CollisionCheck(dt);
-
-	if(canMove)
-	{
-		tempStorage = playerPos;
-		tempTarget = camera.target;
-		tempUp = camera.up;
-	}
-	else
-	{
-		camera.position = tempStorage;
-		camera.target = tempTarget;
-		camera.up = tempUp;
-		canMove = true;
-	}
-
-	if(inhand->holding.size() > 0)
-	{
-		for(int i = 0; i < inhand->holding.size(); ++i)
-		{
-			itemVector[inhand->holding[i]]->takeItem(camera.position);
-		}
-		
-		itemVector[inhand->holding.back()]->takeItem(camera.target);
-		if(Application::IsKeyPressed(VK_LEFT))
-		{
-			itemVector[inhand->holding.back()]->updateRotate(150.f * dt);
-		}
-		if(Application::IsKeyPressed(VK_RIGHT))
-		{
-			itemVector[inhand->holding.back()]->updateRotate(-150.f * dt);
-		}
-	}
-	//camera.target.Set(CustomerX[0], 0, CustomerZ[0]);
-	//camera.position.Set(CustomerX[0], 0, CustomerZ[0] + 500);
 }
 
 void StudioProject2::Render()
