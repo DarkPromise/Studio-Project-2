@@ -416,7 +416,11 @@ void StudioProject2::Init()
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//ExportedFont.tga");
-
+	/***************************************************************************************************************
+	UI
+	***************************************************************************************************************/
+	meshList[GEO_SIDEBAR] = MeshBuilder::GenerateQuad("sidebar", Color (0, 0, 0), 1);
+	meshList[GEO_SIDEBAR]->textureID = LoadTGA("Image//sidebar.tga");
 	/***************************************************************************************************************
 	THIS SECTION IS FOR BOUNDS MESH INIT
 	***************************************************************************************************************/
@@ -452,13 +456,123 @@ void StudioProject2::Init()
 	Item* ip;
 	Shelfslot* sp;
 
-	for(float y = 50; y >= -250; y -= 50)
+	for(float z = -420; z >= -750; z -= 66)
 	{
-		for(float z = -420; z >= -750; z -= 66)
+		for(float y = 27; y >= -250; y -= 50)
 		{
-			ip = new Item(Vector3(12,18,12), Vector3(-12,-18,-12), Vector3(-2000, y , z), Vector3(80,80,80), 90.f, GEO_CACTUSJUICE);
+			ip = new Item(Vector3(12,36,12), Vector3(-12,0,-12), Vector3(-2000, y , z), Vector3(80,80,80), 90.f, GEO_CACTUSJUICE);
 			itemVector.push_back(ip);
-			sp = new Shelfslot(Vector3(-2000, y , z),Vector3(12,18,12), Vector3(-12,-18,-12), itemVector.size()-1, false);
+			sp = new Shelfslot(Vector3(-2000, y , z),Vector3(22,36,22), Vector3(-22,0,-22), itemVector.size()-1, false);
+			shelfVector.push_back(sp);
+		}
+	}
+
+	for(float z = -920; z >= -1270; z -= 70)
+	{
+		for(float y = 30; y >= -240; y -= 50)
+		{
+			ip = new Item(Vector3(12,13,27), Vector3(-12,0,-27), Vector3(-2030, y , z), Vector3(80,80,80), 90.f, GEO_CADBURY);
+			itemVector.push_back(ip);
+			sp = new Shelfslot(Vector3(-2030, y , z),Vector3(22,20,27), Vector3(-22,0,-27), itemVector.size()-1, false);
+			shelfVector.push_back(sp);
+		}
+	}
+
+	for(float z = -1430; z >= -1760; z -= 66)
+	{
+		for(float y = 31; y >= -268; y -= 50)
+		{
+			ip = new Item(Vector3(17,36,17), Vector3(-17,0,-17), Vector3(-2005, y , z), Vector3(60,60,60), 90.f, GEO_CANVEGE);
+			itemVector.push_back(ip);
+			sp = new Shelfslot(Vector3(-2005, y , z),Vector3(22,36,22), Vector3(-22,0,-22), itemVector.size()-1, false);
+			shelfVector.push_back(sp);
+		}
+	}
+
+	for(float x = -1200; x <= -800; x += 80)
+	{
+		for(float y = 25; y >= -285; y -= 50)
+		{
+			ip = new Item(Vector3(15,40,8), Vector3(-15,0,-8), Vector3(x, y , -1640), Vector3(15,15,15), 0.f, GEO_DETERGENT);
+			itemVector.push_back(ip);
+			sp = new Shelfslot(Vector3(x, y , -1640),Vector3(22,40,22), Vector3(-22,0,-22), itemVector.size()-1, false);
+			shelfVector.push_back(sp);
+		}
+	}
+
+	for(float x = -700; x <= -300; x += 80)
+	{
+		for(float y = 25; y >= -285; y -= 50)
+		{
+			ip = new Item(Vector3(15,40,6), Vector3(-15,0,-6), Vector3(x, y , -1650), Vector3(30,30,30), 0.f, GEO_MACCHZ);
+			itemVector.push_back(ip);
+			sp = new Shelfslot(Vector3(x, y , -1650),Vector3(22,40,22), Vector3(-22,0,-22), itemVector.size()-1, false);
+			shelfVector.push_back(sp);
+		}
+	}
+
+	for(float x = -150; x <= 180; x += 66)
+	{
+		for(float y = 25; y >= -285; y -= 50)
+		{
+			ip = new Item(Vector3(20,40,20), Vector3(-20,0,-20), Vector3(x, y , -1650), Vector3(40,40,40), -45.f, GEO_MILOCAN);
+			itemVector.push_back(ip);
+			sp = new Shelfslot(Vector3(x, y , -1650),Vector3(22,40,22), Vector3(-22,0,-22), itemVector.size()-1, false);
+			shelfVector.push_back(sp);
+		}
+	}
+
+	for(float z = -1000; z <= -625; z += 75)
+	{
+		for(float y = 27; y >= -273; y -= 50)
+		{
+			ip = new Item(Vector3(14,40,14), Vector3(-14,0,-14), Vector3(-1415, y , z), Vector3(15,13,15), 90.f, GEO_CATFOOD);
+			itemVector.push_back(ip);
+			sp = new Shelfslot(Vector3(-1415, y , z),Vector3(22,40,22), Vector3(-22,0,-22), itemVector.size()-1, false);
+			shelfVector.push_back(sp);
+		}
+	}
+
+	for(float z = -650; z >= -1000; z -= 70)
+	{
+		for(float y = 27; y >= -273; y -= 50)
+		{
+			ip = new Item(Vector3(6,40,16), Vector3(-6,0,-16), Vector3(-1000, y , z), Vector3(30,30,30), 90.f, GEO_CEREAL);
+			itemVector.push_back(ip);
+			sp = new Shelfslot(Vector3(-1000, y , z),Vector3(22,40,22), Vector3(-22,0,-22), itemVector.size()-1, false);
+			shelfVector.push_back(sp);
+		}
+	}
+
+	for(float z = -990; z <= -660; z += 66)
+	{
+		for(float y = 28; y >= -270; y -= 50)
+		{
+			ip = new Item(Vector3(20,7,20), Vector3(-20,0,-20), Vector3(-510, y , z), Vector3(30,30,30), -90.f, GEO_FERERRO);
+			itemVector.push_back(ip);
+			sp = new Shelfslot(Vector3(-510, y , z),Vector3(22,40,22), Vector3(-22,0,-22), itemVector.size()-1, false);
+			shelfVector.push_back(sp);
+		}
+	}
+
+	for(float z = -660; z >= -990; z -= 66)
+	{
+		for(float y = 28; y >= -270; y -= 50)
+		{
+			ip = new Item(Vector3(5,40,14), Vector3(-5,0,-14), Vector3(-100, y , z), Vector3(35,35,35), 90.f, GEO_POTATOCHIPS);
+			itemVector.push_back(ip);
+			sp = new Shelfslot(Vector3(-100, y , z),Vector3(22,40,22), Vector3(-22,0,-22), itemVector.size()-1, false);
+			shelfVector.push_back(sp);
+		}
+	}
+
+	for(float x = 750; x >= 425; x -= 65)
+	{
+		for(float y = 26; y >= -274; y -= 50)
+		{
+			ip = new Item(Vector3(12,36,12), Vector3(-12,0,-12), Vector3(x, y , -770), Vector3(45,45,45), 0.f, GEO_SARDINES);
+			itemVector.push_back(ip);
+			sp = new Shelfslot(Vector3(x, y , -770),Vector3(22,36,22), Vector3(-22,0,-22), itemVector.size()-1, false);
 			shelfVector.push_back(sp);
 		}
 	}
@@ -697,7 +811,7 @@ void StudioProject2::Update(double dt)
 	{
 		for(int i = 0; i < inhand->holding.size(); ++i)
 		{
-			itemVector[inhand->holding[i]]->takeItem(camera.position);
+			itemVector[inhand->holding[i]]->takeItem(camera.position - Vector3(0, 1000, 0));
 		}
 		
 		itemVector[inhand->holding.back()]->takeItem(camera.target);
@@ -2049,6 +2163,9 @@ void StudioProject2::Render()
 
 	RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
 	RenderTextOnScreen(meshList[GEO_TEXT],"Direction=" + currView, Color(0, 0, 1), 2.5, 12.7, 23);
+
+	//renderUI
+	RenderQuadOnScreen(meshList[GEO_SIDEBAR], 40, 40, 1, 0.11);
 }
 
 void StudioProject2::renderBounds()
@@ -2551,7 +2668,8 @@ void StudioProject2::renderItems()
 		RenderMesh(meshList[itemVector[i]->mesh], false, false);
 		modelStack.PopMatrix();
 	}
-	for(float k = 50;k >= -250;k = k-50)
+
+	for(float k = 27;k >= -250;k = k-50)
 	{
 		for(float i = -2040;i > -2160;i = i - 40)
 		{
@@ -2600,7 +2718,7 @@ void StudioProject2::renderItems()
 	}
 
 	//Cadbury
-	for (float k = 40; k >-240; k = k-50)
+	for (float k = 30; k >-240; k = k-50)
 	{
 		for (float i = -2080; i>-2180; i = i- 50)
 		{
@@ -2649,9 +2767,9 @@ void StudioProject2::renderItems()
 	}
 
 	//Can Vege
-	for(float k = 32; k > -268; k = k - 50)
+	for(float k = 31; k > -268; k = k - 50)
 	{
-		for(float i = -2040; i > -2160; i = i - 40)
+		for(float i = -2045; i > -2165; i = i - 40)
 		{
 			modelStack.PushMatrix();
 			modelStack.Translate(i, k, -1430);
@@ -2698,48 +2816,48 @@ void StudioProject2::renderItems()
 	}
 
 	//Catfood
-	for(float k = 30; k > -270; k = k - 50)
+	for(float k = 27; k > -273; k = k - 50)
 	{
 		for(float i = -1365; i < -1265; i = i + 50)
 		{
 			modelStack.PushMatrix();
 			modelStack.Translate(i, k, -1000);
-			modelStack.Scale(15,15,15);
+			modelStack.Scale(15,13,15);
 			modelStack.Rotate(90,0,1,0);
 			RenderMesh(meshList[GEO_CATFOOD], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
 			modelStack.Translate(i, k, -925);
-			modelStack.Scale(15,15,15);
+			modelStack.Scale(15,13,15);
 			modelStack.Rotate(90,0,1,0);
 			RenderMesh(meshList[GEO_CATFOOD], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
 			modelStack.Translate(i, k, -850);
-			modelStack.Scale(15,15,15);
+			modelStack.Scale(15,13,15);
 			modelStack.Rotate(90,0,1,0);
 			RenderMesh(meshList[GEO_CATFOOD], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
 			modelStack.Translate(i, k, -775);
-			modelStack.Scale(15,15,15);
+			modelStack.Scale(15,13,15);
 			modelStack.Rotate(90,0,1,0);
 			RenderMesh(meshList[GEO_CATFOOD], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
 			modelStack.Translate(i, k, -700);
-			modelStack.Scale(15,15,15);
+			modelStack.Scale(15,13,15);
 			modelStack.Rotate(90,0,1,0);
 			RenderMesh(meshList[GEO_CATFOOD], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
 			modelStack.Translate(i, k, -625);
-			modelStack.Scale(15,15,15);
+			modelStack.Scale(15,13,15);
 			modelStack.Rotate(90,0,1,0);
 			RenderMesh(meshList[GEO_CATFOOD], false, false);
 			modelStack.PopMatrix();
@@ -2750,46 +2868,46 @@ void StudioProject2::renderItems()
 
 	for( float k = 27; k > -273; k = k - 50)
 	{
-		for(float i = -1020; i > -1170; i = i - 30)
+		for(float i = -1035; i > -1170; i = i - 35)
 		{
 			modelStack.PushMatrix();
 			modelStack.Translate(i, k, -650);
-			modelStack.Scale(40,40,40);
+			modelStack.Scale(30,30,30);
 			modelStack.Rotate(90,0,1,0);
 			RenderMesh(meshList[GEO_CEREAL], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
 			modelStack.Translate(i, k, -720);
-			modelStack.Scale(40,40,40);
+			modelStack.Scale(30,30,30);
 			modelStack.Rotate(90,0,1,0);
 			RenderMesh(meshList[GEO_CEREAL], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
 			modelStack.Translate(i, k, -790);
-			modelStack.Scale(40,40,40);
+			modelStack.Scale(30,30,30);
 			modelStack.Rotate(90,0,1,0);
 			RenderMesh(meshList[GEO_CEREAL], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
 			modelStack.Translate(i, k, -860);
-			modelStack.Scale(40,40,40);
+			modelStack.Scale(30,30,30);
 			modelStack.Rotate(90,0,1,0);
 			RenderMesh(meshList[GEO_CEREAL], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
 			modelStack.Translate(i, k, -930);
-			modelStack.Scale(40,40,40);
+			modelStack.Scale(30,30,30);
 			modelStack.Rotate(90,0,1,0);
 			RenderMesh(meshList[GEO_CEREAL], false, false);
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
 			modelStack.Translate(i, k, -1000);
-			modelStack.Scale(40,40,40);
+			modelStack.Scale(30,30,30);
 			modelStack.Rotate(90,0,1,0);
 			RenderMesh(meshList[GEO_CEREAL], false, false);
 			modelStack.PopMatrix();
@@ -2797,7 +2915,7 @@ void StudioProject2::renderItems()
 	}
 
 	//Detergent
-	for (float k = 25; k > - 275; k = k -50)
+	for (float k = 25; k > - 285; k = k -50)
 	{
 		for(float i = -1690; i > -1790;i = i - 50)
 		{
@@ -2840,7 +2958,7 @@ void StudioProject2::renderItems()
 	}
 
 	//Fererro
-	for(float k = 30;k > -270;k = k -50)
+	for(float k = 28;k > -270;k = k -50)
 	{
 		for(float i = -460;i < -360;i = i + 50)
 		{
@@ -2890,7 +3008,7 @@ void StudioProject2::renderItems()
 	}
 
 	//Mac & Chz
-	for(float k = 50; k > -250; k = k -50)
+	for(float k = 25; k > -285; k = k -50)
 	{
 		for(float i = -1700; i > -1800;i = i - 50)
 		{
@@ -2933,7 +3051,7 @@ void StudioProject2::renderItems()
 	}
 
 	//Milo Can
-	for(float k = 49; k > -251;k = k -50)
+	for(float k = 25; k > -285;k = k -50)
 	{
 		for(float i = -1700; i > -1800; i = i - 50)
 		{
@@ -2982,7 +3100,7 @@ void StudioProject2::renderItems()
 	}
 
 	//Potato Chips
-	for(float k = 30;k > -270;k = k -50)
+	for(float k = 28;k > -270;k = k -50)
 	{
 		for(float i = -130; i > -250; i = i -30)
 		{
@@ -3031,7 +3149,7 @@ void StudioProject2::renderItems()
 	}
 
 	//Sardines
-	for(float k = 30;k > -270;k = k -50)
+	for(float k = 26;k > -274;k = k -50)
 	{
 		for(float i = -740; i < -620;i = i +30)
 		{
@@ -3344,6 +3462,44 @@ void StudioProject2::RenderTextOnScreen(Mesh* mesh, std::string text, Color colo
 
 		mesh->Render((unsigned)text[i] * 6, 6);
 	}
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
+
+	projectionStack.PopMatrix();
+	viewStack.PopMatrix();
+	modelStack.PopMatrix();
+
+	glEnable(GL_DEPTH_TEST);
+}
+
+void StudioProject2::RenderQuadOnScreen(Mesh* mesh, float scalex, float scaley, float x, float y)
+{
+	if(!mesh || mesh->textureID <= 0) //Proper error check
+		return;
+
+	glDisable(GL_DEPTH_TEST);
+	glUniform1i(m_parameters[U_LIGHTENABLED], 0);
+	glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, mesh->textureID);
+	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
+
+	Mtx44 ortho;
+	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI
+	projectionStack.PushMatrix();
+	projectionStack.LoadMatrix(ortho);
+	viewStack.PushMatrix();
+	viewStack.LoadIdentity(); //No need camera for ortho mode
+	modelStack.PushMatrix();
+	modelStack.LoadIdentity(); //Reset modelStack
+	modelStack.Scale(scalex, scaley, 1);
+	modelStack.Translate(x, y, 0);
+
+	MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top();
+	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
+
+	mesh->Render();
+	
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
 

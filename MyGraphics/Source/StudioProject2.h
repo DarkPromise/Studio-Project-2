@@ -254,6 +254,27 @@ public:
 		GEO_PLAYERBOUNDS,
 		/************************************************/
 
+		/*************************************************
+		USER INERFACE
+		*************************************************/
+		GEO_SIDEBAR,
+		GEO_CACTUSJUICEU,
+		GEO_CADBURYU,
+		GEO_CANVEGEU,
+		GEO_CATFOODU,
+		GEO_CEREALU,
+		GEO_DETERGENTU,
+		GEO_DUREXU,
+		GEO_FERERROU,
+		GEO_MACCHZU,
+		GEO_MILKU,
+		GEO_MILOCANU,
+		GEO_MOUNTAINDEWU,
+		GEO_PIZZAHUTU,
+		GEO_POTATOCHIPSU,
+		GEO_SARDINESU,
+		GEO_SPAMU,
+		/************************************************/
 		GEO_TEXT,
 
 		NUM_GEOMETRY,
@@ -330,6 +351,7 @@ private:
 
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
+	void RenderQuadOnScreen(Mesh* mesh, float scalex, float scaley, float x, float y);
 
 	Mtx44 translate, rotate, scale;
 	Mtx44 model;
