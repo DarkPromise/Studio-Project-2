@@ -3,9 +3,9 @@ bool open = false;
 float door1Pos = 1023;
 float door2Pos = 1365;
 
-//////////Taking Item////////////
-bool isHolding = false;
-int holding = -1;
+//////////gate 1////////////////
+float gate1RightRotate = 0;
+float gate1LeftRotate = 0;
 
 #define NorthSouthWall Vector3(2252,274,25)
 #define EastWestWall Vector3(25,274,1826)
@@ -19,6 +19,7 @@ int holding = -1;
 #define playerBounds Vector3(50,50,50);
 #define freezerBounds Vector3(101,163,552.5);
 #define chillerBounds Vector3(117.5,124,608);
+#define gateBounds1 Vector3(100,150,50);
 
 #define doorTranslation Vector3(2230,-53,1190);
 #define leftShelfTranslate Vector3(-2085,-103.3,-1085);
@@ -30,6 +31,7 @@ int holding = -1;
 #define MarketWallEastWestTranslate Vector3(2226,0,0);
 #define FreezerTranslate Vector3(1374.4,-110,-1271);
 #define ChillerTranslate Vector3(2083,-150.4,-1217.5);
+#define gateBounds1Translation Vector3(820, -125, 265);
 
 //AI configurables
 #define	passerbySpeed		15

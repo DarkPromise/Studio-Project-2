@@ -219,6 +219,14 @@ void StudioProject2::Init()
 	boxPtr->Max = chillerBounds;
 	boxPtr->Min = -chillerBounds;
 	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->canPhase = true;
+	boxPtr->isInteractive = true;
+	boxPtr->Max = gateBounds1;
+	boxPtr->Min = -gateBounds1;
+	box.push_back(boxPtr);
 	/*******************/
 
 	// Init VBO here
@@ -257,7 +265,10 @@ void StudioProject2::Init()
 	meshList[GEO_GLASSDOOR] = MeshBuilder::GenerateOBJ("glass door", "Object//glass door.obj");
 	meshList[GEO_GLASSDOOR]->textureID = LoadTGA("Image//glass door.tga");
 
-	
+	meshList[GEO_LEFTGATE] = MeshBuilder::GenerateOBJ("left gate", "Object//left gate.obj");
+	meshList[GEO_LEFTGATE]->textureID = LoadTGA("Image//gate.tga");
+	meshList[GEO_RIGHTGATE] = MeshBuilder::GenerateOBJ("left gate", "Object//right gate.obj");
+	meshList[GEO_RIGHTGATE]->textureID = LoadTGA("Image//gate.tga");
 
 	meshList[GEO_CARPARK] = MeshBuilder::GenerateQuad("carpark", Color (0, 0, 0), 1.f);
 	meshList[GEO_CARPARK]->textureID = LoadTGA("Image//carpark.tga");
@@ -458,6 +469,7 @@ void StudioProject2::Init()
 	meshList[GEO_PLAYERBOUNDS] = MeshBuilder::GenerateBoundingBox("Player", box[PLAYER]->Max, box[PLAYER]->Min, Color(0,0,0));
 	meshList[GEO_FREEZERBOUNDS] = MeshBuilder::GenerateBoundingBox("freezer", box[FREEZER]->Max, box[FREEZER]->Min, Color(0,0,1));
 	meshList[GEO_CHILLERBOUNDS] = MeshBuilder::GenerateBoundingBox("freezer", box[CHILLER]->Max, box[CHILLER]->Min, Color(0,0,1));
+	meshList[GEO_GATEBOUNDS1] = MeshBuilder::GenerateBoundingBox("gatebounds", box[GATE1]->Max, box[GATE1]->Min, Color(0,1,0));
 	/**************************************************************************************************************/
 
 	/***************************************************
@@ -490,6 +502,9 @@ void StudioProject2::Init()
 	box[FREEZER]->Min += FreezerTranslate;
 	box[CHILLER]->Max += ChillerTranslate;
 	box[CHILLER]->Min += ChillerTranslate;
+
+	box[GATE1]->Max += gateBounds1Translation;
+	box[GATE1]->Min += gateBounds1Translation;
 	/***************************
 	FOR ADDING ITEMS & SHELFSLOTS
 	****************************/
@@ -2211,8 +2226,6 @@ void StudioProject2::Render()
 	RenderMesh(meshList[GEO_GLASSDOOR], false, false);
 	modelStack.PopMatrix();
 
-
-
 	RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
 	RenderTextOnScreen(meshList[GEO_TEXT],"Direction=" + currView, Color(0, 0, 1), 2.5, 12.7, 23);
 
@@ -2281,6 +2294,7 @@ void StudioProject2::renderBounds()
 	modelStack.Translate(camera.position.x,camera.position.y,camera.position.z);
 	modelStack.Rotate(0,0,1,0);
 	RenderMesh(meshList[GEO_PLAYERBOUNDS],false,false);
+
 	modelStack.PopMatrix();
 	modelStack.PushMatrix();
 	modelStack.Translate(2230,-53,1190);
@@ -2295,6 +2309,11 @@ void StudioProject2::renderBounds()
 	modelStack.PushMatrix();
 	modelStack.Translate(2083,-150.4,-1217.5);
 	RenderMesh(meshList[GEO_CHILLERBOUNDS], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(820, -125, 265);
+	RenderMesh(meshList[GEO_GATEBOUNDS1], false, false);
 	modelStack.PopMatrix();
 }
 
@@ -2720,6 +2739,22 @@ void StudioProject2::renderSupermarket()
 	modelStack.Translate(1400, -278.2, -1000);
 	modelStack.Scale(40, 40, 40);
 	RenderMesh(meshList[GEO_FREEZER], false, false);
+	modelStack.PopMatrix();
+
+	//render right gate1
+	modelStack.PushMatrix();
+	modelStack.Translate(960, -325, 230);
+	modelStack.Rotate(gate1RightRotate, 0, 1, 0);
+	modelStack.Scale(70, 70, 70);
+	RenderMesh(meshList[GEO_RIGHTGATE], false, false);
+	modelStack.PopMatrix();
+
+	//render left gate1
+	modelStack.PushMatrix();
+	modelStack.Translate(680, -325, 230);
+	modelStack.Rotate(gate1LeftRotate, 0, 1, 0);
+	modelStack.Scale(70, 70, 70);
+	RenderMesh(meshList[GEO_LEFTGATE], false, false);
 	modelStack.PopMatrix();
 }
 
@@ -3729,6 +3764,22 @@ void StudioProject2::CollisionCheck(double dt)
 			door2Pos = 1365;
 		}
 	}
+
+	if(camera.position.x > box[GATE1]->Min.x && camera.position.x < box[GATE1]->Max.x && camera.position.y > box[GATE1]->Min.y && camera.position.y < box[GATE1]->Max.y && camera.position.z > box[GATE1]->Min.z && camera.position.z < box[GATE1]->Max.z && gate1RightRotate > -90)
+	{
+		gate1RightRotate -= 450*dt;
+		gate1LeftRotate += 450*dt;
+	}
+	if((camera.position.x < box[GATE1]->Min.x || camera.position.x > box[GATE1]->Max.x || camera.position.y < box[GATE1]->Min.y || camera.position.y > box[GATE1]->Max.y || camera.position.z < box[GATE1]->Min.z || camera.position.z > box[GATE1]->Max.z) && gate1RightRotate < 0)
+	{
+		gate1RightRotate += 450*dt;
+		gate1LeftRotate -= 450*dt;
+		if(gate1RightRotate > 0)
+		{
+			gate1RightRotate = 0;
+			gate1LeftRotate = 0;
+		}
+	}/**/
 
 	for(int i = 0; i < shelfVector.size(); ++i)
 	{
