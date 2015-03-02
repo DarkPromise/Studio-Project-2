@@ -716,9 +716,9 @@ void StudioProject2::Update(double dt)
 
 void StudioProject2::GenerateAIs()
 {
-	if ( Customers < 10 )
+	if ( Customers < customerLimit )
 	{
-		int canSpawn = rand() % 2222;
+		int canSpawn = rand() % customerSpawnRate;
 		if ( canSpawn == 10 )
 		{
 			Customers++;
@@ -740,9 +740,9 @@ void StudioProject2::GenerateAIs()
 		}
 	}
 
-	if ( Vehicles < 4 && OwnerX.size() == Vehicles)
+	if ( Vehicles < vehicleLimit && OwnerX.size() == Vehicles)
 	{
-		int canSpawn = rand() % 1111;
+		int canSpawn = rand() % vehiclesSpawnRate;
 		if ( canSpawn == 10 );
 		{
 			Vehicles++;
@@ -753,9 +753,9 @@ void StudioProject2::GenerateAIs()
 		}
 	}
 
-	if ( Passerby < 10 )
+	if ( Passerby < passerbyLimit )
 	{
-		int canSpawn = rand() % 1111;
+		int canSpawn = rand() % passerbySpawnRate;
 		if ( canSpawn == 10 )
 		{
 			Passerby++;
@@ -785,7 +785,7 @@ void StudioProject2::VehicleAI()
 			//to carpark entrance
 			OwnerRotation[i] = 90;
 			if ( OwnerZ[i] > 1250 )
-				OwnerZ[i] -= 10;
+				OwnerZ[i] -= vehicleOwnerSpeed;
 			else
 				VehicleState[i] = 1;
 		}
@@ -794,7 +794,7 @@ void StudioProject2::VehicleAI()
 			//to within supermarket
 			OwnerRotation[i] = 180;
 			if ( OwnerX[i] > 850 )
-				OwnerX[i] -= 10;
+				OwnerX[i] -= vehicleOwnerSpeed;
 			else
 			{
 				int goWhere = rand() % 2;
@@ -819,7 +819,7 @@ void StudioProject2::VehicleAI()
 			//go through gates
 			OwnerRotation[i] = 90;
 			if ( OwnerZ[i] > -200 )
-				OwnerZ[i] -= 10;
+				OwnerZ[i] -= vehicleOwnerSpeed;
 			else
 			{
 				int goWhere = rand() % 2;
@@ -851,12 +851,12 @@ void StudioProject2::VehicleAI()
 			//gates to drinks section
 			OwnerRotation[i] = 0;
 			if ( OwnerX[i] < 1700 )
-				OwnerX[i] += 10;
+				OwnerX[i] += vehicleOwnerSpeed;
 			else
 			{
 				OwnerRotation[i] = 90;
 				if ( OwnerZ[i] > -1700 )
-					OwnerZ[i] -= 10;
+					OwnerZ[i] -= vehicleOwnerSpeed;
 				else
 					VehicleState[i] = 8;
 			}
@@ -866,12 +866,12 @@ void StudioProject2::VehicleAI()
 			//drinks section to gate
 			OwnerRotation[i] = -90;
 			if ( OwnerZ[i] < -200 )
-				OwnerZ[i] += 10;
+				OwnerZ[i] += vehicleOwnerSpeed;
 			else
 			{
 				OwnerRotation[i] = 180;
 				if ( OwnerX[i] > 1000 )
-					OwnerX[i] -= 10;
+					OwnerX[i] -= vehicleOwnerSpeed;
 				else
 				{
 					VehicleState[i] = 9;
@@ -883,17 +883,17 @@ void StudioProject2::VehicleAI()
 			//gate to shelf1
 			OwnerRotation[i] = 0;
 			if ( OwnerX[i] < 1000 && OwnerZ[i] > -1000)
-				OwnerX[i] += 10;
+				OwnerX[i] += vehicleOwnerSpeed;
 			else
 			{
 				OwnerRotation[i] = 90;
 				if ( OwnerZ[i] > -1000 )
-					OwnerZ[i] -= 10;
+					OwnerZ[i] -= vehicleOwnerSpeed;
 				else 
 				{
 					OwnerRotation[i] = 180;
 					if ( OwnerX[i] > 600 )
-						OwnerX[i] -= 10;
+						OwnerX[i] -= vehicleOwnerSpeed;
 					else
 					{
 						int GoWhere = rand() % 2;
@@ -910,12 +910,12 @@ void StudioProject2::VehicleAI()
 			//shelf1 to shelf2
 			OwnerRotation[i] = 180;
 			if ( OwnerX[i] > 100 )
-				OwnerX[i] -= 10;
+				OwnerX[i] -= vehicleOwnerSpeed;
 			else
 			{
 				OwnerRotation[i] = -90;
 				if ( OwnerZ[i] < -800 )
-					OwnerZ[i] += 10;
+					OwnerZ[i] += vehicleOwnerSpeed;
 				else
 				{
 					OwnerRotation[i] = 180;
@@ -929,12 +929,12 @@ void StudioProject2::VehicleAI()
 			//shelf1 to backshelf
 			OwnerRotation[i] = 90;
 			if ( OwnerZ[i] > -1500 )
-				OwnerZ[i] -= 10;
+				OwnerZ[i] -= vehicleOwnerSpeed;
 			else
 			{
 				OwnerRotation[i] = 180;
 				if ( OwnerX[i] > -400 )
-					OwnerX[i] -= 10;
+					OwnerX[i] -= vehicleOwnerSpeed;
 				else
 				{
 					int GoWhere = rand() % 2;
@@ -950,12 +950,12 @@ void StudioProject2::VehicleAI()
 			//shelf2 to backshelf
 			OwnerRotation[i] = 90;
 			if ( OwnerZ[i] > -1500 )
-				OwnerZ[i] -= 10;
+				OwnerZ[i] -= vehicleOwnerSpeed;
 			else
 			{
 				OwnerRotation[i] = 180;
 				if ( OwnerX[i] > -400 )
-					OwnerX[i] -= 10;
+					OwnerX[i] -= vehicleOwnerSpeed;
 				else
 				{
 					int GoWhere = rand() % 2;
@@ -971,7 +971,7 @@ void StudioProject2::VehicleAI()
 			//backshelves to left shelf
 			OwnerRotation[i] = 180;
 			if ( OwnerX[i] > -1850 )
-				OwnerX[i] -= 10;
+				OwnerX[i] -= vehicleOwnerSpeed;
 			else
 			{
 				OwnerRotation[i] = -90;
@@ -984,12 +984,12 @@ void StudioProject2::VehicleAI()
 			//backshelves to shelf4
 			OwnerRotation[i] = 180;
 			if ( OwnerX[i] > -850 )
-				OwnerX[i] -= 10;
+				OwnerX[i] -= vehicleOwnerSpeed;
 			else
 			{
 				OwnerRotation[i] = -90;
 				if ( OwnerZ[i] < -800 )
-					OwnerZ[i] += 10;
+					OwnerZ[i] += vehicleOwnerSpeed;
 				else
 				{
 					OwnerRotation[i] = 180;
@@ -1007,7 +1007,7 @@ void StudioProject2::VehicleAI()
 			//shelf4 to checkout1
 			OwnerRotation[i] = 180;
 			if ( OwnerX[i] > -850 )
-				OwnerX[i] -= 10;
+				OwnerX[i] -= vehicleOwnerSpeed;
 			else
 				VehicleState[i] = 24;
 		}
@@ -1016,7 +1016,7 @@ void StudioProject2::VehicleAI()
 			//left shelf to front left shelf
 			OwnerRotation[i] = -90;
 			if ( OwnerZ[i] < -600 )
-				OwnerZ[i] += 10;
+				OwnerZ[i] += vehicleOwnerSpeed;
 			else
 			{
 				VehicleState[i] = 17;
@@ -1027,7 +1027,7 @@ void StudioProject2::VehicleAI()
 			//front left shelves to customer service
 			OwnerRotation[i] = -90;
 			if ( OwnerZ[i] < -200 )
-				OwnerZ[i] += 10;
+				OwnerZ[i] += vehicleOwnerSpeed;
 			else
 			{
 				if ( CustomerItemsHeld[i] == 0 )
@@ -1052,7 +1052,7 @@ void StudioProject2::VehicleAI()
 			//customerservice to checkout 1
 			OwnerRotation[i] = 0;
 			if ( OwnerX[i] < -900 )
-				OwnerX[i] += 10;
+				OwnerX[i] += vehicleOwnerSpeed;
 			else
 				VehicleState[i] = 24;
 		}
@@ -1070,7 +1070,7 @@ void StudioProject2::VehicleAI()
 			//customerservice to checkout3
 			OwnerRotation[i] = 0;
 			if ( OwnerX[i] < 100 )
-				OwnerX[i] += 10;
+				OwnerX[i] += vehicleOwnerSpeed;
 			else
 				VehicleState[i] = 24;
 		}
@@ -1079,7 +1079,7 @@ void StudioProject2::VehicleAI()
 			//customerservice to checkout4
 			OwnerRotation[i] = 0;
 			if ( OwnerX[i] < 200 )
-				OwnerX[i] += 10;
+				OwnerX[i] += vehicleOwnerSpeed;
 			else
 				VehicleState[i] = 24;
 		}
@@ -1088,7 +1088,7 @@ void StudioProject2::VehicleAI()
 			//customerservice to gates
 			OwnerRotation[i] = 0;
 			if ( OwnerX[i] < 850 )
-				OwnerX[i] += 10;
+				OwnerX[i] += vehicleOwnerSpeed;
 			else
 			{
 				VehicleState[i] = 4;
@@ -1099,12 +1099,12 @@ void StudioProject2::VehicleAI()
 			//shelf4 to gates
 			OwnerRotation[i] = -90;
 			if ( OwnerZ[i] < -200 )
-				OwnerZ[i] += 10;
+				OwnerZ[i] += vehicleOwnerSpeed;
 			else
 			{
 				OwnerRotation[i] = 0;
 				if ( OwnerX[i] < 850 )
-					OwnerX[i] += 10;
+					OwnerX[i] += vehicleOwnerSpeed;
 				else
 				{
 					VehicleState[i] = 4;
@@ -1116,7 +1116,7 @@ void StudioProject2::VehicleAI()
 			//checkouts to exit
 			OwnerRotation[i] = -90;
 			if ( OwnerZ[i] < 350 )
-				OwnerZ[i] += 10;
+				OwnerZ[i] += vehicleOwnerSpeed;
 			else
 			{
 				if ( OwnerX[i] == -900 || OwnerX[i] == 100 )
@@ -1130,9 +1130,9 @@ void StudioProject2::VehicleAI()
 				{
 					int cashierRotate = rand() % 2;
 					rotateDelay += 0.2;
-					if ( cashierRotate == 0 && rotateDelay > 2)
+					if ( cashierRotate == 0 && rotateDelay > cashierTurnDelay)
 					{
-						rotateDelay -= 2;
+						rotateDelay -= cashierTurnDelay;
 
 						if ( OwnerX[i] == -900 )
 							cashier1RotateY = 90;
@@ -1143,9 +1143,9 @@ void StudioProject2::VehicleAI()
 						else
 							cashier4RotateY = -90;
 					}
-					else if ( cashierRotate == 1 && rotateDelay > 2)
+					else if ( cashierRotate == 1 && rotateDelay > cashierTurnDelay)
 					{
-						rotateDelay -= 2;
+						rotateDelay -= cashierTurnDelay;
 
 						if ( OwnerX[i] == -900 )
 							cashier1RotateY = 0;
@@ -1168,29 +1168,29 @@ void StudioProject2::VehicleAI()
 		{
 			OwnerRotation[i] = -90;
 			if ( OwnerZ[i] < 1200 && OwnerX[i] != 6000)
-				OwnerZ[i] += 10;
+				OwnerZ[i] += vehicleOwnerSpeed;
 			else
 			{
 				if ( ParkingLocation[i] == 1 )
 				{	
 					OwnerRotation[i] = 0;
 					if ( OwnerX[i] < 3000 )
-						OwnerX[i] += 10;
+						OwnerX[i] += vehicleOwnerSpeed;
 					else
 					{
 						RenderOwner[i] = 0;
 						if ( VehicleZ[i] > 1200 )
-							VehicleZ[i] -= 10;
+							VehicleZ[i] -= vehicleOwnerSpeed;
 						else
 						{
 							VehicleRotation[i] = 90;
 							if ( VehicleX[i] < 6400 )
-								VehicleX[i] += 20;
+								VehicleX[i] += vehicleSpeed;
 							else
 							{
 								VehicleRotation[i] = 180;
 								if ( VehicleZ[i] > -7000 )
-									VehicleZ[i] -= 20;
+									VehicleZ[i] -= vehicleSpeed;
 								else	
 								{
 									carparkSlot[0] = 0;
@@ -1214,22 +1214,22 @@ void StudioProject2::VehicleAI()
 				{
 					OwnerRotation[i] = 0;
 					if ( OwnerX[i] < 3500 )
-						OwnerX[i] += 10;
+						OwnerX[i] += vehicleOwnerSpeed;
 					else
 					{
 						RenderOwner[i] = 0;
 						if ( VehicleZ[i] > 1200 )
-							VehicleZ[i] -= 10;
+							VehicleZ[i] -= vehicleOwnerSpeed;
 						else
 						{
 							VehicleRotation[i] = 90;
 							if ( VehicleX[i] < 6400 )
-								VehicleX[i] += 20;
+								VehicleX[i] += vehicleSpeed;
 							else
 							{
 								VehicleRotation[i] = 180;
 								if ( VehicleZ[i] > -7000 )
-									VehicleZ[i] -= 20;
+									VehicleZ[i] -= vehicleSpeed;
 								else	
 								{
 									carparkSlot[1] = 0;
@@ -1253,22 +1253,22 @@ void StudioProject2::VehicleAI()
 				{
 					OwnerRotation[i] = 0;
 					if ( OwnerX[i] < 3900 )
-						OwnerX[i] += 10;
+						OwnerX[i] += vehicleOwnerSpeed;
 					else
 					{
 						RenderOwner[i] = 0;
 						if ( VehicleZ[i] > 1200 )
-							VehicleZ[i] -= 10;
+							VehicleZ[i] -= vehicleOwnerSpeed;
 						else
 						{
 							VehicleRotation[i] = 90;
 							if ( VehicleX[i] < 6400 )
-								VehicleX[i] += 20;
+								VehicleX[i] += vehicleSpeed;
 							else
 							{
 								VehicleRotation[i] = 180;
 								if ( VehicleZ[i] > -7000 )
-									VehicleZ[i] -= 20;
+									VehicleZ[i] -= vehicleSpeed;
 								else	
 								{
 									carparkSlot[2] = 0;
@@ -1292,22 +1292,22 @@ void StudioProject2::VehicleAI()
 				{
 					OwnerRotation[i] = 0;
 					if ( OwnerX[i] < 4300 )
-						OwnerX[i] += 10;
+						OwnerX[i] += vehicleOwnerSpeed;
 					else
 					{
 						RenderOwner[i] = 0;
 						if ( VehicleZ[i] > 1200 )
-							VehicleZ[i] -= 10;
+							VehicleZ[i] -= vehicleOwnerSpeed;
 						else
 						{
 							VehicleRotation[i] = 90;
 							if ( VehicleX[i] < 6400 )
-								VehicleX[i] += 20;
+								VehicleX[i] += vehicleSpeed;
 							else
 							{
 								VehicleRotation[i] = 180;
 								if ( VehicleZ[i] > -7000 )
-									VehicleZ[i] -= 20;
+									VehicleZ[i] -= vehicleSpeed;
 								else	
 								{
 									carparkSlot[3] = 0;
@@ -1334,7 +1334,7 @@ void StudioProject2::VehicleAI()
 			//to carpark entrance
 			VehicleRotation[i] = 180;
 			if ( VehicleZ[i] > 1400 )
-				VehicleZ[i] -= 20;
+				VehicleZ[i] -= vehicleSpeed;
 			else
 				VehicleState[i] = 31;
 		}
@@ -1345,12 +1345,12 @@ void StudioProject2::VehicleAI()
 			if ( carparkSlot[0] == 0 )
 			{
 				if ( VehicleX[i] > 3040 )
-					VehicleX[i] -= 20;
+					VehicleX[i] -= vehicleSpeed;
 				else
 				{
 					VehicleRotation[i] = 0;
 					if ( VehicleZ[i] < 2050 )
-						VehicleZ[i] += 10;
+						VehicleZ[i] += vehicleOwnerSpeed;
 					else
 					{
 						carparkSlot[0] = 1;
@@ -1367,12 +1367,12 @@ void StudioProject2::VehicleAI()
 			else if ( carparkSlot[1] == 0 )
 			{
 				if ( VehicleX[i] > 3500 )
-					VehicleX[i] -= 20;
+					VehicleX[i] -= vehicleSpeed;
 				else
 				{
 					VehicleRotation[i] = 0;
 					if ( VehicleZ[i] < 2050 )
-						VehicleZ[i] += 10;
+						VehicleZ[i] += vehicleOwnerSpeed;
 					else
 					{
 						carparkSlot[1] = 1;
@@ -1389,12 +1389,12 @@ void StudioProject2::VehicleAI()
 			else if ( carparkSlot[2] == 0 )
 			{
 				if ( VehicleX[i] > 3900 )
-					VehicleX[i] -= 20;
+					VehicleX[i] -= vehicleSpeed;
 				else
 				{
 					VehicleRotation[i] = 0;
 					if ( VehicleZ[i] < 2050 )
-						VehicleZ[i] += 10;
+						VehicleZ[i] += vehicleOwnerSpeed;
 					else
 					{
 						carparkSlot[2] = 1;
@@ -1411,12 +1411,12 @@ void StudioProject2::VehicleAI()
 			else if ( carparkSlot[3] == 0 )
 			{
 				if ( VehicleX[i] > 4300 )
-					VehicleX[i] -= 20;
+					VehicleX[i] -= vehicleSpeed;
 				else
 				{
 					VehicleRotation[i] = 0;
 					if ( VehicleZ[i] < 2050 )
-						VehicleZ[i] += 10;
+						VehicleZ[i] += vehicleOwnerSpeed;
 					else
 					{
 						carparkSlot[3] = 1;
@@ -1443,7 +1443,7 @@ void StudioProject2::CustomerAI()
 			//to carpark entrance
 			CustomerRotation[i] = 90;
 			if ( CustomerZ[i] > 1250 )
-				CustomerZ[i] -= 10;
+				CustomerZ[i] -= customerSpeed;
 			else
 				CustomerState[i] = 1;
 		}
@@ -1452,7 +1452,7 @@ void StudioProject2::CustomerAI()
 			//to within supermarket
 			CustomerRotation[i] = 180;
 			if ( CustomerX[i] > 850 )
-				CustomerX[i] -= 10;
+				CustomerX[i] -= customerSpeed;
 			else
 			{
 				int goWhere = rand() % 2;
@@ -1477,7 +1477,7 @@ void StudioProject2::CustomerAI()
 			//go through gates
 			CustomerRotation[i] = 90;
 			if ( CustomerZ[i] > -200 )
-				CustomerZ[i] -= 10;
+				CustomerZ[i] -= customerSpeed;
 			else
 			{
 				int goWhere = rand() % 2;
@@ -1509,12 +1509,12 @@ void StudioProject2::CustomerAI()
 			//gates to drinks section
 			CustomerRotation[i] = 0;
 			if ( CustomerX[i] < 1700 )
-				CustomerX[i] += 10;
+				CustomerX[i] += customerSpeed;
 			else
 			{
 				CustomerRotation[i] = 90;
 				if ( CustomerZ[i] > -1700 )
-					CustomerZ[i] -= 10;
+					CustomerZ[i] -= customerSpeed;
 				else
 					CustomerState[i] = 8;
 			}
@@ -1524,12 +1524,12 @@ void StudioProject2::CustomerAI()
 			//drinks section to gate
 			CustomerRotation[i] = -90;
 			if ( CustomerZ[i] < -200 )
-				CustomerZ[i] += 10;
+				CustomerZ[i] += customerSpeed;
 			else
 			{
 				CustomerRotation[i] = 180;
 				if ( CustomerX[i] > 1000 )
-					CustomerX[i] -= 10;
+					CustomerX[i] -= customerSpeed;
 				else
 				{
 					CustomerState[i] = 9;
@@ -1541,17 +1541,17 @@ void StudioProject2::CustomerAI()
 			//gate to shelf1
 			CustomerRotation[i] = 0;
 			if ( CustomerX[i] < 1000 && CustomerZ[i] > -1000)
-				CustomerX[i] += 10;
+				CustomerX[i] += customerSpeed;
 			else
 			{
 				CustomerRotation[i] = 90;
 				if ( CustomerZ[i] > -1000 )
-					CustomerZ[i] -= 10;
+					CustomerZ[i] -= customerSpeed;
 				else 
 				{
 					CustomerRotation[i] = 180;
 					if ( CustomerX[i] > 600 )
-						CustomerX[i] -= 10;
+						CustomerX[i] -= customerSpeed;
 					else
 					{
 						int GoWhere = rand() % 2;
@@ -1568,12 +1568,12 @@ void StudioProject2::CustomerAI()
 			//shelf1 to shelf2
 			CustomerRotation[i] = 180;
 			if ( CustomerX[i] > 100 )
-				CustomerX[i] -= 10;
+				CustomerX[i] -= customerSpeed;
 			else
 			{
 				CustomerRotation[i] = -90;
 				if ( CustomerZ[i] < -800 )
-					CustomerZ[i] += 10;
+					CustomerZ[i] += customerSpeed;
 				else
 				{
 					CustomerRotation[i] = 180;
@@ -1587,12 +1587,12 @@ void StudioProject2::CustomerAI()
 			//shelf1 to backshelf
 			CustomerRotation[i] = 90;
 			if ( CustomerZ[i] > -1500 )
-				CustomerZ[i] -= 10;
+				CustomerZ[i] -= customerSpeed;
 			else
 			{
 				CustomerRotation[i] = 180;
 				if ( CustomerX[i] > -400 )
-					CustomerX[i] -= 10;
+					CustomerX[i] -= customerSpeed;
 				else
 				{
 					int GoWhere = rand() % 2;
@@ -1608,12 +1608,12 @@ void StudioProject2::CustomerAI()
 			//shelf2 to backshelf
 			CustomerRotation[i] = 90;
 			if ( CustomerZ[i] > -1500 )
-				CustomerZ[i] -= 10;
+				CustomerZ[i] -= customerSpeed;
 			else
 			{
 				CustomerRotation[i] = 180;
 				if ( CustomerX[i] > -400 )
-					CustomerX[i] -= 10;
+					CustomerX[i] -= customerSpeed;
 				else
 				{
 					int GoWhere = rand() % 2;
@@ -1629,7 +1629,7 @@ void StudioProject2::CustomerAI()
 			//backshelves to left shelf
 			CustomerRotation[i] = 180;
 			if ( CustomerX[i] > -1850 )
-				CustomerX[i] -= 10;
+				CustomerX[i] -= customerSpeed;
 			else
 			{
 				CustomerRotation[i] = -90;
@@ -1642,12 +1642,12 @@ void StudioProject2::CustomerAI()
 			//backshelves to shelf4
 			CustomerRotation[i] = 180;
 			if ( CustomerX[i] > -850 )
-				CustomerX[i] -= 10;
+				CustomerX[i] -= customerSpeed;
 			else
 			{
 				CustomerRotation[i] = -90;
 				if ( CustomerZ[i] < -800 )
-					CustomerZ[i] += 10;
+					CustomerZ[i] += customerSpeed;
 				else
 				{
 					CustomerRotation[i] = 180;
@@ -1665,7 +1665,7 @@ void StudioProject2::CustomerAI()
 			//shelf4 to checkout1
 			CustomerRotation[i] = 180;
 			if ( CustomerX[i] > -850 )
-				CustomerX[i] -= 10;
+				CustomerX[i] -= customerSpeed;
 			else
 				CustomerState[i] = 24;
 		}
@@ -1674,7 +1674,7 @@ void StudioProject2::CustomerAI()
 			//left shelf to front left shelf
 			CustomerRotation[i] = -90;
 			if ( CustomerZ[i] < -600 )
-				CustomerZ[i] += 10;
+				CustomerZ[i] += customerSpeed;
 			else
 			{
 				CustomerState[i] = 17;
@@ -1685,7 +1685,7 @@ void StudioProject2::CustomerAI()
 			//front left shelves to customer service
 			CustomerRotation[i] = -90;
 			if ( CustomerZ[i] < -200 )
-				CustomerZ[i] += 10;
+				CustomerZ[i] += customerSpeed;
 			else
 			{
 				if ( CustomerItemsHeld[i] == 0 )
@@ -1710,7 +1710,7 @@ void StudioProject2::CustomerAI()
 			//customerservice to checkout 1
 			CustomerRotation[i] = 0;
 			if ( CustomerX[i] < -900 )
-				CustomerX[i] += 10;
+				CustomerX[i] += customerSpeed;
 			else
 				CustomerState[i] = 24;
 		}
@@ -1728,7 +1728,7 @@ void StudioProject2::CustomerAI()
 			//customerservice to checkout3
 			CustomerRotation[i] = 0;
 			if ( CustomerX[i] < 100 )
-				CustomerX[i] += 10;
+				CustomerX[i] += customerSpeed;
 			else
 				CustomerState[i] = 24;
 		}
@@ -1737,7 +1737,7 @@ void StudioProject2::CustomerAI()
 			//customerservice to checkout4
 			CustomerRotation[i] = 0;
 			if ( CustomerX[i] < 200 )
-				CustomerX[i] += 10;
+				CustomerX[i] += customerSpeed;
 			else
 				CustomerState[i] = 24;
 		}
@@ -1746,7 +1746,7 @@ void StudioProject2::CustomerAI()
 			//customerservice to gates
 			CustomerRotation[i] = 0;
 			if ( CustomerX[i] < 850 )
-				CustomerX[i] += 10;
+				CustomerX[i] += customerSpeed;
 			else
 			{
 				CustomerState[i] = 4;
@@ -1757,12 +1757,12 @@ void StudioProject2::CustomerAI()
 			//shelf4 to gates
 			CustomerRotation[i] = -90;
 			if ( CustomerZ[i] < -200 )
-				CustomerZ[i] += 10;
+				CustomerZ[i] += customerSpeed;
 			else
 			{
 				CustomerRotation[i] = 0;
 				if ( CustomerX[i] < 850 )
-					CustomerX[i] += 10;
+					CustomerX[i] += customerSpeed;
 				else
 				{
 					CustomerState[i] = 4;
@@ -1774,7 +1774,7 @@ void StudioProject2::CustomerAI()
 			//checkouts to exit
 			CustomerRotation[i] = -90;
 			if ( CustomerZ[i] < 350 )
-				CustomerZ[i] += 10;
+				CustomerZ[i] += customerSpeed;
 			else
 			{
 				if ( CustomerX[i] == -900 || CustomerX[i] == 100 )
@@ -1826,17 +1826,17 @@ void StudioProject2::CustomerAI()
 		{
 			CustomerRotation[i] = -90;
 			if ( CustomerZ[i] < 1200 && CustomerX[i] != 5000)
-				CustomerZ[i] += 10;
+				CustomerZ[i] += customerSpeed;
 			else
 			{
 				CustomerRotation[i] = 0;
 				if ( CustomerX[i] < 5000 )
-					CustomerX[i] += 10;
+					CustomerX[i] += customerSpeed;
 				else
 				{
 					CustomerRotation[i] = 90;
 					if ( CustomerZ[i] > -7000)
-						CustomerZ[i] -= 10;
+						CustomerZ[i] -= customerSpeed;
 					else
 					{
 						CustomerZ.erase(CustomerZ.begin() + i);
@@ -1856,7 +1856,7 @@ void StudioProject2::PasserbyAI()
 	for ( int i = 0; i < Passerby; i++ )
 	{
 		if ( PasserbyZ[i] > -7000 )
-			PasserbyZ[i] -= 15;
+			PasserbyZ[i] -= passerbySpeed;
 		else
 		{
 			PasserbyX.erase(PasserbyX.begin() + i);
@@ -1870,7 +1870,7 @@ void StudioProject2::PasserbyAI()
 void StudioProject2::PromoterAI()
 {
 	if ( itemRotateY < 360 )
-		itemRotateY += 50 * 0.2;
+		itemRotateY += itemRotateSpeed;
 	else
 		itemRotateY = 0;
 
@@ -2306,7 +2306,6 @@ void StudioProject2::renderCashier()
 void StudioProject2::renderOwner()
 {
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, 0);
 	modelStack.Scale(20, 20, 20);
 
 	modelStack.PushMatrix();
