@@ -252,6 +252,8 @@ public:
 		GEO_SHELFBOUNDS5,
 		GEO_DOORBOUNDS,
 		GEO_PLAYERBOUNDS,
+		GEO_FREEZERBOUNDS,
+		GEO_CHILLERBOUNDS,
 		/************************************************/
 
 		/*************************************************
@@ -307,7 +309,7 @@ public:
 
 	};
 
-	
+	Octree *tree;
 
 	void setBoundingBox(BoundingBox box)
 	{
@@ -366,6 +368,7 @@ private:
 	Vector3 playerDir;
 	Vector3 playerPos;
 	Vector3 playerRotation;
+	Vector3 testPos;
 	
 	vector<Item*> itemVector;
 	vector<Shelfslot*> shelfVector;
@@ -378,6 +381,8 @@ private:
 	Vector3 tempStorage;
 	Vector3 tempTarget;
 	Vector3 tempUp;
+
+	bool canPhase;
 	/***************************************/
 	Light light[1];
 
@@ -396,6 +401,8 @@ enum BOUNDTYPE
 		SHELF4,
 		SHELF5,
 		DOOR,
-		PLAYER
+		PLAYER,
+		FREEZER,
+		CHILLER
 	};
 #endif
