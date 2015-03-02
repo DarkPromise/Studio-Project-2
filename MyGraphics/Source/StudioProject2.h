@@ -15,6 +15,10 @@
 #include "BoundingBox.h"
 #include "Octree.h"
 #include "Child.h"
+#include "Passerby.h"
+#include "Promoter.h"
+#include "Customer.h"
+#include "AI.h"
 
 using std::vector;
 
@@ -40,9 +44,10 @@ public:
 	std::string currView;
 
 	int checkingOut;
+	int takeItem;
+	float lookatDelay;
 
 	float promoterRotateY;
-	float itemRotateY;
 	float cashier1RotateY;
 	float cashier2RotateY;
 	float cashier3RotateY;
@@ -52,18 +57,6 @@ public:
 	float SGTranslate;
 	float SGLegTranslate;
 	bool SGState;
-
-	vector<float> CustomerX;
-	vector<float> CustomerZ;
-	vector<float> CustomerRotation;
-	vector<int> CustomerState;
-	vector<float> CustomerItemsHeld;
-	int Customers;
-	
-	vector<float> PasserbyX;
-	vector<float> PasserbyZ;
-	vector<float> PasserbyRotation;
-	int Passerby;
 
 	vector<float> VehicleX;
 	vector<float> VehicleZ;
@@ -78,39 +71,6 @@ public:
 	int Vehicles;
 
 	int carparkSlot[4];
-
-	enum CustomerPath
-	{
-		CUSTOMER_PATHTOCARPARK1,
-		CUSTOMER_PATHTOENTRANCE1,
-		CUSTOMER_ENTRANCETOBASKET,
-		CUSTOMER_BASKETTOENTRANCE,
-		CUSTOMER_ENTRANCETOGATES,
-		CUSTOMER_GATESTOTROLLEY,
-		CUSTOMER_TROLLEYTOGATES,
-		CUSTOMER_GATESTODRINKS,
-		CUSTOMER_DRINKSTOGATES,
-		CUSTOMER_GATESTOSHELF1,
-		CUSTOMER_SHELF1TOSHELF2,
-		CUSTOMER_SHELF1TOBACKSHELF,
-		CUSTOMER_SHELF2TOBACKSHELF,
-		CUSTOMER_BACKSHELVESTOLEFTSHELF,
-		CUSTOMER_BACKSHELVESTOSHELF4,
-		CUSTOMER_SHELF4TOCHECKOUT1,
-		CUSTOMER_LEFTSHELFTOFRONTLEFTSHELF,
-		CUSTOMER_LEFTSHELFTOCUSTOMERSERVICE,
-		CUSTOMER_CUSTOMERSERVICETOCHECKOUT1,
-		CUSTOMER_CUSTOMERSERVICETOCHECKOUT2,
-		CUSTOMER_CUSTOMERSERVICETOCHECKOUT3,
-		CUSTOMER_CUSTOMERSERVICETOCHECKOUT4,
-		CUSTOMER_CUSTOMERSERVICETOGATES,
-		CUSTOMER_SHELF4TOGATES,
-		CUSTOMER_CHECKOUT,
-		CUSTOMER_CHECKOUTTOEXIT,
-		VEHICLE_ROADTOENTRANCE = 30,
-		VEHICLE_ENTRANCETOEMPTYSLOT,
-	};
-
 
 	float animateFlying;
 	float animateDoor;
@@ -332,9 +292,7 @@ private:
 	double matrixSpeed;
 
 	void VehicleAI();
-	void CustomerAI();
-	void PasserbyAI();
-	void PromoterAI();
+
 	void GenerateAIs();
 
 	void renderPlayer();

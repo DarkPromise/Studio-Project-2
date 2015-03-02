@@ -35,6 +35,10 @@ vector<BoundingBox*> box;
 BoundingBox * boxPtr;
 BOUNDTYPE bound;
 
+Passerby	* myPasserby;
+Promoter	* myPromoter;
+Customer	* myCustomer;
+
 StudioProject2::StudioProject2()
 {
 }
@@ -113,22 +117,26 @@ void StudioProject2::Init()
 	SGTranslate = 0;
 	SGLegTranslate = 0;
 
+	//Init AI
+	myPasserby = new Passerby();
+	myPasserby->AILimit = passerbyLimit;
+	myPasserby->AICurrent = 0;
+	myPasserby->spawnRate = passerbySpawnRate;
+
+	myPromoter = new Promoter();
+	myPromoter->AILimit = promoterLimit;
+	myPromoter->AICurrent = 0;
+	myPromoter->itemRotateY = 0;
+
+	myCustomer = new Customer();
+	myCustomer->AILimit = customerLimit;
+	myCustomer->AICurrent = 0;
+	myCustomer->spawnRate = customerSpawnRate;
+
 	cashier1RotateY = 0;
 	cashier2RotateY = 0;
 	cashier3RotateY = 0;
 	cashier4RotateY = 0;
-
-	Customers = 1;
-	CustomerX.push_back(5000);
-	CustomerZ.push_back(7000);
-	CustomerRotation.push_back(90);
-	CustomerState.push_back(0);
-	CustomerItemsHeld.push_back(0);
-
-	Passerby = 1;
-	PasserbyX.push_back(5200);
-	PasserbyZ.push_back(0);
-	PasserbyRotation.push_back(90);
 
 	Vehicles = 1;
 	VehicleX.push_back(6000);
@@ -787,12 +795,17 @@ void StudioProject2::Update(double dt)
 		cout << "Test Pos : " << testPos << endl;
 	}
 
-	GenerateAIs();
+	myPasserby->spawnAI();
+	myPasserby->updateAI();
 
-	PasserbyAI();
-	CustomerAI();
+	myPromoter->spawnAI();
+	myPromoter->updateAI();
+
+	myCustomer->spawnAI();
+	myCustomer->updateAI();
+
 	VehicleAI();
-	PromoterAI();
+
 
 	////////////for door//////////
 	if(camera.position.x > box[DOOR]->Min.x && camera.position.x < box[DOOR]->Max.x  && camera.position.y > box[DOOR]->Min.y && camera.position.y < box[DOOR]->Max.y && camera.position.z > box[DOOR]->Min.z && camera.position.z < box[DOOR]->Max.z && door1Pos > 700)
@@ -847,7 +860,7 @@ void StudioProject2::Update(double dt)
 	{
 		if(camera.target.x > shelfVector[i]->boundMin.x && camera.target.x < shelfVector[i]->boundMax.x  && camera.target.y > shelfVector[i]->boundMin.y && camera.target.y < shelfVector[i]->boundMax.y && camera.target.z > shelfVector[i]->boundMin.z && camera.target.z < shelfVector[i]->boundMax.z && shelfVector[i]->isempty == false && inhand->reachMax == false)
 		{
-			cout << "seen";
+			cout << i << endl;
 			if(Application::IsKeyPressed('B'))
 			{
 				inhand->recive(shelfVector[i]->itemid);
@@ -869,7 +882,7 @@ void StudioProject2::Update(double dt)
 		}
 	}
 
-	int takeItem = rand() % 36;
+	int takeItem = rand() % itemsonShelf;
 
 	if(inhand->holding.size() > 0)
 	{
@@ -894,34 +907,11 @@ void StudioProject2::Update(double dt)
 
 void StudioProject2::GenerateAIs()
 {
-	if ( Customers < customerLimit )
-	{
-		int canSpawn = rand() % customerSpawnRate;
-		if ( canSpawn == 10 )
-		{
-			Customers++;
-			int spawnWhere = rand() % 2;
-			if ( spawnWhere == 0 )
-			{
-				CustomerX.push_back(5100);
-				CustomerZ.push_back(7000);
-				CustomerRotation.push_back(90);
-				CustomerState.push_back(0);
-			}
-			else
-			{
-				CustomerX.push_back(5300);
-				CustomerZ.push_back(7000);
-				CustomerRotation.push_back(90);
-				CustomerState.push_back(0);
-			}
-		}
-	}
 
 	if ( Vehicles < vehicleLimit && OwnerX.size() == Vehicles)
 	{
 		int canSpawn = rand() % vehiclesSpawnRate;
-		if ( canSpawn == 10 );
+		if ( canSpawn == 1 )
 		{
 			Vehicles++;
 			VehicleX.push_back(6000);
@@ -931,27 +921,6 @@ void StudioProject2::GenerateAIs()
 		}
 	}
 
-	if ( Passerby < passerbyLimit )
-	{
-		int canSpawn = rand() % passerbySpawnRate;
-		if ( canSpawn == 10 )
-		{
-			Passerby++;
-			int spawnWhere = rand() % 2;
-			if ( spawnWhere == 0 )
-			{
-				PasserbyX.push_back(5000);
-				PasserbyZ.push_back(7000);
-				PasserbyRotation.push_back(90);
-			}
-			else
-			{
-				PasserbyX.push_back(5200);
-				PasserbyZ.push_back(7100);
-				PasserbyRotation.push_back(90);
-			}
-		}
-	}
 }
 
 void StudioProject2::VehicleAI()
@@ -1208,7 +1177,7 @@ void StudioProject2::VehicleAI()
 				OwnerZ[i] += vehicleOwnerSpeed;
 			else
 			{
-				if ( CustomerItemsHeld[i] == 0 )
+				if ( 1/*CustomerItemsHeld[i]*/ == 0 )
 				{
 					int GoWhere = rand() % 4;
 
@@ -1612,471 +1581,6 @@ void StudioProject2::VehicleAI()
 	}
 }
 
-void StudioProject2::CustomerAI()
-{
-	for ( int i = customerRight; i < Customers; i++ )
-	{
-		if ( CustomerState[i] == customerRight )
-		{
-			//to carpark entrance
-			CustomerRotation[i] = customerForward;
-			if ( CustomerZ[i] > 1250 )
-				CustomerZ[i] -= customerSpeed;
-			else
-				CustomerState[i] = 1;
-		}
-		else if ( CustomerState[i] == 1 )
-		{
-			//to within supermarket
-			CustomerRotation[i] = customerLeft;
-			if ( CustomerX[i] > 850 )
-				CustomerX[i] -= customerSpeed;
-			else
-			{
-				int goWhere = rand() % 2;
-				if ( goWhere == customerRight )
-					CustomerState[i] = 2;
-				else if ( goWhere == 1 )
-					CustomerState[i] = 4;
-			}
-		}
-		else if ( CustomerState[i] == 2 )
-		{
-			//go to basket
-			CustomerState[i] = 4;
-		}
-		else if ( CustomerState[i] == 3 )
-		{
-			//go back to entrance
-			CustomerState[i] = 4;
-		}
-		else if ( CustomerState[i] == 4 )
-		{
-			//go through gates
-			CustomerRotation[i] = customerForward;
-			if ( CustomerZ[i] > -200 )
-				CustomerZ[i] -= customerSpeed;
-			else
-			{
-				int goWhere = rand() % 2;
-				if ( goWhere == customerRight )
-					CustomerState[i] = 5;
-				else
-				{
-					goWhere = rand() % 2;
-					if ( goWhere == customerRight )
-						CustomerState[i] = 7;
-					else
-						CustomerState[i] = 9;
-				}
-			}
-		}
-		else if ( CustomerState[i] == 5 )
-		{
-			//to trolley from gates
-			CustomerState[i] = 6;
-
-		}
-		else if ( CustomerState[i] == 6 )
-		{
-			//trolley to gates
-			CustomerState[i] = 7;
-		}
-		else if ( CustomerState[i] == 7 )
-		{
-			//gates to drinks section
-			CustomerRotation[i] = customerRight;
-			if ( CustomerX[i] < 1700 )
-				CustomerX[i] += customerSpeed;
-			else
-			{
-				CustomerRotation[i] = customerForward;
-				if ( CustomerZ[i] > -1700 )
-					CustomerZ[i] -= customerSpeed;
-				else
-					CustomerState[i] = 8;
-			}
-		}
-		else if ( CustomerState[i] == 8 )
-		{
-			//drinks section to gate
-			CustomerRotation[i] = customerBack;
-			if ( CustomerZ[i] < -200 )
-				CustomerZ[i] += customerSpeed;
-			else
-			{
-				CustomerRotation[i] = customerLeft;
-				if ( CustomerX[i] > 1000 )
-					CustomerX[i] -= customerSpeed;
-				else
-				{
-					CustomerState[i] = 9;
-				}
-			}
-		}
-		else if ( CustomerState[i] == 9 )
-		{
-			//gate to shelf1
-			CustomerRotation[i] = customerRight;
-			if ( CustomerX[i] < 1000 && CustomerZ[i] > -1000)
-				CustomerX[i] += customerSpeed;
-			else
-			{
-				CustomerRotation[i] = customerForward;
-				if ( CustomerZ[i] > -1000 )
-					CustomerZ[i] -= customerSpeed;
-				else 
-				{
-					CustomerRotation[i] = customerLeft;
-					if ( CustomerX[i] > 600 )
-						CustomerX[i] -= customerSpeed;
-					else
-					{
-						int GoWhere = rand() % 2;
-						if ( GoWhere == customerRight )
-							CustomerState[i] = 10;
-						else
-							CustomerState[i] = 11;
-					}
-				}
-			}
-		}
-		else if ( CustomerState[i] == 10 )
-		{
-			//shelf1 to shelf2
-			CustomerRotation[i] = customerLeft;
-			if ( CustomerX[i] > 100 )
-				CustomerX[i] -= customerSpeed;
-			else
-			{
-				CustomerRotation[i] = customerBack;
-				if ( CustomerZ[i] < -800 )
-					CustomerZ[i] += customerSpeed;
-				else
-				{
-					CustomerRotation[i] = customerLeft;
-
-					CustomerState[i] = 12;
-				}
-			}
-		}
-		else if ( CustomerState[i] == 11 )
-		{
-			//shelf1 to backshelf
-			CustomerRotation[i] = customerForward;
-			if ( CustomerZ[i] > -1500 )
-				CustomerZ[i] -= customerSpeed;
-			else
-			{
-				CustomerRotation[i] = customerLeft;
-				if ( CustomerX[i] > -400 )
-					CustomerX[i] -= customerSpeed;
-				else
-				{
-					int GoWhere = rand() % 2;
-					if ( GoWhere == customerRight )
-						CustomerState[i] = 13;
-					else
-						CustomerState[i] = 14;
-				}
-			}
-		}
-		else if ( CustomerState[i] == 12 )
-		{
-			//shelf2 to backshelf
-			CustomerRotation[i] = customerForward;
-			if ( CustomerZ[i] > -1500 )
-				CustomerZ[i] -= customerSpeed;
-			else
-			{
-				CustomerRotation[i] = customerLeft;
-				if ( CustomerX[i] > -400 )
-					CustomerX[i] -= customerSpeed;
-				else
-				{
-					int GoWhere = rand() % 2;
-					if ( GoWhere == customerRight )
-						CustomerState[i] = 13;
-					else
-						CustomerState[i] = 14;
-				}
-			}
-		}
-		else if ( CustomerState[i] == 13 )
-		{
-			//backshelves to left shelf
-			CustomerRotation[i] = customerLeft;
-			if ( CustomerX[i] > -1850 )
-				CustomerX[i] -= customerSpeed;
-			else
-			{
-				CustomerRotation[i] = customerBack;
-
-				CustomerState[i] = 16;
-			}
-		}
-		else if ( CustomerState[i] == 14 )
-		{
-			//backshelves to shelf4
-			CustomerRotation[i] = customerLeft;
-			if ( CustomerX[i] > -850 )
-				CustomerX[i] -= customerSpeed;
-			else
-			{
-				CustomerRotation[i] = customerBack;
-				if ( CustomerZ[i] < -800 )
-					CustomerZ[i] += customerSpeed;
-				else
-				{
-					CustomerRotation[i] = customerLeft;
-
-					int GoWhere = rand() % 2;
-					if ( GoWhere == customerRight )
-						CustomerState[i] = 15;
-					else
-						CustomerState[i] = 23;
-				}
-			}
-		}
-		else if ( CustomerState[i] == 15 )
-		{
-			//shelf4 to checkout1
-			CustomerRotation[i] = customerLeft;
-			if ( CustomerX[i] > -850 )
-				CustomerX[i] -= customerSpeed;
-			else
-				CustomerState[i] = 24;
-		}
-		else if ( CustomerState[i] == 16 )
-		{
-			//left shelf to front left shelf
-			CustomerRotation[i] = customerBack;
-			if ( CustomerZ[i] < -600 )
-				CustomerZ[i] += customerSpeed;
-			else
-			{
-				CustomerState[i] = 17;
-			}
-		}
-		else if ( CustomerState[i] == 17 )
-		{
-			//front left shelves to customer service
-			CustomerRotation[i] = customerBack;
-			if ( CustomerZ[i] < -200 )
-				CustomerZ[i] += customerSpeed;
-			else
-			{
-				if ( CustomerItemsHeld[i] == customerRight )
-				{
-					int GoWhere = rand() % 4;
-
-					if ( GoWhere == customerRight )
-						CustomerState[i] = 18;
-					else if ( GoWhere == 1)
-						CustomerState[i] = 19;
-					else if ( GoWhere == 2 )
-						CustomerState[i] = 20;
-					else if ( GoWhere == 3 )
-						CustomerState[i] = 21;
-				}
-				else
-					CustomerState[i] = 22;			
-			}
-		}
-		else if ( CustomerState[i] == 18 )
-		{
-			//customerservice to checkout 1
-			CustomerRotation[i] = customerRight;
-			if ( CustomerX[i] < -900 )
-				CustomerX[i] += customerSpeed;
-			else
-				CustomerState[i] = 24;
-		}
-		else if ( CustomerState[i] == 19 )
-		{
-			//customerservice to checkout2
-			CustomerRotation[i] = customerRight;
-			if ( CustomerX[i] < -800 )
-				CustomerX[i] += 50;
-			else
-				CustomerState[i] = 24;
-		}
-		else if ( CustomerState[i] == 20 )
-		{
-			//customerservice to checkout3
-			CustomerRotation[i] = customerRight;
-			if ( CustomerX[i] < 100 )
-				CustomerX[i] += customerSpeed;
-			else
-				CustomerState[i] = 24;
-		}
-		else if ( CustomerState[i] == 21 )
-		{
-			//customerservice to checkout4
-			CustomerRotation[i] = customerRight;
-			if ( CustomerX[i] < 200 )
-				CustomerX[i] += customerSpeed;
-			else
-				CustomerState[i] = 24;
-		}
-		else if ( CustomerState[i] == 22 )
-		{
-			//customerservice to gates
-			CustomerRotation[i] = customerRight;
-			if ( CustomerX[i] < 850 )
-				CustomerX[i] += customerSpeed;
-			else
-			{
-				CustomerState[i] = 4;
-			}
-		}
-		else if ( CustomerState[i] == 23 )
-		{
-			//shelf4 to gates
-			CustomerRotation[i] = customerBack;
-			if ( CustomerZ[i] < -200 )
-				CustomerZ[i] += customerSpeed;
-			else
-			{
-				CustomerRotation[i] = customerRight;
-				if ( CustomerX[i] < 850 )
-					CustomerX[i] += customerSpeed;
-				else
-				{
-					CustomerState[i] = 4;
-				}
-			}
-		}
-		else if ( CustomerState[i] == 24 )
-		{
-			//checkouts to exit
-			CustomerRotation[i] = customerBack;
-			if ( CustomerZ[i] < 350 )
-				CustomerZ[i] += customerSpeed;
-			else
-			{
-				if ( CustomerX[i] == -900 || CustomerX[i] == 100 )
-					CustomerRotation[i] = customerLeft;
-				else
-					CustomerRotation[i] = customerRight;
-
-				//cashier response checkout code
-				checkingOut = customerRight;
-				if ( checkingOut == customerRight )
-				{
-					int cashierRotate = rand() % 2;
-					rotateDelay += 0.14;
-					if ( cashierRotate == customerRight && rotateDelay > 2)
-					{
-						rotateDelay -= 2;
-
-						if ( CustomerX[i] == -900 )
-							cashier1RotateY = customerForward;
-						else if ( CustomerX[i] == -800 )
-							cashier2RotateY = customerBack;
-						else if ( CustomerX[i] == 100 )
-							cashier3RotateY = customerForward;
-						else
-							cashier4RotateY = customerBack;
-					}
-					else if ( cashierRotate == 1 && rotateDelay > 2)
-					{
-						rotateDelay -= 2;
-
-						if ( CustomerX[i] == -900 )
-							cashier1RotateY = customerRight;
-						else if ( CustomerX[i] == -800 )
-							cashier2RotateY = customerRight;
-						else if ( CustomerX[i] == 100 )
-							cashier3RotateY = customerRight;
-						else
-							cashier4RotateY = customerRight;
-
-						int canLeave = rand() % 2;
-
-						if ( canLeave == 1 )
-							CustomerState[i] = 25;
-					}
-				}
-			}
-		}
-		else if ( CustomerState[i] == 25 )
-		{
-			CustomerRotation[i] = customerBack;
-			if ( CustomerZ[i] < 1200 && CustomerX[i] != 5000)
-				CustomerZ[i] += customerSpeed;
-			else
-			{
-				CustomerRotation[i] = customerRight;
-				if ( CustomerX[i] < 5000 )
-					CustomerX[i] += customerSpeed;
-				else
-				{
-					CustomerRotation[i] = customerForward;
-					if ( CustomerZ[i] > -7000)
-						CustomerZ[i] -= customerSpeed;
-					else
-					{
-						CustomerZ.erase(CustomerZ.begin() + i);
-						CustomerX.erase(CustomerX.begin() + i);
-						CustomerState.erase(CustomerState.begin() + i);
-						CustomerRotation.erase(CustomerRotation.begin() + i);
-						Customers--;
-					}
-				}
-			}
-		}
-	}
-}
-
-void StudioProject2::PasserbyAI()
-{
-	for ( int i = 0; i < Passerby; i++ )
-	{
-		if ( PasserbyZ[i] > -7000 )
-			PasserbyZ[i] -= passerbySpeed;
-		else
-		{
-			PasserbyX.erase(PasserbyX.begin() + i);
-			PasserbyZ.erase(PasserbyZ.begin() + i);
-			PasserbyRotation.erase(PasserbyRotation.begin() + i);
-			Passerby--;
-		}
-	}
-}
-
-void StudioProject2::PromoterAI()
-{
-	if ( itemRotateY < 360 )
-		itemRotateY += itemRotateSpeed;
-	else
-		itemRotateY = 0;
-
-	if ( Passerby != 0 )
-	{
-		if ( PasserbyZ[0] == 0 )
-			promoterRotateY = promoterFaceForward;
-		else if ( PasserbyZ[0] < 0 )
-			promoterRotateY = -promoterTurn;
-		else 
-			promoterRotateY = promoterTurn;
-	}
-	else
-	{
-		if ( playerPos.z > -100 && playerPos.z < 100)
-		{
-			promoterRotateY = promoterFaceForward;
-			//player interact with ai code?
-		}
-		else if ( playerPos.z < 0 )
-			promoterRotateY = -promoterTurn;
-		else
-			promoterRotateY = promoterTurn;
-
-	}
-
-}
-
 void StudioProject2::Render()
 {                                                              //MATRIX WILL BE DONE USING THIS
 	// Render VBO here
@@ -2160,23 +1664,29 @@ void StudioProject2::Render()
 	renderCashier();
 	modelStack.PopMatrix();
 
-	for ( int i = 0; i < Customers; i++ )
+	for ( int i = 0; i < myCustomer->AICurrent; i++ )
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(CustomerX[i], -275, CustomerZ[i]);
-		modelStack.Rotate(CustomerRotation[i], 0, 1, 0);
+		modelStack.Translate(myCustomer->Coordinates[i].x, myCustomer->Coordinates[i].y, myCustomer->Coordinates[i].z);
+		modelStack.Rotate(myCustomer->rotateY[i], 0, 1, 0);
 		renderCustomer();
 		modelStack.PopMatrix();
 	}
 
-	for ( int i = 0; i < Passerby; i++ )
+	for ( int i = 0; i < myPasserby->AICurrent; i++)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(PasserbyX[i], -275, PasserbyZ[i]);
-		modelStack.Rotate(PasserbyRotation[i], 0, 1, 0);
+		modelStack.Translate(myPasserby->Coordinates[i].x, myPasserby->Coordinates[i].y, myPasserby->Coordinates[i].z);
+		modelStack.Rotate(myPasserby->rotateY[i], 0, 1, 0);
 		renderPasserby();
 		modelStack.PopMatrix();
 	}
+
+	modelStack.PushMatrix();
+	modelStack.Translate(myPromoter->Coordinates[0].x, myPromoter->Coordinates[0].y, myPromoter->Coordinates[0].z);
+	modelStack.Rotate(180, 0, 1, 0);
+	renderPromoter();
+	modelStack.PopMatrix();
 
 	for ( int i = 0; i < Vehicles; i++ )
 	{
@@ -2196,12 +1706,6 @@ void StudioProject2::Render()
 			renderOwner();
 		modelStack.PopMatrix();
 	}
-
-	modelStack.PushMatrix();
-	modelStack.Translate(6000, -275, 0);
-	modelStack.Rotate(180, 0, 1, 0);
-	renderPromoter();
-	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	if (SGState == 1 )
@@ -2465,7 +1969,7 @@ void StudioProject2::renderPromoter()
 
 	modelStack.PushMatrix();
 	modelStack.Translate(15, 10, 0);
-	modelStack.Rotate(itemRotateY, 0, 1, 0);
+	modelStack.Rotate(myPromoter->itemRotateY, 0, 1, 0);
 	modelStack.Scale(5, 5, 5);
 	RenderMesh(meshList[GEO_CACTUSJUICE], false, false);
 	modelStack.PopMatrix();
