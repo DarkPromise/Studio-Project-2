@@ -18,7 +18,7 @@ int holding = -1;
 #define doorBounds Vector3(400,222.5,225)
 #define playerBounds Vector3(50,50,50);
 #define freezerBounds Vector3(101,163,552.5);
-//#define chillerBounds Vector3(112.5,
+#define chillerBounds Vector3(117.5,124,608);
 
 #define doorTranslation Vector3(2230,-53,1190);
 #define leftShelfTranslate Vector3(-2085,-103.3,-1085);
@@ -29,6 +29,7 @@ int holding = -1;
 #define MarketWallNorthSouthTranslate Vector3(0,0,1850);
 #define MarketWallEastWestTranslate Vector3(2226,0,0);
 #define FreezerTranslate Vector3(1374.4,-110,-1271);
+#define ChillerTranslate Vector3(2083,-150.4,-1217.5);
 
 //AI configurables
 #define	passerbySpeed		15

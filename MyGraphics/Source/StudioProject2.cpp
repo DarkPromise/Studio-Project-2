@@ -213,6 +213,12 @@ void StudioProject2::Init()
 	boxPtr->Max = freezerBounds;
 	boxPtr->Min = -freezerBounds;
 	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = chillerBounds;
+	boxPtr->Min = -chillerBounds;
+	box.push_back(boxPtr);
 	/*******************/
 
 	// Init VBO here
@@ -446,6 +452,7 @@ void StudioProject2::Init()
 	meshList[GEO_DOORBOUNDS] = MeshBuilder::GenerateBoundingBox("doorbounds", box[DOOR]->Max, box[DOOR]->Min, Color(0,1,0));
 	meshList[GEO_PLAYERBOUNDS] = MeshBuilder::GenerateBoundingBox("Player", box[PLAYER]->Max, box[PLAYER]->Min, Color(0,0,0));
 	meshList[GEO_FREEZERBOUNDS] = MeshBuilder::GenerateBoundingBox("freezer", box[FREEZER]->Max, box[FREEZER]->Min, Color(0,0,1));
+	meshList[GEO_CHILLERBOUNDS] = MeshBuilder::GenerateBoundingBox("freezer", box[CHILLER]->Max, box[CHILLER]->Min, Color(0,0,1));
 	/**************************************************************************************************************/
 
 	/***************************************************
@@ -476,6 +483,8 @@ void StudioProject2::Init()
 	
 	box[FREEZER]->Max += FreezerTranslate;
 	box[FREEZER]->Min += FreezerTranslate;
+	box[CHILLER]->Max += ChillerTranslate;
+	box[CHILLER]->Min += ChillerTranslate;
 	/***************************
 	FOR ADDING ITEMS & SHELFSLOTS
 	****************************/
@@ -2268,6 +2277,11 @@ void StudioProject2::renderBounds()
 	modelStack.Translate(1374.4,-110,-1271);
 	RenderMesh(meshList[GEO_FREEZERBOUNDS], false, false);
 	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(2083,-150.4,-1217.5);
+	RenderMesh(meshList[GEO_CHILLERBOUNDS], false, false);
+	modelStack.PopMatrix();
 }
 
 void StudioProject2::renderPlayer()
@@ -2664,19 +2678,19 @@ void StudioProject2::renderSupermarket()
 
 	//Chiller at the right wall
 	modelStack.PushMatrix();
-	modelStack.Translate(2050, -280, -1600);
+	modelStack.Translate(2084, -280, -1600);
 	modelStack.Scale(40, 40, 40);
 	RenderMesh(meshList[GEO_CHILLER], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(2050, -280, -1200);
+	modelStack.Translate(2084, -280, -1200);
 	modelStack.Scale(40, 40, 40);
 	RenderMesh(meshList[GEO_CHILLER], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(2050, -280, -800);
+	modelStack.Translate(2084, -280, -800);
 	modelStack.Scale(40, 40, 40);
 	RenderMesh(meshList[GEO_CHILLER], false, false);
 	modelStack.PopMatrix();
