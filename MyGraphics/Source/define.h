@@ -27,3 +27,22 @@ int holding = -1;
 #define loneShelfTranslate Vector3(600,-103.3,-690);
 #define MarketWallNorthSouthTranslate Vector3(0,0,1850);
 #define MarketWallEastWestTranslate Vector3(2226,0,0);
+
+
+//AI configurables
+#define	passerbySpeed		15
+#define	customerSpeed		10
+#define	vehicleSpeed		20
+#define	vehicleOwnerSpeed	10
+#define	passerbySpawnRate	1111 // 1 / ___ chance
+#define	customerSpawnRate	2222 // of spawning
+#define vehiclesSpawnRate	2222 // every update
+#define	customerLimit		10
+#define passerbyLimit		20
+#define cashierTurnDelay	2 // seconds
+#define itemRotateSpeed		10
+#define	promoterFaceForward	0
+#define promoterTurn		45
+
+//AI fixed values. DO NOT CHANGE
+#define	vehicleLimit		4 
