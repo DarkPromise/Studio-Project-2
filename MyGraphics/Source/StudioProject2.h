@@ -18,6 +18,7 @@
 #include "Passerby.h"
 #include "Promoter.h"
 #include "Customer.h"
+#include "Vehicle.h"
 #include "AI.h"
 
 using std::vector;
@@ -57,18 +58,6 @@ public:
 	float SGTranslate;
 	float SGLegTranslate;
 	bool SGState;
-
-	vector<float> VehicleX;
-	vector<float> VehicleZ;
-	vector<float> OwnerX;
-	vector<float> OwnerZ;
-	vector<float> OwnerRotation;
-	vector<float> OwnerItemsHeld;
-	vector<float> VehicleRotation;
-	vector<int> ParkingLocation;
-	vector<int> VehicleState;
-	vector<int> RenderOwner;
-	int Vehicles;
 
 	int carparkSlot[4];
 
@@ -290,10 +279,6 @@ private:
 	int rotateDirection;
 	int flyingDirection;
 	double matrixSpeed;
-
-	void VehicleAI();
-
-	void GenerateAIs();
 
 	void renderPlayer();
 	void renderCashier();

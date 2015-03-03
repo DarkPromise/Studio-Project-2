@@ -10,8 +10,6 @@ Promoter::~Promoter(void)
 
 void Promoter::updateAI(void)
 {
-	std::cout << this->itemRotateY << std::endl;
-
 	if ( this->itemRotateY < 360 )
 		this->itemRotateY += itemRotateSpeed;
 	else

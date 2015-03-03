@@ -6,7 +6,7 @@
 #define	vehicleOwnerSpeed	10
 #define	passerbySpawnRate	555 // 1 / ___ chance
 #define	customerSpawnRate	555 // of spawning
-#define vehiclesSpawnRate	6666 // every update
+#define vehicleSpawnRate	555 // every update
 #define	customerLimit		10
 #define passerbyLimit		20
 #define cashierTurnDelay	2 // seconds
@@ -49,6 +49,11 @@
 #define	PasserbySpawn2		Vector3(5000, -275, 7200)
 #define PromoterSpawn		Vector3(6000, -275, 0)
 #define	CustomerSpawn		Vector3(5200, -275, 7000)
+#define	VehicleSpawn		Vector3(6400, -275, 6000)
+#define	Carpark1Spawnpoint	Vector3(3000, -275, 1700)
+#define	Carpark2Spawnpoint	Vector3(3500, -275, 1700)
+#define	Carpark3Spawnpoint	Vector3(3900, -275, 1700)
+#define	Carpark4Spawnpoint	Vector3(4300, -275, 1700)
 
 #define PasserbyEndWaypoint	Vector3(7000, 0, -7000)
 
@@ -72,3 +77,10 @@
 #define	CheckingoutWaypoint			Vector3(0, -275, 350)
 #define	CheckedoutWaypoint			Vector3(0, -275, 1200)
 #define	DespawnWaypoint				Vector3(5000, -275, -7000)
+#define VehicleDespawnWaypoint		Vector3(6400, -275, -7000)
+#define	VehicleEntranceWaypoint		Vector3(6000, -275, 1400)
+
+#define CarparkSlot1Waypoint		Vector3(3040, -275, 2050)
+#define CarparkSlot2Waypoint		Vector3(3500, -275, 2050)
+#define CarparkSlot3Waypoint		Vector3(3900, -275, 2050)
+#define CarparkSlot4Waypoint		Vector3(4300, -275, 2050)
