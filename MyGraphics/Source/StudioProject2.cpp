@@ -480,6 +480,12 @@ void StudioProject2::Init()
 	meshList[GEO_POTATOCHIPSUI]->textureID = LoadTGA("Image//PotatoChips UI.tga");
 	meshList[GEO_SARDINESUI] = MeshBuilder::GenerateQuad("Sardines ui", Color (0, 0, 0), 1);
 	meshList[GEO_SARDINESUI]->textureID = LoadTGA("Image//Sardines UI.tga");
+
+	meshList[GEO_TEXTBOX] = MeshBuilder::GenerateQuad("text box", Color (0, 0, 0), 1);
+	meshList[GEO_TEXTBOX]->textureID = LoadTGA("Image//text box.tga");
+
+	meshList[GEO_SHOPPINGLIST] = MeshBuilder::GenerateQuad("shopping list", Color (0, 0, 0), 1);
+	meshList[GEO_SHOPPINGLIST]->textureID = LoadTGA("Image//shopping list.tga");
 	/***************************************************************************************************************
 	THIS SECTION IS FOR BOUNDS MESH INIT
 	***************************************************************************************************************/
@@ -660,6 +666,25 @@ void StudioProject2::Init()
 			shelfVector.push_back(sp);
 		}
 	}
+	/***************************
+	FOR SHOPPING
+	****************************/
+	vector<int> GEOS;
+	GEOS.push_back(GEO_CACTUSJUICE);
+	GEOS.push_back(GEO_CADBURY);
+	GEOS.push_back(GEO_CANVEGE);
+	GEOS.push_back(GEO_CATFOOD);
+	GEOS.push_back(GEO_CEREAL);
+	GEOS.push_back(GEO_DETERGENT);
+	GEOS.push_back(GEO_FERERRO);
+	GEOS.push_back(GEO_MACCHZ);
+	GEOS.push_back(GEO_MILOCAN);
+	GEOS.push_back(GEO_POTATOCHIPS);
+	GEOS.push_back(GEO_SARDINES);
+
+	shopping.set(GEOS);
+	
+	shoppingList = shopping.randomList(5);
 	/******************************/
 	tree = new Octree();
 	tree->CreateTree(3,0,0,0,100,100,100);
@@ -826,24 +851,6 @@ void StudioProject2::Update(double dt)
 
 	VehicleAI();
 
-
-	////////////for door//////////
-	if(camera.position.x > box[DOOR]->Min.x && camera.position.x < box[DOOR]->Max.x  && camera.position.y > box[DOOR]->Min.y && camera.position.y < box[DOOR]->Max.y && camera.position.z > box[DOOR]->Min.z && camera.position.z < box[DOOR]->Max.z && door1Pos > 700)
-	{
-		door1Pos -= 500*dt;
-		door2Pos += 500*dt;
-	}
-	if((camera.position.x < box[DOOR]->Min.x || camera.position.x > box[DOOR]->Max.x || camera.position.y < box[DOOR]->Min.y || camera.position.y > box[DOOR]->Max.y || camera.position.z < box[DOOR]->Min.z || camera.position.z > box[DOOR]->Max.z) && door1Pos < 1023)
-	{
-		door1Pos += 500*dt;
-		door2Pos -= 500*dt;
-		if(door1Pos > 1023)
-		{
-			door1Pos = 1023;
-			door2Pos = 1365;
-		}
-	}
-	//////////////////////////////
 	playerDir.x = dt * sin(Math::DegreeToRadian(rotateAngle));
 	playerDir.z = dt * cos(Math::DegreeToRadian(rotateAngle));
 	playerDir.y = 0.f;
@@ -878,24 +885,6 @@ void StudioProject2::Update(double dt)
 	}
 
 	int takeItem = rand() % itemsonShelf;
-
-	if(inhand->holding.size() > 0)
-	{
-		for(int i = 0; i < inhand->holding.size(); ++i)
-		{
-			itemVector[inhand->holding[i]]->takeItem(camera.position - Vector3(0, 1000, 0));
-		}
-		
-		itemVector[inhand->holding.back()]->takeItem(camera.target);
-		if(Application::IsKeyPressed(VK_LEFT))
-		{
-			itemVector[inhand->holding.back()]->updateRotate(150.f * dt);
-		}
-		if(Application::IsKeyPressed(VK_RIGHT))
-		{
-			itemVector[inhand->holding.back()]->updateRotate(-150.f * dt);
-		}
-	}
 	//camera.target.Set(CustomerX[0], 0, CustomerZ[0]);
 	//camera.position.Set(CustomerX[0], 0, CustomerZ[0] + 500);
 }
@@ -3000,6 +2989,7 @@ void StudioProject2::renderOutside()
 void StudioProject2::renderUI()
 {
 	RenderQuadOnScreen(meshList[GEO_SIDEBAR], 30, 27, 1.33, 0.11);
+
 	if(inhand->holding.size() == 1)
 	{
 		RenderQuadOnScreen(meshList[itemVector[inhand->holding[0]]->uimesh], 4.8, 4.7, 5.8, 0.62);
@@ -3029,6 +3019,22 @@ void StudioProject2::renderUI()
 		RenderQuadOnScreen(meshList[itemVector[inhand->holding[2]]->uimesh], 4.8, 4.7, 8.32, 0.62);
 		RenderQuadOnScreen(meshList[itemVector[inhand->holding[1]]->uimesh], 4.8, 4.7, 9.56, 0.62);
 		RenderQuadOnScreen(meshList[itemVector[inhand->holding[0]]->uimesh], 4.8, 4.7, 10.825, 0.62);
+	}
+	if(pickUpText == true)
+	{
+		RenderQuadOnScreen(meshList[GEO_TEXTBOX], 40, 6, 1, 2.5);
+		RenderTextOnScreen(meshList[GEO_TEXT],"Press 'B' to pick up item", Color(1, 0, 0), 2.5, 9.75, 5.5);
+	}
+	if(putBackText == true)
+	{
+		RenderQuadOnScreen(meshList[GEO_TEXTBOX], 40, 6, 1, 2.5);
+		RenderTextOnScreen(meshList[GEO_TEXT],"Press 'N' to put down item", Color(1, 0, 0), 2.5, 9.5, 5.5);
+	}
+
+	RenderQuadOnScreen(meshList[GEO_SHOPPINGLIST], 45, 45, 1.4, 0.7);
+	for(int i = 0; i < shoppingList.size();++i)
+	{	
+		RenderTextOnScreen(meshList[GEO_TEXT],shoppingList[i], Color(0, 0, 0), 2.5, 21, 11.5+i);
 	}
 }
 
@@ -3314,28 +3320,65 @@ void StudioProject2::CollisionCheck(double dt)
 	{
 		if(camera.target.x > shelfVector[i]->boundMin.x && camera.target.x < shelfVector[i]->boundMax.x  && camera.target.y > shelfVector[i]->boundMin.y && camera.target.y < shelfVector[i]->boundMax.y && camera.target.z > shelfVector[i]->boundMin.z && camera.target.z < shelfVector[i]->boundMax.z && shelfVector[i]->isempty == false && inhand->reachMax == false)
 		{
-			cout << "seen";
+			pickUpText = true;
 			if(Application::IsKeyPressed('B'))
 			{
 				inhand->recive(shelfVector[i]->itemid);
 				shelfVector[i]->isempty = true;
 			}
+			break;
+		}
+		else
+		{
+			pickUpText = false;
 		}
 	}
 	for(int i = 0; i < shelfVector.size(); ++i)
 	{
 		if(camera.target.x > shelfVector[i]->boundMin.x && camera.target.x < shelfVector[i]->boundMax.x  && camera.target.y > shelfVector[i]->boundMin.y && camera.target.y < shelfVector[i]->boundMax.y && camera.target.z > shelfVector[i]->boundMin.z && camera.target.z < shelfVector[i]->boundMax.z && shelfVector[i]->isempty == true && inhand->holding.size() > 0)
 		{
-			cout << "fap";
+			putBackText = true;
 			if(Application::IsKeyPressed('N'))
 			{
 				shelfVector[i]->itemid = inhand->remove();
 				itemVector[shelfVector[i]->itemid]->placeItem(shelfVector[i]->position);
 				shelfVector[i]->isempty = false;
 			}
+			break;
+		}
+		else
+		{
+			putBackText = false;
 		}
 	}
 
+	if(inhand->holding.size() > 0)
+	{
+		for(int i = 0; i < inhand->holding.size(); ++i)
+		{
+			itemVector[inhand->holding[i]]->takeItem(camera.position - Vector3(0, 1000, 0));
+		}
+		
+		itemVector[inhand->holding.back()]->takeItem(camera.target);
+		if(Application::IsKeyPressed(VK_LEFT))
+		{
+			itemVector[inhand->holding.back()]->updateRotate(150.f * dt);
+		}
+		if(Application::IsKeyPressed(VK_RIGHT))
+		{
+			itemVector[inhand->holding.back()]->updateRotate(-150.f * dt);
+		}
+	}
+
+	if(Application::IsKeyPressed('0'))
+	{
+		bool hello = shopping.check(itemVector, inhand->holding);
+
+		if(hello == true)
+		{
+			cout << " :D";
+		}
+	}
 	/*********************************************************************************************************************************/
 }
 

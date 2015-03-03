@@ -7,6 +7,10 @@ float door2Pos = 1365;
 float gate1RightRotate = 0;
 float gate1LeftRotate = 0;
 
+/////////rendering bools////////
+bool pickUpText = false;
+bool putBackText = false;
+
 #define NorthSouthWall Vector3(2252,274,25)
 #define EastWestWall Vector3(25,274,1826)
 

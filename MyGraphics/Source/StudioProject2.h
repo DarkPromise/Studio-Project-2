@@ -19,6 +19,7 @@
 #include "Promoter.h"
 #include "Customer.h"
 #include "AI.h"
+#include "Shopping.h"
 
 using std::vector;
 
@@ -239,6 +240,8 @@ public:
 		GEO_POTATOCHIPSUI,
 		GEO_SARDINESUI,
 		GEO_SPAMUI,
+		GEO_TEXTBOX,
+		GEO_SHOPPINGLIST,
 		/************************************************/
 		GEO_TEXT,
 
@@ -334,7 +337,9 @@ private:
 	vector<Item*> itemVector;
 	vector<Shelfslot*> shelfVector;
 
-	Inhand* inhand; 
+	Inhand* inhand;
+	Shopping shopping;
+	vector<string> shoppingList;
 	/****************************************
 	BOUNDS CODE GO HERE
 	****************************************/
