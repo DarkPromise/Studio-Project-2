@@ -35,10 +35,12 @@ vector<BoundingBox*> box;
 BoundingBox * boxPtr;
 BOUNDTYPE bound;
 
-Passerby	* myPasserby;
-Promoter	* myPromoter;
-Customer	* myCustomer;
-Vehicle		* myVehicle;
+Passerby		* myPasserby;
+Promoter		* myPromoter;
+Customer		* myCustomer;
+Vehicle			* myVehicle;
+Cashier			* myCashier;
+SecurityGuard	* myGuard;
 
 StudioProject2::StudioProject2()
 {
@@ -114,10 +116,6 @@ void StudioProject2::Init()
 	carparkSlot[2] = 0;
 	carparkSlot[3] = 0;
 
-	SGState = 0; //0 = sitting, 1 = chasing player
-	SGTranslate = 0;
-	SGLegTranslate = 0;
-
 	//Init AI
 	myPasserby = new Passerby();
 	myPasserby->AILimit = passerbyLimit;
@@ -139,10 +137,13 @@ void StudioProject2::Init()
 	myVehicle->AICurrent = 0;
 	myVehicle->spawnRate = vehicleSpawnRate;
 
-	cashier1RotateY = 0;
-	cashier2RotateY = 0;
-	cashier3RotateY = 0;
-	cashier4RotateY = 0;
+	myCashier = new Cashier();
+	myCashier->AILimit = cashierLimit;
+	myCashier->AICurrent = 0;
+
+	myGuard = new SecurityGuard();
+	myGuard->AILimit = 1;
+	myGuard->AICurrent = 0;
 
 	playerPos.Set(0,0,0);
 	testPos.Set(0,0,0);
@@ -827,6 +828,12 @@ void StudioProject2::Update(double dt)
 	myVehicle->spawnAI();
 	myVehicle->updateAI();
 
+	myCashier->spawnAI();
+	myCashier->updateAI();
+
+	myGuard->spawnAI();
+	myGuard->updateAI();
+
 	////////////for door//////////
 	if(camera.position.x > box[DOOR]->Min.x && camera.position.x < box[DOOR]->Max.x  && camera.position.y > box[DOOR]->Min.y && camera.position.y < box[DOOR]->Max.y && camera.position.z > box[DOOR]->Min.z && camera.position.z < box[DOOR]->Max.z && door1Pos > 700)
 	{
@@ -957,31 +964,15 @@ void StudioProject2::Render()
 	modelStack.PopMatrix();
 	modelStack.PopMatrix();*/
 
-	modelStack.PushMatrix();
-	modelStack.Translate(-250, -275, 350);
-	modelStack.Rotate(cashier3RotateY, 0, 1, 0);
-	renderCashier();
-	modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(-500, -275, 350);
-	modelStack.Rotate(180, 0, 1, 0);
-	modelStack.Rotate(cashier2RotateY, 0, 1, 0);
-	renderCashier();
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(500, -275, 350);
-	modelStack.Rotate(180, 0, 1, 0);
-	modelStack.Rotate(cashier4RotateY, 0, 1, 0);
-	renderCashier();
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(-1200, -275, 350);
-	modelStack.Rotate(cashier1RotateY, 0, 1, 0);
-	renderCashier();
-	modelStack.PopMatrix();
+	for ( int i = 0; i < myCashier->AICurrent; i++ )
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(myCashier->Coordinates[i].x, myCashier->Coordinates[i].y, myCashier->Coordinates[i].z);
+		modelStack.Rotate(myCashier->rotateY[i], 0, 1, 0);
+		renderCashier();
+		modelStack.PopMatrix();
+	}
 
 	for ( int i = 0; i < myCustomer->AICurrent; i++ )
 	{
@@ -1027,11 +1018,8 @@ void StudioProject2::Render()
 	}
 
 	modelStack.PushMatrix();
-	if (SGState == 1 )
-		modelStack.Translate(1100, -220, 400);
-	else
-		modelStack.Translate(1100, -275, 480);
-	modelStack.Rotate(-90, 0, 1, 0);
+	modelStack.Translate(myGuard->Coordinates[0].x, myGuard->Coordinates[0].y, myGuard->Coordinates[0].z);
+	modelStack.Rotate(myGuard->rotateY[0], 0, 1, 0);
 	renderSecurityGuard();
 	modelStack.PopMatrix();
 
@@ -1250,7 +1238,7 @@ void StudioProject2::renderPromoter()
 	modelStack.Scale(20, 20, 20);
 
 	modelStack.PushMatrix();
-	modelStack.Rotate(promoterRotateY, 0, 1, 0);
+	modelStack.Rotate(myPromoter->rotateY[0], 0, 1, 0);
 	RenderMesh(meshList[GEO_PROMOTERHEAD], false, false);
 	modelStack.PopMatrix();
 
@@ -1360,7 +1348,6 @@ void StudioProject2::renderSecurityGuard()
 {
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, SGTranslate, 0);
 	modelStack.Scale(20, 20, 20);
 
 	modelStack.PushMatrix();
@@ -1380,7 +1367,7 @@ void StudioProject2::renderSecurityGuard()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	if ( SGState == 1 )
+	if ( myGuard->State[0] == Sitting )
 	{
 		modelStack.Translate(5, 4.5, -0.7);
 		modelStack.Rotate(180, 0, 1, 0);
@@ -1391,7 +1378,7 @@ void StudioProject2::renderSecurityGuard()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	if ( SGState == 1 )
+	if ( myGuard->State[0] == Sitting )
 	{
 		modelStack.Translate(5, 4.5, 0.7);
 		modelStack.Rotate(180, 0, 1, 0);
