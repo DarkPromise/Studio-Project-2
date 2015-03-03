@@ -18,6 +18,9 @@
 #include "Passerby.h"
 #include "Promoter.h"
 #include "Customer.h"
+#include "Vehicle.h"
+#include "Cashier.h"
+#include "SecurityGuard.h"
 #include "AI.h"
 #include "Shopping.h"
 
@@ -47,29 +50,6 @@ public:
 	int checkingOut;
 	int takeItem;
 	float lookatDelay;
-
-	float promoterRotateY;
-	float cashier1RotateY;
-	float cashier2RotateY;
-	float cashier3RotateY;
-	float cashier4RotateY;
-	float rotateDelay;
-
-	float SGTranslate;
-	float SGLegTranslate;
-	bool SGState;
-
-	vector<float> VehicleX;
-	vector<float> VehicleZ;
-	vector<float> OwnerX;
-	vector<float> OwnerZ;
-	vector<float> OwnerRotation;
-	vector<float> OwnerItemsHeld;
-	vector<float> VehicleRotation;
-	vector<int> ParkingLocation;
-	vector<int> VehicleState;
-	vector<int> RenderOwner;
-	int Vehicles;
 
 	int carparkSlot[4];
 
@@ -293,10 +273,6 @@ private:
 	int rotateDirection;
 	int flyingDirection;
 	double matrixSpeed;
-
-	void VehicleAI();
-
-	void GenerateAIs();
 
 	void renderPlayer();
 	void renderCashier();

@@ -5,8 +5,8 @@
 #define	vehicleReverseSpeed	10
 #define	vehicleOwnerSpeed	10
 #define	passerbySpawnRate	555 // 1 / ___ chance
-#define	customerSpawnRate	555 // of spawning
-#define vehiclesSpawnRate	6666 // every update
+#define	customerSpawnRate	1111 // of spawning
+#define vehicleSpawnRate	2222 // every update
 #define	customerLimit		10
 #define passerbyLimit		20
 #define cashierTurnDelay	2 // seconds
@@ -19,6 +19,7 @@
 
 
 //AI fixed values. Change at own risk
+#define cashierLimit		4
 #define	vehicleLimit		4 
 #define	promoterLimit		1
 #define	promoterFaceForward	0
@@ -44,11 +45,29 @@
 #define vehicleLeft			-90
 #define	vehicleBack			0
 #define passerbyForward		90
+#define	cashierLeft			180
+#define	cashierRight		0
+#define	cashierForward		90
+#define	cashierBack			-90
 
 #define	PasserbySpawn1		Vector3(5000, -275, 7100)
 #define	PasserbySpawn2		Vector3(5000, -275, 7200)
 #define PromoterSpawn		Vector3(6000, -275, 0)
 #define	CustomerSpawn		Vector3(5200, -275, 7000)
+#define	VehicleSpawn		Vector3(6400, -275, 6000)
+#define	Carpark1Spawnpoint	Vector3(3000, -275, 1700)
+#define	Carpark2Spawnpoint	Vector3(3500, -275, 1700)
+#define	Carpark3Spawnpoint	Vector3(3900, -275, 1700)
+#define	Carpark4Spawnpoint	Vector3(4300, -275, 1700)
+
+#define	StandingGuard		Vector3(1100, -275, 480)
+#define	SittingGuard		Vector3(1100, -240, 400)
+#define	GuardDirection		-90
+
+#define Cashier1Spawnpoint	Vector3(-1200, -275, 350)
+#define Cashier2Spawnpoint	Vector3(-500, -275, 350)
+#define Cashier3Spawnpoint	Vector3(-250, -275, 350)
+#define Cashier4Spawnpoint	Vector3(500, -275, 350)
 
 #define PasserbyEndWaypoint	Vector3(7000, 0, -7000)
 
@@ -72,3 +91,10 @@
 #define	CheckingoutWaypoint			Vector3(0, -275, 350)
 #define	CheckedoutWaypoint			Vector3(0, -275, 1200)
 #define	DespawnWaypoint				Vector3(5000, -275, -7000)
+#define VehicleDespawnWaypoint		Vector3(6400, -275, -7000)
+#define	VehicleEntranceWaypoint		Vector3(6000, -275, 1400)
+
+#define CarparkSlot1Waypoint		Vector3(3040, -275, 2050)
+#define CarparkSlot2Waypoint		Vector3(3500, -275, 2050)
+#define CarparkSlot3Waypoint		Vector3(3900, -275, 2050)
+#define CarparkSlot4Waypoint		Vector3(4300, -275, 2050)

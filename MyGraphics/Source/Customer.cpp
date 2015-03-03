@@ -222,7 +222,7 @@ void Customer::updateAI(void)
 					this->Coordinates[i].x -= customerSpeed;
 			else
 			{
-				this->rotateY[i] = LeftShelftoFrontLeftShelf;
+				this->State[i] = LeftShelftoFrontLeftShelf;
 			}
 		}
 		else if ( this->State[i] == BackShelftoLeftRightShelf )
