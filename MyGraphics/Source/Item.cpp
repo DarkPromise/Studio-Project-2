@@ -1,6 +1,6 @@
 #include "Item.h"
 
-Item::Item(Vector3 boundMax, Vector3 boundMin, Vector3 translate, Vector3 scale, float rotateY, int mesh)
+Item::Item(Vector3 boundMax, Vector3 boundMin, Vector3 translate, Vector3 scale, float rotateY, int mesh, int uimesh)
 {
 	position.SetZero();
 	this->boundMax = storeBoundMax = boundMax;
@@ -13,6 +13,7 @@ Item::Item(Vector3 boundMax, Vector3 boundMin, Vector3 translate, Vector3 scale,
 	this->scale = scale;
 	this->rotateY = rotateY;
 	this->mesh = mesh;
+	this->uimesh = uimesh;
 }
 
 

@@ -453,13 +453,33 @@ void StudioProject2::Init()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//ExportedFont.tga");
 	/***************************************************************************************************************
-	UI
+	USER INERFACE
 	***************************************************************************************************************/
 	meshList[GEO_SIDEBAR] = MeshBuilder::GenerateQuad("sidebar", Color (0, 0, 0), 1);
 	meshList[GEO_SIDEBAR]->textureID = LoadTGA("Image//sidebar.tga");
 
 	meshList[GEO_CACTUSJUICEUI] = MeshBuilder::GenerateQuad("CactusJuice ui", Color (0, 0, 0), 1);
 	meshList[GEO_CACTUSJUICEUI]->textureID = LoadTGA("Image//CactusJuice UI.tga");
+	meshList[GEO_CADBURYUI] = MeshBuilder::GenerateQuad("Cadbury ui", Color (0, 0, 0), 1);
+	meshList[GEO_CADBURYUI]->textureID = LoadTGA("Image//Cadbury UI.tga");
+	meshList[GEO_CANVEGEUI] = MeshBuilder::GenerateQuad("Canned Vegetables ui", Color (0, 0, 0), 1);
+	meshList[GEO_CANVEGEUI]->textureID = LoadTGA("Image//CanVege UI.tga");
+	meshList[GEO_CATFOODUI] = MeshBuilder::GenerateQuad("Cat Foodui", Color (0, 0, 0), 1);
+	meshList[GEO_CATFOODUI]->textureID = LoadTGA("Image//CatFood2 UI.tga");
+	meshList[GEO_CEREALUI] = MeshBuilder::GenerateQuad("Cereal ui", Color (0, 0, 0), 1);
+	meshList[GEO_CEREALUI]->textureID = LoadTGA("Image//Cereal UI.tga");
+	meshList[GEO_DETERGENTUI] = MeshBuilder::GenerateQuad("Detergent ui", Color (0, 0, 0), 1);
+	meshList[GEO_DETERGENTUI]->textureID = LoadTGA("Image//Detergent UI.tga");
+	meshList[GEO_FERERROUI] = MeshBuilder::GenerateQuad("Fererro ui", Color (0, 0, 0), 1);
+	meshList[GEO_FERERROUI]->textureID = LoadTGA("Image//Fererro UI.tga");
+	meshList[GEO_MACCHZUI] = MeshBuilder::GenerateQuad("Mac Chz ui", Color (0, 0, 0), 1);
+	meshList[GEO_MACCHZUI]->textureID = LoadTGA("Image//MacChz UI.tga");
+	meshList[GEO_MILOCANUI] = MeshBuilder::GenerateQuad("Milo ui", Color (0, 0, 0), 1);
+	meshList[GEO_MILOCANUI]->textureID = LoadTGA("Image//milocan UI.tga");
+	meshList[GEO_POTATOCHIPSUI] = MeshBuilder::GenerateQuad("Potato Chips ui", Color (0, 0, 0), 1);
+	meshList[GEO_POTATOCHIPSUI]->textureID = LoadTGA("Image//PotatoChips UI.tga");
+	meshList[GEO_SARDINESUI] = MeshBuilder::GenerateQuad("Sardines ui", Color (0, 0, 0), 1);
+	meshList[GEO_SARDINESUI]->textureID = LoadTGA("Image//Sardines UI.tga");
 	/***************************************************************************************************************
 	THIS SECTION IS FOR BOUNDS MESH INIT
 	***************************************************************************************************************/
@@ -524,7 +544,7 @@ void StudioProject2::Init()
 	{
 		for(float y = 27; y >= -250; y -= 50)
 		{
-			ip = new Item(Vector3(12,36,12), Vector3(-12,0,-12), Vector3(-2000, y , z), Vector3(80,80,80), 90.f, GEO_CACTUSJUICE);
+			ip = new Item(Vector3(12,36,12), Vector3(-12,0,-12), Vector3(-2000, y , z), Vector3(80,80,80), 90.f, GEO_CACTUSJUICE, GEO_CACTUSJUICEUI);
 			itemVector.push_back(ip);
 			sp = new Shelfslot(Vector3(-2000, y , z),Vector3(22,36,22), Vector3(-22,0,-22), itemVector.size()-1, false);
 			shelfVector.push_back(sp);
@@ -535,7 +555,7 @@ void StudioProject2::Init()
 	{
 		for(float y = 30; y >= -240; y -= 50)
 		{
-			ip = new Item(Vector3(12,13,27), Vector3(-12,0,-27), Vector3(-2030, y , z), Vector3(80,80,80), 90.f, GEO_CADBURY);
+			ip = new Item(Vector3(12,13,27), Vector3(-12,0,-27), Vector3(-2030, y , z), Vector3(80,80,80), 90.f, GEO_CADBURY, GEO_CADBURYUI);
 			itemVector.push_back(ip);
 			sp = new Shelfslot(Vector3(-2030, y , z),Vector3(22,20,27), Vector3(-22,0,-27), itemVector.size()-1, false);
 			shelfVector.push_back(sp);
@@ -546,7 +566,7 @@ void StudioProject2::Init()
 	{
 		for(float y = 31; y >= -268; y -= 50)
 		{
-			ip = new Item(Vector3(17,36,17), Vector3(-17,0,-17), Vector3(-2005, y , z), Vector3(60,60,60), 90.f, GEO_CANVEGE);
+			ip = new Item(Vector3(17,36,17), Vector3(-17,0,-17), Vector3(-2005, y , z), Vector3(60,60,60), 90.f, GEO_CANVEGE, GEO_CANVEGEUI);
 			itemVector.push_back(ip);
 			sp = new Shelfslot(Vector3(-2005, y , z),Vector3(22,36,22), Vector3(-22,0,-22), itemVector.size()-1, false);
 			shelfVector.push_back(sp);
@@ -557,7 +577,7 @@ void StudioProject2::Init()
 	{
 		for(float y = 25; y > -275; y -= 50)
 		{
-			ip = new Item(Vector3(15,40,8), Vector3(-15,0,-8), Vector3(x, y , -1640), Vector3(15,15,15), 0.f, GEO_DETERGENT);
+			ip = new Item(Vector3(15,40,8), Vector3(-15,0,-8), Vector3(x, y , -1640), Vector3(15,15,15), 0.f, GEO_DETERGENT, GEO_DETERGENTUI);
 			itemVector.push_back(ip);
 			sp = new Shelfslot(Vector3(x, y , -1640),Vector3(22,40,22), Vector3(-22,0,-22), itemVector.size()-1, false);
 			shelfVector.push_back(sp);
@@ -568,7 +588,7 @@ void StudioProject2::Init()
 	{
 		for(float y = 25; y > -275; y -= 50)
 		{
-			ip = new Item(Vector3(15,40,6), Vector3(-15,0,-6), Vector3(x, y , -1650), Vector3(30,30,30), 0.f, GEO_MACCHZ);
+			ip = new Item(Vector3(15,40,6), Vector3(-15,0,-6), Vector3(x, y , -1650), Vector3(30,30,30), 0.f, GEO_MACCHZ, GEO_MACCHZUI);
 			itemVector.push_back(ip);
 			sp = new Shelfslot(Vector3(x, y , -1650),Vector3(22,40,22), Vector3(-22,0,-22), itemVector.size()-1, false);
 			shelfVector.push_back(sp);
@@ -579,7 +599,7 @@ void StudioProject2::Init()
 	{
 		for(float y = 25; y > -275; y -= 50)
 		{
-			ip = new Item(Vector3(20,40,20), Vector3(-20,0,-20), Vector3(x, y , -1650), Vector3(40,40,40), -45.f, GEO_MILOCAN);
+			ip = new Item(Vector3(20,40,20), Vector3(-20,0,-20), Vector3(x, y , -1650), Vector3(40,40,40), -45.f, GEO_MILOCAN, GEO_MILOCANUI);
 			itemVector.push_back(ip);
 			sp = new Shelfslot(Vector3(x, y , -1650),Vector3(22,40,22), Vector3(-22,0,-22), itemVector.size()-1, false);
 			shelfVector.push_back(sp);
@@ -590,7 +610,7 @@ void StudioProject2::Init()
 	{
 		for(float y = 27; y > -273; y -= 50)
 		{
-			ip = new Item(Vector3(14,40,14), Vector3(-14,0,-14), Vector3(-1415, y , z), Vector3(15,13,15), 90.f, GEO_CATFOOD);
+			ip = new Item(Vector3(14,40,14), Vector3(-14,0,-14), Vector3(-1415, y , z), Vector3(15,13,15), 90.f, GEO_CATFOOD, GEO_CATFOODUI);
 			itemVector.push_back(ip);
 			sp = new Shelfslot(Vector3(-1415, y , z),Vector3(22,40,22), Vector3(-22,0,-22), itemVector.size()-1, false);
 			shelfVector.push_back(sp);
@@ -601,7 +621,7 @@ void StudioProject2::Init()
 	{
 		for(float y = 27; y > -273; y -= 50)
 		{
-			ip = new Item(Vector3(6,40,16), Vector3(-6,0,-16), Vector3(-1000, y , z), Vector3(30,30,30), 90.f, GEO_CEREAL);
+			ip = new Item(Vector3(6,40,16), Vector3(-6,0,-16), Vector3(-1000, y , z), Vector3(30,30,30), 90.f, GEO_CEREAL, GEO_CEREALUI);
 			itemVector.push_back(ip);
 			sp = new Shelfslot(Vector3(-1000, y , z),Vector3(22,40,22), Vector3(-22,0,-22), itemVector.size()-1, false);
 			shelfVector.push_back(sp);
@@ -612,7 +632,7 @@ void StudioProject2::Init()
 	{
 		for(float y = 28; y >= -270; y -= 50)
 		{
-			ip = new Item(Vector3(20,7,20), Vector3(-20,0,-20), Vector3(-510, y , z), Vector3(30,30,30), -90.f, GEO_FERERRO);
+			ip = new Item(Vector3(20,7,20), Vector3(-20,0,-20), Vector3(-510, y , z), Vector3(30,30,30), -90.f, GEO_FERERRO, GEO_FERERROUI);
 			itemVector.push_back(ip);
 			sp = new Shelfslot(Vector3(-510, y , z),Vector3(22,40,22), Vector3(-22,0,-22), itemVector.size()-1, false);
 			shelfVector.push_back(sp);
@@ -623,7 +643,7 @@ void StudioProject2::Init()
 	{
 		for(float y = 28; y >= -270; y -= 50)
 		{
-			ip = new Item(Vector3(5,40,14), Vector3(-5,0,-14), Vector3(-100, y , z), Vector3(35,35,35), 90.f, GEO_POTATOCHIPS);
+			ip = new Item(Vector3(5,40,14), Vector3(-5,0,-14), Vector3(-100, y , z), Vector3(35,35,35), 90.f, GEO_POTATOCHIPS, GEO_POTATOCHIPSUI);
 			itemVector.push_back(ip);
 			sp = new Shelfslot(Vector3(-100, y , z),Vector3(22,40,22), Vector3(-22,0,-22), itemVector.size()-1, false);
 			shelfVector.push_back(sp);
@@ -634,7 +654,7 @@ void StudioProject2::Init()
 	{
 		for(float y = 26; y > -274; y -= 50)
 		{
-			ip = new Item(Vector3(12,36,12), Vector3(-12,0,-12), Vector3(x, y , -770), Vector3(45,45,45), 0.f, GEO_SARDINES);
+			ip = new Item(Vector3(12,36,12), Vector3(-12,0,-12), Vector3(x, y , -770), Vector3(45,45,45), 0.f, GEO_SARDINES, GEO_SARDINESUI);
 			itemVector.push_back(ip);
 			sp = new Shelfslot(Vector3(x, y , -770),Vector3(22,36,22), Vector3(-22,0,-22), itemVector.size()-1, false);
 			shelfVector.push_back(sp);
@@ -855,31 +875,6 @@ void StudioProject2::Update(double dt)
 		camera.target = tempTarget;
 		camera.up = tempUp;
 		canMove = true;
-	}
-	for(int i = 0; i < shelfVector.size(); ++i)
-	{
-		if(camera.target.x > shelfVector[i]->boundMin.x && camera.target.x < shelfVector[i]->boundMax.x  && camera.target.y > shelfVector[i]->boundMin.y && camera.target.y < shelfVector[i]->boundMax.y && camera.target.z > shelfVector[i]->boundMin.z && camera.target.z < shelfVector[i]->boundMax.z && shelfVector[i]->isempty == false && inhand->reachMax == false)
-		{
-			cout << i << endl;
-			if(Application::IsKeyPressed('B'))
-			{
-				inhand->recive(shelfVector[i]->itemid);
-				shelfVector[i]->isempty = true;
-			}
-		}
-	}
-	for(int i = 0; i < shelfVector.size(); ++i)
-	{
-		if(camera.target.x > shelfVector[i]->boundMin.x && camera.target.x < shelfVector[i]->boundMax.x  && camera.target.y > shelfVector[i]->boundMin.y && camera.target.y < shelfVector[i]->boundMax.y && camera.target.z > shelfVector[i]->boundMin.z && camera.target.z < shelfVector[i]->boundMax.z && shelfVector[i]->isempty == true && inhand->holding.size() > 0)
-		{
-			cout << "fap";
-			if(Application::IsKeyPressed('N'))
-			{
-				shelfVector[i]->itemid = inhand->remove();
-				itemVector[shelfVector[i]->itemid]->placeItem(shelfVector[i]->position);
-				shelfVector[i]->isempty = false;
-			}
-		}
 	}
 
 	int takeItem = rand() % itemsonShelf;
@@ -1734,12 +1729,7 @@ void StudioProject2::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT],"Direction=" + currView, Color(0, 0, 1), 2.5, 12.7, 23);
 
 	//renderUI
-	RenderQuadOnScreen(meshList[GEO_SIDEBAR], 30, 27, 1.33, 0.11);
-	RenderQuadOnScreen(meshList[GEO_CACTUSJUICEUI], 4.8, 4.7, 5.8, 0.62);
-	RenderQuadOnScreen(meshList[GEO_CACTUSJUICEUI], 4.8, 4.7, 7.07, 0.62);
-	RenderQuadOnScreen(meshList[GEO_CACTUSJUICEUI], 4.8, 4.7, 8.32, 0.62);
-	RenderQuadOnScreen(meshList[GEO_CACTUSJUICEUI], 4.8, 4.7, 9.56, 0.62);
-	RenderQuadOnScreen(meshList[GEO_CACTUSJUICEUI], 4.8, 4.7, 10.825, 0.62);/**/
+	renderUI();
 }
 
 void StudioProject2::renderBounds()
@@ -3005,6 +2995,41 @@ void StudioProject2::renderOutside()
 	//modelStack.Scale(50, 50, 50);
 	//RenderMesh(meshList[GEO_CAR], false, false);
 	//modelStack.PopMatrix();
+}
+
+void StudioProject2::renderUI()
+{
+	RenderQuadOnScreen(meshList[GEO_SIDEBAR], 30, 27, 1.33, 0.11);
+	if(inhand->holding.size() == 1)
+	{
+		RenderQuadOnScreen(meshList[itemVector[inhand->holding[0]]->uimesh], 4.8, 4.7, 5.8, 0.62);
+	}
+	if(inhand->holding.size() == 2)
+	{
+		RenderQuadOnScreen(meshList[itemVector[inhand->holding[1]]->uimesh], 4.8, 4.7, 5.8, 0.62);
+		RenderQuadOnScreen(meshList[itemVector[inhand->holding[0]]->uimesh], 4.8, 4.7, 7.07, 0.62);
+	}
+	if(inhand->holding.size() == 3)
+	{
+		RenderQuadOnScreen(meshList[itemVector[inhand->holding[2]]->uimesh], 4.8, 4.7, 5.8, 0.62);
+		RenderQuadOnScreen(meshList[itemVector[inhand->holding[1]]->uimesh], 4.8, 4.7, 7.07, 0.62);
+		RenderQuadOnScreen(meshList[itemVector[inhand->holding[0]]->uimesh], 4.8, 4.7, 8.32, 0.62);
+	}
+	if(inhand->holding.size() == 4)
+	{
+		RenderQuadOnScreen(meshList[itemVector[inhand->holding[3]]->uimesh], 4.8, 4.7, 5.8, 0.62);
+		RenderQuadOnScreen(meshList[itemVector[inhand->holding[2]]->uimesh], 4.8, 4.7, 7.07, 0.62);
+		RenderQuadOnScreen(meshList[itemVector[inhand->holding[1]]->uimesh], 4.8, 4.7, 8.32, 0.62);
+		RenderQuadOnScreen(meshList[itemVector[inhand->holding[0]]->uimesh], 4.8, 4.7, 9.56, 0.62);
+	}
+	if(inhand->holding.size() == 5)
+	{
+		RenderQuadOnScreen(meshList[itemVector[inhand->holding[4]]->uimesh], 4.8, 4.7, 5.8, 0.62);
+		RenderQuadOnScreen(meshList[itemVector[inhand->holding[3]]->uimesh], 4.8, 4.7, 7.07, 0.62);
+		RenderQuadOnScreen(meshList[itemVector[inhand->holding[2]]->uimesh], 4.8, 4.7, 8.32, 0.62);
+		RenderQuadOnScreen(meshList[itemVector[inhand->holding[1]]->uimesh], 4.8, 4.7, 9.56, 0.62);
+		RenderQuadOnScreen(meshList[itemVector[inhand->holding[0]]->uimesh], 4.8, 4.7, 10.825, 0.62);
+	}
 }
 
 void StudioProject2::RenderText(Mesh* mesh, std::string text, Color color)

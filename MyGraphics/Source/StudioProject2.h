@@ -309,7 +309,7 @@ private:
 	void renderOutside();
 	void renderBounds();
 	void renderItems();
-
+	void renderUI();
 	void CollisionCheck(double);
 
 	void RenderText(Mesh* mesh, std::string text, Color color);
