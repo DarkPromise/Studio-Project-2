@@ -23,7 +23,7 @@ enum PasserbyPath
 
 enum PasserbyWaypoint
 {
-	Destination = 0,
+	Destination,
 };
 
 #endif

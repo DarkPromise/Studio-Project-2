@@ -5,8 +5,8 @@
 #define	vehicleReverseSpeed	10
 #define	vehicleOwnerSpeed	10
 #define	passerbySpawnRate	555 // 1 / ___ chance
-#define	customerSpawnRate	555 // of spawning
-#define vehicleSpawnRate	555 // every update
+#define	customerSpawnRate	1111 // of spawning
+#define vehicleSpawnRate	2222 // every update
 #define	customerLimit		10
 #define passerbyLimit		20
 #define cashierTurnDelay	2 // seconds
@@ -19,6 +19,7 @@
 
 
 //AI fixed values. Change at own risk
+#define cashierLimit		4
 #define	vehicleLimit		4 
 #define	promoterLimit		1
 #define	promoterFaceForward	0
@@ -44,6 +45,10 @@
 #define vehicleLeft			-90
 #define	vehicleBack			0
 #define passerbyForward		90
+#define	cashierLeft			180
+#define	cashierRight		0
+#define	cashierForward		90
+#define	cashierBack			-90
 
 #define	PasserbySpawn1		Vector3(5000, -275, 7100)
 #define	PasserbySpawn2		Vector3(5000, -275, 7200)
@@ -54,6 +59,15 @@
 #define	Carpark2Spawnpoint	Vector3(3500, -275, 1700)
 #define	Carpark3Spawnpoint	Vector3(3900, -275, 1700)
 #define	Carpark4Spawnpoint	Vector3(4300, -275, 1700)
+
+#define	StandingGuard		Vector3(1100, -275, 480)
+#define	SittingGuard		Vector3(1100, -240, 400)
+#define	GuardDirection		-90
+
+#define Cashier1Spawnpoint	Vector3(-1200, -275, 350)
+#define Cashier2Spawnpoint	Vector3(-500, -275, 350)
+#define Cashier3Spawnpoint	Vector3(-250, -275, 350)
+#define Cashier4Spawnpoint	Vector3(500, -275, 350)
 
 #define PasserbyEndWaypoint	Vector3(7000, 0, -7000)
 

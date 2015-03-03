@@ -29,10 +29,6 @@ Vehicle::Vehicle(void)
 	this->V_Waypoints.push_back(CheckedoutWaypoint);
 	this->V_Waypoints.push_back(VehicleDespawnWaypoint);
 
-	for ( int i = 0; i < V_Waypoints.size(); i++)
-	{
-		std::cout << i << ": " << this->V_Waypoints[i].x << ", " << this->V_Waypoints[i].y << ", " << this->V_Waypoints[i].z << std::endl;
-	}
 	for ( int i = 0; i < vehicleLimit; i++ )
 		carparkSlot[i] = isEmpty;
 }
@@ -43,6 +39,15 @@ Vehicle::~Vehicle(void)
 
 void Vehicle::updateAI(void)
 {
+	/*std::cout <<"this->vehicleCoordinates.size();"<<this->vehicleCoordinates.size()<< std::endl;
+	std::cout <<"this->vehicleRotateY.size();"<<this->vehicleRotateY.size()<< std::endl;
+	std::cout <<"this->State.size();"<<this->State.size()<< std::endl;
+	std::cout <<"this->parkingLocation.size();"<<this->parkingLocation.size()<< std::endl;
+	std::cout <<"this->Coordinates.size();"<<this->Coordinates.size()<< std::endl;
+	std::cout <<"this->rotateY.size();"<<this->rotateY.size()<< std::endl;
+	std::cout <<"this->renderOwner.size();"<<this->renderOwner.size()<< std::endl;
+	std::cout <<"this->itemsHeld.size();"<<	this->itemsHeld.size()<< std::endl;*/
+
 	for ( int i = 0; i < this->AICurrent; i++ )
 	{
 		if ( this->State[i] == V_SpawntoCarparkEntrance )
@@ -325,7 +330,7 @@ void Vehicle::updateAI(void)
 					this->Coordinates[i].x -= customerSpeed;
 			else
 			{
-				this->rotateY[i] = V_LeftShelftoFrontLeftShelf;
+				this->State[i] = V_LeftShelftoFrontLeftShelf;
 			}
 		}
 		else if ( this->State[i] == V_BackShelftoLeftRightShelf )

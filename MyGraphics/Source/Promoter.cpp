@@ -2,6 +2,7 @@
 
 Promoter::Promoter(void)
 {
+	this->rotateY.push_back(0);
 }
 
 Promoter::~Promoter(void)

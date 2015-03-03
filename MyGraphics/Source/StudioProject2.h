@@ -19,6 +19,8 @@
 #include "Promoter.h"
 #include "Customer.h"
 #include "Vehicle.h"
+#include "Cashier.h"
+#include "SecurityGuard.h"
 #include "AI.h"
 
 using std::vector;
@@ -47,17 +49,6 @@ public:
 	int checkingOut;
 	int takeItem;
 	float lookatDelay;
-
-	float promoterRotateY;
-	float cashier1RotateY;
-	float cashier2RotateY;
-	float cashier3RotateY;
-	float cashier4RotateY;
-	float rotateDelay;
-
-	float SGTranslate;
-	float SGLegTranslate;
-	bool SGState;
 
 	int carparkSlot[4];
 
