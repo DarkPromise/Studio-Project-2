@@ -15,6 +15,9 @@ float gate2LeftRotate = -180;
 bool pickUpText = false;
 bool putBackText = false;
 
+///////main menu stuff/////
+
+
 #define NorthSouthWall Vector3(2252,274,25)
 #define EastWestWall Vector3(25,274,1826)
 

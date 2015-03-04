@@ -91,6 +91,12 @@ Application::~Application()
 {
 }
 
+void Application::derpClose()
+{
+	glfwSetWindowShouldClose(m_window, GL_TRUE);
+	exit(0);
+}
+
 void Application::Init()
 {
 	//Set the error callback

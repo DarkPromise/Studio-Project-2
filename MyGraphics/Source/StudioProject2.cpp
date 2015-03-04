@@ -21,6 +21,7 @@ using std::cout;
 using std::endl;
 using std::vector;
 using std::iterator;
+using std::string;
 
 bool removeItems = false;
 
@@ -110,6 +111,9 @@ void StudioProject2::Init()
 	rotateAngle = 0.0f;
 	canMove = true;
 	canPhase = false;
+	
+	stoptime = true;
+	menuX = 2.8f; 
 
 	carparkSlot[0] = 0;
 	carparkSlot[1] = 0; // 0 = empty, 1 = filled
@@ -787,6 +791,8 @@ void StudioProject2::RenderMesh(Mesh *mesh, bool enableLight, bool transparent)
 
 void StudioProject2::Update(double dt, double xpos, double ypos)
 {
+	if(stoptime == false)
+	{
 	if(Application::IsKeyPressed('5'))
 	{
 		rotateAngle += 0.1f;
@@ -931,6 +937,7 @@ void StudioProject2::Update(double dt, double xpos, double ypos)
 	int takeItem = rand() % itemsonShelf;
 	//camera.target.Set(CustomerX[0], 0, CustomerZ[0]);
 	//camera.position.Set(CustomerX[0], 0, CustomerZ[0] + 500);
+	}
 }
 
 void StudioProject2::Render()
@@ -956,6 +963,12 @@ void StudioProject2::Render()
 
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]); //update the shader with new MVP
 
+	if(stoptime == true)
+	{
+		MainMenu();
+	}
+	else
+	{
 	//RenderMesh(meshList[GEO_AXES], false, false);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1070,8 +1083,7 @@ void StudioProject2::Render()
 
 	//renderUI
 	renderUI();
-
-	//MainMenu();
+	}
 }
 
 void StudioProject2::renderBounds()
@@ -2428,11 +2440,29 @@ void StudioProject2::renderUI()
 
 void StudioProject2::MainMenu()
 {
+	//bool Run = true;
 	RenderQuadOnScreen(meshList[GEO_MENU], 80, 80, 0.5, 0.4);
-	RenderTextOnScreen(meshList[GEO_TEXT],"Main Menu",Color(1,0,0),10,1.8,3.7);
-	RenderTextOnScreen(meshList[GEO_TEXT],"Start",Color(1,0,0),10,2.8,2.7);
-	RenderTextOnScreen(meshList[GEO_TEXT],"End",Color(1,0,0),10,2.8,1.7);
+	RenderTextOnScreen(meshList[GEO_TEXT],"Main Menu",Color(0,0,1),10,1.8,3.7);
+	RenderTextOnScreen(meshList[GEO_TEXT],"Start",Color(0,0,1),10,2.8,2.7);
+	RenderTextOnScreen(meshList[GEO_TEXT],"End",Color(0,0,1),10,2.8,1.7);
+	RenderTextOnScreen(meshList[GEO_TEXT],"->",Color(1,0,0),10,1.8,menuX);
 
+	if(Application::IsKeyPressed(GLFW_KEY_UP))
+	{
+		menuX = 2.8f;
+	}
+	if(Application::IsKeyPressed(GLFW_KEY_DOWN))
+	{
+		menuX = 1.8f;
+	}
+	if(Application::IsKeyPressed(GLFW_KEY_ENTER) && menuX == 2.8f)
+	{
+		stoptime = false;
+	}
+	if(Application::IsKeyPressed(GLFW_KEY_ENTER) && menuX == 1.8f)
+	{
+		Application::derpClose();
+	}
 }
 
 void StudioProject2::RenderText(Mesh* mesh, std::string text, Color color)

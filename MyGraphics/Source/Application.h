@@ -18,6 +18,7 @@ public:
 
 	static bool IsKeyPressed(unsigned short key);
 	static bool IsButtonPressed(unsigned int);
+	static void derpClose();
 
 	static int getWidth();
 	static int getHeight();

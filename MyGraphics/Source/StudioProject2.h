@@ -47,6 +47,9 @@ public:
 
 	std::string currView;
 
+	float menuX;
+    bool stoptime;
+
 	int checkingOut;
 	int takeItem;
 	float lookatDelay;
