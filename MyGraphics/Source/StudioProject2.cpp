@@ -884,6 +884,23 @@ void StudioProject2::Update(double dt, double xpos, double ypos)
 		cout << "Test Pos : " << testPos << endl;
 	}
 
+	///////////////////showing shopping list////////////////////////
+	if(Application::IsKeyPressed('I') && listlocation > 1.4)
+	{
+		listlocation -= dt;
+	}
+	else if((!Application::IsKeyPressed('I')) && listlocation < 2.15)
+	{
+		listlocation += dt;
+	}
+	if(listlocation <= 1.4)
+	{
+		showList = true;
+	}
+	else
+		showList = false;
+	/////////////////////////////////////////////////////////////
+
 	myPasserby->spawnAI();
 	myPasserby->updateAI();
 
@@ -2431,11 +2448,14 @@ void StudioProject2::renderUI()
 		RenderTextOnScreen(meshList[GEO_TEXT],"Press 'N' to put down item", Color(1, 0, 0), 2.5, 9.5, 5.5);
 	}
 
-	/*RenderQuadOnScreen(meshList[GEO_SHOPPINGLIST], 45, 45, 1.4, 0.7);
-	for(int i = 0; i < shoppingList.size();++i)
-	{	
-		RenderTextOnScreen(meshList[GEO_TEXT],shoppingList[i], Color(0, 0, 0), 2.5, 21, 11.5+i);
-	}*/
+	RenderQuadOnScreen(meshList[GEO_SHOPPINGLIST], 45, 45, listlocation, 0.7);
+	if(showList == true)
+	{
+		for(int i = 0; i < shoppingList.size();++i)
+		{	
+			RenderTextOnScreen(meshList[GEO_TEXT],shoppingList[i], Color(0, 0, 0), 2.5, 21, 11.5+i);
+		}
+	}
 }
 
 void StudioProject2::MainMenu()
@@ -2803,14 +2823,8 @@ void StudioProject2::CollisionCheck(double dt)
 		}
 		
 		itemVector[inhand->holding.back()]->takeItem(camera.target);
-		if(Application::IsKeyPressed(VK_LEFT))
-		{
-			itemVector[inhand->holding.back()]->updateRotate(150.f * dt);
-		}
-		if(Application::IsKeyPressed(VK_RIGHT))
-		{
-			itemVector[inhand->holding.back()]->updateRotate(-150.f * dt);
-		}
+		
+		itemVector[inhand->holding.back()]->updateRotate(camera.yaw);
 	}
 
 	if(Application::IsKeyPressed('0'))

@@ -11,9 +11,11 @@ float gate1LeftRotate = 0;
 float gate2RightRotate = 180;
 float gate2LeftRotate = -180;
 
-/////////UI bools////////
+/////////UI stuff////////
 bool pickUpText = false;
 bool putBackText = false;
+bool showList = false;
+float listlocation = 2.15;
 
 ///////main menu stuff/////
 
