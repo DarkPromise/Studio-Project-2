@@ -16,6 +16,9 @@ const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
 const int Application::width = 800;
 const int Application::height = 600;
+
+bool Application::keys[1024];
+
 //Define an error callback
 static void error_callback(int error, const char* description)
 {
@@ -28,6 +31,37 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
+
+	if (key >= 0 && key < 1024)
+    {
+        if (action == GLFW_PRESS)
+		{
+            Application::keys[key] = true;
+		    std::cout << "Press : " << key << std::endl;
+		}
+        else if (action == GLFW_RELEASE)
+		{
+            Application::keys[key] = false;
+			std::cout << "Release : " << key << std::endl;
+		}
+    }
+}
+
+static void mouse_callback(GLFWwindow* window, int button, int action, int mods)
+{
+	if(button >= 0 && button < 8)
+	{
+		if(action == GLFW_PRESS)
+		{
+			Application::keys[button] = true;
+			std::cout << "Button Pressed : " << button << std::endl;
+		}
+		else if (action == GLFW_RELEASE)
+		{
+			Application::keys[button] = false;
+			std::cout << "Button Pressed : " << button << std::endl;
+		}
+	}
 }
 
 static void resize_callback(GLFWwindow* window, int w,int h)
@@ -37,7 +71,14 @@ static void resize_callback(GLFWwindow* window, int w,int h)
 
 bool Application::IsKeyPressed(unsigned short key)
 {
-    return ((GetAsyncKeyState(key) & 0x8001) != 0);
+   // return ((GetAsyncKeyState(key) & 0x8001) != 0);
+	return Application::keys[key];
+}
+
+bool Application::IsButtonPressed(unsigned int button)
+{
+	//std::cout << "Button : " << button << std::endl;
+	return Application::keys[button];
 }
 
 
@@ -86,7 +127,8 @@ void Application::Init()
 	glfwMakeContextCurrent(m_window);
 
 	//Sets the key callback
-	//glfwSetKeyCallback(m_window, key_callback);
+	glfwSetKeyCallback(m_window, key_callback);
+	glfwSetMouseButtonCallback(m_window, mouse_callback);
 
 	glewExperimental = true; // Needed for core profile
 	//Initialize GLEW

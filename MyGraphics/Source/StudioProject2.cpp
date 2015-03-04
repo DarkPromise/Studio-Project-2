@@ -792,6 +792,7 @@ void StudioProject2::Update(double dt, double xpos, double ypos)
 		rotateAngle += 0.1f;
 		cout << rotateAngle << endl;
 	}
+
 	if(Application::IsKeyPressed('6'))
 	{
 		rotateAngle -= 0.1f;
@@ -927,7 +928,6 @@ void StudioProject2::Update(double dt, double xpos, double ypos)
 		camera.up = tempUp;
 		canMove = true;
 	}
-
 	int takeItem = rand() % itemsonShelf;
 	//camera.target.Set(CustomerX[0], 0, CustomerZ[0]);
 	//camera.position.Set(CustomerX[0], 0, CustomerZ[0] + 500);
@@ -2734,10 +2734,10 @@ void StudioProject2::CollisionCheck(double dt)
 		if(camera.target.x > shelfVector[i]->boundMin.x && camera.target.x < shelfVector[i]->boundMax.x  && camera.target.y > shelfVector[i]->boundMin.y && camera.target.y < shelfVector[i]->boundMax.y && camera.target.z > shelfVector[i]->boundMin.z && camera.target.z < shelfVector[i]->boundMax.z && shelfVector[i]->isempty == false && inhand->reachMax == false)
 		{
 			pickUpText = true;
-			if(Application::IsKeyPressed('B'))
+			if((Application::IsButtonPressed(GLFW_MOUSE_BUTTON_LEFT)))
 			{
 				inhand->recive(shelfVector[i]->itemid);
-				shelfVector[i]->isempty = true;
+				shelfVector[i]->isempty = true;		
 			}
 			break;
 		}
@@ -2751,7 +2751,7 @@ void StudioProject2::CollisionCheck(double dt)
 		if(camera.target.x > shelfVector[i]->boundMin.x && camera.target.x < shelfVector[i]->boundMax.x  && camera.target.y > shelfVector[i]->boundMin.y && camera.target.y < shelfVector[i]->boundMax.y && camera.target.z > shelfVector[i]->boundMin.z && camera.target.z < shelfVector[i]->boundMax.z && shelfVector[i]->isempty == true && inhand->holding.size() > 0)
 		{
 			putBackText = true;
-			if(Application::IsKeyPressed('N'))
+			if(Application::IsButtonPressed(GLFW_MOUSE_BUTTON_RIGHT))
 			{
 				shelfVector[i]->itemid = inhand->remove();
 				itemVector[shelfVector[i]->itemid]->placeItem(shelfVector[i]->position);

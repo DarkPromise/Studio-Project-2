@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "Mtx44.h"
 #include <string>
+#include "GLFW\glfw3.h"
 
 bool firstInit = true;
 
@@ -167,7 +168,7 @@ void Camera2::Update(double dt,bool move, double xpos, double ypos)
 		target += position;
 	}
 
-	if(Application::IsKeyPressed(VK_UP))
+	if(Application::IsKeyPressed(GLFW_KEY_UP))
 	{
 		Mtx44 rotation;
 		float pitch = (float)(ROTATE_SPEED * dt);
@@ -178,7 +179,7 @@ void Camera2::Update(double dt,bool move, double xpos, double ypos)
 		target+=position;
 	}
 
-	if(Application::IsKeyPressed(VK_DOWN))
+	if(Application::IsKeyPressed(GLFW_KEY_DOWN))
 	{
 		Mtx44 rotation;
 		float pitch = (float)(-ROTATE_SPEED * dt);
@@ -188,7 +189,7 @@ void Camera2::Update(double dt,bool move, double xpos, double ypos)
 		target+=position;
 	}
 
-	if(Application::IsKeyPressed(VK_LEFT))
+	if(Application::IsKeyPressed(GLFW_KEY_LEFT))
 	{
 		Mtx44 rotation;
 		float yaw = (float)(ROTATE_SPEED * dt);
@@ -200,7 +201,7 @@ void Camera2::Update(double dt,bool move, double xpos, double ypos)
 		//std::cout << "Camera Angle : " << rotation << std::endl;
 	}
 
-	if(Application::IsKeyPressed(VK_RIGHT))
+	if(Application::IsKeyPressed(GLFW_KEY_RIGHT))
 	{
 		Mtx44 rotation;
 		float yaw = (float)(-ROTATE_SPEED * dt);

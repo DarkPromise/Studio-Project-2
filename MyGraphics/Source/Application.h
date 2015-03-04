@@ -14,7 +14,11 @@ public:
 	void Run();
 	void Exit();
 
+	static bool keys[1024];
+
 	static bool IsKeyPressed(unsigned short key);
+	static bool IsButtonPressed(unsigned int);
+
 	static int getWidth();
 	static int getHeight();
 
