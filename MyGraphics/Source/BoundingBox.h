@@ -14,7 +14,9 @@ public:
 	isObj(false),
 	canPhase(false),
 	isPlayer(false),
-	isInteractive(false)
+	isInteractive(false),
+	frontMove(false),
+	sideMove(false)
 	{
 		//Default Constructor With Nothing :D
 	}
@@ -24,6 +26,8 @@ public:
 	bool isInteractive;
 	bool canPhase;
 	bool isPlayer;
+	bool frontMove;
+	bool sideMove;
 
 	int id;
 	Child* child;

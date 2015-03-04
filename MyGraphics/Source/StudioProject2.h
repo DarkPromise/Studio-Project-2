@@ -199,10 +199,16 @@ public:
 		GEO_CHILLERBOUNDS,
 		GEO_GATEBOUNDS1,
 		GEO_GATEBOUNDS2,
+
+		GEO_CASHIERRIGHTBOUNDS,
+		GEO_MIDDLECASHIERBOUNDS,
+		GEO_LEFTCASHIERBOUNDS,
+		GEO_SECURITYBOUNDS,
+		GEO_CUSTOMERSERVICEBOUNDS,
 		/************************************************/
 
 		/*************************************************
-		USER INERFACE
+		USER INTERFACE
 		*************************************************/
 		GEO_SIDEBAR,
 		GEO_CACTUSJUICEUI,
@@ -326,6 +332,8 @@ private:
 	Vector3 tempUp;
 
 	bool canPhase;
+	bool sideMove;
+	bool frontMove;
 	/***************************************/
 	Light light[1];
 
@@ -348,6 +356,11 @@ enum BOUNDTYPE
 		FREEZER,
 		CHILLER,
 		GATE1,
-		GATE2
+		GATE2,
+		RIGHTCASHIER,
+		MIDDLECASHIER,
+		LEFTCASHIER,
+		SECURITY,
+		CUSTOMERSERVICE
 	};
 #endif

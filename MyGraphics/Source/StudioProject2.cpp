@@ -233,16 +233,34 @@ void StudioProject2::Init()
 	boxPtr->isObj = true;
 	boxPtr->canPhase = true;
 	boxPtr->isInteractive = true;
-	boxPtr->Max = gateBounds1;
-	boxPtr->Min = -gateBounds1;
+	boxPtr->Max = gateBoundsRight;
+	boxPtr->Min = -gateBoundsRight;
 	box.push_back(boxPtr);
 
 	boxPtr = new BoundingBox();
 	boxPtr->isObj = true;
 	boxPtr->canPhase = true;
 	boxPtr->isInteractive = true;
-	boxPtr->Max = gateBounds1;
-	boxPtr->Min = -gateBounds1;
+	boxPtr->Max = gateBoundsLeft;
+	boxPtr->Min = -gateBoundsLeft;
+	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = cashierBounds;
+	boxPtr->Min = -cashierBounds;
+	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = middleCashierBounds;
+	boxPtr->Min = -middleCashierBounds;
+	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = cashierBounds;
+	boxPtr->Min = -cashierBounds;
 	box.push_back(boxPtr);
 	/*******************/
 
@@ -514,6 +532,9 @@ void StudioProject2::Init()
 	meshList[GEO_CHILLERBOUNDS] = MeshBuilder::GenerateBoundingBox("freezer", box[CHILLER]->Max, box[CHILLER]->Min, Color(0,0,1));
 	meshList[GEO_GATEBOUNDS1] = MeshBuilder::GenerateBoundingBox("gatebounds", box[GATE1]->Max, box[GATE1]->Min, Color(0,1,0));
 	meshList[GEO_GATEBOUNDS2] = MeshBuilder::GenerateBoundingBox("gatebounds", box[GATE2]->Max, box[GATE2]->Min, Color(0,1,0));
+	meshList[GEO_CASHIERRIGHTBOUNDS] = MeshBuilder::GenerateBoundingBox("rightCashier", box[RIGHTCASHIER]->Max, box[RIGHTCASHIER]->Min, Color(0,0,1));
+	meshList[GEO_MIDDLECASHIERBOUNDS] = MeshBuilder::GenerateBoundingBox("middleCashier", box[MIDDLECASHIER]->Max, box[MIDDLECASHIER]->Min, Color(0,0,1));
+	meshList[GEO_LEFTCASHIERBOUNDS] = MeshBuilder::GenerateBoundingBox("leftCashier", box[LEFTCASHIER]->Max, box[LEFTCASHIER]->Min, Color(0,0,1));
 	/**************************************************************************************************************/
 
 	/***************************************************
@@ -551,6 +572,13 @@ void StudioProject2::Init()
 	box[GATE1]->Min += gateBounds1Translation;
 	box[GATE2]->Max += gateBounds2Translation;
 	box[GATE2]->Min += gateBounds2Translation;
+
+	box[RIGHTCASHIER]->Max += rightCashierTranslate;
+	box[RIGHTCASHIER]->Min += rightCashierTranslate;
+	box[MIDDLECASHIER]->Max += middleCashierTranslate;
+	box[MIDDLECASHIER]->Min += middleCashierTranslate;
+	box[LEFTCASHIER]->Max += leftCashierTranslate;
+	box[LEFTCASHIER]->Min += leftCashierTranslate;
 	/***************************
 	FOR ADDING ITEMS & SHELFSLOTS
 	****************************/
@@ -1115,13 +1143,28 @@ void StudioProject2::renderBounds()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(820, -125, 265);
+	modelStack.Translate(820, -125, 302);
 	RenderMesh(meshList[GEO_GATEBOUNDS1], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-1490, -125, 285);
+	modelStack.Translate(-1490, -125, 238);
 	RenderMesh(meshList[GEO_GATEBOUNDS2], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(463.8, -125, 385.3);
+	RenderMesh(meshList[GEO_CASHIERRIGHTBOUNDS], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-367.5, -125, 385.3);
+	RenderMesh(meshList[GEO_MIDDLECASHIERBOUNDS], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-1148.2, -125, 385.3);
+	RenderMesh(meshList[GEO_LEFTCASHIERBOUNDS], false, false);
 	modelStack.PopMatrix();
 }
 
@@ -2371,11 +2414,11 @@ void StudioProject2::renderUI()
 		RenderTextOnScreen(meshList[GEO_TEXT],"Press 'N' to put down item", Color(1, 0, 0), 2.5, 9.5, 5.5);
 	}
 
-	RenderQuadOnScreen(meshList[GEO_SHOPPINGLIST], 45, 45, 1.4, 0.7);
+	/*RenderQuadOnScreen(meshList[GEO_SHOPPINGLIST], 45, 45, 1.4, 0.7);
 	for(int i = 0; i < shoppingList.size();++i)
 	{	
 		RenderTextOnScreen(meshList[GEO_TEXT],shoppingList[i], Color(0, 0, 0), 2.5, 21, 11.5+i);
-	}
+	}*/
 }
 
 void StudioProject2::RenderText(Mesh* mesh, std::string text, Color color)

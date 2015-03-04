@@ -90,8 +90,8 @@ void Camera2::Update(double dt,bool move, double xpos, double ypos)
 	
 	if(delay > 0.1)
 	{
-		std::cout << "Yaw : " << yaw << std::endl;
-		std::cout << "Pitch : " << pitch << std::endl;
+		/*std::cout << "Yaw : " << yaw << std::endl;
+		std::cout << "Pitch : " << pitch << std::endl;*/
 		delay = 0;
 	}
 
@@ -150,7 +150,6 @@ void Camera2::Update(double dt,bool move, double xpos, double ypos)
 
 	if(xoffset != 0)
 	{
-		cout << "x offset : " << xoffset << endl;
 		Mtx44 rotation;
 		target -= position;
 		rotation.SetToRotation(xoffset,0,1,0);
@@ -161,7 +160,6 @@ void Camera2::Update(double dt,bool move, double xpos, double ypos)
 
 	if(yoffset != 0)
 	{
-		cout << "y offset : " << yoffset << endl;
 		Mtx44 rotation;
 		target -= position;
 		rotation.SetToRotation(yoffset,right.x,right.y,right.z);
@@ -212,6 +210,20 @@ void Camera2::Update(double dt,bool move, double xpos, double ypos)
 		up = rotation * up;
 		target += position;
 		//std::cout << "Camera Angle : " << rotation << std::endl;
+	}
+
+	if(Application::IsKeyPressed('Q'))
+	{
+		float yaw = (float)(-CAMERA_SPEED * 2 * dt);
+		position += (view.Cross(right) * yaw);
+		target += (view.Cross(right) * yaw);
+	}
+
+	if(Application::IsKeyPressed('E'))
+	{
+		float yaw = (float)(CAMERA_SPEED * 2 * dt);
+		position += (view.Cross(right) * yaw);
+		target += (view.Cross(right) * yaw);
 	}
 
 	if(Application::IsKeyPressed('R'))
