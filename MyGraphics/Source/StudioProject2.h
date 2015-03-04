@@ -198,6 +198,7 @@ public:
 		GEO_FREEZERBOUNDS,
 		GEO_CHILLERBOUNDS,
 		GEO_GATEBOUNDS1,
+		GEO_GATEBOUNDS2,
 		/************************************************/
 
 		/*************************************************
@@ -346,6 +347,7 @@ enum BOUNDTYPE
 		PLAYER,
 		FREEZER,
 		CHILLER,
-		GATE1
+		GATE1,
+		GATE2
 	};
 #endif

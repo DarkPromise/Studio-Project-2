@@ -236,6 +236,14 @@ void StudioProject2::Init()
 	boxPtr->Max = gateBounds1;
 	boxPtr->Min = -gateBounds1;
 	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->canPhase = true;
+	boxPtr->isInteractive = true;
+	boxPtr->Max = gateBounds1;
+	boxPtr->Min = -gateBounds1;
+	box.push_back(boxPtr);
 	/*******************/
 
 	// Init VBO here
@@ -505,6 +513,7 @@ void StudioProject2::Init()
 	meshList[GEO_FREEZERBOUNDS] = MeshBuilder::GenerateBoundingBox("freezer", box[FREEZER]->Max, box[FREEZER]->Min, Color(0,0,1));
 	meshList[GEO_CHILLERBOUNDS] = MeshBuilder::GenerateBoundingBox("freezer", box[CHILLER]->Max, box[CHILLER]->Min, Color(0,0,1));
 	meshList[GEO_GATEBOUNDS1] = MeshBuilder::GenerateBoundingBox("gatebounds", box[GATE1]->Max, box[GATE1]->Min, Color(0,1,0));
+	meshList[GEO_GATEBOUNDS2] = MeshBuilder::GenerateBoundingBox("gatebounds", box[GATE2]->Max, box[GATE2]->Min, Color(0,1,0));
 	/**************************************************************************************************************/
 
 	/***************************************************
@@ -540,6 +549,8 @@ void StudioProject2::Init()
 
 	box[GATE1]->Max += gateBounds1Translation;
 	box[GATE1]->Min += gateBounds1Translation;
+	box[GATE2]->Max += gateBounds2Translation;
+	box[GATE2]->Min += gateBounds2Translation;
 	/***************************
 	FOR ADDING ITEMS & SHELFSLOTS
 	****************************/
@@ -1107,6 +1118,11 @@ void StudioProject2::renderBounds()
 	modelStack.Translate(820, -125, 265);
 	RenderMesh(meshList[GEO_GATEBOUNDS1], false, false);
 	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-1490, -125, 285);
+	RenderMesh(meshList[GEO_GATEBOUNDS2], false, false);
+	modelStack.PopMatrix();
 }
 
 void StudioProject2::renderPlayer()
@@ -1544,6 +1560,22 @@ void StudioProject2::renderSupermarket()
 	modelStack.PushMatrix();
 	modelStack.Translate(680, -325, 230);
 	modelStack.Rotate(gate1LeftRotate, 0, 1, 0);
+	modelStack.Scale(70, 70, 70);
+	RenderMesh(meshList[GEO_LEFTGATE], false, false);
+	modelStack.PopMatrix();
+
+	//render right gate2
+	modelStack.PushMatrix();
+	modelStack.Translate(-1630, -325, 320);
+	modelStack.Rotate(gate2RightRotate, 0, 1, 0);
+	modelStack.Scale(70, 70, 70);
+	RenderMesh(meshList[GEO_RIGHTGATE], false, false);
+	modelStack.PopMatrix();
+
+	//render left gate2
+	modelStack.PushMatrix();
+	modelStack.Translate(-1350, -325, 320);
+	modelStack.Rotate(gate2LeftRotate, 0, 1, 0);
 	modelStack.Scale(70, 70, 70);
 	RenderMesh(meshList[GEO_LEFTGATE], false, false);
 	modelStack.PopMatrix();
@@ -2622,7 +2654,23 @@ void StudioProject2::CollisionCheck(double dt)
 			gate1RightRotate = 0;
 			gate1LeftRotate = 0;
 		}
-	}/**/
+	}
+
+	if(camera.position.x > box[GATE2]->Min.x && camera.position.x < box[GATE2]->Max.x && camera.position.y > box[GATE2]->Min.y && camera.position.y < box[GATE2]->Max.y && camera.position.z > box[GATE2]->Min.z && camera.position.z < box[GATE2]->Max.z && gate2RightRotate > 90)
+	{
+		gate2RightRotate -= 450*dt;
+		gate2LeftRotate += 450*dt;
+	}
+	if((camera.position.x < box[GATE2]->Min.x || camera.position.x > box[GATE2]->Max.x || camera.position.y < box[GATE2]->Min.y || camera.position.y > box[GATE2]->Max.y || camera.position.z < box[GATE2]->Min.z || camera.position.z > box[GATE2]->Max.z) && gate2RightRotate < 180)
+	{
+		gate2RightRotate += 450*dt;
+		gate2LeftRotate -= 450*dt;
+		if(gate2RightRotate > 180)
+		{
+			gate2RightRotate = 180;
+			gate2LeftRotate = -180;
+		}
+	}
 
 	for(int i = 0; i < shelfVector.size(); ++i)
 	{

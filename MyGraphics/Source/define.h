@@ -7,7 +7,11 @@ float door2Pos = 1365;
 float gate1RightRotate = 0;
 float gate1LeftRotate = 0;
 
-/////////rendering bools////////
+//////////gate 2////////////////
+float gate2RightRotate = 180;
+float gate2LeftRotate = -180;
+
+/////////UI bools////////
 bool pickUpText = false;
 bool putBackText = false;
 
@@ -36,3 +40,4 @@ bool putBackText = false;
 #define FreezerTranslate Vector3(1374.4,-110,-1271);
 #define ChillerTranslate Vector3(2083,-150.4,-1217.5);
 #define gateBounds1Translation Vector3(820, -125, 265);
+#define gateBounds2Translation Vector3(-1490, -125, 285);
