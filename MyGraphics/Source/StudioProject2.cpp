@@ -246,11 +246,11 @@ void StudioProject2::Init()
 	glBindVertexArray(m_vertexArrayID);
 
 	Mtx44 projection;
-	projection.SetToPerspective(50.0f,4.0f / 3.0f, 0.1f, 30000.0f);
+	projection.SetToPerspective(45.0f,4.0f / 3.0f, 0.1f, 30000.0f);
 
 	projectionStack.LoadMatrix(projection);
 
-	camera.Init(Vector3(1, -30, -230), Vector3(1, -30, -440), Vector3(0, 1, 0));
+	camera.Init(Vector3(0, 0, 0), Vector3(0, 0, -150), Vector3(0, 1, 0)); //Position , Front(view), Up
 
 	for(int i = 0; i < NUM_GEOMETRY; ++i)
 	{
@@ -687,10 +687,6 @@ void StudioProject2::Init()
 	
 	shoppingList = shopping.randomList(5);
 	/******************************/
-	tree = new Octree();
-	tree->CreateTree(3,0,0,0,100,100,100);
-	tree->AddObject(box[PLAYER]);
-	//tree->renderParts();
 }
 
 void StudioProject2::RenderMesh(Mesh *mesh, bool enableLight, bool transparent)
@@ -933,17 +929,17 @@ void StudioProject2::Render()
 
 	///////////////////////////////////////////////////////////////////////////////////
 
-	modelStack.PushMatrix();
+	/*modelStack.PushMatrix();
 	modelStack.Translate(camera.target.x, camera.target.y, camera.target.z);
 	modelStack.Scale(0.2,0.2,0.2);
 	RenderMesh(meshList[GEO_LIGHTBALL], false, false);
-	modelStack.PopMatrix();
+	modelStack.PopMatrix();*/
 	
 	///////////////////////////////////////////////////////////////////////////////////
 	renderSkybox();
-	renderSupermarket();
 	renderOutside();
 	renderItems();
+	renderSupermarket();
 
 	/*modelStack.PushMatrix();
 	modelStack.Translate(playerPos.x, playerPos.y, playerPos.z);
