@@ -230,6 +230,8 @@ public:
 		GEO_TEXTBOX,
 		GEO_SHOPPINGLIST,
 		/************************************************/
+
+		GEO_MENU,
 		GEO_TEXT,
 
 		NUM_GEOMETRY,
@@ -296,6 +298,7 @@ private:
 	void renderBounds();
 	void renderItems();
 	void renderUI();
+	void MainMenu();
 	void CollisionCheck(double);
 
 	void RenderText(Mesh* mesh, std::string text, Color color);

@@ -80,7 +80,7 @@ vector<string> Shopping::randomList(int numofItems)
 		}
 		else if(a == 6)
 		{
-			list.push_back("FERERRO ROCIAL");
+			list.push_back("FERERRO ROCHER");
 			listChecker.push_back(allItemType[a]);
 		}
 		else if(a == 7)

@@ -479,6 +479,9 @@ void StudioProject2::Init()
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//ExportedFont.tga");
+
+	meshList[GEO_MENU] = MeshBuilder::GenerateQuad("Menu", Color (0, 0, 0), 1.f);
+	meshList[GEO_MENU]->textureID = LoadTGA("Image//Menu.tga");
 	/***************************************************************************************************************
 	USER INERFACE
 	***************************************************************************************************************/
@@ -1067,6 +1070,8 @@ void StudioProject2::Render()
 
 	//renderUI
 	renderUI();
+
+	//MainMenu();
 }
 
 void StudioProject2::renderBounds()
@@ -2419,6 +2424,15 @@ void StudioProject2::renderUI()
 	{	
 		RenderTextOnScreen(meshList[GEO_TEXT],shoppingList[i], Color(0, 0, 0), 2.5, 21, 11.5+i);
 	}*/
+}
+
+void StudioProject2::MainMenu()
+{
+	RenderQuadOnScreen(meshList[GEO_MENU], 80, 80, 0.5, 0.4);
+	RenderTextOnScreen(meshList[GEO_TEXT],"Main Menu",Color(1,0,0),10,1.8,3.7);
+	RenderTextOnScreen(meshList[GEO_TEXT],"Start",Color(1,0,0),10,2.8,2.7);
+	RenderTextOnScreen(meshList[GEO_TEXT],"End",Color(1,0,0),10,2.8,1.7);
+
 }
 
 void StudioProject2::RenderText(Mesh* mesh, std::string text, Color color)
