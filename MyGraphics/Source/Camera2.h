@@ -8,21 +8,21 @@
 class Camera2 : public Camera
 {
 public:
-	//Vector3 position;
-	//Vector3 target;
-	//Vector3 up;
-
 	Vector3 defaultPosition;
 	Vector3 defaultTarget;
 	Vector3 defaultUp;
 	Vector3 defaultView;
-	Vector3 lookAt;
 
-	float distanceFromChar;
-	float angleView;
-	float pitch;
+	float mouseSpeed;
+	float lookSpeed;
 	float yaw;
-	float roll;
+	float pitch;
+
+	bool firstInit;
+	Vector3 direction;
+	Vector3 right;
+	Vector3 rotate;
+	double delay;
 
 	int facingDirection;
 
@@ -33,7 +33,8 @@ public:
 	~Camera2();
 
 	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
-	virtual void Update(double dt, bool move);
+	virtual void Update(double dt, bool move, double xpos, double ypos);
+	virtual void Change(double &dx, double &dy);
 	virtual void Reset();
 };
 

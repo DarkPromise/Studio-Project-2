@@ -39,8 +39,8 @@ Passerby		* myPasserby;
 Promoter		* myPromoter;
 Customer		* myCustomer;
 Vehicle			* myVehicle;
-Cashier			* myCashier;
-SecurityGuard	* myGuard;
+//Cashier			* myCashier;
+//SecurityGuard	* myGuard;
 
 StudioProject2::StudioProject2()
 {
@@ -137,13 +137,13 @@ void StudioProject2::Init()
 	myVehicle->AICurrent = 0;
 	myVehicle->spawnRate = vehicleSpawnRate;
 
-	myCashier = new Cashier();
+	/*myCashier = new Cashier();
 	myCashier->AILimit = cashierLimit;
 	myCashier->AICurrent = 0;
 
 	myGuard = new SecurityGuard();
 	myGuard->AILimit = 1;
-	myGuard->AICurrent = 0;
+	myGuard->AICurrent = 0;*/
 
 	playerPos.Set(0,0,0);
 	testPos.Set(0,0,0);
@@ -246,12 +246,11 @@ void StudioProject2::Init()
 	glBindVertexArray(m_vertexArrayID);
 
 	Mtx44 projection;
-	projection.SetToPerspective(50.0f,4.0f / 3.0f, 0.1f, 30000.0f);
-
+	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 30000.0f);
 	projectionStack.LoadMatrix(projection);
 
-	camera.Init(Vector3(1, -30, -230), Vector3(1, -30, -440), Vector3(0, 1, 0));
-
+	camera.Init(Vector3(0, 0, 3.0f), Vector3(0, 0, -150), Vector3(0, 1, 0)); //Position , Front(view), Up
+	
 	for(int i = 0; i < NUM_GEOMETRY; ++i)
 	{
 		meshList[i] = NULL;
@@ -481,12 +480,6 @@ void StudioProject2::Init()
 	meshList[GEO_POTATOCHIPSUI]->textureID = LoadTGA("Image//PotatoChips UI.tga");
 	meshList[GEO_SARDINESUI] = MeshBuilder::GenerateQuad("Sardines ui", Color (0, 0, 0), 1);
 	meshList[GEO_SARDINESUI]->textureID = LoadTGA("Image//Sardines UI.tga");
-
-	meshList[GEO_TEXTBOX] = MeshBuilder::GenerateQuad("text box", Color (0, 0, 0), 1);
-	meshList[GEO_TEXTBOX]->textureID = LoadTGA("Image//text box.tga");
-
-	meshList[GEO_SHOPPINGLIST] = MeshBuilder::GenerateQuad("shopping list", Color (0, 0, 0), 1);
-	meshList[GEO_SHOPPINGLIST]->textureID = LoadTGA("Image//shopping list.tga");
 	/***************************************************************************************************************
 	THIS SECTION IS FOR BOUNDS MESH INIT
 	***************************************************************************************************************/
@@ -659,7 +652,7 @@ void StudioProject2::Init()
 
 	for(float x = 750; x >= 425; x -= 65)
 	{
-	 	for(float y = 26; y > -274; y -= 50)
+		for(float y = 26; y > -274; y -= 50)
 		{
 			ip = new Item(Vector3(12,36,12), Vector3(-12,0,-12), Vector3(x, y , -770), Vector3(45,45,45), 0.f, GEO_SARDINES, GEO_SARDINESUI);
 			itemVector.push_back(ip);
@@ -667,30 +660,7 @@ void StudioProject2::Init()
 			shelfVector.push_back(sp);
 		}
 	}
-	/***************************
-	FOR SHOPPING
-	****************************/
-	vector<int> GEOS;
-	GEOS.push_back(GEO_CACTUSJUICE);
-	GEOS.push_back(GEO_CADBURY);
-	GEOS.push_back(GEO_CANVEGE);
-	GEOS.push_back(GEO_CATFOOD);
-	GEOS.push_back(GEO_CEREAL);
-	GEOS.push_back(GEO_DETERGENT);
-	GEOS.push_back(GEO_FERERRO);
-	GEOS.push_back(GEO_MACCHZ);
-	GEOS.push_back(GEO_MILOCAN);
-	GEOS.push_back(GEO_POTATOCHIPS);
-	GEOS.push_back(GEO_SARDINES);
-
-	shopping.set(GEOS);
-	
-	shoppingList = shopping.randomList(5);
 	/******************************/
-	tree = new Octree();
-	tree->CreateTree(3,0,0,0,100,100,100);
-	tree->AddObject(box[PLAYER]);
-	//tree->renderParts();
 }
 
 void StudioProject2::RenderMesh(Mesh *mesh, bool enableLight, bool transparent)
@@ -747,8 +717,14 @@ void StudioProject2::RenderMesh(Mesh *mesh, bool enableLight, bool transparent)
 	}
 }
 
-void StudioProject2::Update(double dt)
+void StudioProject2::Update(double dt, double xpos, double ypos)
 {
+	/*cout << "Camera Position : " << camera.position << endl;
+	cout << "Camera Target : " << camera.target << endl;
+	cout << "Camera Right : " << camera.right << endl;
+	cout << "Camera Direction : " << camera.direction << endl;
+	cout << "Camera View : " << camera.view << endl;*/
+
 	if(Application::IsKeyPressed('5'))
 	{
 		rotateAngle += 0.1f;
@@ -853,11 +829,11 @@ void StudioProject2::Update(double dt)
 	myVehicle->spawnAI();
 	myVehicle->updateAI();
 
-	myCashier->spawnAI();
+	/*myCashier->spawnAI();
 	myCashier->updateAI();
 
 	myGuard->spawnAI();
-	myGuard->updateAI();
+	myGuard->updateAI();*/
 
 	playerDir.x = dt * sin(Math::DegreeToRadian(rotateAngle));
 	playerDir.z = dt * cos(Math::DegreeToRadian(rotateAngle));
@@ -871,7 +847,10 @@ void StudioProject2::Update(double dt)
 	deltaTime = dt;
 	toggleDelay += dt;
 
-	camera.Update(dt,canMove);
+	/*double dx;
+	double dy;*/
+
+	camera.Update(dt,canMove,xpos,ypos);
 	CollisionCheck(dt);
 
 	playerPos = camera.position;
@@ -893,6 +872,24 @@ void StudioProject2::Update(double dt)
 	}
 
 	int takeItem = rand() % itemsonShelf;
+
+	if(inhand->holding.size() > 0)
+	{
+		for(int i = 0; i < inhand->holding.size(); ++i)
+		{
+			itemVector[inhand->holding[i]]->takeItem(camera.position - Vector3(0, 1000, 0));
+		}
+		
+		itemVector[inhand->holding.back()]->takeItem(camera.target);
+		if(Application::IsKeyPressed(VK_LEFT))
+		{
+			itemVector[inhand->holding.back()]->updateRotate(150.f * dt);
+		}
+		if(Application::IsKeyPressed(VK_RIGHT))
+		{
+			itemVector[inhand->holding.back()]->updateRotate(-150.f * dt);
+		}
+	}
 	//camera.target.Set(CustomerX[0], 0, CustomerZ[0]);
 	//camera.position.Set(CustomerX[0], 0, CustomerZ[0] + 500);
 }
@@ -901,13 +898,12 @@ void StudioProject2::Render()
 {                                                              //MATRIX WILL BE DONE USING THIS
 	// Render VBO here
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	viewStack.LoadIdentity();
 	viewStack.LookAt
 		(camera.position.x, camera.position.y, camera.position.z,
 		camera.target.x, camera.target.y, camera.target.z,
 		camera.up.x, camera.up.y, camera.up.z);
-
+	
 	modelStack.LoadIdentity();
 
 	Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
@@ -933,17 +929,17 @@ void StudioProject2::Render()
 
 	///////////////////////////////////////////////////////////////////////////////////
 
-	modelStack.PushMatrix();
+	/*modelStack.PushMatrix();
 	modelStack.Translate(camera.target.x, camera.target.y, camera.target.z);
 	modelStack.Scale(0.2,0.2,0.2);
 	RenderMesh(meshList[GEO_LIGHTBALL], false, false);
-	modelStack.PopMatrix();
+	modelStack.PopMatrix();*/
 	
 	///////////////////////////////////////////////////////////////////////////////////
 	renderSkybox();
-	renderSupermarket();
 	renderOutside();
 	renderItems();
+	renderSupermarket();
 
 	/*modelStack.PushMatrix();
 	modelStack.Translate(playerPos.x, playerPos.y, playerPos.z);
@@ -955,14 +951,14 @@ void StudioProject2::Render()
 	modelStack.PopMatrix();*/
 
 
-	for ( int i = 0; i < myCashier->AICurrent; i++ )
+	/*for ( int i = 0; i < myCashier->AICurrent; i++ )
 	{
 		modelStack.PushMatrix();
 		modelStack.Translate(myCashier->Coordinates[i].x, myCashier->Coordinates[i].y, myCashier->Coordinates[i].z);
 		modelStack.Rotate(myCashier->rotateY[i], 0, 1, 0);
 		renderCashier();
 		modelStack.PopMatrix();
-	}
+	}*/
 
 	for ( int i = 0; i < myCustomer->AICurrent; i++ )
 	{
@@ -1007,11 +1003,11 @@ void StudioProject2::Render()
 		modelStack.PopMatrix();
 	}
 
-	modelStack.PushMatrix();
-	modelStack.Translate(myGuard->Coordinates[0].x, myGuard->Coordinates[0].y, myGuard->Coordinates[0].z);
-	modelStack.Rotate(myGuard->rotateY[0], 0, 1, 0);
-	renderSecurityGuard();
-	modelStack.PopMatrix();
+	//modelStack.PushMatrix();
+	//modelStack.Translate(myGuard->Coordinates[0].x, myGuard->Coordinates[0].y, myGuard->Coordinates[0].z);
+	//modelStack.Rotate(myGuard->rotateY[0], 0, 1, 0);
+	//renderSecurityGuard();
+	//modelStack.PopMatrix();
 
 	//render glass door
 	modelStack.PushMatrix();
@@ -1036,10 +1032,10 @@ void StudioProject2::Render()
 
 void StudioProject2::renderBounds()
 {
-	modelStack.PushMatrix();
+	/*modelStack.PushMatrix();
 	modelStack.Translate(testPos.x,testPos.y,testPos.z);
 	RenderMesh(meshList[GEO_BOUNDHELPER], false, false);
-	modelStack.PopMatrix();
+	modelStack.PopMatrix();*/
 
 	modelStack.PushMatrix();
 	modelStack.Translate(0,0,1850);
@@ -1357,24 +1353,24 @@ void StudioProject2::renderSecurityGuard()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	if ( myGuard->State[0] == Sitting )
+	/*if ( myGuard->State[0] == Sitting )
 	{
 		modelStack.Translate(5, 4.5, -0.7);
 		modelStack.Rotate(180, 0, 1, 0);
 		modelStack.Rotate(-90, 0, 0, 1);
 		modelStack.Rotate(-10, 1, 0, 0);
-	}
+	}*/
 	RenderMesh(meshList[GEO_SGLEFTLEG], false, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	if ( myGuard->State[0] == Sitting )
+	/*if ( myGuard->State[0] == Sitting )
 	{
 		modelStack.Translate(5, 4.5, 0.7);
 		modelStack.Rotate(180, 0, 1, 0);
 		modelStack.Rotate(-90, 0, 0, 1);
 		modelStack.Rotate(10, 1, 0, 0);
-	}
+	}*/
 	RenderMesh(meshList[GEO_SGRIGHTLEG], false, false);
 	modelStack.PopMatrix();
 
@@ -2301,7 +2297,6 @@ void StudioProject2::renderOutside()
 void StudioProject2::renderUI()
 {
 	RenderQuadOnScreen(meshList[GEO_SIDEBAR], 30, 27, 1.33, 0.11);
-
 	if(inhand->holding.size() == 1)
 	{
 		RenderQuadOnScreen(meshList[itemVector[inhand->holding[0]]->uimesh], 4.8, 4.7, 5.8, 0.62);
@@ -2331,22 +2326,6 @@ void StudioProject2::renderUI()
 		RenderQuadOnScreen(meshList[itemVector[inhand->holding[2]]->uimesh], 4.8, 4.7, 8.32, 0.62);
 		RenderQuadOnScreen(meshList[itemVector[inhand->holding[1]]->uimesh], 4.8, 4.7, 9.56, 0.62);
 		RenderQuadOnScreen(meshList[itemVector[inhand->holding[0]]->uimesh], 4.8, 4.7, 10.825, 0.62);
-	}
-	if(pickUpText == true)
-	{
-		RenderQuadOnScreen(meshList[GEO_TEXTBOX], 40, 6, 1, 2.5);
-		RenderTextOnScreen(meshList[GEO_TEXT],"Press 'B' to pick up item", Color(1, 0, 0), 2.5, 9.75, 5.5);
-	}
-	if(putBackText == true)
-	{
-		RenderQuadOnScreen(meshList[GEO_TEXTBOX], 40, 6, 1, 2.5);
-		RenderTextOnScreen(meshList[GEO_TEXT],"Press 'N' to put down item", Color(1, 0, 0), 2.5, 9.5, 5.5);
-	}
-
-	RenderQuadOnScreen(meshList[GEO_SHOPPINGLIST], 45, 45, 1.4, 0.7);
-	for(int i = 0; i < shoppingList.size();++i)
-	{	
-		RenderTextOnScreen(meshList[GEO_TEXT],shoppingList[i], Color(0, 0, 0), 2.5, 21, 11.5+i);
 	}
 }
 
@@ -2632,65 +2611,28 @@ void StudioProject2::CollisionCheck(double dt)
 	{
 		if(camera.target.x > shelfVector[i]->boundMin.x && camera.target.x < shelfVector[i]->boundMax.x  && camera.target.y > shelfVector[i]->boundMin.y && camera.target.y < shelfVector[i]->boundMax.y && camera.target.z > shelfVector[i]->boundMin.z && camera.target.z < shelfVector[i]->boundMax.z && shelfVector[i]->isempty == false && inhand->reachMax == false)
 		{
-			pickUpText = true;
+			cout << "seen";
 			if(Application::IsKeyPressed('B'))
 			{
 				inhand->recive(shelfVector[i]->itemid);
 				shelfVector[i]->isempty = true;
 			}
-			break;
-		}
-		else
-		{
-			pickUpText = false;
 		}
 	}
 	for(int i = 0; i < shelfVector.size(); ++i)
 	{
 		if(camera.target.x > shelfVector[i]->boundMin.x && camera.target.x < shelfVector[i]->boundMax.x  && camera.target.y > shelfVector[i]->boundMin.y && camera.target.y < shelfVector[i]->boundMax.y && camera.target.z > shelfVector[i]->boundMin.z && camera.target.z < shelfVector[i]->boundMax.z && shelfVector[i]->isempty == true && inhand->holding.size() > 0)
 		{
-			putBackText = true;
+			cout << "fap";
 			if(Application::IsKeyPressed('N'))
 			{
 				shelfVector[i]->itemid = inhand->remove();
 				itemVector[shelfVector[i]->itemid]->placeItem(shelfVector[i]->position);
 				shelfVector[i]->isempty = false;
 			}
-			break;
-		}
-		else
-		{
-			putBackText = false;
 		}
 	}
 
-	if(inhand->holding.size() > 0)
-	{
-		for(int i = 0; i < inhand->holding.size(); ++i)
-		{
-			itemVector[inhand->holding[i]]->takeItem(camera.position - Vector3(0, 1000, 0));
-		}
-		
-		itemVector[inhand->holding.back()]->takeItem(camera.target);
-		if(Application::IsKeyPressed(VK_LEFT))
-		{
-			itemVector[inhand->holding.back()]->updateRotate(150.f * dt);
-		}
-		if(Application::IsKeyPressed(VK_RIGHT))
-		{
-			itemVector[inhand->holding.back()]->updateRotate(-150.f * dt);
-		}
-	}
-
-	if(Application::IsKeyPressed('0'))
-	{
-		bool hello = shopping.check(itemVector, inhand->holding);
-
-		if(hello == true)
-		{
-			cout << " :D";
-		}
-	}
 	/*********************************************************************************************************************************/
 }
 

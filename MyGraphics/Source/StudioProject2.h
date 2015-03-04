@@ -19,10 +19,7 @@
 #include "Promoter.h"
 #include "Customer.h"
 #include "Vehicle.h"
-#include "Cashier.h"
-#include "SecurityGuard.h"
 #include "AI.h"
-#include "Shopping.h"
 
 using std::vector;
 
@@ -33,7 +30,7 @@ public:
 	~StudioProject2();
 
 	virtual void Init();
-	virtual void Update(double dt);
+	virtual void Update(double dt, double xpos, double ypos);
 	virtual void Render();
 	virtual void Exit();
 
@@ -50,6 +47,17 @@ public:
 	int checkingOut;
 	int takeItem;
 	float lookatDelay;
+
+	float promoterRotateY;
+	float cashier1RotateY;
+	float cashier2RotateY;
+	float cashier3RotateY;
+	float cashier4RotateY;
+	float rotateDelay;
+
+	float SGTranslate;
+	float SGLegTranslate;
+	bool SGState;
 
 	int carparkSlot[4];
 
@@ -220,8 +228,6 @@ public:
 		GEO_POTATOCHIPSUI,
 		GEO_SARDINESUI,
 		GEO_SPAMUI,
-		GEO_TEXTBOX,
-		GEO_SHOPPINGLIST,
 		/************************************************/
 		GEO_TEXT,
 
@@ -313,9 +319,7 @@ private:
 	vector<Item*> itemVector;
 	vector<Shelfslot*> shelfVector;
 
-	Inhand* inhand;
-	Shopping shopping;
-	vector<string> shoppingList;
+	Inhand* inhand; 
 	/****************************************
 	BOUNDS CODE GO HERE
 	****************************************/

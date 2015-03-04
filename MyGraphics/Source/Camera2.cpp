@@ -3,6 +3,11 @@
 #include "Mtx44.h"
 #include <string>
 
+bool firstInit = true;
+
+using std::cout;
+using std::endl;
+
 /***********************************************************/
 /*!
 \brief
@@ -39,16 +44,16 @@ void Camera2::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 	this->position = defaultPosition = pos;
 	this->target = defaultTarget = target;
 	defaultView = view = (target - position).Normalized();
-	Vector3 right = view.Cross(up);
+	this->right = view.Cross(up);
 	right.y = 0;
 	right.Normalize();
 	this->up = defaultUp = right.Cross(view).Normalized();
 
-	angleView = 0;
-	/*distanceFromChar = 50;
-	angleView = 0;
-	pitch = 20;
-	yaw = 0;*/
+	yaw = 0.0f;
+	pitch = 0.0f;
+	delay = 0.0;
+	mouseSpeed = 0.3f;
+	lookSpeed = 1.0f;
 
 	Maximum.Set(10000,10000,10000);
 	Minimum.Set(-10000,-10000,-10000);
@@ -61,192 +66,163 @@ void Camera2::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 \param dt - the delta time since the last time the function was called
 */
 /***********************************************************/
-void Camera2::Update(double dt,bool move)
+void Camera2::Update(double dt,bool move, double xpos, double ypos)
 {
-	static const float CAMERA_SPEED = 200.f;
+	delay += dt;
+
+	double xoffset = ((Application::getWidth()/2) - xpos);
+	double yoffset = ((Application::getHeight()/2) - ypos);
+
+	xoffset *= mouseSpeed;
+	yoffset *= mouseSpeed;
+
+	yaw += (float)xoffset;
+	pitch += (float)yoffset;
+
+	if(pitch > 90.0f)
+	{
+		pitch = 90.0f;
+	}
+	if(pitch < 45.0f)
+	{
+		pitch = 45.0f;
+	}
+	
+	if(delay > 0.1)
+	{
+		std::cout << "Yaw : " << yaw << std::endl;
+		std::cout << "Pitch : " << pitch << std::endl;
+		delay = 0;
+	}
+
+	/*Vector3 front;
+	front.x = cos(Math::DegreeToRadian(yaw) * cos(Math::DegreeToRadian(pitch)));
+	front.y = sin(Math::DegreeToRadian(pitch));
+	front.z = sin(Math::DegreeToRadian(yaw) * cos(Math::DegreeToRadian(pitch)));
+	direction = front.Normalized();*/
+
+	Vector3 temptarget = target;
+	Vector3 tempposition = position;
+	view = (target - position).Normalized();
+	right = (view.Cross(up)).Normalized();
+	right.y = 0;
+	right.Normalize();
+	up = (right.Cross(view)).Normalized();
+
+	static const float CAMERA_SPEED = 500.f;
+	static const float ROTATE_SPEED = 5.f;
+
 	if(Application::IsKeyPressed('W') && move == true)
 	{
-		Vector3 temptarget = target;
-		Vector3 tempposition = position;
-		float yaw = (float)(CAMERA_SPEED * 2 * dt);
-		view = (target - position).Normalized();
-		position += (view * yaw);
-		target += (view * yaw);
-		
-		if(target.x > Maximum.x || target.x < Minimum.x || target.y > Maximum.y || target.y < Minimum.y || target.z > Maximum.z || target.z < Minimum.z)
-		{
-			target = temptarget;
-			position = tempposition;
-		}
+		position += (view * CAMERA_SPEED * dt);
+		target += (view * CAMERA_SPEED * dt);
+
+		position.y = tempposition.y; //No change in Y
 		target.y = temptarget.y;
-		position.y = tempposition.y;
 	}
 
 	if(Application::IsKeyPressed('S') && move == true)
 	{
-		Vector3 temptarget = target;
-		Vector3 tempposition = position;
-		float yaw = (float)(-CAMERA_SPEED * 2 * dt);
-		view = (target - position).Normalized();
-		position += (view * yaw);
-		target += (view * yaw);
+		position -= (view * CAMERA_SPEED * dt);
+		target -= (view * CAMERA_SPEED * dt);
 
-		if(target.x > Maximum.x || target.x < Minimum.x || target.y > Maximum.y || target.y < Minimum.y || target.z > Maximum.z || target.z < Minimum.z)
-		{
-			target = temptarget;
-			position = tempposition;
-		}		
+		position.y = tempposition.y; //No change in Y
 		target.y = temptarget.y;
-		position.y = tempposition.y;
 	}
 
 	if(Application::IsKeyPressed('A') && move == true)
 	{
-		Vector3 temptarget = target;
-		Vector3 tempposition = position;
-		float yaw = (float)(-CAMERA_SPEED * 2 * dt);
-		view = (target - position).Normalized();
-		position += (view.Cross(up) * yaw);
-		target += (view.Cross(up) * yaw);
-		
-		if(target.x > Maximum.x || target.x < Minimum.x || target.y > Maximum.y || target.y < Minimum.y || target.z > Maximum.z || target.z < Minimum.z)
-		{
-			target = temptarget;
-				position = tempposition;
-		}
-		target.y = temptarget.y;
+		position -= (right * CAMERA_SPEED * 1.2 * dt);
+		target -= (right * CAMERA_SPEED * 1.2 * dt);
+
+		target.y = temptarget.y; //No change in Y
 		position.y = tempposition.y;
 	}
 
 	if(Application::IsKeyPressed('D') && move == true)
 	{
-		Vector3 temptarget = target;
-		Vector3 tempposition = position;
-		float yaw = (float)(CAMERA_SPEED * 2 * dt);
-		view = (target - position).Normalized();
-		position += (view.Cross(up) * yaw);
-		target += (view.Cross(up) * yaw);
+		position += (right * CAMERA_SPEED * 1.2 * dt);
+		target += (right * CAMERA_SPEED * 1.2 * dt);
 
-		if(target.x > Maximum.x || target.x < Minimum.x || target.y > Maximum.y || target.y < Minimum.y || target.z > Maximum.z || target.z < Minimum.z)
-		{
-			target = temptarget;
-			position = tempposition;
-		}
-		target.y = temptarget.y;
+		target.y = temptarget.y; //No change in Y
 		position.y = tempposition.y;
 	}
 
-	if(Application::IsKeyPressed('Q'))
+	if(xoffset != 0)
 	{
-		Vector3 tempposition = position;
-		Vector3 temptarget = target;
-		float yaw = (float)(-CAMERA_SPEED * 2 * dt);
-		view = (target - position).Normalized();
-		Vector3 right = view.Cross(up);
-		right.y = 0;
-		right.Normalize();
-		position += (view.Cross(right) * yaw);
-		target += (view.Cross(right) * yaw);
-	
-		if(target.x > Maximum.x || target.x < Minimum.x || target.y > Maximum.y || target.y < Minimum.y || target.z > Maximum.z || target.z < Minimum.z)
-		{
-			target = temptarget;
-			position = tempposition;
-		}
-		std::cout << target << std::endl;
+		cout << "x offset : " << xoffset << endl;
+		Mtx44 rotation;
+		target -= position;
+		rotation.SetToRotation(xoffset,0,1,0);
+		target = rotation * target;
+		up = rotation * up;
+		target += position;
 	}
 
-	if(Application::IsKeyPressed('E'))
+	if(yoffset != 0)
 	{
-		Vector3 temptarget = target;
-		Vector3 tempposition = position;
-		float yaw = (float)(CAMERA_SPEED * 2 * dt);
-		view = (target - position).Normalized();
-		Vector3 right = view.Cross(up);
-		right.y = 0;
-		right.Normalize();
-		position += (view.Cross(right) * yaw);
-		target += (view.Cross(right) * yaw);
-
-		if(target.x > Maximum.x || target.x < Minimum.x || target.y > Maximum.y || target.y < Minimum.y || target.z > Maximum.z || target.z < Minimum.z)
-		{
-			target = temptarget;
-			position = tempposition;
-		}
-		std::cout << target << std::endl;
+		cout << "y offset : " << yoffset << endl;
+		Mtx44 rotation;
+		target -= position;
+		rotation.SetToRotation(yoffset,right.x,right.y,right.z);
+		target = rotation * target;
+		target += position;
 	}
 
-	// tilt up
 	if(Application::IsKeyPressed(VK_UP))
 	{
 		Mtx44 rotation;
-		float pitch = (float)(CAMERA_SPEED * dt);
-		view = (target - position).Normalized();
-		Vector3 right = view.Cross(up);
-		right.y = 0;
-		right.Normalize();
-		up = right.Cross(view).Normalized();
-		rotation.SetToRotation(pitch, right.x, right.y, right.z);
-		view = rotation * view;
-		//target = (position + view);
+		float pitch = (float)(ROTATE_SPEED * dt);
 		target -= position;
-		target = rotation*target;
+		rotation.SetToRotation(Math::RadianToDegree(pitch), right.x, right.y, right.z);
+		view = rotation * view;
+		target = rotation * target;
 		target+=position;
 	}
 
-	// tilt down
 	if(Application::IsKeyPressed(VK_DOWN))
 	{
 		Mtx44 rotation;
-		float pitch = (float)(-CAMERA_SPEED * dt);
-		view = (target - position).Normalized();
-		Vector3 right = view.Cross(up);
-		right.y = 0;
-		right.Normalize();
-		up = right.Cross(view).Normalized();
-		rotation.SetToRotation(pitch, right.x, right.y, right.z);
-		view = rotation * view;
-		//target = (position + view);
+		float pitch = (float)(-ROTATE_SPEED * dt);
 		target -= position;
-		target = rotation*target;
+		rotation.SetToRotation(Math::RadianToDegree(pitch), right.x, right.y, right.z);
+		target = rotation * target;
 		target+=position;
 	}
 
-	// tilt left
 	if(Application::IsKeyPressed(VK_LEFT))
 	{
 		Mtx44 rotation;
-		float pitch = (float)(CAMERA_SPEED * dt);
-		view = (target - position).Normalized();
-		rotation.SetToRotation(pitch, 0, 1, 0);
-		view = rotation * view;
-		//target = (position + view);
+		float yaw = (float)(ROTATE_SPEED * dt);
 		target -= position;
-		target = rotation* target;
-		target+=position;
+		rotation.SetToRotation(Math::RadianToDegree(yaw), 0, 1, 0);
+		target = rotation * target;
 		up = rotation * up;
+		target += position;
 		//std::cout << "Camera Angle : " << rotation << std::endl;
 	}
 
-	// tilt right
 	if(Application::IsKeyPressed(VK_RIGHT))
 	{
 		Mtx44 rotation;
-		float pitch = (float)(-CAMERA_SPEED * dt);
-		view = (target - position).Normalized();
-		rotation.SetToRotation(pitch, 0, 1, 0);
-		view = rotation * view;
-		//target = (position + view);
+		float yaw = (float)(-ROTATE_SPEED * dt);
 		target -= position;
-		target = rotation* target;
-		target += position;
+		rotation.SetToRotation(Math::RadianToDegree(yaw), 0, 1, 0);
+		target = rotation * target;
 		up = rotation * up;
+		target += position;
 		//std::cout << "Camera Angle : " << rotation << std::endl;
 	}
+
 	if(Application::IsKeyPressed('R'))
 	{
 		Reset();
 	}
+}
+
+void Camera2::Change(double &dx, double &dy)
+{
+
 }
 
 /***********************************************************/
