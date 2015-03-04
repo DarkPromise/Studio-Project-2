@@ -810,8 +810,6 @@ void StudioProject2::Update(double dt, double xpos, double ypos)
 		glUniform1f(m_parameters[U_LIGHT0_KQ], 0.f);
 	}
 
-	////CollisionCheck(dt);
-
 	if(Application::IsKeyPressed('T'))
 	{
 		//playerPos += playerDir * moveSpeed;
@@ -903,6 +901,8 @@ void StudioProject2::Render()
 		(camera.position.x, camera.position.y, camera.position.z,
 		camera.target.x, camera.target.y, camera.target.z,
 		camera.up.x, camera.up.y, camera.up.z);
+
+	camera.mouseSpeed = 0.2f;  //Brute fix for camera.
 
 	modelStack.LoadIdentity();
 

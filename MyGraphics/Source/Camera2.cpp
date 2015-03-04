@@ -52,7 +52,7 @@ void Camera2::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 	yaw = 0.0f;
 	pitch = 0.0f;
 	delay = 0.0;
-	mouseSpeed = 0.3f;
+	mouseSpeed = 0.0f;
 	lookSpeed = 1.0f;
 
 	Maximum.Set(10000,10000,10000);
