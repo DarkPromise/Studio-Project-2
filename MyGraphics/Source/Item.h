@@ -15,7 +15,7 @@ public:
 
 	void takeItem(Vector3 newPos);
 	void placeItem(Vector3 newPos);
-	void updateRotate(double rotate);
+	void updateRotate(float rotate);
 };
 
 #endif

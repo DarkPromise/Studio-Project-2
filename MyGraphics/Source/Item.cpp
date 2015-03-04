@@ -35,7 +35,7 @@ void Item::placeItem(Vector3 newPos)
 	boundMin = newPos + storeBoundMin;
 }
 
-void Item::updateRotate(double rotate)
+void Item::updateRotate(float rotate)
 {
-	rotateY += rotate;
+	rotateY = rotate;
 }
