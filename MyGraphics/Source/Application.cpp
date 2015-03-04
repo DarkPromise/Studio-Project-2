@@ -113,8 +113,8 @@ void Application::Run()
 	{
 		glfwGetCursorPos(m_window,&xpos,&ypos);
 		scene->Update(m_timer.getElapsedTime(),xpos,ypos);
-		scene->Render();
 		glfwSetCursorPos(m_window,width/2,height/2);
+		scene->Render();
 		//Swap buffers
 		glfwSwapBuffers(m_window);
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...
