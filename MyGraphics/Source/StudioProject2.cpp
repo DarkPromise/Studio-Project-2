@@ -659,7 +659,7 @@ void StudioProject2::Init()
 
 	for(float x = 750; x >= 425; x -= 65)
 	{
-		for(float y = 26; y > -274; y -= 50)
+	 	for(float y = 26; y > -274; y -= 50)
 		{
 			ip = new Item(Vector3(12,36,12), Vector3(-12,0,-12), Vector3(x, y , -770), Vector3(45,45,45), 0.f, GEO_SARDINES, GEO_SARDINESUI);
 			itemVector.push_back(ip);

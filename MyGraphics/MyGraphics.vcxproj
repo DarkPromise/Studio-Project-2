@@ -80,10 +80,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\AI.h" />
+    <ClInclude Include="Source\AIDefine.h" />
     <ClInclude Include="Source\Application.h" />
+    <ClInclude Include="Source\BoundingBox.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Camera2.h" />
     <ClInclude Include="Source\Camera3.h" />
+    <ClInclude Include="Source\Cashier.h" />
+    <ClInclude Include="Source\Child.h" />
+    <ClInclude Include="Source\Customer.h" />
     <ClInclude Include="Source\define.h" />
     <ClInclude Include="Source\Inhand.h" />
     <ClInclude Include="Source\Item.h" />
@@ -93,11 +99,17 @@
     <ClInclude Include="Source\Material.h" />
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\MeshBuilder.h" />
+    <ClInclude Include="Source\Octree.h" />
+    <ClInclude Include="Source\Passerby.h" />
+    <ClInclude Include="Source\Promoter.h" />
     <ClInclude Include="Source\Scene.h" />
+    <ClInclude Include="Source\SecurityGuard.h" />
     <ClInclude Include="Source\Shelfslot.h" />
+    <ClInclude Include="Source\Shopping.h" />
     <ClInclude Include="Source\StudioProject2.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\Utility.h" />
+    <ClInclude Include="Source\Vehicle.h" />
     <ClInclude Include="Source\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
@@ -105,10 +117,15 @@
     <None Include="Shader\Texture.vertexshader" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\AI.cpp" />
     <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\BoundingBox.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\Camera2.cpp" />
     <ClCompile Include="Source\Camera3.cpp" />
+    <ClCompile Include="Source\Cashier.cpp" />
+    <ClCompile Include="Source\Child.cpp" />
+    <ClCompile Include="Source\Customer.cpp" />
     <ClCompile Include="Source\Inhand.cpp" />
     <ClCompile Include="Source\Item.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
@@ -116,10 +133,16 @@
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\MeshBuilder.cpp" />
+    <ClCompile Include="Source\Octree.cpp" />
+    <ClCompile Include="Source\Passerby.cpp" />
+    <ClCompile Include="Source\Promoter.cpp" />
+    <ClCompile Include="Source\SecurityGuard.cpp" />
     <ClCompile Include="Source\Shelfslot.cpp" />
+    <ClCompile Include="Source\Shopping.cpp" />
     <ClCompile Include="Source\StudioProject2.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
+    <ClCompile Include="Source\Vehicle.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
