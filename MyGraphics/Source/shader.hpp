@@ -1,9 +1,9 @@
 /******************************************************************************/
 /*!
-\file	Shader.h
+\file	Shader.hpp
 \author Group 7
 \brief
-Header file for Shader
+HPP file for Shader
 */
 /******************************************************************************/
 #ifndef SHADER_HPP
