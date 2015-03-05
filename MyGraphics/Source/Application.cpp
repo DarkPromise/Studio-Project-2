@@ -160,6 +160,7 @@ void Application::Init()
 
 void Application::Run()
 {
+	glfwSetCursorPos(m_window,Application::getWidth()/2,Application::getHeight()/2);
 	//Main Loop
 	Scene *scene = new StudioProject2();
 	scene->Init();

@@ -67,7 +67,7 @@ StudioProject2::~StudioProject2()
 int StudioProject2::Sounds()
 {
 	ISoundEngine* engine = createIrrKlangDevice();
-	
+
 	if(!engine)
 		return 0;
 
@@ -145,7 +145,7 @@ void StudioProject2::Init()
 
 	stoptime = true;
 	menuX = 2.8f;
-	
+
 	//Init AI
 	myPasserby = new Passerby();
 	myPasserby->AILimit = passerbyLimit;
@@ -1169,8 +1169,6 @@ void StudioProject2::Render()
 	{
 		//RenderMesh(meshList[GEO_AXES], false, false);
 
-		//RenderMesh(meshList[GEO_AXES], false, false);
-
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		if(doRenderBounds)
@@ -1193,7 +1191,7 @@ void StudioProject2::Render()
 		renderOutside();
 		renderItems();
 		renderSupermarket();
-	}
+
 
 	/*modelStack.PushMatrix();
 	modelStack.Translate(playerPos.x, playerPos.y, playerPos.z);
@@ -1259,9 +1257,9 @@ void StudioProject2::Render()
 			renderOwner();
 		modelStack.PopMatrix();
 	}
-	
+
 	if ( myGuard->AICurrent == 1 )
-	{	
+	{
 		modelStack.PushMatrix();
 		modelStack.Translate(myGuard->Coordinates[0].x, yOffset, myGuard->Coordinates[0].z);
 		modelStack.Rotate(myGuard->rotateY[0], 0, 1, 0);
@@ -1288,6 +1286,7 @@ void StudioProject2::Render()
 
 	//renderUI
 	renderUI();
+	}
 
 	//MainMenu();
 }
@@ -2581,7 +2580,7 @@ void StudioProject2::renderOutside()
 		RenderMesh(meshList[GEO_GREYBRICK], false, false);
 		modelStack.PopMatrix();
 	}
-	
+
 		modelStack.PushMatrix();
 		modelStack.Translate(-1310, -277, 2551);
 		modelStack.Rotate(90, 0, 1, 0);
@@ -2788,7 +2787,7 @@ void StudioProject2::renderUI()
 	if ( showList == true )
 	{
 		for(int i = 0; i < shoppingList.size();++i)
-		{	
+		{
 			RenderTextOnScreen(meshList[GEO_TEXT],shoppingList[i], Color(0, 0, 0), 2.5, 21, 11.5+i);
 		}
 	}
@@ -2801,7 +2800,7 @@ void StudioProject2::MainMenu()
 	RenderTextOnScreen(meshList[GEO_TEXT],"Start",Color(1,0,0),10,2.8,2.7);
 	RenderTextOnScreen(meshList[GEO_TEXT],"End",Color(1,0,0),10,2.8,1.7);
 	RenderTextOnScreen(meshList[GEO_TEXT],"->",Color(1,0,0),10,1.8, menuX);
-	
+
 	if(Application::IsKeyPressed(GLFW_KEY_UP))
 	{
 		menuX = 2.8f;
@@ -3279,7 +3278,7 @@ void StudioProject2::CollisionCheck(double dt)
 				}
 				else
 				checkOutText = true;
-				
+
 				if((Application::IsButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) && getCorrect == false && getWrong == false)
 				{
 					bool checkinglist = shopping.check(itemVector, inhand->holding);
