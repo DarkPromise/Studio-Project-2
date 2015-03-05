@@ -23,12 +23,16 @@ CPP file for StudioProject2
 #include "Utility.h"
 #include "LoadTGA.h"
 #include "define.h"
+#include <irrKlang.h>
 
 using std::setprecision;
 using std::cout;
 using std::endl;
 using std::vector;
 using std::iterator;
+using namespace irrklang;
+
+#pragma comment(lib, "irrKlang.lib")
 
 bool removeItems = false;
 
@@ -56,6 +60,19 @@ StudioProject2::StudioProject2()
 
 StudioProject2::~StudioProject2()
 {
+}
+
+int StudioProject2::Sounds()
+{
+	ISoundEngine* engine = createIrrKlangDevice();
+	
+	if(!engine)
+		return 0;
+
+	engine->play2D("Sounds/Music.mp3",true);
+
+	/*engine->drop();
+	return 0;*/
 }
 
 void StudioProject2::Init()
@@ -827,6 +844,7 @@ void StudioProject2::Init()
 
 	shoppingList = shopping.randomList(5);
 	/******************************/
+	Sounds();
 }
 
 void StudioProject2::RenderMesh(Mesh *mesh, bool enableLight, bool transparent)

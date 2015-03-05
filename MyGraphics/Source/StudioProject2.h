@@ -317,6 +317,8 @@ private:
 	void MainMenu();
 	void CollisionCheck(double);
 
+	int Sounds();
+
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderQuadOnScreen(Mesh* mesh, float scalex, float scaley, float x, float y);
