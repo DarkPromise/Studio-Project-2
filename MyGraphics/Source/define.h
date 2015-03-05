@@ -56,6 +56,7 @@ float wrongTimmer = 0;
 #define securityBounds Vector3(110,155,150); //1604 (TranslateX), 250, 150 L shape wall X is 368
 #define LwallLeftBounds Vector3(25,274,225);
 #define LwallBackBounds Vector3(515,274,25);
+#define outerSideWallBounds Vector3(3498,274,50);
 
 #define doorTranslation Vector3(2230,-53,1190)
 #define leftShelfTranslate Vector3(-2085,-103.3,-1085)

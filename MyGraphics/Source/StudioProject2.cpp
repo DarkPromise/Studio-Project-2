@@ -355,7 +355,7 @@ void StudioProject2::Init()
 	glGenVertexArrays(1, &m_vertexArrayID); //Generate "x" buffer
 	glBindVertexArray(m_vertexArrayID);
 
-	camera.Init(Vector3(0, 0, 1200), Vector3(0, 0, -150), Vector3(0, 1, 0)); //Position , Front(view), Up
+	camera.Init(Vector3(4600, 0, 1200), Vector3(4450, 0, 1200), Vector3(0, 1, 0)); //Position , Front(view), Up
 
 	for(int i = 0; i < NUM_GEOMETRY; ++i)
 	{
@@ -961,7 +961,7 @@ void StudioProject2::Update(double dt, double xpos, double ypos)
 		{
 			if(doRenderBounds)
 			{
-			    doRenderBounds = false;
+				doRenderBounds = false;
 				toggleDelay = 0.0;
 			}
 			else
@@ -972,19 +972,19 @@ void StudioProject2::Update(double dt, double xpos, double ypos)
 		}
 		if(Application::IsKeyPressed(GLFW_KEY_F1))
 		{
-		glEnable(GL_CULL_FACE);
+			glEnable(GL_CULL_FACE);
 		}
 		if(Application::IsKeyPressed(GLFW_KEY_F2))
 		{
-		glDisable(GL_CULL_FACE);
+			glDisable(GL_CULL_FACE);
 		}
 		if(Application::IsKeyPressed(GLFW_KEY_F3))
 		{
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
 		if(Application::IsKeyPressed(GLFW_KEY_F4))
 		{
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 
 		if(Application::IsKeyPressed('1'))
@@ -1049,13 +1049,13 @@ void StudioProject2::Update(double dt, double xpos, double ypos)
 		myCustomer->spawnAI();
 		myCustomer->updateAI();
 
-		cout << itemDelay << endl;
+		//cout << itemDelay << endl;
 		for ( int i = 0; i < myCustomer->AICurrent; i++ )
 		{
 			if ( (myCustomer->State[i] == LeftShelftoFrontLeftShelf || myCustomer->State[i] == GatestoRightShelf || 
-				 myCustomer->State[i] == RightShelftoMiddleRightShelf || myCustomer->State[i] == RightShelftoBackShelf ||
-				 myCustomer->State[i] == MiddleRightShelftoBackShelf || myCustomer->State[i] == BackShelftoLeftShelf ||
-				 myCustomer->State[i] == BackShelftoLeftRightShelf ) && myCustomer->itemsHeld[i] < itemsHeldtoLeave && itemDelay > windowShopper)
+				myCustomer->State[i] == RightShelftoMiddleRightShelf || myCustomer->State[i] == RightShelftoBackShelf ||
+				myCustomer->State[i] == MiddleRightShelftoBackShelf || myCustomer->State[i] == BackShelftoLeftShelf ||
+				myCustomer->State[i] == BackShelftoLeftRightShelf ) && myCustomer->itemsHeld[i] < itemsHeldtoLeave && itemDelay > windowShopper)
 			{
 				int canTakeItem = rand() % itemPickupChance;
 
@@ -1078,9 +1078,9 @@ void StudioProject2::Update(double dt, double xpos, double ypos)
 		for ( int i = 0; i < myVehicle->AICurrent; i++ )
 		{
 			if ( (myVehicle->State[i] == V_LeftShelftoFrontLeftShelf || myVehicle->State[i] == V_GatestoRightShelf || 
-				 myVehicle->State[i] == V_RightShelftoMiddleRightShelf || myVehicle->State[i] == V_RightShelftoBackShelf ||
-				 myVehicle->State[i] == V_MiddleRightShelftoBackShelf || myVehicle->State[i] == V_BackShelftoLeftShelf ||
-				 myVehicle->State[i] == V_BackShelftoLeftRightShelf ) && myVehicle->itemsHeld[i] && itemDelay > windowShopper )
+				myVehicle->State[i] == V_RightShelftoMiddleRightShelf || myVehicle->State[i] == V_RightShelftoBackShelf ||
+				myVehicle->State[i] == V_MiddleRightShelftoBackShelf || myVehicle->State[i] == V_BackShelftoLeftShelf ||
+				myVehicle->State[i] == V_BackShelftoLeftRightShelf ) && myVehicle->itemsHeld[i] && itemDelay > windowShopper )
 			{
 				int canTakeItem = rand() % itemPickupChance;
 
@@ -1232,6 +1232,13 @@ void StudioProject2::Render()
 		RenderMesh(meshList[GEO_LIGHTBALL], false, false);
 		modelStack.PopMatrix();
 
+		/*modelStack.PushMatrix();
+		modelStack.Translate(camera.target.x, camera.target.y, camera.target.z);
+		modelStack.Scale(0.05, 0.05, 0.05);
+		RenderMesh(meshList[GEO_LIGHTBALL], false, false);
+		modelStack.PopMatrix();
+		cout << camera.target.x << ' ' << camera.target.y << ' ' << camera.target.z << endl;
+		*/
 		///////////////////////////////////////////////////////////////////////////////////
 		renderSkybox();
 		renderOutside();
@@ -1239,102 +1246,100 @@ void StudioProject2::Render()
 		renderSupermarket();
 
 
-	/*modelStack.PushMatrix();
-	modelStack.Translate(playerPos.x, playerPos.y, playerPos.z);
-	modelStack.Rotate(rotateAngle,0,1,0);
-	modelStack.PushMatrix();
-	modelStack.Rotate(-90,0,1,0);
-	renderPlayer();
-	modelStack.PopMatrix();
-	modelStack.PopMatrix();*/
-
-
-	for ( int i = 0; i < myCashier->AICurrent; i++ )
-	{
+		/*modelStack.PushMatrix();
+		modelStack.Translate(playerPos.x, playerPos.y, playerPos.z);
+		modelStack.Rotate(rotateAngle,0,1,0);
 		modelStack.PushMatrix();
-		modelStack.Translate(myCashier->Coordinates[i].x, yOffset, myCashier->Coordinates[i].z);
-		modelStack.Rotate(myCashier->rotateY[i], 0, 1, 0);
-		renderCashier();
+		modelStack.Rotate(-90,0,1,0);
+		renderPlayer();
 		modelStack.PopMatrix();
-	}
+		modelStack.PopMatrix();*/
 
-	for ( int i = 0; i < myCustomer->AICurrent; i++ )
-	{
+
+		for ( int i = 0; i < myCashier->AICurrent; i++ )
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(myCashier->Coordinates[i].x, yOffset, myCashier->Coordinates[i].z);
+			modelStack.Rotate(myCashier->rotateY[i], 0, 1, 0);
+			renderCashier();
+			modelStack.PopMatrix();
+		}
+
+		for ( int i = 0; i < myCustomer->AICurrent; i++ )
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(myCustomer->Coordinates[i].x, yOffset, myCustomer->Coordinates[i].z);
+			modelStack.Rotate(myCustomer->rotateY[i], 0, 1, 0);
+			renderCustomer();
+			modelStack.PopMatrix();
+		}
+
+		for ( int i = 0; i < myPasserby->AICurrent; i++)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(myPasserby->Coordinates[i].x, yOffset, myPasserby->Coordinates[i].z);
+			modelStack.Rotate(myPasserby->rotateY[i], 0, 1, 0);
+			renderPasserby();
+			modelStack.PopMatrix();
+		}
+
+		if ( myPromoter->AICurrent == 1 )
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(myPromoter->Coordinates[0].x, yOffset, myPromoter->Coordinates[0].z);
+			modelStack.Rotate(180, 0, 1, 0);
+			renderPromoter();
+			modelStack.PopMatrix();
+		}
+
+		for ( int i = 0; i < myVehicle->AICurrent; i++ )
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(myVehicle->vehicleCoordinates[0].x, yOffset, myVehicle->vehicleCoordinates[0].z);
+			modelStack.Rotate(myVehicle->vehicleRotateY[i], 0, 1, 0);
+			renderVehicle();
+			modelStack.PopMatrix();
+		}
+
+		for (int i = 0; i < myVehicle->Coordinates.size(); i++ )
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(myVehicle->Coordinates[0].x, yOffset, myVehicle->Coordinates[0].z);
+			modelStack.Rotate(myVehicle->rotateY[i], 0, 1, 0);
+			if ( myVehicle->renderOwner[i] == RenderOwner )
+				renderOwner();
+			modelStack.PopMatrix();
+		}
+
+		if ( myGuard->AICurrent == 1 )
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(myGuard->Coordinates[0].x, yOffset, myGuard->Coordinates[0].z);
+			modelStack.Rotate(myGuard->rotateY[0], 0, 1, 0);
+			renderSecurityGuard();
+			modelStack.PopMatrix();
+		}
+
+		//render glass door
 		modelStack.PushMatrix();
-		modelStack.Translate(myCustomer->Coordinates[i].x, yOffset, myCustomer->Coordinates[i].z);
-		modelStack.Rotate(myCustomer->rotateY[i], 0, 1, 0);
-		renderCustomer();
+		modelStack.Translate(2235, -47, door1Pos);
+		modelStack.Scale(100, 50, 50.5);
+		RenderMesh(meshList[GEO_GLASSDOOR], false, false);
 		modelStack.PopMatrix();
-	}
 
-	for ( int i = 0; i < myPasserby->AICurrent; i++)
-	{
+		//render glass door
 		modelStack.PushMatrix();
-		modelStack.Translate(myPasserby->Coordinates[i].x, yOffset, myPasserby->Coordinates[i].z);
-		modelStack.Rotate(myPasserby->rotateY[i], 0, 1, 0);
-		renderPasserby();
+		modelStack.Translate(2235, -47, door2Pos);
+		modelStack.Scale(100, 50, 50.5);
+		RenderMesh(meshList[GEO_GLASSDOOR], false, false);
 		modelStack.PopMatrix();
+
+		RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
+		RenderTextOnScreen(meshList[GEO_TEXT],"Direction=" + currView, Color(0, 0, 1), 2.5, 12.7, 23);
+
+		//renderUI
+		renderUI();
 	}
-
-	if ( myPromoter->AICurrent == 1 )
-	{
-		modelStack.PushMatrix();
-		modelStack.Translate(myPromoter->Coordinates[0].x, yOffset, myPromoter->Coordinates[0].z);
-		modelStack.Rotate(180, 0, 1, 0);
-		renderPromoter();
-		modelStack.PopMatrix();
-	}
-
-	for ( int i = 0; i < myVehicle->AICurrent; i++ )
-	{
-		modelStack.PushMatrix();
-		modelStack.Translate(myVehicle->vehicleCoordinates[0].x, yOffset, myVehicle->vehicleCoordinates[0].z);
-		modelStack.Rotate(myVehicle->vehicleRotateY[i], 0, 1, 0);
-		renderVehicle();
-		modelStack.PopMatrix();
-	}
-
-	for (int i = 0; i < myVehicle->Coordinates.size(); i++ )
-	{
-		modelStack.PushMatrix();
-		modelStack.Translate(myVehicle->Coordinates[0].x, yOffset, myVehicle->Coordinates[0].z);
-		modelStack.Rotate(myVehicle->rotateY[i], 0, 1, 0);
-		if ( myVehicle->renderOwner[i] == RenderOwner )
-			renderOwner();
-		modelStack.PopMatrix();
-	}
-
-	if ( myGuard->AICurrent == 1 )
-	{
-		modelStack.PushMatrix();
-		modelStack.Translate(myGuard->Coordinates[0].x, yOffset, myGuard->Coordinates[0].z);
-		modelStack.Rotate(myGuard->rotateY[0], 0, 1, 0);
-		renderSecurityGuard();
-		modelStack.PopMatrix();
-	}
-
-	//render glass door
-	modelStack.PushMatrix();
-	modelStack.Translate(2235, -47, door1Pos);
-	modelStack.Scale(100, 50, 50.5);
-	RenderMesh(meshList[GEO_GLASSDOOR], false, false);
-	modelStack.PopMatrix();
-
-	//render glass door
-	modelStack.PushMatrix();
-	modelStack.Translate(2235, -47, door2Pos);
-	modelStack.Scale(100, 50, 50.5);
-	RenderMesh(meshList[GEO_GLASSDOOR], false, false);
-	modelStack.PopMatrix();
-
-	RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
-	RenderTextOnScreen(meshList[GEO_TEXT],"Direction=" + currView, Color(0, 0, 1), 2.5, 12.7, 23);
-
-	//renderUI
-	renderUI();
-	}
-
-	//MainMenu();
 }
 
 void StudioProject2::renderBounds()
@@ -2627,12 +2632,12 @@ void StudioProject2::renderOutside()
 		modelStack.PopMatrix();
 	}
 
-		modelStack.PushMatrix();
-		modelStack.Translate(-1310, -277, 2551);
-		modelStack.Rotate(90, 0, 1, 0);
-		modelStack.Scale(50, 50, 50);
-		RenderMesh(meshList[GEO_GREYBRICK], false, false);
-		modelStack.PopMatrix();
+	modelStack.PushMatrix();
+	modelStack.Translate(-1310, -277, 2551);
+	modelStack.Rotate(90, 0, 1, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_GREYBRICK], false, false);
+	modelStack.PopMatrix();
 
 	for(float a=3710; a > -1710; a-=2076)
 	{
@@ -3298,10 +3303,8 @@ void StudioProject2::CollisionCheck(double dt)
 		if(currentlyHolding < inhand->holding.size())
 		{
 			itemVector[inhand->holding[currentlyHolding]]->takeItem(camera.target - Vector3(0,18,0));
-			itemVector[inhand->holding[currentlyHolding]]->updateRotate(camera.yaw);
+			itemVector[inhand->holding[currentlyHolding]]->updateRotate(camera.yaw + 90);
 
-
-			itemVector[inhand->holding.back()]->takeItem(camera.target);
 			if(Application::IsKeyPressed(VK_LEFT))
 			{
 				itemVector[inhand->holding.back()]->updateRotate(150.f * dt);
@@ -3311,10 +3314,15 @@ void StudioProject2::CollisionCheck(double dt)
 				itemVector[inhand->holding.back()]->updateRotate(-150.f * dt);
 			}
 		}
+	}
 
-		for(int i = RIGHTCASHIER; i <= LEFTCASHIER; ++i)
+	for(int i = RIGHTCASHIER; i <= LEFTCASHIER; ++i)
+	{
+		if(camera.target.x > box[i]->Min.x && camera.target.x < box[i]->Max.x  && camera.target.y > box[i]->Min.y && camera.target.y < box[i]->Max.y && camera.target.z > box[i]->Min.z && camera.target.z < box[i]->Max.z)
 		{
-			if(camera.target.x > box[i]->Min.x && camera.target.x < box[i]->Max.x  && camera.target.y > box[i]->Min.y && camera.target.y < box[i]->Max.y && camera.target.z > box[i]->Min.z && camera.target.z < box[i]->Max.z)
+			checkOutText = true;
+
+			if((Application::IsButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) && getCorrect == false && getWrong == false)
 			{
 				bool checkinglist = shopping.check(itemVector, inhand->holding);
 
@@ -3323,29 +3331,18 @@ void StudioProject2::CollisionCheck(double dt)
 					getWrong = true;
 				}
 				else
-				checkOutText = true;
-
-				if((Application::IsButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) && getCorrect == false && getWrong == false)
 				{
-					bool checkinglist = shopping.check(itemVector, inhand->holding);
-
-					if(checkinglist == false)
-					{
-						getWrong = true;
-					}
-					else
-					{
-						getCorrect = true;
-					}
-				}break;
-			}
-			else
-			{
-				checkOutText = false;
-			}
-
+					getCorrect = true;
+				}
+			}break;
 		}
+		else
+		{
+			checkOutText = false;
+		}
+
 	}
+
 }
 
 void StudioProject2::AItakeItem(int Shelf)
