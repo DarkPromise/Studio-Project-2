@@ -851,6 +851,7 @@ void StudioProject2::Init()
 			shelfVector.push_back(sp);
 		}
 	}
+
 	/***************************
 	FOR SHOPPING
 	****************************/
@@ -1048,8 +1049,53 @@ void StudioProject2::Update(double dt, double xpos, double ypos)
 		myCustomer->spawnAI();
 		myCustomer->updateAI();
 
+		cout << itemDelay << endl;
+		for ( int i = 0; i < myCustomer->AICurrent; i++ )
+		{
+			if ( (myCustomer->State[i] == LeftShelftoFrontLeftShelf || myCustomer->State[i] == GatestoRightShelf || 
+				 myCustomer->State[i] == RightShelftoMiddleRightShelf || myCustomer->State[i] == RightShelftoBackShelf ||
+				 myCustomer->State[i] == MiddleRightShelftoBackShelf || myCustomer->State[i] == BackShelftoLeftShelf ||
+				 myCustomer->State[i] == BackShelftoLeftRightShelf ) && myCustomer->itemsHeld[i] < itemsHeldtoLeave && itemDelay > windowShopper)
+			{
+				int canTakeItem = rand() % itemPickupChance;
+
+				if ( canTakeItem == 1 )
+				{
+					AItakeItem(myCustomer->State[i]);
+					myCustomer->itemsHeld[i] += 1;
+					itemDelay = 0;
+				}
+			}
+			else
+			{
+				itemDelay += 0.2;
+			}
+		}
+
 		myVehicle->spawnAI();
 		myVehicle->updateAI();
+
+		for ( int i = 0; i < myVehicle->AICurrent; i++ )
+		{
+			if ( (myVehicle->State[i] == V_LeftShelftoFrontLeftShelf || myVehicle->State[i] == V_GatestoRightShelf || 
+				 myVehicle->State[i] == V_RightShelftoMiddleRightShelf || myVehicle->State[i] == V_RightShelftoBackShelf ||
+				 myVehicle->State[i] == V_MiddleRightShelftoBackShelf || myVehicle->State[i] == V_BackShelftoLeftShelf ||
+				 myVehicle->State[i] == V_BackShelftoLeftRightShelf ) && myVehicle->itemsHeld[i] && itemDelay > windowShopper )
+			{
+				int canTakeItem = rand() % itemPickupChance;
+
+				if ( canTakeItem == 1 )
+				{
+					AItakeItem(myVehicle->State[i]);
+					myVehicle->itemsHeld[i] += 1;
+					itemDelay = 0;
+				}
+			}
+			else
+			{
+				itemDelay += 0.2;
+			}
+		}
 
 		myCashier->spawnAI();
 		myCashier->updateAI();
@@ -2757,7 +2803,7 @@ void StudioProject2::renderUI()
 	{
 		RenderQuadOnScreen(meshList[GEO_CORRECT], 40, 40, 1, 0.75);
 	}
-	if ( CashierText == true )
+	if ( CashierText == true && currView == "South" )
 	{
 		RenderQuadOnScreen(meshList[GEO_TEXTBOX], 40, 6, 1, 2.5);
 		RenderTextOnScreen(meshList[GEO_TEXT],"Thank you for your purchase!", Color(1, 0, 0), 2.5, 9.5, 5.5);
@@ -3093,7 +3139,7 @@ void StudioProject2::CollisionCheck(double dt)
 	INTERACTION GOES UNDER HERE
 	*******************************************************************************************************************************/
 
-	if(camera.position.x > box[DOOR]->Min.x && camera.position.x < box[DOOR]->Max.x && camera.position.y > box[DOOR]->Min.y && camera.position.y < box[DOOR]->Max.y && camera.position.z > box[DOOR]->Min.z && camera.position.z < box[DOOR]->Max.z && door1Pos > 700)
+	if(	camera.position.x > box[DOOR]->Min.x && camera.position.x < box[DOOR]->Max.x && camera.position.y > box[DOOR]->Min.y && camera.position.y < box[DOOR]->Max.y && camera.position.z > box[DOOR]->Min.z && camera.position.z < box[DOOR]->Max.z && door1Pos > 700 )
 	{
 		canPhase = true;
 		door1Pos -= 500*dt;
@@ -3299,6 +3345,46 @@ void StudioProject2::CollisionCheck(double dt)
 			}
 
 		}
+	}
+}
+
+void StudioProject2::AItakeItem(int Shelf)
+{
+	int shelfNumber;
+
+	if ( Shelf == LeftShelftoFrontLeftShelf )
+		shelfNumber = 1;
+	else if ( Shelf == GatestoRightShelf )
+		shelfNumber = 11;
+	else if ( Shelf == RightShelftoMiddleRightShelf )
+		shelfNumber = 10;
+	else if ( Shelf == RightShelftoBackShelf || Shelf == MiddleRightShelftoBackShelf )
+	{
+		int whichBackShelf = rand() % 3;
+		if ( whichBackShelf == 0 )
+			shelfNumber = 4;
+		else if ( whichBackShelf == 1 )
+			shelfNumber = 5;
+		else
+			shelfNumber = 6;
+	}
+	else if ( Shelf == BackShelftoLeftShelf )
+	{
+		int whichLeftShelf = rand() % 2;
+		if ( whichLeftShelf == 0 )
+			shelfNumber = 3;
+		else
+			shelfNumber = 2;
+	}
+	else if ( Shelf == BackShelftoLeftRightShelf )
+		shelfNumber = 8;
+
+	int takeWhich = (rand() % itemsonShelf) + ( (shelfNumber - 1) * itemsonShelf);
+
+	if ( takeWhich < itemVector.size() )
+	{
+		itemVector[shelfVector[takeWhich]->itemid]->takeItem(abyss);
+		shelfVector[takeWhich]->isempty = true;
 	}
 }
 

@@ -361,9 +361,7 @@ void Vehicle::updateAI(void)
 					this->Coordinates[i].z += customerSpeed;
 				else
 				{
-					int goWhere = rand() % 2;
-
-					if ( goWhere == 0 )
+					if ( this->itemsHeld[i] == itemsHeldtoLeave )
 						this->State[i] = V_LeftRightShelftoCheckout2;
 					else
 						this->State[i] = V_LeftRightShelftoGates;
@@ -662,17 +660,4 @@ void Vehicle::spawnAI(void)
 
 void Vehicle::interactWith(void)
 {
-}
-
-void Vehicle::takeItem(void)
-{
-	int canTakeItem = rand() % itemPickupChance;
-
-	if ( canTakeItem == 1 )
-	{
-		//int takeWhich = rand() % itemsonShelf + rightShelf;
-
-		//itemVector[shelfVector[takeWhich]->itemid]->takeItem(abyss);
-		//shelfVector[takeWhich]->isempty = true;
-	}
 }

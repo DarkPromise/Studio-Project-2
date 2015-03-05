@@ -61,12 +61,14 @@ public:
 
 	int checkingOut;
 	int takeItem;
-	float lookatDelay;
+	float itemDelay;
 
 	float animateFlying;
 	float animateDoor;
 
 	float playerDistance;
+
+	void AItakeItem(int Shelf);
 
 	int openDoor;
 

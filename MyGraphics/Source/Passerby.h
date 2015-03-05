@@ -19,6 +19,8 @@ public:
 	Passerby(void);
 	~Passerby(void);
 
+	int spawnRate;
+
 	void spawnAI(void);
 	void updateAI(void);
 	void interactWith(void);

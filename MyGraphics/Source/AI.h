@@ -25,7 +25,7 @@ public:
 	vector<float> rotateY;
 	vector<int> State;
 
-	int AILimit, AICurrent, spawnRate;
+	int AILimit, AICurrent;
 
 	virtual void spawnAI(void) = 0;
 	virtual void updateAI(void) = 0;

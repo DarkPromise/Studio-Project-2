@@ -245,9 +245,7 @@ void Customer::updateAI(void)
 					this->Coordinates[i].z += customerSpeed;
 				else
 				{
-					int goWhere = rand() % 2;
-
-					if ( goWhere == 0 )
+					if ( this->itemsHeld[i] == itemsHeldtoLeave )
 						this->State[i] = LeftRightShelftoCheckout2;
 					else
 						this->State[i] = LeftRightShelftoGates;
@@ -417,17 +415,4 @@ void Customer::spawnAI(void)
 
 void Customer::interactWith(void)
 {
-}
-
-void Customer::takeItem(void)
-{
-	int canTakeItem = rand() % itemPickupChance;
-
-	if ( canTakeItem == 1 )
-	{
-		//int takeWhich = rand() % itemsonShelf + rightShelf;
-
-		//itemVector[shelfVector[takeWhich]->itemid]->takeItem(abyss);
-		//shelfVector[takeWhich]->isempty = true;
-	}
 }

@@ -30,7 +30,7 @@ bool PromoterText = false;
 
 bool checkOutText = false;
 bool showList = false;
-float listlocation = 2.15;
+float listlocation = 2.15f;
 bool getCorrect = false;
 bool getWrong = false;
 float correctTimmer = 0;

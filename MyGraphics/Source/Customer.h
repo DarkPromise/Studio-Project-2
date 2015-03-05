@@ -10,6 +10,8 @@ Header file for Customer
 #define CUSTOMER_H
 
 #include "AI.h"
+#include "Shelfslot.h"
+#include "Item.h"
 
 #pragma once
 
@@ -19,11 +21,11 @@ public:
 	Customer(void);
 	~Customer(void);
 
+	int spawnRate;
+
 	void updateAI(void);
 	void spawnAI(void);
 	void interactWith(void);
-
-	void takeItem();
 
 	vector<int> itemsHeld;
 	vector<float> cashierDelay;

@@ -13,8 +13,8 @@ Header file for AIDefine
 #define	vehicleReverseSpeed	10
 #define	vehicleOwnerSpeed	10
 #define	passerbySpawnRate	555 // 1 / ___ chance
-#define	customerSpawnRate	1111 // of spawning
-#define vehicleSpawnRate	2222 // every update
+#define	customerSpawnRate	1555 // of spawning
+#define vehicleSpawnRate	2288 // every update
 #define	customerLimit		10
 #define passerbyLimit		20
 #define cashierTurnDelay	2 // seconds
@@ -22,6 +22,7 @@ Header file for AIDefine
 #define	itemPickupChance	2 // 1 / __ chance of picking up
 #define	itemLookatTime		2 // seconds
 #define	itemsHeldtoLeave	3
+#define	windowShopper		60 // frequency between picking up another item
 #define	checkoutTime		20
 #define	abyss				Vector3(99999, 99999, 99999) //location to store NPC held items
 
