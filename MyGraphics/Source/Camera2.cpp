@@ -223,7 +223,7 @@ void Camera2::Update(double dt,bool move, double xpos, double ypos)
 		//std::cout << "Camera Angle : " << rotation << std::endl;
 	}
 
-	if(Application::IsKeyPressed('Q'))
+	/*if(Application::IsKeyPressed('Q'))
 	{
 		float yaw = (float)(-CAMERA_SPEED * 2 * dt);
 		position += (view.Cross(right) * yaw);
@@ -235,7 +235,7 @@ void Camera2::Update(double dt,bool move, double xpos, double ypos)
 		float yaw = (float)(CAMERA_SPEED * 2 * dt);
 		position += (view.Cross(right) * yaw);
 		target += (view.Cross(right) * yaw);
-	}
+	}*/
 
 	if(Application::IsKeyPressed('R'))
 	{

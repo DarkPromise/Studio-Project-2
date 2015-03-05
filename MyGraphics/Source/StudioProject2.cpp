@@ -355,7 +355,7 @@ void StudioProject2::Init()
 	glGenVertexArrays(1, &m_vertexArrayID); //Generate "x" buffer
 	glBindVertexArray(m_vertexArrayID);
 
-	camera.Init(Vector3(0, 0, 0), Vector3(0, 0, -150), Vector3(0, 1, 0)); //Position , Front(view), Up
+	camera.Init(Vector3(0, 0, 1200), Vector3(0, 0, -150), Vector3(0, 1, 0)); //Position , Front(view), Up
 
 	for(int i = 0; i < NUM_GEOMETRY; ++i)
 	{
