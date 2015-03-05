@@ -236,6 +236,7 @@ public:
 
 		GEO_MENU,
 		GEO_TEXT,
+		GEO_LSHAPEWALL,
 
 		NUM_GEOMETRY,
 	};

@@ -495,6 +495,9 @@ void StudioProject2::Init()
 
 	meshList[GEO_MENU] = MeshBuilder::GenerateQuad("Menu", Color (0, 0, 0), 1.f);
 	meshList[GEO_MENU]->textureID = LoadTGA("Image//Menu.tga");
+
+	meshList[GEO_LSHAPEWALL] = MeshBuilder::GenerateOBJ("LSHAPEWALL", "Object//L shape wall.obj");
+	meshList[GEO_LSHAPEWALL]->textureID = LoadTGA("Image//L shape wall.tga");
 	/***************************************************************************************************************
 	USER INERFACE
 	***************************************************************************************************************/
@@ -1694,6 +1697,13 @@ void StudioProject2::renderSupermarket()
 	modelStack.Rotate(gate2LeftRotate, 0, 1, 0);
 	modelStack.Scale(70, 70, 70);
 	RenderMesh(meshList[GEO_LEFTGATE], false, false);
+	modelStack.PopMatrix();
+
+	//L shape wall
+	modelStack.PushMatrix();
+	modelStack.Translate(1200, 0, 0);
+	modelStack.Scale(50, 110, 50);
+	RenderMesh(meshList[GEO_LSHAPEWALL], false, false);
 	modelStack.PopMatrix();
 }
 
