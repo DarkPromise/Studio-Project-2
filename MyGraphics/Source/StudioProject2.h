@@ -54,8 +54,6 @@ public:
 	int takeItem;
 	float lookatDelay;
 
-	int carparkSlot[4];
-
 	float animateFlying;
 	float animateDoor;
 
@@ -198,6 +196,8 @@ public:
 		GEO_SHELFBOUNDS5,
 		GEO_DOORBOUNDS,
 		GEO_PLAYERBOUNDS,
+		GEO_PASSERBYBOUNDS,
+		GEO_CUSTOMERBOUNDS,
 		GEO_FREEZERBOUNDS,
 		GEO_CHILLERBOUNDS,
 		GEO_GATEBOUNDS1,
@@ -235,6 +235,7 @@ public:
 
 		GEO_MENU,
 		GEO_TEXT,
+		GEO_LSHAPEWALL,
 
 		NUM_GEOMETRY,
 	};
@@ -359,6 +360,8 @@ enum BOUNDTYPE
 		SHELF5,
 		DOOR,
 		PLAYER,
+		PASSERBY,
+		CUSTOMER,
 		FREEZER,
 		CHILLER,
 		GATE1,

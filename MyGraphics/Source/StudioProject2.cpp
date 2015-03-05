@@ -115,11 +115,6 @@ void StudioProject2::Init()
 	stoptime = true;
 	menuX = 2.8f; 
 
-	carparkSlot[0] = 0;
-	carparkSlot[1] = 0; // 0 = empty, 1 = filled
-	carparkSlot[2] = 0;
-	carparkSlot[3] = 0;
-
 	//Init AI
 	myPasserby = new Passerby();
 	myPasserby->AILimit = passerbyLimit;
@@ -222,6 +217,18 @@ void StudioProject2::Init()
 	box.push_back(boxPtr);
 
 	boxPtr = new BoundingBox();
+	boxPtr->isInteractive = true;
+	boxPtr->Max = PasserbyBounds;
+	boxPtr->Min = -PasserbyBounds;
+	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isInteractive = true;
+	boxPtr->Max = CustomerBounds;
+	boxPtr->Min = -CustomerBounds;
+	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
 	boxPtr->isObj = true;
 	boxPtr->Max = freezerBounds;
 	boxPtr->Min = -freezerBounds;
@@ -266,6 +273,8 @@ void StudioProject2::Init()
 	boxPtr->Max = cashierBounds;
 	boxPtr->Min = -cashierBounds;
 	box.push_back(boxPtr);
+
+
 	/*******************/
 
 	// Init VBO here
@@ -486,6 +495,9 @@ void StudioProject2::Init()
 
 	meshList[GEO_MENU] = MeshBuilder::GenerateQuad("Menu", Color (0, 0, 0), 1.f);
 	meshList[GEO_MENU]->textureID = LoadTGA("Image//Menu.tga");
+
+	meshList[GEO_LSHAPEWALL] = MeshBuilder::GenerateOBJ("LSHAPEWALL", "Object//L shape wall.obj");
+	meshList[GEO_LSHAPEWALL]->textureID = LoadTGA("Image//L shape wall.tga");
 	/***************************************************************************************************************
 	USER INERFACE
 	***************************************************************************************************************/
@@ -544,6 +556,8 @@ void StudioProject2::Init()
 	meshList[GEO_SHELFBOUNDS5] = MeshBuilder::GenerateBoundingBox("Shelf5Bounds", box[SHELF5]->Max, box[SHELF5]->Min, Color(0,0,1));
 	meshList[GEO_DOORBOUNDS] = MeshBuilder::GenerateBoundingBox("doorbounds", box[DOOR]->Max, box[DOOR]->Min, Color(0,1,0));
 	meshList[GEO_PLAYERBOUNDS] = MeshBuilder::GenerateBoundingBox("Player", box[PLAYER]->Max, box[PLAYER]->Min, Color(0,0,0));
+	meshList[GEO_PASSERBYBOUNDS] = MeshBuilder::GenerateBoundingBox("NPC", box[PASSERBY]->Max, box[PASSERBY]->Min, Color(0, 0, 0));
+	meshList[GEO_CUSTOMERBOUNDS] = MeshBuilder::GenerateBoundingBox("NPC", box[CUSTOMER]->Max, box[CUSTOMER]->Min, Color(0, 0, 0));
 	meshList[GEO_FREEZERBOUNDS] = MeshBuilder::GenerateBoundingBox("freezer", box[FREEZER]->Max, box[FREEZER]->Min, Color(0,0,1));
 	meshList[GEO_CHILLERBOUNDS] = MeshBuilder::GenerateBoundingBox("freezer", box[CHILLER]->Max, box[CHILLER]->Min, Color(0,0,1));
 	meshList[GEO_GATEBOUNDS1] = MeshBuilder::GenerateBoundingBox("gatebounds", box[GATE1]->Max, box[GATE1]->Min, Color(0,1,0));
@@ -806,30 +820,30 @@ void StudioProject2::Update(double dt, double xpos, double ypos)
 	{
 		/*if(Application::IsKeyPressed('5'))
 		{
-			rotateAngle += 0.1f;
-			cout << rotateAngle << endl;
+		rotateAngle += 0.1f;
+		cout << rotateAngle << endl;
 		}
 
 		if(Application::IsKeyPressed('6'))
 		{
-			rotateAngle -= 0.1f;
-			cout << rotateAngle << endl;
+		rotateAngle -= 0.1f;
+		cout << rotateAngle << endl;
 		}
 		if(Application::IsKeyPressed('1'))
 		{
-			glEnable(GL_CULL_FACE);
+		glEnable(GL_CULL_FACE);
 		}
 		if(Application::IsKeyPressed('2'))
 		{
-			glDisable(GL_CULL_FACE);
+		glDisable(GL_CULL_FACE);
 		}
 		if(Application::IsKeyPressed('3'))
 		{
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
 		if(Application::IsKeyPressed('4'))
 		{
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}*/
 
 		if(Application::IsKeyPressed('1'))
@@ -971,6 +985,19 @@ void StudioProject2::Update(double dt, double xpos, double ypos)
 		box[PLAYER]->Max = playerPos + playerBounds;
 		box[PLAYER]->Min = playerPos - playerBounds;
 
+
+		for ( int i = 0; i < myPasserby->AICurrent; i++ )
+		{
+			box[PASSERBY]->Max = myPasserby->Coordinates[i] + PasserbyBounds;
+			box[PASSERBY]->Min = myPasserby->Coordinates[i] - PasserbyBounds;
+		}
+
+		for ( int i = 0; i < myCustomer->AICurrent; i++ )
+		{
+			box[CUSTOMER]->Max = myCustomer->Coordinates[i] + CustomerBounds;
+			box[CUSTOMER]->Min = myCustomer->Coordinates[i] - CustomerBounds;
+		}
+
 		if(canMove)
 		{
 			tempStorage = playerPos;
@@ -1017,7 +1044,6 @@ void StudioProject2::Update(double dt, double xpos, double ypos)
 
 			shoppingList = shopping.randomList(5);
 		}
-
 		//camera.target.Set(CustomerX[0], 0, CustomerZ[0]);
 		//camera.position.Set(CustomerX[0], 0, CustomerZ[0] + 500);
 	}
@@ -1258,6 +1284,22 @@ void StudioProject2::renderBounds()
 	modelStack.Translate(-1148.2, -125, 385.3);
 	RenderMesh(meshList[GEO_LEFTCASHIERBOUNDS], false, false);
 	modelStack.PopMatrix();
+
+	for ( int i = 0; i < myPasserby->AICurrent; i++ )
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(myPasserby->Coordinates[i].x, -100, myPasserby->Coordinates[i].z);
+		RenderMesh(meshList[GEO_PASSERBYBOUNDS], false, false);
+		modelStack.PopMatrix();
+	}
+
+	for ( int i = 0; i < myCustomer->AICurrent; i++ )
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(myCustomer->Coordinates[i].x, -100, myCustomer->Coordinates[i].z);
+		RenderMesh(meshList[GEO_CUSTOMERBOUNDS], false, false);
+		modelStack.PopMatrix();
+	}
 }
 
 void StudioProject2::renderPlayer()
@@ -1713,6 +1755,13 @@ void StudioProject2::renderSupermarket()
 	modelStack.Rotate(gate2LeftRotate, 0, 1, 0);
 	modelStack.Scale(70, 70, 70);
 	RenderMesh(meshList[GEO_LEFTGATE], false, false);
+	modelStack.PopMatrix();
+
+	//L shape wall
+	modelStack.PushMatrix();
+	modelStack.Translate(1200, 0, 0);
+	modelStack.Scale(50, 110, 50);
+	RenderMesh(meshList[GEO_LSHAPEWALL], false, false);
 	modelStack.PopMatrix();
 }
 
@@ -2928,6 +2977,20 @@ void StudioProject2::CollisionCheck(double dt)
 		{
 			putBackText = false;
 		}
+	}
+
+	for( int i = 0; i < myPasserby->AICurrent; i++ )
+	{
+		if(camera.target.x > box[PASSERBY]->Min.x && camera.target.x < box[PASSERBY]->Min.x && camera.target.z > box[PASSERBY]->Min.z && camera.target.z < box[PASSERBY]->Min.z)
+		{
+			cout << "You are hugging the passerby" << endl;
+		}
+		else
+		{
+			cout << "camera.target.x: " << camera.target.x << endl;
+			cout << "box[PASSERYB]->min.x: " << box[PASSERBY]->Min.x << endl;
+		}
+
 	}
 
 	if(inhand->holding.size() > 0)
