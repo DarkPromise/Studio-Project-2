@@ -21,9 +21,10 @@ public:
 	AI(void);
 	~AI(void);
 
-	vector<Vector3> Coordinates, Waypoints;
+	vector<Vector3> Coordinates, Waypoints, Max, Min;
 	vector<float> rotateY;
 	vector<int> State;
+
 	int AILimit, AICurrent, spawnRate;
 
 	virtual void spawnAI(void) = 0;

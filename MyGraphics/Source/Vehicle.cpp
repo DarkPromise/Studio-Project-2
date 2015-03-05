@@ -97,6 +97,8 @@ void Vehicle::updateAI(void)
 						this->rotateY.push_back(customerForward);
 						this->parkingLocation.push_back(0);
 						this->renderOwner[i] = RenderOwner;
+						this->Max.push_back(CustomerBounds);
+						this->Min.push_back(-CustomerBounds);
 						this->State[i] = V_SpawntoCarparkEntrance;
 					}
 				}
@@ -117,6 +119,8 @@ void Vehicle::updateAI(void)
 						this->rotateY.push_back(customerForward);
 						this->parkingLocation.push_back(1);
 						this->renderOwner[i] = RenderOwner;
+						this->Max.push_back(CustomerBounds);
+						this->Min.push_back(-CustomerBounds);
 						this->State[i] = V_SpawntoCarparkEntrance;
 					}
 				}
@@ -137,6 +141,8 @@ void Vehicle::updateAI(void)
 						this->rotateY.push_back(customerForward);
 						this->parkingLocation.push_back(2);
 						this->renderOwner[i] = RenderOwner;
+						this->Max.push_back(CustomerBounds);
+						this->Min.push_back(-CustomerBounds);
 						this->State[i] = V_SpawntoCarparkEntrance;
 					}
 				}
@@ -156,6 +162,8 @@ void Vehicle::updateAI(void)
 						this->Coordinates.push_back(Carpark4Spawnpoint);
 						this->rotateY.push_back(customerForward);
 						this->parkingLocation.push_back(3);
+						this->Max.push_back(CustomerBounds);
+						this->Min.push_back(-CustomerBounds);
 						this->renderOwner[i] = RenderOwner;
 						this->State[i] = V_SpawntoCarparkEntrance;
 					}

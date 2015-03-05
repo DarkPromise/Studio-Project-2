@@ -31,6 +31,8 @@ void Promoter::spawnAI(void)
 	{
 		this->Coordinates.push_back(PromoterSpawn);
 		this->rotateY.push_back(promoterFaceForward);
+		this->Max.push_back(PromoterBounds);
+		this->Min.push_back(-PromoterBounds);
 	}
 }
 

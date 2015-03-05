@@ -408,6 +408,8 @@ void Customer::spawnAI(void)
 			this->State.push_back(SpawntoCarpark);
 			this->cashierDelay.push_back(0);
 			this->itemsHeld.push_back(0);
+			this->Max.push_back(CustomerBounds);
+			this->Min.push_back(-CustomerBounds);
 			this->AICurrent += 1;
 		}
 	}

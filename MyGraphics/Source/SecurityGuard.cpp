@@ -38,7 +38,8 @@ void SecurityGuard::spawnAI(void)
 		this->Coordinates.push_back(SittingGuard);
 		this->rotateY.push_back(GuardDirection);
 		this->State.push_back(Sitting);
-
+		this->Max.push_back(SecurityGuardBounds);
+		this->Min.push_back(-SecurityGuardBounds);
 		this->AICurrent = 1;
 	}
 }

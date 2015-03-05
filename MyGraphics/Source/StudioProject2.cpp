@@ -29,7 +29,6 @@ using std::cout;
 using std::endl;
 using std::vector;
 using std::iterator;
-using std::string;
 
 bool removeItems = false;
 
@@ -123,6 +122,9 @@ void StudioProject2::Init()
 	stoptime = true;
 	menuX = 2.8f;
 
+	stoptime = true;
+	menuX = 2.8f;
+	
 	//Init AI
 	myPasserby = new Passerby();
 	myPasserby->AILimit = passerbyLimit;
@@ -234,6 +236,24 @@ void StudioProject2::Init()
 	boxPtr->isInteractive = true;
 	boxPtr->Max = CustomerBounds;
 	boxPtr->Min = -CustomerBounds;
+	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isInteractive = true;
+	boxPtr->Max = PromoterBounds;
+	boxPtr->Min = -PromoterBounds;
+	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isInteractive = true;
+	boxPtr->Max = SecurityGuardBounds;
+	boxPtr->Min = -SecurityGuardBounds;
+	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isInteractive = true;
+	boxPtr->Max = CashierBounds;
+	boxPtr->Min = -CashierBounds;
 	box.push_back(boxPtr);
 
 	boxPtr = new BoundingBox();
@@ -588,6 +608,9 @@ void StudioProject2::Init()
 	meshList[GEO_PLAYERBOUNDS] = MeshBuilder::GenerateBoundingBox("Player", box[PLAYER]->Max, box[PLAYER]->Min, Color(0,0,0));
 	meshList[GEO_PASSERBYBOUNDS] = MeshBuilder::GenerateBoundingBox("NPC", box[PASSERBY]->Max, box[PASSERBY]->Min, Color(0, 0, 0));
 	meshList[GEO_CUSTOMERBOUNDS] = MeshBuilder::GenerateBoundingBox("NPC", box[CUSTOMER]->Max, box[CUSTOMER]->Min, Color(0, 0, 0));
+	meshList[GEO_PROMOTERBOUNDS] = MeshBuilder::GenerateBoundingBox("NPC", box[CUSTOMER]->Max, box[PROMOTER]->Min, Color(0, 0, 0));
+	meshList[GEO_SECURITYGUARDBOUNDS] = MeshBuilder::GenerateBoundingBox("NPC", box[CUSTOMER]->Max, box[SECURITYGUARD]->Min, Color(0, 0, 0));
+	meshList[GEO_CASHIERBOUNDS] = MeshBuilder::GenerateBoundingBox("NPC", box[CUSTOMER]->Max, box[CASHIER]->Min, Color(0, 0, 0));
 	meshList[GEO_FREEZERBOUNDS] = MeshBuilder::GenerateBoundingBox("freezer", box[FREEZER]->Max, box[FREEZER]->Min, Color(0,0,1));
 	meshList[GEO_CHILLERBOUNDS] = MeshBuilder::GenerateBoundingBox("freezer", box[CHILLER]->Max, box[CHILLER]->Min, Color(0,0,1));
 	meshList[GEO_GATEBOUNDS1] = MeshBuilder::GenerateBoundingBox("gatebounds", box[GATE1]->Max, box[GATE1]->Min, Color(0,1,0));
@@ -776,7 +799,7 @@ void StudioProject2::Init()
 
 	for(float x = 750; x >= 425; x -= 65)
 	{
-	 	for(float y = 26; y > -274; y -= 50)
+		for(float y = 26; y > -274; y -= 50)
 		{
 			ip = new Item(Vector3(12,36,12), Vector3(-12,0,-12), Vector3(x, y , -770), Vector3(45,45,45), 0.f, GEO_SARDINES, GEO_SARDINESUI);
 			itemVector.push_back(ip);
@@ -870,6 +893,13 @@ void StudioProject2::Update(double dt, double xpos, double ypos)
 		cout << rotateAngle << endl;
 		}
 
+		if(Application::IsKeyPressed('6'))
+		{
+		if(Application::IsKeyPressed('5'))
+		{
+		rotateAngle += 0.1f;
+		cout << rotateAngle << endl;
+		}
 		if(Application::IsKeyPressed('6'))
 		{
 		rotateAngle -= 0.1f;
@@ -1121,6 +1151,8 @@ void StudioProject2::Render()
 	{
 		//RenderMesh(meshList[GEO_AXES], false, false);
 
+		//RenderMesh(meshList[GEO_AXES], false, false);
+
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		renderBounds();
@@ -1137,95 +1169,97 @@ void StudioProject2::Render()
 		renderOutside();
 		renderItems();
 		renderSupermarket();
-
-		/*modelStack.PushMatrix();
-		modelStack.Translate(playerPos.x, playerPos.y, playerPos.z);
-		modelStack.Rotate(rotateAngle,0,1,0);
-		modelStack.PushMatrix();
-		modelStack.Rotate(-90,0,1,0);
-		renderPlayer();
-		modelStack.PopMatrix();
-		modelStack.PopMatrix();*/
-
-
-		for ( int i = 0; i < myCashier->AICurrent; i++ )
-		{
-			modelStack.PushMatrix();
-			modelStack.Translate(myCashier->Coordinates[i].x, myCashier->Coordinates[i].y, myCashier->Coordinates[i].z);
-			modelStack.Rotate(myCashier->rotateY[i], 0, 1, 0);
-			renderCashier();
-			modelStack.PopMatrix();
-		}
-
-		for ( int i = 0; i < myCustomer->AICurrent; i++ )
-		{
-			modelStack.PushMatrix();
-			modelStack.Translate(myCustomer->Coordinates[i].x, myCustomer->Coordinates[i].y, myCustomer->Coordinates[i].z);
-			modelStack.Rotate(myCustomer->rotateY[i], 0, 1, 0);
-			renderCustomer();
-			modelStack.PopMatrix();
-		}
-
-		for ( int i = 0; i < myPasserby->AICurrent; i++)
-		{
-			modelStack.PushMatrix();
-			modelStack.Translate(myPasserby->Coordinates[i].x, myPasserby->Coordinates[i].y, myPasserby->Coordinates[i].z);
-			modelStack.Rotate(myPasserby->rotateY[i], 0, 1, 0);
-			renderPasserby();
-			modelStack.PopMatrix();
-		}
-
-		modelStack.PushMatrix();
-		modelStack.Translate(myPromoter->Coordinates[0].x, myPromoter->Coordinates[0].y, myPromoter->Coordinates[0].z);
-		modelStack.Rotate(180, 0, 1, 0);
-		renderPromoter();
-		modelStack.PopMatrix();
-
-		for ( int i = 0; i < myVehicle->AICurrent; i++ )
-		{
-			modelStack.PushMatrix();
-			modelStack.Translate(myVehicle->vehicleCoordinates[0].x, myVehicle->vehicleCoordinates[0].y, myVehicle->vehicleCoordinates[0].z);
-			modelStack.Rotate(myVehicle->vehicleRotateY[i], 0, 1, 0);
-			renderVehicle();
-			modelStack.PopMatrix();
-		}
-
-		for (int i = 0; i < myVehicle->Coordinates.size(); i++ )
-		{
-			modelStack.PushMatrix();
-			modelStack.Translate(myVehicle->Coordinates[0].x, myVehicle->Coordinates[0].y, myVehicle->Coordinates[0].z);
-			modelStack.Rotate(myVehicle->rotateY[i], 0, 1, 0);
-			if ( myVehicle->renderOwner[i] == RenderOwner )
-				renderOwner();
-			modelStack.PopMatrix();
-		}
-
-		modelStack.PushMatrix();
-		modelStack.Translate(myGuard->Coordinates[0].x, myGuard->Coordinates[0].y, myGuard->Coordinates[0].z);
-		modelStack.Rotate(myGuard->rotateY[0], 0, 1, 0);
-		renderSecurityGuard();
-		modelStack.PopMatrix();
-
-		//render glass door
-		modelStack.PushMatrix();
-		modelStack.Translate(2235, -47, door1Pos);
-		modelStack.Scale(100, 50, 50.5);
-		RenderMesh(meshList[GEO_GLASSDOOR], false, false);
-		modelStack.PopMatrix();
-
-		//render glass door
-		modelStack.PushMatrix();
-		modelStack.Translate(2235, -47, door2Pos);
-		modelStack.Scale(100, 50, 50.5);
-		RenderMesh(meshList[GEO_GLASSDOOR], false, false);
-		modelStack.PopMatrix();
-
-		RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
-		RenderTextOnScreen(meshList[GEO_TEXT],"Direction=" + currView, Color(0, 0, 1), 2.5, 12.7, 23);
-
-		//renderUI
-		renderUI();
 	}
+
+	/*modelStack.PushMatrix();
+	modelStack.Translate(playerPos.x, playerPos.y, playerPos.z);
+	modelStack.Rotate(rotateAngle,0,1,0);
+	modelStack.PushMatrix();
+	modelStack.Rotate(-90,0,1,0);
+	renderPlayer();
+	modelStack.PopMatrix();
+	modelStack.PopMatrix();*/
+
+
+	for ( int i = 0; i < myCashier->AICurrent; i++ )
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(myCashier->Coordinates[i].x, yOffset, myCashier->Coordinates[i].z);
+		modelStack.Rotate(myCashier->rotateY[i], 0, 1, 0);
+		renderCashier();
+		modelStack.PopMatrix();
+	}
+
+	for ( int i = 0; i < myCustomer->AICurrent; i++ )
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(myCustomer->Coordinates[i].x, yOffset, myCustomer->Coordinates[i].z);
+		modelStack.Rotate(myCustomer->rotateY[i], 0, 1, 0);
+		renderCustomer();
+		modelStack.PopMatrix();
+	}
+
+	for ( int i = 0; i < myPasserby->AICurrent; i++)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(myPasserby->Coordinates[i].x, yOffset, myPasserby->Coordinates[i].z);
+		modelStack.Rotate(myPasserby->rotateY[i], 0, 1, 0);
+		renderPasserby();
+		modelStack.PopMatrix();
+	}
+
+	modelStack.PushMatrix();
+	modelStack.Translate(myPromoter->Coordinates[0].x, yOffset, myPromoter->Coordinates[0].z);
+	modelStack.Rotate(180, 0, 1, 0);
+	renderPromoter();
+	modelStack.PopMatrix();
+
+	for ( int i = 0; i < myVehicle->AICurrent; i++ )
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(myVehicle->vehicleCoordinates[0].x, yOffset, myVehicle->vehicleCoordinates[0].z);
+		modelStack.Rotate(myVehicle->vehicleRotateY[i], 0, 1, 0);
+		renderVehicle();
+		modelStack.PopMatrix();
+	}
+
+	for (int i = 0; i < myVehicle->Coordinates.size(); i++ )
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(myVehicle->Coordinates[0].x, yOffset, myVehicle->Coordinates[0].z);
+		modelStack.Rotate(myVehicle->rotateY[i], 0, 1, 0);
+		if ( myVehicle->renderOwner[i] == RenderOwner )
+			renderOwner();
+		modelStack.PopMatrix();
+	}
+
+	modelStack.PushMatrix();
+	modelStack.Translate(myGuard->Coordinates[0].x, yOffset, myGuard->Coordinates[0].z);
+	modelStack.Rotate(myGuard->rotateY[0], 0, 1, 0);
+	renderSecurityGuard();
+	modelStack.PopMatrix();
+
+	//render glass door
+	modelStack.PushMatrix();
+	modelStack.Translate(2235, -47, door1Pos);
+	modelStack.Scale(100, 50, 50.5);
+	RenderMesh(meshList[GEO_GLASSDOOR], false, false);
+	modelStack.PopMatrix();
+
+	//render glass door
+	modelStack.PushMatrix();
+	modelStack.Translate(2235, -47, door2Pos);
+	modelStack.Scale(100, 50, 50.5);
+	RenderMesh(meshList[GEO_GLASSDOOR], false, false);
+	modelStack.PopMatrix();
+
+	RenderTextOnScreen(meshList[GEO_TEXT],"FPS=" + textPS, Color(0, 1, 1), 2.5, 0, 23);
+	RenderTextOnScreen(meshList[GEO_TEXT],"Direction=" + currView, Color(0, 0, 1), 2.5, 12.7, 23);
+
+	//renderUI
+	renderUI();
+
+	//MainMenu();
 }
 
 void StudioProject2::renderBounds()
@@ -1361,6 +1395,33 @@ void StudioProject2::renderBounds()
 		RenderMesh(meshList[GEO_CUSTOMERBOUNDS], false, false);
 		modelStack.PopMatrix();
 	}
+
+	for ( int i = 0; i < myCashier->AICurrent; i++ )
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(myCashier->Coordinates[i].x, -100, myCashier->Coordinates[i].z);
+		RenderMesh(meshList[GEO_CASHIERBOUNDS], false, false);
+		modelStack.PopMatrix();
+	}
+
+	modelStack.PushMatrix();
+	modelStack.Translate(myPromoter->Coordinates[0].x, -100, myPromoter->Coordinates[0].z);
+	RenderMesh(meshList[GEO_PROMOTERBOUNDS], false, false);
+	modelStack.PopMatrix();
+
+	for (int i = 0; i < myVehicle->Coordinates.size(); i++ )
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(myVehicle->Coordinates[0].x, myVehicle->Coordinates[0].y, myVehicle->Coordinates[0].z);
+		if ( myVehicle->renderOwner[i] == RenderOwner )
+			RenderMesh(meshList[GEO_CUSTOMERBOUNDS], false, false);
+		modelStack.PopMatrix();
+	}
+
+	modelStack.PushMatrix();
+	modelStack.Translate(myGuard->Coordinates[0].x, myGuard->Coordinates[0].y, myGuard->Coordinates[0].z);
+	RenderMesh(meshList[GEO_SECURITYGUARDBOUNDS], false, false);
+	modelStack.PopMatrix();
 }
 
 void StudioProject2::renderPlayer()
@@ -2490,6 +2551,7 @@ void StudioProject2::renderOutside()
 		RenderMesh(meshList[GEO_GREYBRICK], false, false);
 		modelStack.PopMatrix();
 	}
+	
 		modelStack.PushMatrix();
 		modelStack.Translate(-1310, -277, 2551);
 		modelStack.Rotate(90, 0, 1, 0);
@@ -2506,12 +2568,6 @@ void StudioProject2::renderOutside()
 		RenderMesh(meshList[GEO_GREYBRICK], false, false);
 		modelStack.PopMatrix();
 	}
-		modelStack.PushMatrix();
-		modelStack.Translate(-1310, -277, -2551);
-		modelStack.Rotate(90, 0, 1, 0);
-		modelStack.Scale(50, 50, 50);
-		RenderMesh(meshList[GEO_GREYBRICK], false, false);
-		modelStack.PopMatrix();
 
 	for(float a=-1500; a < 3710; a+=3000)
 	{
@@ -2672,42 +2728,49 @@ void StudioProject2::renderUI()
 	{
 		RenderQuadOnScreen(meshList[GEO_CORRECT], 40, 40, 1, 0.75);
 	}
-
-	RenderQuadOnScreen(meshList[GEO_SHOPPINGLIST], 45, 45, listlocation, 0.7);
-	if(showList == true)
+	if ( CashierText == true )
 	{
 		for(int i = 0; i < shoppingList.size();++i)
 		{
 			RenderTextOnScreen(meshList[GEO_TEXT],shoppingList[i], Color(0, 0, 0), 2.5, 21, 11.5+i);
 		}
+		RenderQuadOnScreen(meshList[GEO_TEXTBOX], 40, 6, 1, 2.5);
+		RenderTextOnScreen(meshList[GEO_TEXT],"Thank you for your purchase!", Color(1, 0, 0), 2.5, 9.5, 5.5);
 	}
+	if ( PasserbyText == true )
+	{
+		RenderQuadOnScreen(meshList[GEO_TEXTBOX], 40, 6, 1, 2.5);
+		RenderTextOnScreen(meshList[GEO_TEXT],"Get lost! Don't block my way.", Color(1, 0, 0), 2.5, 9.5, 5.5);
+	}
+	if ( CustomerText == true )
+	{
+		RenderQuadOnScreen(meshList[GEO_TEXTBOX], 40, 6, 1, 2.5);
+		RenderTextOnScreen(meshList[GEO_TEXT],"What are you shopping for?", Color(1, 0, 0), 2.5, 9.5, 5.5);
+	}
+	if ( PromoterText == true )
+	{
+		RenderQuadOnScreen(meshList[GEO_TEXTBOX], 40, 6, 1, 2.5);
+		RenderTextOnScreen(meshList[GEO_TEXT],"Come buy our Cactusjuice!!", Color(1, 0, 0), 2.5, 9.5, 5.5);
+	}
+	if ( sGuardText == true )
+	{
+		RenderQuadOnScreen(meshList[GEO_TEXTBOX], 40, 6, 1, 2.5);
+		RenderTextOnScreen(meshList[GEO_TEXT],"Please do not shoplift.", Color(1, 0, 0), 2.5, 9.5, 5.5);
+	}
+	/*RenderQuadOnScreen(meshList[GEO_SHOPPINGLIST], 45, 45, 1.4, 0.7);
+	for(int i = 0; i < shoppingList.size();++i)
+	{	
+	RenderTextOnScreen(meshList[GEO_TEXT],shoppingList[i], Color(0, 0, 0), 2.5, 21, 11.5+i);
+	}*/
 }
 
 void StudioProject2::MainMenu()
 {
-	//bool Run = true;
 	RenderQuadOnScreen(meshList[GEO_MENU], 80, 80, 0.5, 0.4);
-	RenderTextOnScreen(meshList[GEO_TEXT],"Main Menu",Color(0,0,1),10,1.8,3.7);
-	RenderTextOnScreen(meshList[GEO_TEXT],"Start",Color(0,0,1),10,2.8,2.7);
-	RenderTextOnScreen(meshList[GEO_TEXT],"End",Color(0,0,1),10,2.8,1.7);
-	RenderTextOnScreen(meshList[GEO_TEXT],"->",Color(1,0,0),10,1.8,menuX);
+	RenderTextOnScreen(meshList[GEO_TEXT],"Main Menu",Color(1,0,0),10,1.8,3.7);
+	RenderTextOnScreen(meshList[GEO_TEXT],"Start",Color(1,0,0),10,2.8,2.7);
+	RenderTextOnScreen(meshList[GEO_TEXT],"End",Color(1,0,0),10,2.8,1.7);
 
-	if(Application::IsKeyPressed(GLFW_KEY_UP))
-	{
-		menuX = 2.8f;
-	}
-	if(Application::IsKeyPressed(GLFW_KEY_DOWN))
-	{
-		menuX = 1.8f;
-	}
-	if(Application::IsKeyPressed(GLFW_KEY_ENTER) && menuX == 2.8f)
-	{
-		stoptime = false;
-	}
-	if(Application::IsKeyPressed(GLFW_KEY_ENTER) && menuX == 1.8f)
-	{
-		Application::derpClose();
-	}
 }
 
 void StudioProject2::RenderText(Mesh* mesh, std::string text, Color color)
@@ -2821,12 +2884,42 @@ void StudioProject2::RenderQuadOnScreen(Mesh* mesh, float scalex, float scaley, 
 void StudioProject2::CollisionCheck(double dt)
 {
 	/************
-	   TESTING
+	TESTING
 	*************/
 	playerPos = camera.position;
 
 	box[PLAYER]->Max = playerPos + playerBounds;
 	box[PLAYER]->Min = playerPos - playerBounds;
+
+	for ( int i = 0; i < myPasserby->AICurrent; i++ )
+	{
+		myPasserby->Max[i] = myPasserby->Coordinates[i] + PasserbyBounds;
+		myPasserby->Min[i] = myPasserby->Coordinates[i] - PasserbyBounds;
+	}
+
+	for ( int i = 0; i < myCustomer->AICurrent; i++ )
+	{
+		myCustomer->Max[i] = myCustomer->Coordinates[i] + CustomerBounds;
+		myCustomer->Min[i] = myCustomer->Coordinates[i] - CustomerBounds;
+	}
+
+	for ( int i = 0; i < myPromoter->AICurrent; i++ )
+	{
+		myPromoter->Max[i] = myPromoter->Coordinates[i] + PromoterBounds;
+		myPromoter->Min[i] = myPromoter->Coordinates[i] - PromoterBounds;
+	}
+
+	for ( int i = 0; i < myGuard->AICurrent; i++ )
+	{
+		myGuard->Max[i] = myGuard->Coordinates[i] + SecurityGuardBounds;
+		myGuard->Min[i] = myGuard->Coordinates[i] - SecurityGuardBounds;
+	}
+
+	for ( int i = 0; i < myCashier->AICurrent; i++ )
+	{
+		myCashier->Max[i] = myCashier->Coordinates[i] + CashierBounds;
+		myCashier->Min[i] = myCashier->Coordinates[i] - CashierBounds;
+	}
 
 	currView = "NONE";
 
@@ -2993,6 +3086,7 @@ void StudioProject2::CollisionCheck(double dt)
 		gate2RightRotate -= 450*dt;
 		gate2LeftRotate += 450*dt;
 	}
+
 	if((camera.position.x < box[GATE2]->Min.x || camera.position.x > box[GATE2]->Max.x || camera.position.y < box[GATE2]->Min.y || camera.position.y > box[GATE2]->Max.y || camera.position.z < box[GATE2]->Min.z || camera.position.z > box[GATE2]->Max.z) && gate2RightRotate < 180)
 	{
 		gate2RightRotate += 450*dt;
@@ -3021,6 +3115,7 @@ void StudioProject2::CollisionCheck(double dt)
 			pickUpText = false;
 		}
 	}
+
 	for(int i = 0; i < shelfVector.size(); ++i)
 	{
 		if(camera.target.x > shelfVector[i]->boundMin.x && camera.target.x < shelfVector[i]->boundMax.x  && camera.target.y > shelfVector[i]->boundMin.y && camera.target.y < shelfVector[i]->boundMax.y && camera.target.z > shelfVector[i]->boundMin.z && camera.target.z < shelfVector[i]->boundMax.z && shelfVector[i]->isempty == true && inhand->holding.size() > 0 && currentlyHolding < inhand->holding.size())
@@ -3042,9 +3137,62 @@ void StudioProject2::CollisionCheck(double dt)
 
 	for( int i = 0; i < myPasserby->AICurrent; i++ )
 	{
-		if(camera.target.x > box[PASSERBY]->Min.x && camera.target.x < box[PASSERBY]->Min.x && camera.target.z > box[PASSERBY]->Min.z && camera.target.z < box[PASSERBY]->Min.z)
+		if( (box[PLAYER]->Min.x < myPasserby->Max[i].x) && (box[PLAYER]->Max.x > myPasserby->Min[i].x) && (box[PLAYER]->Min.y < myPasserby->Max[i].y) && (box[PLAYER]->Max.y > myPasserby->Min[i].y) &&	(box[PLAYER]->Min.z < myPasserby->Max[i].z) && (box[PLAYER]->Max.z > myPasserby->Min[i].z) )
 		{
-			cout << "You are hugging the passerby" << endl;
+			PasserbyText = true;
+		}
+		else
+		{
+			PasserbyText = false;
+		}
+	}
+
+	for( int i = 0; i < myCustomer->AICurrent; i++ )
+	{
+		if( (box[PLAYER]->Min.x < myCustomer->Max[i].x) && (box[PLAYER]->Max.x > myCustomer->Min[i].x) && (box[PLAYER]->Min.y < myCustomer->Max[i].y) && (box[PLAYER]->Max.y > myCustomer->Min[i].y) &&	(box[PLAYER]->Min.z < myCustomer->Max[i].z) && (box[PLAYER]->Max.z > myCustomer->Min[i].z) )
+		{
+			CustomerText = true;
+		}
+
+		else
+		{
+			CustomerText = false;
+		}
+	}
+
+	for( int i = 0; i < myPromoter->AICurrent; i++ )
+	{
+		if( (box[PLAYER]->Min.x < myPromoter->Max[i].x) && (box[PLAYER]->Max.x > myPromoter->Min[i].x) && (box[PLAYER]->Min.y < myPromoter->Max[i].y) && (box[PLAYER]->Max.y > myPromoter->Min[i].y) &&	(box[PLAYER]->Min.z < myPromoter->Max[i].z) && (box[PLAYER]->Max.z > myPromoter->Min[i].z) )
+		{
+			PromoterText = true;
+		}
+		else
+		{
+			PromoterText = false;
+		}
+	}
+
+	for( int i = 0; i < myGuard->AICurrent; i++ )
+	{
+		if( (box[PLAYER]->Min.x < myGuard->Max[i].x) && (box[PLAYER]->Max.x > myGuard->Min[i].x)/* && (box[PLAYER]->Min.y < myGuard->Max[i].y) && (box[PLAYER]->Max.y > myGuard->Min[i].y)*/ &&	(box[PLAYER]->Min.z < myGuard->Max[i].z) && (box[PLAYER]->Max.z > myGuard->Min[i].z) )
+		{
+			sGuardText = true;
+		}
+		else
+		{
+			sGuardText = false;
+		}
+	}
+
+	for( int i = 0; i < myCashier->AICurrent; i++ )
+	{
+		if( (box[PLAYER]->Min.x < myCashier->Max[i].x) && (box[PLAYER]->Max.x > myCashier->Min[i].x) && (box[PLAYER]->Min.y < myCashier->Max[i].y) && (box[PLAYER]->Max.y > myCashier->Min[i].y) &&	(box[PLAYER]->Min.z < myCashier->Max[i].z) && (box[PLAYER]->Max.z > myCashier->Min[i].z) )
+		{
+			CashierText = true;
+		}
+		else
+		{
+			CashierText = false;
 		}
 	}
 
@@ -3054,19 +3202,27 @@ void StudioProject2::CollisionCheck(double dt)
 		{
 			itemVector[inhand->holding[i]]->takeItem(camera.position - Vector3(0, 1000, 0));
 		}
+
 		if(currentlyHolding < inhand->holding.size())
 		{
 			itemVector[inhand->holding[currentlyHolding]]->takeItem(camera.target - Vector3(0,18,0));
 			itemVector[inhand->holding[currentlyHolding]]->updateRotate(camera.yaw);
-		}
-	}
 
-	for(int i = RIGHTCASHIER; i <= LEFTCASHIER; ++i)
-	{
-		if(camera.target.x > box[i]->Min.x && camera.target.x < box[i]->Max.x  && camera.target.y > box[i]->Min.y && camera.target.y < box[i]->Max.y && camera.target.z > box[i]->Min.z && camera.target.z < box[i]->Max.z)
+
+			itemVector[inhand->holding.back()]->takeItem(camera.target);
+			if(Application::IsKeyPressed(VK_LEFT))
+			{
+				itemVector[inhand->holding.back()]->updateRotate(150.f * dt);
+			}
+			if(Application::IsKeyPressed(VK_RIGHT))
+			{
+				itemVector[inhand->holding.back()]->updateRotate(-150.f * dt);
+			}
+		}
+
+		for(int i = RIGHTCASHIER; i <= LEFTCASHIER; ++i)
 		{
-			checkOutText = true;
-			if((Application::IsButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) && getCorrect == false && getWrong == false)
+			if(camera.target.x > box[i]->Min.x && camera.target.x < box[i]->Max.x  && camera.target.y > box[i]->Min.y && camera.target.y < box[i]->Max.y && camera.target.z > box[i]->Min.z && camera.target.z < box[i]->Max.z)
 			{
 				bool checkinglist = shopping.check(itemVector, inhand->holding);
 
@@ -3075,18 +3231,29 @@ void StudioProject2::CollisionCheck(double dt)
 					getWrong = true;
 				}
 				else
+				checkOutText = true;
+				
+				if((Application::IsButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) && getCorrect == false && getWrong == false)
 				{
-					getCorrect = true;
-				}
-			}break;
-		}
-		else
-		{
-			checkOutText = false;
-		}
+					bool checkinglist = shopping.check(itemVector, inhand->holding);
 
+					if(checkinglist == false)
+					{
+						getWrong = true;
+					}
+					else
+					{
+						getCorrect = true;
+					}
+				}break;
+			}
+			else
+			{
+				checkOutText = false;
+			}
+
+		}
 	}
-	/*********************************************************************************************************************************/
 }
 
 void StudioProject2::Exit()

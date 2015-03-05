@@ -78,18 +78,26 @@ void Cashier::spawnAI(void)
 	{
 		this->Coordinates.push_back(Cashier1Spawnpoint);
 		this->rotateY.push_back(cashierRight);
+		this->Max.push_back(CashierBounds);
+		this->Min.push_back(-CashierBounds);
 		this->turnDelay.push_back(0);
 
 		this->Coordinates.push_back(Cashier2Spawnpoint);
 		this->rotateY.push_back(cashierLeft);
+		this->Max.push_back(CashierBounds);
+		this->Min.push_back(-CashierBounds);
 		this->turnDelay.push_back(0);
 
 		this->Coordinates.push_back(Cashier3Spawnpoint);
 		this->rotateY.push_back(cashierRight);
+		this->Max.push_back(CashierBounds);
+		this->Min.push_back(-CashierBounds);
 		this->turnDelay.push_back(0);
 
 		this->Coordinates.push_back(Cashier4Spawnpoint);
 		this->rotateY.push_back(cashierLeft);
+		this->Max.push_back(CashierBounds);
+		this->Min.push_back(-CashierBounds);
 		this->turnDelay.push_back(0);
 
 		this->AICurrent = 4;
