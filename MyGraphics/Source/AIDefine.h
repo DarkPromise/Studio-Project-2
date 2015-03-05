@@ -110,6 +110,6 @@ Header file for AIDefine
 
 #define PasserbyBounds Vector3(200, 50, 200)
 #define CustomerBounds Vector3(150, 50, 150)
-#define PromoterBounds Vector3(300, 50, 300)
+#define PromoterBounds Vector3(1700, 50, 1700)
 #define SecurityGuardBounds Vector3(200, 50, 200)
 #define CashierBounds Vector3(300, 50, 300)

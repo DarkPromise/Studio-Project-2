@@ -1208,11 +1208,14 @@ void StudioProject2::Render()
 		modelStack.PopMatrix();
 	}
 
-	modelStack.PushMatrix();
-	modelStack.Translate(myPromoter->Coordinates[0].x, yOffset, myPromoter->Coordinates[0].z);
-	modelStack.Rotate(180, 0, 1, 0);
-	renderPromoter();
-	modelStack.PopMatrix();
+	if ( myPromoter->AICurrent == 1 )
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(myPromoter->Coordinates[0].x, yOffset, myPromoter->Coordinates[0].z);
+		modelStack.Rotate(180, 0, 1, 0);
+		renderPromoter();
+		modelStack.PopMatrix();
+	}
 
 	for ( int i = 0; i < myVehicle->AICurrent; i++ )
 	{
@@ -1232,12 +1235,15 @@ void StudioProject2::Render()
 			renderOwner();
 		modelStack.PopMatrix();
 	}
-
-	modelStack.PushMatrix();
-	modelStack.Translate(myGuard->Coordinates[0].x, yOffset, myGuard->Coordinates[0].z);
-	modelStack.Rotate(myGuard->rotateY[0], 0, 1, 0);
-	renderSecurityGuard();
-	modelStack.PopMatrix();
+	
+	if ( myGuard->AICurrent == 1 )
+	{	
+		modelStack.PushMatrix();
+		modelStack.Translate(myGuard->Coordinates[0].x, yOffset, myGuard->Coordinates[0].z);
+		modelStack.Rotate(myGuard->rotateY[0], 0, 1, 0);
+		renderSecurityGuard();
+		modelStack.PopMatrix();
+	}
 
 	//render glass door
 	modelStack.PushMatrix();
@@ -2730,10 +2736,6 @@ void StudioProject2::renderUI()
 	}
 	if ( CashierText == true )
 	{
-		for(int i = 0; i < shoppingList.size();++i)
-		{
-			RenderTextOnScreen(meshList[GEO_TEXT],shoppingList[i], Color(0, 0, 0), 2.5, 21, 11.5+i);
-		}
 		RenderQuadOnScreen(meshList[GEO_TEXTBOX], 40, 6, 1, 2.5);
 		RenderTextOnScreen(meshList[GEO_TEXT],"Thank you for your purchase!", Color(1, 0, 0), 2.5, 9.5, 5.5);
 	}
@@ -2757,11 +2759,15 @@ void StudioProject2::renderUI()
 		RenderQuadOnScreen(meshList[GEO_TEXTBOX], 40, 6, 1, 2.5);
 		RenderTextOnScreen(meshList[GEO_TEXT],"Please do not shoplift.", Color(1, 0, 0), 2.5, 9.5, 5.5);
 	}
-	/*RenderQuadOnScreen(meshList[GEO_SHOPPINGLIST], 45, 45, 1.4, 0.7);
-	for(int i = 0; i < shoppingList.size();++i)
-	{	
-	RenderTextOnScreen(meshList[GEO_TEXT],shoppingList[i], Color(0, 0, 0), 2.5, 21, 11.5+i);
-	}*/
+
+	RenderQuadOnScreen(meshList[GEO_SHOPPINGLIST], 45, 45, listlocation, 0.7);
+	if ( showList == true )
+	{
+		for(int i = 0; i < shoppingList.size();++i)
+		{	
+			RenderTextOnScreen(meshList[GEO_TEXT],shoppingList[i], Color(0, 0, 0), 2.5, 21, 11.5+i);
+		}
+	}
 }
 
 void StudioProject2::MainMenu()
@@ -2770,7 +2776,23 @@ void StudioProject2::MainMenu()
 	RenderTextOnScreen(meshList[GEO_TEXT],"Main Menu",Color(1,0,0),10,1.8,3.7);
 	RenderTextOnScreen(meshList[GEO_TEXT],"Start",Color(1,0,0),10,2.8,2.7);
 	RenderTextOnScreen(meshList[GEO_TEXT],"End",Color(1,0,0),10,2.8,1.7);
-
+	
+	if(Application::IsKeyPressed(GLFW_KEY_UP))
+	{
+		menuX = 2.8f;
+	}
+	if(Application::IsKeyPressed(GLFW_KEY_DOWN))
+	{
+		menuX = 1.8f;
+	}
+	if(Application::IsKeyPressed(GLFW_KEY_ENTER) && menuX == 2.8f)
+	{
+		stoptime = false;
+	}
+	if(Application::IsKeyPressed(GLFW_KEY_ENTER) && menuX == 1.8f)
+	{
+		Application::derpClose();
+	}
 }
 
 void StudioProject2::RenderText(Mesh* mesh, std::string text, Color color)

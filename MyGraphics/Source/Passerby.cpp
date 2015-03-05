@@ -54,6 +54,8 @@ void Passerby::spawnAI(void)
 				this->Coordinates.push_back(PasserbySpawn1);
 				this->rotateY.push_back(passerbyForward);
 				this->State.push_back(SpawntoDestination);
+				this->Max.push_back(PasserbyBounds);
+				this->Min.push_back(-PasserbyBounds);
 				this->AICurrent += 1;
 			}
 			else
@@ -61,6 +63,8 @@ void Passerby::spawnAI(void)
 				this->Coordinates.push_back(PasserbySpawn2);
 				this->rotateY.push_back(passerbyForward);
 				this->State.push_back(SpawntoDestination);
+				this->Max.push_back(PasserbyBounds);
+				this->Min.push_back(-PasserbyBounds);
 				this->AICurrent += 1;
 			}
 		}

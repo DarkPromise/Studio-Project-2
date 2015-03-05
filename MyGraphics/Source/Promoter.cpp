@@ -27,12 +27,13 @@ void Promoter::updateAI(void)
 
 void Promoter::spawnAI(void)
 {
-	if ( this->AICurrent < this->AILimit )
+	if ( this->AICurrent == 0 )
 	{
 		this->Coordinates.push_back(PromoterSpawn);
 		this->rotateY.push_back(promoterFaceForward);
 		this->Max.push_back(PromoterBounds);
 		this->Min.push_back(-PromoterBounds);
+		this->AICurrent = 1;
 	}
 }
 
