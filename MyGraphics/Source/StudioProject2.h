@@ -52,11 +52,12 @@ public:
 	float rotateSpeed;
 	float moveSpeed;
 	bool canMove;
-
+	bool doRenderBounds;
 	std::string currView;
 
 	float menuX;
     bool stoptime;
+	bool showCursor;
 
 	int checkingOut;
 	int takeItem;

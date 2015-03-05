@@ -26,6 +26,8 @@ public:
 	float yaw;
 	float pitch;
 
+	float aspect;
+
 	bool firstInit;
 	Vector3 direction;
 	Vector3 right;

@@ -30,11 +30,13 @@ using std::cout;
 using std::endl;
 using std::vector;
 using std::iterator;
+using std::string;
 using namespace irrklang;
 
 #pragma comment(lib, "irrKlang.lib")
 
 bool removeItems = false;
+bool firstInit2 = true;
 
 //Test
 double FPS;
@@ -112,7 +114,7 @@ void StudioProject2::Init()
 
 	glUseProgram(m_programID);
 
-	light[0].position.Set(0, 530, 0);
+	light[0].position.Set(0, 300, 0);
 	light[0].color.Set(1, 1, 1);
 	light[0].power = 100;
 	light[0].kC = 1.f;
@@ -135,7 +137,9 @@ void StudioProject2::Init()
 	rotateAngle = 0.0f;
 	canMove = true;
 	canPhase = false;
+	doRenderBounds = false;
 
+	showCursor = true;
 	stoptime = true;
 	menuX = 2.8f;
 
@@ -351,11 +355,6 @@ void StudioProject2::Init()
 	glGenVertexArrays(1, &m_vertexArrayID); //Generate "x" buffer
 	glBindVertexArray(m_vertexArrayID);
 
-	Mtx44 projection;
-	projection.SetToPerspective(45.0f,4.0f / 3.0f, 0.1f, 30000.0f);
-
-	projectionStack.LoadMatrix(projection);
-
 	camera.Init(Vector3(0, 0, 0), Vector3(0, 0, -150), Vector3(0, 1, 0)); //Position , Front(view), Up
 
 	for(int i = 0; i < NUM_GEOMETRY; ++i)
@@ -401,18 +400,46 @@ void StudioProject2::Init()
 
 	meshList[GEO_CUSTOMERSERVICE] = MeshBuilder::GenerateOBJ("Customer Service Counter and Office", "Object//customer service.obj");
 	meshList[GEO_CUSTOMERSERVICE]->textureID = LoadTGA("Image//customer service.tga");
+	meshList[GEO_CUSTOMERSERVICE]->material.kAmbient.Set(0.85f, 0.85f, 0.85f);
+	meshList[GEO_CUSTOMERSERVICE]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
+	meshList[GEO_CUSTOMERSERVICE]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[GEO_CUSTOMERSERVICE]->material.kShininess = 1.f;
 	meshList[GEO_CASHIERTABLE] = MeshBuilder::GenerateOBJ("Cashier Table", "Object//CashierTable.obj");
 	meshList[GEO_CASHIERTABLE]->textureID = LoadTGA("Image//cashreg.tga");
+	meshList[GEO_CASHIERTABLE]->material.kAmbient.Set(0.85f, 0.85f, 0.85f);
+	meshList[GEO_CASHIERTABLE]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
+	meshList[GEO_CASHIERTABLE]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[GEO_CASHIERTABLE]->material.kShininess = 1.f;
 	meshList[GEO_CASHIERTABLE2] = MeshBuilder::GenerateOBJ("Cashier Table 2", "Object//CashierTableFLIPPED.obj");
 	meshList[GEO_CASHIERTABLE2]->textureID = LoadTGA("Image//cashreg.tga");
+	meshList[GEO_CASHIERTABLE2]->material.kAmbient.Set(0.85f, 0.85f, 0.85f);
+	meshList[GEO_CASHIERTABLE2]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
+	meshList[GEO_CASHIERTABLE2]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[GEO_CASHIERTABLE2]->material.kShininess = 1.f;
 	meshList[GEO_SECURITYCOUNTER] = MeshBuilder::GenerateOBJ("Security Counter", "Object//Security Counter.obj");
 	meshList[GEO_SECURITYCOUNTER]->textureID = LoadTGA("Image//security.tga");
+	meshList[GEO_SECURITYCOUNTER]->material.kAmbient.Set(0.85f, 0.85f, 0.85f);
+	meshList[GEO_SECURITYCOUNTER]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
+	meshList[GEO_SECURITYCOUNTER]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[GEO_SECURITYCOUNTER]->material.kShininess = 1.f;
 	meshList[GEO_SHELF] = MeshBuilder::GenerateOBJ("Shelf", "Object//shelf.obj");
 	meshList[GEO_SHELF]->textureID = LoadTGA("Image//shelf.tga");
+	meshList[GEO_SHELF]->material.kAmbient.Set(0.85f, 0.85f, 0.85f);
+	meshList[GEO_SHELF]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
+	meshList[GEO_SHELF]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[GEO_SHELF]->material.kShininess = 1.f;
 	meshList[GEO_CHILLER] = MeshBuilder::GenerateOBJ("Chiller", "Object//Chiller.obj");
 	meshList[GEO_CHILLER]->textureID = LoadTGA("Image//Chiller.tga");
+	meshList[GEO_CHILLER]->material.kAmbient.Set(0.85f, 0.85f, 0.85f);
+	meshList[GEO_CHILLER]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
+	meshList[GEO_CHILLER]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[GEO_CHILLER]->material.kShininess = 1.f;
 	meshList[GEO_FREEZER] = MeshBuilder::GenerateOBJ("Shelf", "Object//Freezer.obj");
 	meshList[GEO_FREEZER]->textureID = LoadTGA("Image//Freezer.tga");
+	meshList[GEO_FREEZER]->material.kAmbient.Set(0.85f, 0.85f, 0.85f);
+	meshList[GEO_FREEZER]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
+	meshList[GEO_FREEZER]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[GEO_FREEZER]->material.kShininess = 1.f;
 
 	meshList[GEO_PLAYERHEAD] = MeshBuilder::GenerateOBJ("Player head", "Object//playerHead.obj");
 	meshList[GEO_PLAYERHEAD]->textureID = LoadTGA("Image//skin_20150223054713114664.tga");
@@ -903,42 +930,61 @@ void StudioProject2::RenderMesh(Mesh *mesh, bool enableLight, bool transparent)
 
 void StudioProject2::Update(double dt, double xpos, double ypos)
 {
+	toggleDelay += dt;
+
+	if((Application::IsKeyPressed('P')) && (toggleDelay > 0.2))
+	{
+		if(showCursor)
+		{
+			showCursor = false;
+			toggleDelay = 0.0;
+		}
+		else
+		{
+			showCursor = true;
+			toggleDelay = 0.0;
+		}
+		Application::CursorState(showCursor);
+		toggleDelay = 0.0;
+	}
+
 	if(stoptime == false)
 	{
-		/*if(Application::IsKeyPressed('5'))
+		if(firstInit2)
 		{
-		rotateAngle += 0.1f;
-		cout << rotateAngle << endl;
+			Application::CursorState(false);
+			firstInit2 = false;
 		}
 
-		if(Application::IsKeyPressed('6'))
+		if(Application::IsKeyPressed('B') && toggleDelay > 0.2)
 		{
-		if(Application::IsKeyPressed('5'))
-		{
-		rotateAngle += 0.1f;
-		cout << rotateAngle << endl;
+			if(doRenderBounds)
+			{
+			    doRenderBounds = false;
+				toggleDelay = 0.0;
+			}
+			else
+			{
+				doRenderBounds = true;
+				toggleDelay = 0.0;
+			}
 		}
-		if(Application::IsKeyPressed('6'))
-		{
-		rotateAngle -= 0.1f;
-		cout << rotateAngle << endl;
-		}
-		if(Application::IsKeyPressed('1'))
+		if(Application::IsKeyPressed(GLFW_KEY_F1))
 		{
 		glEnable(GL_CULL_FACE);
 		}
-		if(Application::IsKeyPressed('2'))
+		if(Application::IsKeyPressed(GLFW_KEY_F2))
 		{
 		glDisable(GL_CULL_FACE);
 		}
-		if(Application::IsKeyPressed('3'))
+		if(Application::IsKeyPressed(GLFW_KEY_F3))
 		{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
-		if(Application::IsKeyPressed('4'))
+		if(Application::IsKeyPressed(GLFW_KEY_F4))
 		{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		}*/
+		}
 
 		if(Application::IsKeyPressed('1'))
 		{
@@ -961,30 +1007,6 @@ void StudioProject2::Update(double dt, double xpos, double ypos)
 			currentlyHolding = 4;
 		}
 
-		if(Application::IsKeyPressed('I'))
-		{
-			light[0].position.z -= (float)(LSPEED * dt);
-		}
-		if(Application::IsKeyPressed('K'))
-		{
-			light[0].position.z += (float)(LSPEED * dt);
-		}
-		if(Application::IsKeyPressed('J'))
-		{
-			light[0].position.x -= (float)(LSPEED * dt);
-		}
-		if(Application::IsKeyPressed('L'))
-		{
-			light[0].position.x += (float)(LSPEED * dt);
-		}
-		if(Application::IsKeyPressed('O'))
-		{
-			light[0].position.y -= (float)(LSPEED * dt);
-		}
-		if(Application::IsKeyPressed('P'))
-		{
-			light[0].position.y += (float)(LSPEED * dt);
-		}
 		if(Application::IsKeyPressed('Z')) // on
 		{
 			glUniform1f(m_parameters[U_LIGHT0_POWER], light[0].power);
@@ -998,31 +1020,6 @@ void StudioProject2::Update(double dt, double xpos, double ypos)
 			glUniform1f(m_parameters[U_LIGHT0_KC], 0.f);
 			glUniform1f(m_parameters[U_LIGHT0_KL], 0.f);
 			glUniform1f(m_parameters[U_LIGHT0_KQ], 0.f);
-		}
-
-		if(Application::IsKeyPressed('T'))
-		{
-			//playerPos += playerDir * moveSpeed;
-			testPos.z += 1.f;
-			cout << "Test Pos : " << testPos << endl;
-		}
-		if(Application::IsKeyPressed('G'))
-		{
-			//playerPos -= playerDir * moveSpeed;
-			testPos.z -= 1.f;
-			cout << "Test Pos : " << testPos << endl;
-		}
-		if(Application::IsKeyPressed('F'))
-		{
-			//rotateAngle += rotateSpeed * dt;
-			testPos.x += 1.f;
-			cout << "Test Pos : " << testPos << endl;
-		}
-		if(Application::IsKeyPressed('H'))
-		{
-			//rotateAngle -= rotateSpeed * dt;
-			testPos.x -= 1.f;
-			cout << "Test Pos : " << testPos << endl;
 		}
 
 		///////////////////showing shopping list////////////////////////
@@ -1070,7 +1067,6 @@ void StudioProject2::Update(double dt, double xpos, double ypos)
 		textPS = s.str();
 
 		deltaTime = dt;
-		toggleDelay += dt;
 
 		camera.Update(dt,canMove, xpos, ypos);
 		CollisionCheck(dt);
@@ -1143,6 +1139,10 @@ void StudioProject2::Render()
 	// Render VBO here
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	Mtx44 projection;
+	projection.SetToPerspective(45.0f,(float)((Application::getWidth())/ (Application::getHeight())), 0.1f, 30000.0f);
+	projectionStack.LoadMatrix(projection);
+
 	viewStack.LoadIdentity();
 	viewStack.LookAt
 		(camera.position.x, camera.position.y, camera.position.z,
@@ -1173,8 +1173,14 @@ void StudioProject2::Render()
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		renderBounds();
+		if(doRenderBounds)
+		{
+			renderBounds();
+		}
+		else
+		{
 
+		}
 		//////////////////////////////////////////////////////////////////////////////////
 
 		modelStack.PushMatrix();
@@ -1718,43 +1724,43 @@ void StudioProject2::renderSecurityGuard()
 
 void StudioProject2::renderSupermarket()
 {
-	//Office/Cstomer service
+	//Office Customer service
 	modelStack.PushMatrix();
 	modelStack.Translate(-1980, -275, 400);
 	modelStack.Scale(40, 40, 40);
-	RenderMesh(meshList[GEO_CUSTOMERSERVICE], false, false);
+	RenderMesh(meshList[GEO_CUSTOMERSERVICE], true, false);
 	modelStack.PopMatrix();
 
 	//Cashiers
 	modelStack.PushMatrix();
 	modelStack.Translate(-1100, -275, 400);
 	modelStack.Scale(40, 40, 40);
-	RenderMesh(meshList[GEO_CASHIERTABLE2], false, false);
+	RenderMesh(meshList[GEO_CASHIERTABLE2], true, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-600, -275, 400);
 	modelStack.Scale(40, 40, 40);
-	RenderMesh(meshList[GEO_CASHIERTABLE], false, false);
+	RenderMesh(meshList[GEO_CASHIERTABLE], true, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-150, -275, 400);
 	modelStack.Scale(40, 40, 40);
-	RenderMesh(meshList[GEO_CASHIERTABLE2], false, false);
+	RenderMesh(meshList[GEO_CASHIERTABLE2], true, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(400, -275, 400);
 	modelStack.Scale(40, 40, 40);
-	RenderMesh(meshList[GEO_CASHIERTABLE], false, false);
+	RenderMesh(meshList[GEO_CASHIERTABLE], true, false);
 	modelStack.PopMatrix();
 
 	//Security Post
 	modelStack.PushMatrix();
 	modelStack.Translate(1100, -275, 400);
 	modelStack.Scale(50, 50, 50);
-	RenderMesh(meshList[GEO_SECURITYCOUNTER], false, false);
+	RenderMesh(meshList[GEO_SECURITYCOUNTER], true, false);
 	modelStack.PopMatrix();
 
 	//Shelf on left wall
@@ -1762,21 +1768,21 @@ void StudioProject2::renderSupermarket()
 	modelStack.Translate(-2112.7, -275, -1579.5);
 	modelStack.Rotate(0, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
-	RenderMesh(meshList[GEO_SHELF], false, false);
+	RenderMesh(meshList[GEO_SHELF], true, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-2112.7, -275, -1086.4);
 	modelStack.Rotate(0, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
-	RenderMesh(meshList[GEO_SHELF], false, false);
+	RenderMesh(meshList[GEO_SHELF], true, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-2112.7, -275, -593.5);
 	modelStack.Rotate(0, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
-	RenderMesh(meshList[GEO_SHELF], false, false);
+	RenderMesh(meshList[GEO_SHELF], true, false);
 	modelStack.PopMatrix();
 
 	//Shelf on back wall
@@ -1784,21 +1790,21 @@ void StudioProject2::renderSupermarket()
 	modelStack.Translate(-3.8, -275, -1736.3);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
-	RenderMesh(meshList[GEO_SHELF], false, false);
+	RenderMesh(meshList[GEO_SHELF], true, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-496.9, -275, -1736.3);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
-	RenderMesh(meshList[GEO_SHELF], false, false);
+	RenderMesh(meshList[GEO_SHELF], true, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-990, -275, -1736.3);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
-	RenderMesh(meshList[GEO_SHELF], false, false);
+	RenderMesh(meshList[GEO_SHELF], true, false);
 	modelStack.PopMatrix();
 
 	//Pair of shelves near left wall
@@ -1806,14 +1812,14 @@ void StudioProject2::renderSupermarket()
 	modelStack.Translate(-1300, -275, -820);
 	modelStack.Rotate(180, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
-	RenderMesh(meshList[GEO_SHELF], false, false);
+	RenderMesh(meshList[GEO_SHELF], true, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-1120, -275, -820);
 	modelStack.Rotate(0, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
-	RenderMesh(meshList[GEO_SHELF], false, false);
+	RenderMesh(meshList[GEO_SHELF], true, false);
 	modelStack.PopMatrix();
 
 	//Pair of shelves in center
@@ -1821,14 +1827,14 @@ void StudioProject2::renderSupermarket()
 	modelStack.Translate(-400, -275, -820);
 	modelStack.Rotate(180, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
-	RenderMesh(meshList[GEO_SHELF], false, false);
+	RenderMesh(meshList[GEO_SHELF], true, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-220, -275, -820);
 	modelStack.Rotate(0, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
-	RenderMesh(meshList[GEO_SHELF], false, false);
+	RenderMesh(meshList[GEO_SHELF], true, false);
 	modelStack.PopMatrix();
 
 	//Lone shelf near right-center
@@ -1836,39 +1842,39 @@ void StudioProject2::renderSupermarket()
 	modelStack.Translate(600, -275, -663.9);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Scale(50, 50, 50);
-	RenderMesh(meshList[GEO_SHELF], false, false);
+	RenderMesh(meshList[GEO_SHELF], true, false);
 	modelStack.PopMatrix();
 
 	//Chiller at the right wall
 	modelStack.PushMatrix();
 	modelStack.Translate(2084, -280, -1600);
 	modelStack.Scale(40, 40, 40);
-	RenderMesh(meshList[GEO_CHILLER], false, false);
+	RenderMesh(meshList[GEO_CHILLER], true, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(2084, -280, -1200);
 	modelStack.Scale(40, 40, 40);
-	RenderMesh(meshList[GEO_CHILLER], false, false);
+	RenderMesh(meshList[GEO_CHILLER], true, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(2084, -280, -800);
 	modelStack.Scale(40, 40, 40);
-	RenderMesh(meshList[GEO_CHILLER], false, false);
+	RenderMesh(meshList[GEO_CHILLER], true, false);
 	modelStack.PopMatrix();
 
 	//Freezer at the right side
 	modelStack.PushMatrix();
 	modelStack.Translate(1400, -278.2, -1550);
 	modelStack.Scale(40, 40, 40);
-	RenderMesh(meshList[GEO_FREEZER], false, false);
+	RenderMesh(meshList[GEO_FREEZER], true, false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(1400, -278.2, -1000);
 	modelStack.Scale(40, 40, 40);
-	RenderMesh(meshList[GEO_FREEZER], false, false);
+	RenderMesh(meshList[GEO_FREEZER], true, false);
 	modelStack.PopMatrix();
 
 	//render right gate1

@@ -22,6 +22,9 @@ public:
 	void Run();
 	void Exit();
 
+	static bool showCursor;
+	static void CursorState(bool toggle);
+
 	static bool keys[1024];
 
 	static bool IsKeyPressed(unsigned short key);
@@ -35,8 +38,9 @@ public:
     double ypos;
 private:
 	//Declare a window objec
-	static const int width;
-	static const int height;
+	static int width;
+	static int height;
+
 	StopWatch m_timer;
 };
 

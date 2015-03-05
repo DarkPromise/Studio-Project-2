@@ -79,8 +79,10 @@ void Camera2::Update(double dt,bool move, double xpos, double ypos)
 {
 	delay += dt;
 
+	aspect = (float)Application::getWidth() / (float)Application::getHeight();
+
 	double xoffset = ((Application::getWidth()/2) - xpos);
-	double yoffset = ((Application::getHeight()/2) - ypos);
+	double yoffset = (((Application::getHeight()/2) - ceil(ypos)));
 
 	xoffset *= mouseSpeed;
 	yoffset *= mouseSpeed;
@@ -96,7 +98,7 @@ void Camera2::Update(double dt,bool move, double xpos, double ypos)
 	{
 		pitch = 45.0f;
 	}
-	
+
 	if(delay > 0.1)
 	{
 		/*std::cout << "Yaw : " << yaw << std::endl;
