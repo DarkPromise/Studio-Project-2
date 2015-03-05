@@ -1,3 +1,11 @@
+/******************************************************************************/
+/*!
+\file	Item.cpp
+\author Group 7
+\brief
+CPP file for Item
+*/
+/******************************************************************************/
 #include "Item.h"
 
 Item::Item(Vector3 boundMax, Vector3 boundMin, Vector3 translate, Vector3 scale, float rotateY, int mesh, int uimesh)

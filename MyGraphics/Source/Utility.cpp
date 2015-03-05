@@ -1,3 +1,11 @@
+/******************************************************************************/
+/*!
+\file	Utility.cpp
+\author Group 7
+\brief
+CPP file for Utility
+*/
+/******************************************************************************/
 #include "Utility.h"
 
 Position operator*(const Mtx44& lhs, const Position& rhs)

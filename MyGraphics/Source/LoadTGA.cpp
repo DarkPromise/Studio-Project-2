@@ -1,4 +1,11 @@
-
+/******************************************************************************/
+/*!
+\file	LoadTGA.cpp
+\author Group 7
+\brief
+CPP file for LoadTGA
+*/
+/******************************************************************************/
 #include <iostream>
 #include <fstream>
 #include <GL\glew.h>

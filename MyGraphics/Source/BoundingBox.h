@@ -1,3 +1,11 @@
+/******************************************************************************/
+/*!
+\file	BoundingBox.h
+\author Group 7
+\brief
+Header file for BoundingBox
+*/
+/******************************************************************************/
 #ifndef BOUNDINGBOX_H
 #define BOUNDINGBOX_H
 

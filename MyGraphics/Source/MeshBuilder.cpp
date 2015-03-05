@@ -1,3 +1,11 @@
+/******************************************************************************/
+/*!
+\file	MeshBuilder.cpp
+\author Group 7
+\brief
+CPP file for MeshBuilder
+*/
+/******************************************************************************/
 #include "MeshBuilder.h"
 #include <GL\glew.h>
 #include <vector>

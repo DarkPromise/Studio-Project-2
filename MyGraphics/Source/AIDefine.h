@@ -1,3 +1,11 @@
+/******************************************************************************/
+/*!
+\file	AIDefine.h
+\author Group 7
+\brief
+Header file for AIDefine
+*/
+/******************************************************************************/
 //AI configurables
 #define	passerbySpeed		15
 #define	customerSpeed		10

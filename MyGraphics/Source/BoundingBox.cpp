@@ -1,3 +1,11 @@
+/******************************************************************************/
+/*!
+\file	BoundingBox.cpp
+\author Group 7
+\brief
+CPP file for Bound Checking
+*/
+/******************************************************************************/
 #include "BoundingBox.h"
 #include "Camera.h"
 

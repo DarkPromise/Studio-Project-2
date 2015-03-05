@@ -1,3 +1,11 @@
+/******************************************************************************/
+/*!
+\file	SecurityGuard.h
+\author Group 7
+\brief
+Header file for SecurityGuard
+*/
+/******************************************************************************/
 #ifndef SECURITYGUARD_H
 #define	SECURITYGUARD_H
 

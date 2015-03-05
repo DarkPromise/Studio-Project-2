@@ -1,3 +1,11 @@
+/******************************************************************************/
+/*!
+\file	StudioProject2.cpp
+\author Group 7
+\brief
+CPP file for StudioProject2
+*/
+/******************************************************************************/
 #include "StudioProject2.h"
 #include "Mtx44.h"
 #include <iostream>

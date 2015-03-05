@@ -1,3 +1,11 @@
+/******************************************************************************/
+/*!
+\file	Application.cpp
+\author Group 7
+\brief
+CPP file for Application
+*/
+/******************************************************************************/
 #include "Application.h"
 
 //Include GLEW

@@ -1,3 +1,11 @@
+/******************************************************************************/
+/*!
+\file	Camera.cpp
+\author Group 7
+\brief
+CPP file for Camera
+*/
+/******************************************************************************/
 #include "Camera.h"
 #include "Application.h"
 #include "Mtx44.h"

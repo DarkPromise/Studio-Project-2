@@ -1,3 +1,11 @@
+/******************************************************************************/
+/*!
+\file	Customer.cpp
+\author Group 7
+\brief
+CPP file for Customer
+*/
+/******************************************************************************/
 #include "Customer.h"
 #include "Shelfslot.h"
 #include "Item.h"

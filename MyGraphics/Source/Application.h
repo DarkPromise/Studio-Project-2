@@ -1,3 +1,11 @@
+/******************************************************************************/
+/*!
+\file	Application.h
+\author Group 7
+\brief
+Header file for Application
+*/
+/******************************************************************************/
 #ifndef APPLICATION_H
 #define APPLICATION_H
 

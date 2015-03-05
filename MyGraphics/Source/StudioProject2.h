@@ -1,3 +1,11 @@
+/******************************************************************************/
+/*!
+\file	StudioProject2.h
+\author Group 7
+\brief
+Header file for StudioProject2
+*/
+/******************************************************************************/
 #ifndef STUDIO_PROJECT_2_H
 #define STUDIO_PROJECT_2_H
 
