@@ -274,7 +274,17 @@ void StudioProject2::Init()
 	boxPtr->Min = -cashierBounds;
 	box.push_back(boxPtr);
 
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = securityBounds;
+	boxPtr->Min = -securityBounds;
+	box.push_back(boxPtr);
 
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = customerBounds;
+	boxPtr->Min = -customerBounds;
+	box.push_back(boxPtr);
 	/*******************/
 
 	// Init VBO here
@@ -565,6 +575,8 @@ void StudioProject2::Init()
 	meshList[GEO_CASHIERRIGHTBOUNDS] = MeshBuilder::GenerateBoundingBox("rightCashier", box[RIGHTCASHIER]->Max, box[RIGHTCASHIER]->Min, Color(0,0,1));
 	meshList[GEO_MIDDLECASHIERBOUNDS] = MeshBuilder::GenerateBoundingBox("middleCashier", box[MIDDLECASHIER]->Max, box[MIDDLECASHIER]->Min, Color(0,0,1));
 	meshList[GEO_LEFTCASHIERBOUNDS] = MeshBuilder::GenerateBoundingBox("leftCashier", box[LEFTCASHIER]->Max, box[LEFTCASHIER]->Min, Color(0,0,1));
+	meshList[GEO_CUSTOMERSERVICEBOUNDS] = MeshBuilder::GenerateBoundingBox("security", box[CUSTOMERSERVICE]->Max, box[CUSTOMERSERVICE]->Min, Color(0,0,1));
+	meshList[GEO_SECURITYBOUNDS] = MeshBuilder::GenerateBoundingBox("security", box[SECURITY]->Max, box[SECURITY]->Min, Color(0,0,1));
 	/**************************************************************************************************************/
 
 	/***************************************************
@@ -609,6 +621,12 @@ void StudioProject2::Init()
 	box[MIDDLECASHIER]->Min += middleCashierTranslate;
 	box[LEFTCASHIER]->Max += leftCashierTranslate;
 	box[LEFTCASHIER]->Min += leftCashierTranslate;
+
+	box[CUSTOMERSERVICE]->Max += customerTranslate;
+	box[CUSTOMERSERVICE]->Min += customerTranslate;
+
+	box[SECURITY]->Max += securityTranslate;
+	box[SECURITY]->Min += securityTranslate;
 	/***************************
 	FOR ADDING ITEMS & SHELFSLOTS
 	****************************/
@@ -981,11 +999,6 @@ void StudioProject2::Update(double dt, double xpos, double ypos)
 		camera.Update(dt,canMove, xpos, ypos);
 		CollisionCheck(dt);
 
-		playerPos = camera.position;
-		box[PLAYER]->Max = playerPos + playerBounds;
-		box[PLAYER]->Min = playerPos - playerBounds;
-
-
 		for ( int i = 0; i < myPasserby->AICurrent; i++ )
 		{
 			box[PASSERBY]->Max = myPasserby->Coordinates[i] + PasserbyBounds;
@@ -1283,6 +1296,16 @@ void StudioProject2::renderBounds()
 	modelStack.PushMatrix();
 	modelStack.Translate(-1148.2, -125, 385.3);
 	RenderMesh(meshList[GEO_LEFTCASHIERBOUNDS], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-1932, -24.5, 399);
+	RenderMesh(meshList[GEO_CUSTOMERSERVICEBOUNDS], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(1604.5, -24.5, 347);
+	RenderMesh(meshList[GEO_SECURITYBOUNDS], false, false);
 	modelStack.PopMatrix();
 
 	for ( int i = 0; i < myPasserby->AICurrent; i++ )
@@ -2985,12 +3008,6 @@ void StudioProject2::CollisionCheck(double dt)
 		{
 			cout << "You are hugging the passerby" << endl;
 		}
-		else
-		{
-			cout << "camera.target.x: " << camera.target.x << endl;
-			cout << "box[PASSERYB]->min.x: " << box[PASSERBY]->Min.x << endl;
-		}
-
 	}
 
 	if(inhand->holding.size() > 0)
