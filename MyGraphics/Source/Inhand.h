@@ -16,6 +16,7 @@ public:
 	~Inhand(void);
 
 	void recive(int a);
-	int remove();
+	int remove(int currentlyHolding);
+	void dropAll();
 };
 #endif

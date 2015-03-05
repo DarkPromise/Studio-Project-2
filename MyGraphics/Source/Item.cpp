@@ -11,7 +11,7 @@ Item::Item(Vector3 boundMax, Vector3 boundMin, Vector3 translate, Vector3 scale,
 	this->boundMin += translate;
 
 	this->scale = scale;
-	this->rotateY = rotateY;
+	this->rotateY = resetRotateyY = rotateY;
 	this->mesh = mesh;
 	this->uimesh = uimesh;
 }
@@ -38,4 +38,9 @@ void Item::placeItem(Vector3 newPos)
 void Item::updateRotate(float rotate)
 {
 	rotateY = rotate;
+}
+
+void Item::resetRotate()
+{
+	rotateY = resetRotateyY;
 }

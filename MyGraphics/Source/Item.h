@@ -7,7 +7,7 @@ class Item
 {
 public:
 	Vector3 position, boundMax, storeBoundMax, boundMin, storeBoundMin, translate, scale;
-	float rotateY;
+	float rotateY, resetRotateyY;
 	int mesh, uimesh;
 	
 	Item(Vector3 boundMax, Vector3 boundMin, Vector3 translate, Vector3 scale, float rotateY, int mesh, int uimesh);
@@ -16,6 +16,7 @@ public:
 	void takeItem(Vector3 newPos);
 	void placeItem(Vector3 newPos);
 	void updateRotate(float rotate);
+	void resetRotate();
 };
 
 #endif

@@ -214,24 +214,23 @@ public:
 		USER INTERFACE
 		*************************************************/
 		GEO_SIDEBAR,
+		GEO_CURRENTBOX,
+		GEO_CROSSHAIR,
 		GEO_CACTUSJUICEUI,
 		GEO_CADBURYUI,
 		GEO_CANVEGEUI,
 		GEO_CATFOODUI,
 		GEO_CEREALUI,
 		GEO_DETERGENTUI,
-		GEO_DUREXUI,
 		GEO_FERERROUI,
 		GEO_MACCHZUI,
-		GEO_MILKUI,
 		GEO_MILOCANUI,
-		GEO_MOUNTAINDEWUI,
-		GEO_PIZZAHUTUI,
 		GEO_POTATOCHIPSUI,
 		GEO_SARDINESUI,
-		GEO_SPAMUI,
 		GEO_TEXTBOX,
 		GEO_SHOPPINGLIST,
+		GEO_CORRECT,
+		GEO_WRONG,
 		/************************************************/
 
 		GEO_MENU,
@@ -327,6 +326,7 @@ private:
 	vector<Shelfslot*> shelfVector;
 
 	Inhand* inhand;
+	int currentlyHolding;
 	Shopping shopping;
 	vector<string> shoppingList;
 	/****************************************

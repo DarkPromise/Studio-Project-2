@@ -24,12 +24,18 @@ void Inhand::recive(int a)
 	}
 }
 
-int Inhand::remove()
+int Inhand::remove(int currentlyHolding)
 {
-	int a = holding.back();
-	holding.pop_back();
+	int a = holding[currentlyHolding];
+	holding.erase(holding.begin()+currentlyHolding);
 
 	reachMax = false;
 
 	return a;
+}
+
+void Inhand::dropAll()
+{
+	holding.clear();
+	reachMax = false;
 }

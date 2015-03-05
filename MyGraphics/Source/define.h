@@ -14,11 +14,13 @@ float gate2LeftRotate = -180;
 /////////UI stuff////////
 bool pickUpText = false;
 bool putBackText = false;
+bool checkOutText = false;
 bool showList = false;
 float listlocation = 2.15;
-
-///////main menu stuff/////
-
+bool getCorrect = false;
+bool getWrong = false;
+float correctTimmer = 0;
+float wrongTimmer = 0;
 
 #define NorthSouthWall Vector3(2252,274,25)
 #define EastWestWall Vector3(25,274,1826)
