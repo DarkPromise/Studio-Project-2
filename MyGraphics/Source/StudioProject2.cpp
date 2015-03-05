@@ -2776,6 +2776,7 @@ void StudioProject2::MainMenu()
 	RenderTextOnScreen(meshList[GEO_TEXT],"Main Menu",Color(1,0,0),10,1.8,3.7);
 	RenderTextOnScreen(meshList[GEO_TEXT],"Start",Color(1,0,0),10,2.8,2.7);
 	RenderTextOnScreen(meshList[GEO_TEXT],"End",Color(1,0,0),10,2.8,1.7);
+	RenderTextOnScreen(meshList[GEO_TEXT],"->",Color(1,0,0),10,1.8, menuX);
 	
 	if(Application::IsKeyPressed(GLFW_KEY_UP))
 	{
