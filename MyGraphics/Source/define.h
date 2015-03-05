@@ -30,6 +30,8 @@ float listlocation = 2.15;
 #define loneShelfBounds Vector3(247,172,117.5)
 #define doorBounds Vector3(400,222.5,225)
 #define playerBounds Vector3(50,50,50)
+#define PasserbyBounds Vector3(200, 150, 200)
+#define	CustomerBounds Vector3(150, 150, 150)
 #define freezerBounds Vector3(101,163,552.5)
 #define chillerBounds Vector3(117.5,124,608)
 #define gateBoundsRight Vector3(180,150,100)
