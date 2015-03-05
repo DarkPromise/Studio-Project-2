@@ -119,9 +119,9 @@ void StudioProject2::Init()
 	rotateAngle = 0.0f;
 	canMove = true;
 	canPhase = false;
-	
+
 	stoptime = true;
-	menuX = 2.8f; 
+	menuX = 2.8f;
 
 	//Init AI
 	myPasserby = new Passerby();
@@ -293,6 +293,18 @@ void StudioProject2::Init()
 	boxPtr->Max = customerBounds;
 	boxPtr->Min = -customerBounds;
 	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = LwallLeftBounds;
+	boxPtr->Min = -LwallLeftBounds;
+	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = LwallBackBounds;
+	boxPtr->Min = -LwallBackBounds;
+	box.push_back(boxPtr);
 	/*******************/
 
 	// Init VBO here
@@ -444,7 +456,7 @@ void StudioProject2::Init()
 	meshList[GEO_OWNERLEFTLEG]->textureID = LoadTGA("Image//rich_kid.tga");
 	meshList[GEO_OWNERRIGHTLEG] = MeshBuilder::GenerateOBJ("Player legs", "Object//playerRightLeg.obj");
 	meshList[GEO_OWNERRIGHTLEG]->textureID = LoadTGA("Image//rich_kid.tga");
-	
+
 	meshList[GEO_PASSERBYHEAD] = MeshBuilder::GenerateOBJ("Player head", "Object//playerHead.obj");
 	meshList[GEO_PASSERBYHEAD]->textureID = LoadTGA("Image//unicorn67_Business.tga");
 	meshList[GEO_PASSERBYBODY] = MeshBuilder::GenerateOBJ("Player body", "Object//playerBody.obj");
@@ -585,6 +597,8 @@ void StudioProject2::Init()
 	meshList[GEO_LEFTCASHIERBOUNDS] = MeshBuilder::GenerateBoundingBox("leftCashier", box[LEFTCASHIER]->Max, box[LEFTCASHIER]->Min, Color(0,0,1));
 	meshList[GEO_CUSTOMERSERVICEBOUNDS] = MeshBuilder::GenerateBoundingBox("security", box[CUSTOMERSERVICE]->Max, box[CUSTOMERSERVICE]->Min, Color(0,0,1));
 	meshList[GEO_SECURITYBOUNDS] = MeshBuilder::GenerateBoundingBox("security", box[SECURITY]->Max, box[SECURITY]->Min, Color(0,0,1));
+	meshList[GEO_LSHAPELEFTBOUNDS] = MeshBuilder::GenerateBoundingBox("LShapeLeft", box[LSHAPELEFT]->Max, box[LSHAPELEFT]->Min, Color(0,1,1));
+	meshList[GEO_LSHAPEBACKBOUNDS] = MeshBuilder::GenerateBoundingBox("LShapeBack", box[LSHAPEBACK]->Max, box[LSHAPEBACK]->Min, Color(0,1,1));
 	/**************************************************************************************************************/
 
 	/***************************************************
@@ -612,7 +626,7 @@ void StudioProject2::Init()
 	box[MARKETWALL3]->Min += MarketWallEastWestTranslate;
 	box[MARKETWALL4]->Max += -MarketWallEastWestTranslate;
 	box[MARKETWALL4]->Min += -MarketWallEastWestTranslate;
-	
+
 	box[FREEZER]->Max += FreezerTranslate;
 	box[FREEZER]->Min += FreezerTranslate;
 	box[CHILLER]->Max += ChillerTranslate;
@@ -635,6 +649,12 @@ void StudioProject2::Init()
 
 	box[SECURITY]->Max += securityTranslate;
 	box[SECURITY]->Min += securityTranslate;
+
+	box[LSHAPELEFT]->Max += LwallLeftTranslate;
+	box[LSHAPELEFT]->Min += LwallLeftTranslate;
+
+	box[LSHAPEBACK]->Max += LwallBackTranslate;
+	box[LSHAPEBACK]->Min += LwallBackTranslate;
 	/***************************
 	FOR ADDING ITEMS & SHELFSLOTS
 	****************************/
@@ -781,7 +801,7 @@ void StudioProject2::Init()
 	GEOS.push_back(GEO_SARDINES);
 
 	shopping.set(GEOS);
-	
+
 	shoppingList = shopping.randomList(5);
 	/******************************/
 }
@@ -832,7 +852,7 @@ void StudioProject2::RenderMesh(Mesh *mesh, bool enableLight, bool transparent)
 		glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 0);
 	}
 
-	mesh->Render(); //this line should only be called once 
+	mesh->Render(); //this line should only be called once
 
 	if(mesh->textureID > 0)
 	{
@@ -1312,8 +1332,18 @@ void StudioProject2::renderBounds()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(1604.5, -24.5, 347);
+	modelStack.Translate(1115, -120, 347);
 	RenderMesh(meshList[GEO_SECURITYBOUNDS], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(1200, 0, 200);
+	RenderMesh(meshList[GEO_LSHAPELEFTBOUNDS], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(1690, 0, 0);
+	RenderMesh(meshList[GEO_LSHAPEBACKBOUNDS], false, false);
 	modelStack.PopMatrix();
 
 	for ( int i = 0; i < myPasserby->AICurrent; i++ )
@@ -1363,7 +1393,7 @@ void StudioProject2::renderPlayer()
 	RenderMesh(meshList[GEO_PLAYERRIGHTLEG], false, false);
 	modelStack.PopMatrix();
 
-	modelStack.PopMatrix();	
+	modelStack.PopMatrix();
 }
 
 void StudioProject2::renderCustomer()
@@ -1395,7 +1425,7 @@ void StudioProject2::renderCustomer()
 	RenderMesh(meshList[GEO_CUSTOMERRIGHTLEG], false, false);
 	modelStack.PopMatrix();
 
-	modelStack.PopMatrix();	
+	modelStack.PopMatrix();
 }
 
 void StudioProject2::renderPasserby()
@@ -1427,7 +1457,7 @@ void StudioProject2::renderPasserby()
 	RenderMesh(meshList[GEO_PASSERBYRIGHTLEG], false, false);
 	modelStack.PopMatrix();
 
-	modelStack.PopMatrix();	
+	modelStack.PopMatrix();
 }
 
 void StudioProject2::renderVehicle()
@@ -1486,7 +1516,7 @@ void StudioProject2::renderPromoter()
 	RenderMesh(meshList[GEO_CACTUSJUICE], false, false);
 	modelStack.PopMatrix();
 
-	modelStack.PopMatrix();	
+	modelStack.PopMatrix();
 }
 
 void StudioProject2::renderCashier()
@@ -1519,7 +1549,7 @@ void StudioProject2::renderCashier()
 	RenderMesh(meshList[GEO_CASHIERRIGHTLEG], false, false);
 	modelStack.PopMatrix();
 
-	modelStack.PopMatrix();	
+	modelStack.PopMatrix();
 }
 
 void StudioProject2::renderOwner()
@@ -1551,7 +1581,7 @@ void StudioProject2::renderOwner()
 	RenderMesh(meshList[GEO_OWNERRIGHTLEG], false, false);
 	modelStack.PopMatrix();
 
-	modelStack.PopMatrix();	
+	modelStack.PopMatrix();
 }
 
 void StudioProject2::renderSecurityGuard()
@@ -2466,7 +2496,7 @@ void StudioProject2::renderOutside()
 		modelStack.Scale(50, 50, 50);
 		RenderMesh(meshList[GEO_GREYBRICK], false, false);
 		modelStack.PopMatrix();
-	
+
 	for(float a=3710; a > -1710; a-=2076)
 	{
 		modelStack.PushMatrix();
@@ -2506,7 +2536,7 @@ void StudioProject2::renderOutside()
 	modelStack.Scale(50, 50, 35);
 	RenderMesh(meshList[GEO_GREYBRICK], false, false);
 	modelStack.PopMatrix();
-	
+
 	for(float a=-4265; a > -6710; a-=2076)
 	{
 		modelStack.PushMatrix();
@@ -2647,7 +2677,7 @@ void StudioProject2::renderUI()
 	if(showList == true)
 	{
 		for(int i = 0; i < shoppingList.size();++i)
-		{	
+		{
 			RenderTextOnScreen(meshList[GEO_TEXT],shoppingList[i], Color(0, 0, 0), 2.5, 21, 11.5+i);
 		}
 	}
@@ -2777,7 +2807,7 @@ void StudioProject2::RenderQuadOnScreen(Mesh* mesh, float scalex, float scaley, 
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
 	mesh->Render();
-	
+
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
 
@@ -3039,7 +3069,7 @@ void StudioProject2::CollisionCheck(double dt)
 			if((Application::IsButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) && getCorrect == false && getWrong == false)
 			{
 				bool checkinglist = shopping.check(itemVector, inhand->holding);
-				
+
 				if(checkinglist == false)
 				{
 					getWrong = true;
@@ -3054,7 +3084,7 @@ void StudioProject2::CollisionCheck(double dt)
 		{
 			checkOutText = false;
 		}
-	
+
 	}
 	/*********************************************************************************************************************************/
 }

@@ -49,7 +49,9 @@ float wrongTimmer = 0;
 #define cashierBounds Vector3(167,150,338)
 #define middleCashierBounds Vector3(337,150,338)
 #define customerBounds Vector3(268,250,322);
-#define securityBounds Vector3(597,250,150);
+#define securityBounds Vector3(110,155,150); //1604 (TranslateX), 250, 150 L shape wall X is 368
+#define LwallLeftBounds Vector3(25,274,225);
+#define LwallBackBounds Vector3(515,274,25);
 
 #define doorTranslation Vector3(2230,-53,1190)
 #define leftShelfTranslate Vector3(-2085,-103.3,-1085)
@@ -67,4 +69,6 @@ float wrongTimmer = 0;
 #define middleCashierTranslate Vector3(-367.5, -125, 385.3)
 #define leftCashierTranslate Vector3(-1148.2, -125, 385.3)
 #define customerTranslate Vector3(-1932, -23, 399)
-#define securityTranslate Vector3(1604.5, -24.5, 347)
+#define securityTranslate Vector3(1115, -120, 347)
+#define LwallLeftTranslate Vector3(1200, 0, 200)
+#define LwallBackTranslate Vector3(1690, 0, 0)

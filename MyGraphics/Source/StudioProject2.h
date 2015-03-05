@@ -216,6 +216,8 @@ public:
 		GEO_LEFTCASHIERBOUNDS,
 		GEO_SECURITYBOUNDS,
 		GEO_CUSTOMERSERVICEBOUNDS,
+		GEO_LSHAPELEFTBOUNDS,
+		GEO_LSHAPEBACKBOUNDS,
 		/************************************************/
 
 		/*************************************************
@@ -321,7 +323,7 @@ private:
 	Mtx44 view;
 	Mtx44 projection;
 	Mtx44 MVP;
-	
+
 	MS modelStack, viewStack, projectionStack;
 
 	Camera2 camera;
@@ -330,7 +332,7 @@ private:
 	Vector3 playerPos;
 	Vector3 playerRotation;
 	Vector3 testPos;
-	
+
 	vector<Item*> itemVector;
 	vector<Shelfslot*> shelfVector;
 
@@ -378,6 +380,8 @@ enum BOUNDTYPE
 		MIDDLECASHIER,
 		LEFTCASHIER,
 		SECURITY,
-		CUSTOMERSERVICE
+		CUSTOMERSERVICE,
+		LSHAPELEFT,
+		LSHAPEBACK
 	};
 #endif
