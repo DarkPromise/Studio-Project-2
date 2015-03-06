@@ -1052,7 +1052,7 @@ void StudioProject2::Update(double dt, double xpos, double ypos)
 		//cout << itemDelay << endl;
 		for ( int i = 0; i < myCustomer->AICurrent; i++ )
 		{
-			if ( (myCustomer->State[i] == LeftShelftoFrontLeftShelf || myCustomer->State[i] == GatestoRightShelf || 
+			if ( (myCustomer->State[i] == LeftShelftoFrontLeftShelf || myCustomer->State[i] == GatestoRightShelf ||
 				myCustomer->State[i] == RightShelftoMiddleRightShelf || myCustomer->State[i] == RightShelftoBackShelf ||
 				myCustomer->State[i] == MiddleRightShelftoBackShelf || myCustomer->State[i] == BackShelftoLeftShelf ||
 				myCustomer->State[i] == BackShelftoLeftRightShelf ) && myCustomer->itemsHeld[i] < itemsHeldtoLeave && itemDelay > windowShopper)
@@ -1077,7 +1077,7 @@ void StudioProject2::Update(double dt, double xpos, double ypos)
 
 		for ( int i = 0; i < myVehicle->AICurrent; i++ )
 		{
-			if ( (myVehicle->State[i] == V_LeftShelftoFrontLeftShelf || myVehicle->State[i] == V_GatestoRightShelf || 
+			if ( (myVehicle->State[i] == V_LeftShelftoFrontLeftShelf || myVehicle->State[i] == V_GatestoRightShelf ||
 				myVehicle->State[i] == V_RightShelftoMiddleRightShelf || myVehicle->State[i] == V_RightShelftoBackShelf ||
 				myVehicle->State[i] == V_MiddleRightShelftoBackShelf || myVehicle->State[i] == V_BackShelftoLeftShelf ||
 				myVehicle->State[i] == V_BackShelftoLeftRightShelf ) && myVehicle->itemsHeld[i] && itemDelay > windowShopper )
@@ -1175,8 +1175,6 @@ void StudioProject2::Update(double dt, double xpos, double ypos)
 
 			shoppingList = shopping.randomList(5);
 		}
-		//camera.target.Set(CustomerX[0], 0, CustomerZ[0]);
-		//camera.position.Set(CustomerX[0], 0, CustomerZ[0] + 500);
 	}
 }
 
@@ -1213,8 +1211,6 @@ void StudioProject2::Render()
 	}
 	else
 	{
-		//RenderMesh(meshList[GEO_AXES], false, false);
-
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		if(doRenderBounds)
@@ -1232,29 +1228,11 @@ void StudioProject2::Render()
 		RenderMesh(meshList[GEO_LIGHTBALL], false, false);
 		modelStack.PopMatrix();
 
-		/*modelStack.PushMatrix();
-		modelStack.Translate(camera.target.x, camera.target.y, camera.target.z);
-		modelStack.Scale(0.05, 0.05, 0.05);
-		RenderMesh(meshList[GEO_LIGHTBALL], false, false);
-		modelStack.PopMatrix();
-		cout << camera.target.x << ' ' << camera.target.y << ' ' << camera.target.z << endl;
-		*/
 		///////////////////////////////////////////////////////////////////////////////////
 		renderSkybox();
 		renderOutside();
 		renderItems();
 		renderSupermarket();
-
-
-		/*modelStack.PushMatrix();
-		modelStack.Translate(playerPos.x, playerPos.y, playerPos.z);
-		modelStack.Rotate(rotateAngle,0,1,0);
-		modelStack.PushMatrix();
-		modelStack.Rotate(-90,0,1,0);
-		renderPlayer();
-		modelStack.PopMatrix();
-		modelStack.PopMatrix();*/
-
 
 		for ( int i = 0; i < myCashier->AICurrent; i++ )
 		{
@@ -1344,11 +1322,6 @@ void StudioProject2::Render()
 
 void StudioProject2::renderBounds()
 {
-	modelStack.PushMatrix();
-	modelStack.Translate(testPos.x,testPos.y,testPos.z);
-	RenderMesh(meshList[GEO_BOUNDHELPER], false, false);
-	modelStack.PopMatrix();
-
 	modelStack.PushMatrix();
 	modelStack.Translate(0,0,1850);
 	RenderMesh(meshList[GEO_MARKETWALL1], false, false);

@@ -9,6 +9,21 @@ CPP file for Child
 #include "Child.h"
 #include "BoundingBox.h"
 
+/******************************************************************************/
+/*!
+\brief
+default constructor of a octree child
+
+\param parent - the original octree
+\param level - the number of levels the child's bounding box should have
+\param centreX to centreZ - the position to create the child at
+\param sizeX to sizeZ - the size of the child's bounding box
+
+\exception None
+\return None
+*/
+/******************************************************************************/
+
 Child::Child(Child *parent, int level, 	float centreX, float centreY, float centreZ, float sizeX, float sizeY, float sizeZ)
 {
 	this->parent = parent;
@@ -23,7 +38,7 @@ Child::Child(Child *parent, int level, 	float centreX, float centreY, float cent
 	highY = centreY + sizeY/2;
 	lowZ = centreZ - sizeZ/2;
 	highZ = centreZ + sizeZ/2;
-	
+
 	for(int i = 0; i < 8; i++)
 	{
 		child[i] = NULL;
@@ -36,6 +51,17 @@ Child::Child(Child *parent, int level, 	float centreX, float centreY, float cent
 	calcCoordinates();
 }
 
+/******************************************************************************/
+/*!
+\brief
+destructor of an octree child
+
+\param None
+\exception None
+\return None
+*/
+/******************************************************************************/
+
 Child::~Child(void)
 {
 	for(int i = 0; i < 8; i++)
@@ -44,6 +70,17 @@ Child::~Child(void)
 	}
 	objects.clear();
 }
+
+/******************************************************************************/
+/*!
+\brief
+Gets the parent of the child part
+
+\param None
+\exception None
+\return pointer of child's parent
+*/
+/******************************************************************************/
 
 Child* Child::getRoot()
 {
@@ -55,6 +92,17 @@ Child* Child::getRoot()
 	}
 }
 
+/******************************************************************************/
+/*!
+\brief
+Check for collision using AABB checking
+
+\param Obj - The object to check with
+\exception None
+\return True or False
+*/
+/******************************************************************************/
+
 bool Child::contains(BoundingBox* obj)
 {
 	float nLowX = obj->getPos().x - obj->getCollisionRadius();
@@ -63,9 +111,20 @@ bool Child::contains(BoundingBox* obj)
 	float nHighY = obj->getPos().y + obj->getCollisionRadius();
 	float nLowZ = obj->getPos().z - obj->getCollisionRadius();
 	float nHighZ = obj->getPos().z + obj->getCollisionRadius();
-	
+
 	return(nLowX > lowX && nHighX < highX && nLowY > lowY && nHighY < highY && nLowZ > lowZ && nHighZ < highZ);
 }
+
+/******************************************************************************/
+/*!
+\brief
+Adds an object to the child
+
+\param obj - The object to add to the child
+\exception None
+\return None
+*/
+/******************************************************************************/
 
 void Child::addObject(BoundingBox *obj)
 {
@@ -86,17 +145,28 @@ void Child::addObject(BoundingBox *obj)
 	{
 		child[p]->addObject(obj);
 	}
-	else 
-	{ 
+	else
+	{
 		obj->child = this;
 		objects.push_back(obj);
 	}
 }
 
+/******************************************************************************/
+/*!
+\brief
+Removes an object from the child
+
+\param id - Id of the object to be removed
+\exception None
+\return None
+*/
+/******************************************************************************/
+
 void Child::removeObject(int id)
 {
 	vector<BoundingBox*>::iterator it;
-	for(it = objects.begin(); it != objects.end(); it++) 
+	for(it = objects.begin(); it != objects.end(); it++)
 	{
 		if((*it)->getID() == id)
 		{
@@ -105,6 +175,19 @@ void Child::removeObject(int id)
 		}
 	}
 }
+
+/******************************************************************************/
+/*!
+\brief
+Checks for number of collisions and tests
+
+\param NumberOfTests - Number of Tests conducted
+\param NumberOfCollisions - Number of Collisions detected
+
+\exception None
+\return None
+*/
+/******************************************************************************/
 
 void Child::NumberOfCollisions(int &NumberOfTests, int &NumberOfCollisions)
 {
@@ -132,6 +215,20 @@ void Child::NumberOfCollisions(int &NumberOfTests, int &NumberOfCollisions)
 		parent->NumberOfBorderCollisions(this, NumberOfTests, NumberOfCollisions);
 }
 
+/******************************************************************************/
+/*!
+\brief
+Checks for number of tests and collisions at the intersections of the child's bounding box
+
+\param Child - The child to check with
+\param NumberOfTests - Number of Tests conducted
+\param NumberOfCollisions - Number of Collisions detected
+
+\exception None
+\return None
+*/
+/******************************************************************************/
+
 void Child::NumberOfBorderCollisions(Child* child, int &NumberOfTests, int &NumberOfCollisions){
 	int nPart = child->objects.size();
 	int n = objects.size();
@@ -149,6 +246,17 @@ void Child::NumberOfBorderCollisions(Child* child, int &NumberOfTests, int &Numb
 		parent->NumberOfBorderCollisions(child, NumberOfTests, NumberOfCollisions);
 }
 
+/******************************************************************************/
+/*!
+\brief
+Creates more childs
+
+\param NumberOfLevels - Number of levels the new child should have
+
+\exception None
+\return None
+*/
+/******************************************************************************/
 
 void Child::createSubPartitions(int NumberOfLevels)
 {
@@ -158,21 +266,21 @@ void Child::createSubPartitions(int NumberOfLevels)
 		float newSizeY = (highY - lowY)/2;
 		float newSizeZ = (highZ - lowZ)/2;
 
-		child[0] = new Child(this, level + 1, centreX - newSizeX/2, centreY + newSizeY/2, centreZ + newSizeZ/2, 
+		child[0] = new Child(this, level + 1, centreX - newSizeX/2, centreY + newSizeY/2, centreZ + newSizeZ/2,
 			newSizeX, newSizeY, newSizeZ);
-		child[1] = new Child(this, level + 1, centreX + newSizeX/2, centreY + newSizeY/2, centreZ + newSizeZ/2, 
+		child[1] = new Child(this, level + 1, centreX + newSizeX/2, centreY + newSizeY/2, centreZ + newSizeZ/2,
 			newSizeX, newSizeY, newSizeZ);
-		child[2] = new Child(this, level + 1, centreX - newSizeX/2, centreY - newSizeY/2, centreZ + newSizeZ/2, 
+		child[2] = new Child(this, level + 1, centreX - newSizeX/2, centreY - newSizeY/2, centreZ + newSizeZ/2,
 			newSizeX, newSizeY, newSizeZ);
-		child[3] = new Child(this, level + 1, centreX + newSizeX/2, centreY - newSizeY/2, centreZ + newSizeZ/2, 
+		child[3] = new Child(this, level + 1, centreX + newSizeX/2, centreY - newSizeY/2, centreZ + newSizeZ/2,
 			newSizeX, newSizeY, newSizeZ);
-		child[4] = new Child(this, level + 1, centreX - newSizeX/2, centreY + newSizeY/2, centreZ - newSizeZ/2, 
+		child[4] = new Child(this, level + 1, centreX - newSizeX/2, centreY + newSizeY/2, centreZ - newSizeZ/2,
 			newSizeX, newSizeY, newSizeZ);
-		child[5] = new Child(this, level + 1, centreX + newSizeX/2, centreY + newSizeY/2, centreZ - newSizeZ/2, 
+		child[5] = new Child(this, level + 1, centreX + newSizeX/2, centreY + newSizeY/2, centreZ - newSizeZ/2,
 			newSizeX, newSizeY, newSizeZ);
-		child[6] = new Child(this, level + 1, centreX - newSizeX/2, centreY - newSizeY/2, centreZ - newSizeZ/2, 
+		child[6] = new Child(this, level + 1, centreX - newSizeX/2, centreY - newSizeY/2, centreZ - newSizeZ/2,
 			newSizeX, newSizeY, newSizeZ);
-		child[7] = new Child(this, level + 1, centreX + newSizeX/2, centreY - newSizeY/2, centreZ - newSizeZ/2, 
+		child[7] = new Child(this, level + 1, centreX + newSizeX/2, centreY - newSizeY/2, centreZ - newSizeZ/2,
 			newSizeX, newSizeY, newSizeZ);
 
 		for(int i = 0; i < 8; i++)
@@ -182,13 +290,23 @@ void Child::createSubPartitions(int NumberOfLevels)
 	}
 }
 
+/******************************************************************************/
+/*!
+\brief
+Prints the details of the child
+
+\param None
+\exception None
+\return None
+*/
+/******************************************************************************/
+
 void Child::printDetails()
 {
 	char text[256];
 
 	sprintf_s(text, "Level %d  at %5.1f %5.1f, %5.1f   X[%5.1f to %5.1f]  y[%5.1f to %5.1f]  z[%5.2f to %5.2f] %d",
 		level, centreX, centreY, centreZ, lowX, highX, lowY, highY, lowZ, highZ, objects.size());
-	//DebugOut(text);
 
 	if(child[0] != NULL)
 	{
@@ -199,12 +317,22 @@ void Child::printDetails()
 	}
 }
 
+/******************************************************************************/
+/*!
+\brief
+Prints the shorter details of the child
+
+\param None
+\exception None
+\return None
+*/
+/******************************************************************************/
+
 void Child::printShortDetails()
 {
 	char text[256];
 
 	sprintf_s(text, "Level %d  at %5.1f %5.1f, %5.1f No of objects %d", level, centreX, centreY, centreZ, objects.size());
-	//DebugOut(text);
 
 	if(child[0] != NULL)
 	{
@@ -215,13 +343,24 @@ void Child::printShortDetails()
 	}
 }
 
+/******************************************************************************/
+/*!
+\brief
+Renders the child
+
+\param None
+\exception None
+\return None
+*/
+/******************************************************************************/
+
 void Child::Render()
 {
 	if(hasChildren())
 		for(int i = 0; i < NUMBER_OF_CHILDREN; i++)
 			child[i]->Render();
 
-	if(objects.size() > 0) 
+	if(objects.size() > 0)
 	{
 		glPushMatrix();
 			// Draw edges
@@ -254,6 +393,17 @@ void Child::Render()
 	}
 }
 
+/******************************************************************************/
+/*!
+\brief
+Draws the face of the child's bounding box in openGL
+
+\param v0 to v3 - The vertices of the child box
+\exception None
+\return None
+*/
+/******************************************************************************/
+
 void Child::drawFace(int v0, int v1, int v2, int v3)
 {
 	glBegin(GL_QUADS);
@@ -264,6 +414,18 @@ void Child::drawFace(int v0, int v1, int v2, int v3)
 	glEnd();
 }
 
+/******************************************************************************/
+/*!
+\brief
+Draws the edge of a child's bounding box in openGL
+
+\param v0 to v1 - The two vertices to draw a line with
+
+\exception None
+\return None
+*/
+/******************************************************************************/
+
 void Child::drawEdge(int v0, int v1)
 {
 	glBegin(GL_LINES);
@@ -272,6 +434,16 @@ void Child::drawEdge(int v0, int v1)
 	glEnd();
 }
 
+/******************************************************************************/
+/*!
+\brief
+Sets where the child's bounding box should be drawn
+
+\param None
+\exception None
+\return None
+*/
+/******************************************************************************/
 
 void Child::calcCoordinates()
 {
