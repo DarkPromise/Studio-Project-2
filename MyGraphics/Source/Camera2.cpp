@@ -239,7 +239,7 @@ void Camera2::Update(double dt,bool move, double xpos, double ypos)
 
 	if(Application::IsKeyPressed('R'))
 	{
-		Reset();
+		//Reset();
 	}
 }
 

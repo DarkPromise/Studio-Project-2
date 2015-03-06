@@ -14,7 +14,7 @@ Header file for AIDefine
 #define	vehicleOwnerSpeed	10
 #define	passerbySpawnRate	555 // 1 / ___ chance
 #define	customerSpawnRate	1555 // of spawning
-#define vehicleSpawnRate	2288 // every update
+#define vehicleSpawnRate	100 // every update
 #define	customerLimit		10
 #define passerbyLimit		20
 #define cashierTurnDelay	2 // seconds
@@ -110,7 +110,7 @@ Header file for AIDefine
 #define CarparkSlot4Waypoint		Vector3(4300, 0, 2050)
 
 #define PasserbyBounds Vector3(200, 50, 200)
-#define CustomerBounds Vector3(150, 50, 150)
+#define CustomerBounds Vector3(200, 50, 200)
 #define PromoterBounds Vector3(1700, 50, 1700)
 #define SecurityGuardBounds Vector3(200, 50, 200)
 #define CashierBounds Vector3(300, 50, 300)

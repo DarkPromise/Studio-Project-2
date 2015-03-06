@@ -69,7 +69,7 @@ int StudioProject2::Sounds()
 	ISoundEngine* engine = createIrrKlangDevice();
 
 	if(!engine)
-		return 0;
+		return 0;s
 
 	engine->play2D("Sounds/Music.mp3",true);
 
@@ -345,6 +345,30 @@ void StudioProject2::Init()
 	boxPtr->isObj = true;
 	boxPtr->Max = LwallBackBounds;
 	boxPtr->Min = -LwallBackBounds;
+	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = outerSideWallBounds;
+	boxPtr->Min = -outerSideWallBounds;
+	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = outerSideWallBounds;
+	boxPtr->Min = -outerSideWallBounds;
+	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = outerFBWallBounds;
+	boxPtr->Min = -outerFBWallBounds;
+	box.push_back(boxPtr);
+
+	boxPtr = new BoundingBox();
+	boxPtr->isObj = true;
+	boxPtr->Max = outerFBWallBounds;
+	boxPtr->Min = -outerFBWallBounds;
 	box.push_back(boxPtr);
 	/*******************/
 
@@ -666,6 +690,10 @@ void StudioProject2::Init()
 	meshList[GEO_SECURITYBOUNDS] = MeshBuilder::GenerateBoundingBox("security", box[SECURITY]->Max, box[SECURITY]->Min, Color(0,0,1));
 	meshList[GEO_LSHAPELEFTBOUNDS] = MeshBuilder::GenerateBoundingBox("LShapeLeft", box[LSHAPELEFT]->Max, box[LSHAPELEFT]->Min, Color(0,1,1));
 	meshList[GEO_LSHAPEBACKBOUNDS] = MeshBuilder::GenerateBoundingBox("LShapeBack", box[LSHAPEBACK]->Max, box[LSHAPEBACK]->Min, Color(0,1,1));
+	meshList[GEO_OUTERLEFTWALLBOUNDS] = MeshBuilder::GenerateBoundingBox("outerleftwall", box[OUTEERLEFTWALL]->Max, box[OUTEERLEFTWALL]->Min, Color(0,1,1));
+	meshList[GEO_OUTERRIGHTWALLBOUNDS] = MeshBuilder::GenerateBoundingBox("outerrightwall", box[OUTEERRIGHTWALL]->Max, box[OUTEERRIGHTWALL]->Min, Color(0,1,1));
+	meshList[GEO_OUTERFRONTWALLBOUNDS] = MeshBuilder::GenerateBoundingBox("outerfrontwall", box[OUTEERFRONTWALL]->Max, box[OUTEERFRONTWALL]->Min, Color(0,1,1));
+	meshList[GEO_OUTERBACKWALLBOUNDS] = MeshBuilder::GenerateBoundingBox("outerbackwall", box[OUTEERBACKWALL]->Max, box[OUTEERBACKWALL]->Min, Color(0,1,1));
 	/**************************************************************************************************************/
 
 	/***************************************************
@@ -722,6 +750,16 @@ void StudioProject2::Init()
 
 	box[LSHAPEBACK]->Max += LwallBackTranslate;
 	box[LSHAPEBACK]->Min += LwallBackTranslate;
+
+	box[OUTEERLEFTWALL]->Max += OutsideLeftWallTranslate;
+	box[OUTEERLEFTWALL]->Min += OutsideLeftWallTranslate;
+	box[OUTEERRIGHTWALL]->Max += OutsideRightWallTranslate;
+	box[OUTEERRIGHTWALL]->Min += OutsideRightWallTranslate;
+	box[OUTEERFRONTWALL]->Max += OutsideFrontWallTranslate;
+	box[OUTEERFRONTWALL]->Min += OutsideFrontWallTranslate;
+	box[OUTEERBACKWALL]->Max += OutsideBackWallTranslate;
+	box[OUTEERBACKWALL]->Min += OutsideBackWallTranslate;
+
 	/***************************
 	FOR ADDING ITEMS & SHELFSLOTS
 	****************************/
@@ -1038,7 +1076,20 @@ void StudioProject2::Update(double dt, double xpos, double ypos)
 		}
 		else
 			showList = false;
-		/////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////
+
+		///////////////////reset items/////////////////////////////////
+		if(Application::IsKeyPressed('R'))
+		{
+			inhand->dropAll();
+
+			for(int i = 0; i < itemVector.size(); i++)
+			{
+				itemVector[i]->placeItem(shelfVector[i]->position);
+				shelfVector[i]->isempty = false;
+			}
+		}
+		////////////////////////////////////////////////////////////////
 
 		myPasserby->spawnAI();
 		myPasserby->updateAI();
@@ -1273,7 +1324,7 @@ void StudioProject2::Render()
 		for ( int i = 0; i < myVehicle->AICurrent; i++ )
 		{
 			modelStack.PushMatrix();
-			modelStack.Translate(myVehicle->vehicleCoordinates[0].x, yOffset, myVehicle->vehicleCoordinates[0].z);
+			modelStack.Translate(myVehicle->vehicleCoordinates[i].x, yOffset, myVehicle->vehicleCoordinates[i].z);
 			modelStack.Rotate(myVehicle->vehicleRotateY[i], 0, 1, 0);
 			renderVehicle();
 			modelStack.PopMatrix();
@@ -1282,7 +1333,7 @@ void StudioProject2::Render()
 		for (int i = 0; i < myVehicle->Coordinates.size(); i++ )
 		{
 			modelStack.PushMatrix();
-			modelStack.Translate(myVehicle->Coordinates[0].x, yOffset, myVehicle->Coordinates[0].z);
+			modelStack.Translate(myVehicle->Coordinates[i].x, yOffset, myVehicle->Coordinates[i].z);
 			modelStack.Rotate(myVehicle->rotateY[i], 0, 1, 0);
 			if ( myVehicle->renderOwner[i] == RenderOwner )
 				renderOwner();
@@ -1474,6 +1525,26 @@ void StudioProject2::renderBounds()
 	modelStack.PushMatrix();
 	modelStack.Translate(myGuard->Coordinates[0].x, myGuard->Coordinates[0].y, myGuard->Coordinates[0].z);
 	RenderMesh(meshList[GEO_SECURITYGUARDBOUNDS], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(1250, -100, 2550);
+	RenderMesh(meshList[GEO_OUTERLEFTWALLBOUNDS], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(1250, -100, -2550);
+	RenderMesh(meshList[GEO_OUTERRIGHTWALLBOUNDS], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(4800, -100, 0);
+	RenderMesh(meshList[GEO_OUTERFRONTWALLBOUNDS], false, false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-2300, -100, 0);
+	RenderMesh(meshList[GEO_OUTERBACKWALLBOUNDS], false, false);
 	modelStack.PopMatrix();
 }
 
@@ -3214,7 +3285,7 @@ void StudioProject2::CollisionCheck(double dt)
 
 	for( int i = 0; i < myPasserby->AICurrent; i++ )
 	{
-		if( (box[PLAYER]->Min.x < myPasserby->Max[i].x) && (box[PLAYER]->Max.x > myPasserby->Min[i].x) && (box[PLAYER]->Min.y < myPasserby->Max[i].y) && (box[PLAYER]->Max.y > myPasserby->Min[i].y) &&	(box[PLAYER]->Min.z < myPasserby->Max[i].z) && (box[PLAYER]->Max.z > myPasserby->Min[i].z) )
+		if( (box[PLAYER]->Min.x < myPasserby->Max[i].x) && (box[PLAYER]->Max.x > myPasserby->Min[i].x) && /*(box[PLAYER]->Min.y < myPasserby->Max[i].y) && (box[PLAYER]->Max.y > myPasserby->Min[i].y) &&*/	(box[PLAYER]->Min.z < myPasserby->Max[i].z) && (box[PLAYER]->Max.z > myPasserby->Min[i].z) )
 		{
 			PasserbyText = true;
 		}
@@ -3226,7 +3297,7 @@ void StudioProject2::CollisionCheck(double dt)
 
 	for( int i = 0; i < myCustomer->AICurrent; i++ )
 	{
-		if( (box[PLAYER]->Min.x < myCustomer->Max[i].x) && (box[PLAYER]->Max.x > myCustomer->Min[i].x) && (box[PLAYER]->Min.y < myCustomer->Max[i].y) && (box[PLAYER]->Max.y > myCustomer->Min[i].y) &&	(box[PLAYER]->Min.z < myCustomer->Max[i].z) && (box[PLAYER]->Max.z > myCustomer->Min[i].z) )
+		if( (box[PLAYER]->Min.x < myCustomer->Max[i].x) && (box[PLAYER]->Max.x > myCustomer->Min[i].x) && /*(box[PLAYER]->Min.y < myCustomer->Max[i].y) && (box[PLAYER]->Max.y > myCustomer->Min[i].y) &&*/	(box[PLAYER]->Min.z < myCustomer->Max[i].z) && (box[PLAYER]->Max.z > myCustomer->Min[i].z) )
 		{
 			CustomerText = true;
 		}
@@ -3239,7 +3310,7 @@ void StudioProject2::CollisionCheck(double dt)
 
 	for( int i = 0; i < myPromoter->AICurrent; i++ )
 	{
-		if( (box[PLAYER]->Min.x < myPromoter->Max[i].x) && (box[PLAYER]->Max.x > myPromoter->Min[i].x) && (box[PLAYER]->Min.y < myPromoter->Max[i].y) && (box[PLAYER]->Max.y > myPromoter->Min[i].y) &&	(box[PLAYER]->Min.z < myPromoter->Max[i].z) && (box[PLAYER]->Max.z > myPromoter->Min[i].z) )
+		if( (box[PLAYER]->Min.x < myPromoter->Max[i].x) && (box[PLAYER]->Max.x > myPromoter->Min[i].x) /*&& (box[PLAYER]->Min.y < myPromoter->Max[i].y) && (box[PLAYER]->Max.y > myPromoter->Min[i].y)*/ &&	(box[PLAYER]->Min.z < myPromoter->Max[i].z) && (box[PLAYER]->Max.z > myPromoter->Min[i].z) )
 		{
 			PromoterText = true;
 		}
