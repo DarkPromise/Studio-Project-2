@@ -2649,6 +2649,13 @@ void StudioProject2::renderOutside()
 		modelStack.PopMatrix();
 	}
 
+	modelStack.PushMatrix();
+	modelStack.Translate(-1310, -277, -2551);
+	modelStack.Rotate(90, 0, 1, 0);
+	modelStack.Scale(50, 50, 50);
+	RenderMesh(meshList[GEO_GREYBRICK], false, false);
+	modelStack.PopMatrix();
+
 	for(float a=-1500; a < 3710; a+=3000)
 	{
 		modelStack.PushMatrix();
