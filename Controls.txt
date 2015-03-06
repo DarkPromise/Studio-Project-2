@@ -1,0 +1,28 @@
+Controls;
+
+P- Toggle showing mouse cursor
+B- Toggle showing bounds
+F1- Enable face culling
+F2- Disable face culling
+F3- Disable wireframe mode
+F4- Enable wireframe mode
+
+Camera-
+Mouse- Move around to pan
+Arrow Keys- Look around
+WASD- Move around
+
+Inventory-
+1- Hold first item
+2- Hold second item
+3- Hold third item
+4- Hold fourth item
+5- Hold fifth item
+[LEFTCLICK] - Pickup item
+[RIGHTCLICK] - Put down item
+
+Lights-
+Z- Switch on lighting
+X- Disable lighting
+
+I- Hold down to show shopping list
