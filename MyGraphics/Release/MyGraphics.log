@@ -1,0 +1,235 @@
+﻿Build started 6/3/2015 11:50:50 AM.
+     1>Project "C:\Users\Shing\Desktop\Studio-Project-2\MyGraphics\MyGraphics.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Release\MyGraphics.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Users\Shing\Desktop\Studio-Project-2\\irrKlang\include" /I"C:\Users\Shing\Desktop\Studio-Project-2\\glew\include" /I"C:\Users\Shing\Desktop\Studio-Project-2\\glfw\include" /I"C:\Users\Shing\Desktop\Studio-Project-2\\Common\Source" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Source\AI.cpp Source\Application.cpp Source\Cashier.cpp Source\Customer.cpp Source\Passerby.cpp Source\Promoter.cpp Source\SecurityGuard.cpp Source\StudioProject2.cpp Source\Vehicle.cpp
+         AI.cpp
+         Application.cpp
+         Cashier.cpp
+         Customer.cpp
+         Passerby.cpp
+         Promoter.cpp
+         SecurityGuard.cpp
+         StudioProject2.cpp
+     1>Source\StudioProject2.cpp(220): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(221): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(705): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(706): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(707): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(708): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(709): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(710): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(711): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(712): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(713): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(714): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(725): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(726): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(727): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(728): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(735): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(735): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(736): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(736): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(737): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(738): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(739): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(739): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(740): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(740): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1067): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\StudioProject2.cpp(1071): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\StudioProject2.cpp(1086): warning C4018: '<' : signed/unsigned mismatch
+     1>Source\StudioProject2.cpp(1122): warning C4305: '+=' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1147): warning C4305: '+=' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1157): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\StudioProject2.cpp(1158): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\StudioProject2.cpp(1203): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\StudioProject2.cpp(1213): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\StudioProject2.cpp(1220): warning C4018: '<' : signed/unsigned mismatch
+     1>Source\StudioProject2.cpp(1333): warning C4018: '<' : signed/unsigned mismatch
+     1>Source\StudioProject2.cpp(1367): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1397): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1402): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1407): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1412): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1417): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1433): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1438): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1453): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1453): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1458): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1463): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1463): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1516): warning C4018: '<' : signed/unsigned mismatch
+     1>Source\StudioProject2.cpp(1693): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1693): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1693): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1797): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1808): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1862): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1869): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1869): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1876): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1884): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1884): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1891): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1891): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1898): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1936): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1963): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(1969): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2016): warning C4018: '<' : signed/unsigned mismatch
+     1>Source\StudioProject2.cpp(2578): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2793): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2795): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2795): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2799): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2799): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2799): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2799): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2803): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2803): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2803): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2803): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2804): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2804): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2804): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2804): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2808): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2808): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2808): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2808): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2809): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2809): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2809): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2809): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2810): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2810): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2810): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2810): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2814): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2814): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2814): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2814): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2815): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2815): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2815): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2815): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2816): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2816): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2816): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2816): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2817): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2817): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2817): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2817): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2821): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2821): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2821): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2821): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2822): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2822): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2822): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2822): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2823): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2823): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2823): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2823): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2824): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2824): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2824): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2824): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2825): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2825): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2825): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2825): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2829): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2829): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2831): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2831): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2833): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2833): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2835): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2835): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2837): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2837): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2842): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2847): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2888): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2891): warning C4018: '<' : signed/unsigned mismatch
+     1>Source\StudioProject2.cpp(2893): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\StudioProject2.cpp(2900): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2901): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2901): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2902): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2902): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2903): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2903): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(2904): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\StudioProject2.cpp(3093): warning C4018: '<' : signed/unsigned mismatch
+     1>Source\StudioProject2.cpp(3119): warning C4018: '<' : signed/unsigned mismatch
+     1>Source\StudioProject2.cpp(3144): warning C4018: '<' : signed/unsigned mismatch
+     1>Source\StudioProject2.cpp(3170): warning C4018: '<' : signed/unsigned mismatch
+     1>Source\StudioProject2.cpp(3201): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\StudioProject2.cpp(3202): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\StudioProject2.cpp(3207): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\StudioProject2.cpp(3208): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\StudioProject2.cpp(3218): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\StudioProject2.cpp(3219): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\StudioProject2.cpp(3223): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\StudioProject2.cpp(3224): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\StudioProject2.cpp(3234): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\StudioProject2.cpp(3235): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\StudioProject2.cpp(3240): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\StudioProject2.cpp(3241): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\StudioProject2.cpp(3249): warning C4018: '<' : signed/unsigned mismatch
+     1>Source\StudioProject2.cpp(3267): warning C4018: '<' : signed/unsigned mismatch
+     1>Source\StudioProject2.cpp(3269): warning C4018: '<' : signed/unsigned mismatch
+     1>Source\StudioProject2.cpp(3349): warning C4018: '<' : signed/unsigned mismatch
+     1>Source\StudioProject2.cpp(3354): warning C4018: '<' : signed/unsigned mismatch
+     1>Source\StudioProject2.cpp(3361): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\StudioProject2.cpp(3365): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\StudioProject2.cpp(3432): warning C4018: '<' : signed/unsigned mismatch
+         Vehicle.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Shing\Desktop\Studio-Project-2\Release\MyGraphics.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\Users\Shing\Desktop\Studio-Project-2\\irrKlang\lib\Win32-visualStudio\\" /LIBPATH:"C:\Users\Shing\Desktop\Studio-Project-2\\glew\lib" /LIBPATH:"C:\Users\Shing\Desktop\Studio-Project-2\\glfw\lib-msvc100" /LIBPATH:"C:\Users\Shing\Desktop\Studio-Project-2\Release" glew32.lib glfw3.lib opengl32.lib winmm.lib Common.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\MyGraphics.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Shing\Desktop\Studio-Project-2\Release\MyGraphics.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Shing\Desktop\Studio-Project-2\Release\MyGraphics.lib" /MACHINE:X86 Release\AI.obj
+         Release\Application.obj
+         Release\BoundingBox.obj
+         Release\Camera.obj
+         Release\Camera2.obj
+         Release\Cashier.obj
+         Release\Child.obj
+         Release\Customer.obj
+         Release\Inhand.obj
+         Release\Item.obj
+         Release\LoadOBJ.obj
+         Release\LoadTGA.obj
+         Release\main.obj
+         Release\Mesh.obj
+         Release\MeshBuilder.obj
+         Release\Octree.obj
+         Release\Passerby.obj
+         Release\Promoter.obj
+         Release\SecurityGuard.obj
+         Release\Shelfslot.obj
+         Release\Shopping.obj
+         Release\StudioProject2.obj
+         Release\shader.obj
+         Release\Utility.obj
+         Release\Vehicle.obj
+         Generating code
+     1>c:\users\shing\desktop\studio-project-2\mygraphics\source\studioproject2.cpp(78): warning C4715: 'StudioProject2::Sounds' : not all control paths return a value
+         Finished generating code
+         MyGraphics.vcxproj -> C:\Users\Shing\Desktop\Studio-Project-2\Release\MyGraphics.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Shing\Desktop\Studio-Project-2\Release\MyGraphics.exe;#1" /manifest Release\MyGraphics.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Release\MyGraphics.unsuccessfulbuild".
+         Touching "Release\MyGraphics.lastbuildstate".
+     1>Done Building Project "C:\Users\Shing\Desktop\Studio-Project-2\MyGraphics\MyGraphics.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:11.62
